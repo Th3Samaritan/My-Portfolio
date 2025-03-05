@@ -92,11 +92,19 @@
         section {
             padding: 60px 0;
         }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #00d4ff;
+        }
         h2 {
             color: var(--accent-color);
             font-size: 2em;
             margin-bottom: 30px;
             text-align: center;
+        }
+        p {
+            margin-bottom: 20px;
         }
         .filter-buttons {
             display: flex;
@@ -166,28 +174,30 @@
             cursor: pointer;
             font-size: 24px;
         }
-        .skills-grid {
+        .counter-grid {
             display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin-top: 20px;
+            text-align: center;
         }
-        .skill-bar {
-            margin-bottom: 15px;
+        .counter-item {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 10px;
         }
-        .skill-bar label {
-            display: block;
-            margin-bottom: 5px;
+        .counter-item h3 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
         }
-        .progress {
-            background: rgba(255, 255, 255, 0.1);
-            height: 10px;
-            border-radius: 5px;
-            overflow: hidden;
+        .counter-item .count {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00d4ff;
         }
-        .progress-bar {
-            height: 100%;
-            background: var(--accent-color);
-            transition: width 1.5s ease-in-out;
+        .counter-item p {
+            margin: 5px 0 0;
+            font-size: 0.9em;
         }
         .blog-post {
             background: var(--card-bg);
@@ -230,6 +240,8 @@
             border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s ease;
+            display: inline-block;
+            margin-top: 20px;
         }
         button:hover, .cv-btn:hover {
             background: #00b7d6;
@@ -282,22 +294,34 @@
     <section id="about" class="container">
         <h2>About Me</h2>
         <p>I'm a multidisciplinary engineer with expertise in Cybersecurity, Software Engineering, Machine Learning, and Materials Engineering...</p>
-        <div class="skills-grid">
-            <div class="skill-bar">
-                <label>Cybersecurity</label>
-                <div class="progress"><div class="progress-bar" style="width: 90%"></div></div>
+        <div class="counter-grid">
+            <div class="counter-item">
+                <h3>Cybersecurity</h3>
+                <div class="count" data-target="15">0</div>
+                <p>Projects</p>
+                <p>Clients: <span data-client-target="8">0</span></p>
+                <p>Organizations: [XssRat, Nahamcon, Cybernetics, PICO, Cyberdefenders]</p>
             </div>
-            <div class="skill-bar">
-                <label>Software Engineering</label>
-                <div class="progress"><div class="progress-bar" style="width: 85%"></div></div>
+            <div class="counter-item">
+                <h3>Software Engineering</h3>
+                <div class="count" data-target="20">0</div>
+                <p>Projects</p>
+                <p>Clients: <span data-client-target="10">0</span></p>
+                <p>Organizations: [MAST Consolidate, Aboki Market, FPNH, NDA, ABU, MacChin]</p>
             </div>
-            <div class="skill-bar">
-                <label>Machine Learning</label>
-                <div class="progress"><div class="progress-bar" style="width: 80%"></div></div>
+            <div class="counter-item">
+                <h3>Machine Learning</h3>
+                <div class="count" data-target="12">0</div>
+                <p>Projects</p>
+                <p>Clients: <span data-client-target="5">0</span></p>
+                <p>Organizations: [Citrine, Matweb, ABU, RIGLAND, MAST Consolidate]</p>
             </div>
-            <div class="skill-bar">
-                <label>Materials Engineering</label>
-                <div class="progress"><div class="progress-bar" style="width: 88%"></div></div>
+            <div class="counter-item">
+                <h3>Materials Engineering</h3>
+                <div class="count" data-target="10">0</div>
+                <p>Projects</p>
+                <p>Clients: <span data-client-target="6">0</span></p>
+                <p>Organizations: [NAF, NCAT, ARIN, AFIT, GRABCAD, ABU]</p>
             </div>
         </div>
     </section>
@@ -512,11 +536,38 @@
             `).join('');
         }
 
-        // Skill bars animation
+        // Counter animation
         window.addEventListener('load', () => {
-            document.querySelectorAll('.progress-bar').forEach(bar => {
-                bar.style.width = '0%';
-                setTimeout(() => bar.style.width = bar.getAttribute('style').split(':')[1], 100);
+            const counters = document.querySelectorAll('.count');
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const increment = target / 50; // Animation speed
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + increment);
+                        setTimeout(updateCount, 20);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCount();
+            });
+
+            const clientCounters = document.querySelectorAll('[data-client-target]');
+            clientCounters.forEach(counter => {
+                const updateClientCount = () => {
+                    const target = +counter.getAttribute('data-client-target');
+                    const count = +counter.innerText;
+                    const increment = target / 50;
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + increment);
+                        setTimeout(updateClientCount, 20);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateClientCount();
             });
         });
     </script>
