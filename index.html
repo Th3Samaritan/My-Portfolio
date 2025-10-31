@@ -15,6 +15,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+    <!-- Three.js (for 3D models) -->
+    <!-- We use type="importmap" to make imports easier -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.skypack.dev/three@0.132.2/build/three.module.js",
+            "three/loaders/GLTFLoader": "https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader.js",
+            "three/controls/OrbitControls": "https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js"
+        }
+    }
+    </script>
+
     <script>
         // Set up Tailwind CSS dark mode and custom font
         tailwind.config = {
@@ -111,6 +123,17 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+
+        /* 3D Canvas styles */
+        #3d-canvas {
+            width: 100%;
+            height: 400px;
+            border-radius: 8px;
+            background-color: #f1f1f1;
+        }
+        .dark #3d-canvas {
+            background-color: #4a5568;
+        }
     </style>
 </head>
 
@@ -148,7 +171,7 @@
                 <a href="#skills" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Skills</a>
                 <a href="#projects" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Work</a>
                 <a href="#research" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Research</a>
-                <a href="#blog" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Blog</a>
+                <a href="#blog" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-4S00 transition-colors">Blog</a>
                 <a href="#contact" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
             </div>
 
@@ -653,8 +676,19 @@
             
             <!-- Modal Content -->
             <div id="modalContent" class="p-6 sm:p-8 overflow-y-auto space-y-6">
+                
+                <!-- Static Image (Fallback) -->
                 <img id="modalImage" src="" alt="Project Image" class="w-full h-auto max-h-80 object-cover rounded-lg shadow-md">
                 
+                <!-- 3D Viewer Container -->
+                <div id="3d-viewer-container" class="relative hidden">
+                    <canvas id="3d-canvas"></canvas>
+                    <div id="3d-loader" class="absolute inset-0 flex items-center justify-center bg-gray-100/50 dark:bg-gray-800/50">
+                        <div class="w-10 h-10 border-4 border-dashed rounded-full animate-spin border-primary-600"></div>
+                        <span class="ml-4 text-gray-700 dark:text-gray-300">Loading 3D model...</span>
+                    </div>
+                </div>
+
                 <div class="flex flex-wrap gap-2">
                     <span class="flex items-center text-sm font-medium text-primary-800 dark:text-primary-200 bg-primary-100 dark:bg-primary-900/50 px-3 py-1 rounded-full">
                         <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
@@ -685,7 +719,18 @@
     </div>
 
 
-    <script>
+    <!-- 
+      This script tag is set to type="module" to allow ES6 imports for Three.js 
+    -->
+    <script type="module">
+        // === Three.js Imports ===
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/loaders/GLTFLoader';
+        import { OrbitControls } from 'three/controls/OrbitControls';
+
+        // === 3D Scene Globals ===
+        let scene, camera, renderer, controls, model, animationFrameId;
+
         // === Enhanced Project Details ===
         const projectDetails = {
             cybersecurity: {
@@ -695,7 +740,8 @@
                 impact: 'Reduced manual testing time by 40%. Discovered several critical API vulnerabilities (e.g., IDOR, improper access control) that automated scanners missed, preventing potential data breaches.',
                 tech: 'Python, Bash, Burp Suite, Postman, API Security',
                 role: 'Penetration Tester / Security Engineer',
-                img: 'assets/cybersecurity-project.jpg'
+                img: 'assets/cybersecurity-project.jpg',
+                is3D: false
             },
             software: {
                 title: 'Scalable Microservices Platform',
@@ -704,7 +750,8 @@
                 impact: 'Improved system scalability by 200%, handling 10x peak user loads. Reduced API latency by 40% and enabled independent, zero-downtime deployments, increasing feature velocity by 4x.',
                 tech: 'Node.js, Docker, Kubernetes, AWS, Java',
                 role: 'Lead Software Engineer',
-                img: 'assets/software-project.jpg'
+                img: 'assets/software-project.jpg',
+                is3D: false
             },
             ml: {
                 title: 'Predictive AI Models (CV & NLP)',
@@ -713,7 +760,8 @@
                 impact: 'The CV model automated product tagging with 92% accuracy. The NLP tool accelerated literature review tasks by an estimated 80% for the research team.',
                 tech: 'Python, TensorFlow, Keras, CV, NLP, Scikit-learn',
                 role: 'ML Engineer',
-                img: 'assets/ml-project.jpg'
+                img: 'assets/ml-project.jpg',
+                is3D: false
             },
             materials: {
                 title: 'UAV Design & Composite Simulation',
@@ -722,7 +770,10 @@
                 impact: 'The final design was 30% lighter than the standard frame and demonstrated a 2.5x increase in structural integrity under simulated flight loads, successfully meeting all project requirements.',
                 tech: 'SolidWorks, Ansys (FEA, CFD), Carbon Fiber Fab, 3D Printing',
                 role: 'Materials & Design Engineer',
-                img: 'assets/materials-project.jpg'
+                img: 'assets/materials-project.jpg',
+                is3D: true,
+                // Placeholder model. Replace this with the path to your own .glb or .gltf file!
+                modelUrl: 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/DamagedHelmet/glTF/DamagedHelmet.gltf'
             }
         };
 
@@ -780,7 +831,8 @@
         });
 
         // === Project Filtering ===
-        function filterProjects(event, category) {
+        // Make filterProjects accessible globally
+        window.filterProjects = function(event, categaory) {
             const cards = document.querySelectorAll('#projectGrid .card');
             const buttons = document.querySelectorAll('#projects .filter-btn');
             
@@ -805,30 +857,153 @@
 
         // === Project Modal Logic ===
         const modal = document.getElementById('projectModal');
+        const modalImg = document.getElementById('modalImage');
+        const canvasContainer = document.getElementById('3d-viewer-container');
+        const modelLoader = document.getElementById('3d-loader');
         
-        function showProjectModal(category) {
+        // Make showProjectModal accessible globally
+        window.showProjectModal = function(category) {
             const details = projectDetails[category];
             if (!details) return;
 
+            // Populate common details
             document.getElementById('modalTitle').innerText = details.title;
-            document.getElementById('modalImage').src = details.img;
-            document.getElementById('modalImage').alt = details.title;
             document.getElementById('modalRole').innerText = details.role;
             document.getElementById('modalTech').innerText = details.tech;
             document.getElementById('modalProblem').innerText = details.problem;
             document.getElementById('modalDesc').innerText = details.desc;
             document.getElementById('modalImpact').innerText = details.impact;
 
+            if (details.is3D && details.modelUrl) {
+                // Show 3D viewer, hide image
+                modalImg.classList.add('hidden');
+                canvasContainer.classList.remove('hidden');
+                modelLoader.classList.remove('hidden');
+                init3DScene(details.modelUrl); // Start the 3D scene
+            } else {
+                // Show static image, hide 3D viewer
+                modalImg.src = details.img;
+                modalImg.classList.remove('hidden');
+                canvasContainer.classList.add('hidden');
+            }
+
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden'; // Prevent background scrolling
         }
 
-        function closeModal(event, isOutside) {
+        // Make closeModal accessible globally
+        window.closeModal = function(event, isOutside) {
             if (isOutside) {
                 modal.classList.add('hidden');
                 document.body.style.overflow = 'auto'; // Re-enable scrolling
+                destroy3DScene(); // Clean up 3D scene
             }
             event.stopPropagation();
+        }
+
+        // === 3D Scene Functions ===
+        function init3DScene(modelUrl) {
+            const canvas = document.getElementById('3d-canvas');
+            
+            // 1. Scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(document.documentElement.classList.contains('dark') ? 0x4a5568 : 0xf1f1f1);
+
+            // 2. Camera
+            const container = document.getElementById('3d-viewer-container');
+            const w = container.clientWidth;
+            const h = 400; // Fixed height from CSS
+            camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
+            camera.position.set(0, 0, 5); // Adjust as needed
+            scene.add(camera);
+
+            // 3. Renderer
+            renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+            renderer.setSize(w, h);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.outputEncoding = THREE.sRGBEncoding;
+
+            // 4. Controls
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.autoRotate = true; // Nice little auto-spin
+            controls.autoRotateSpeed = 1.0;
+
+            // 5. Lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+            scene.add(ambientLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 10, 7.5);
+            scene.add(directionalLight);
+
+            // 6. Loader
+            const loader = new GLTFLoader();
+            loader.load(modelUrl, (gltf) => {
+                model = gltf.scene;
+                
+                // Auto-center and scale model (basic version)
+                const box = new THREE.Box3().setFromObject(model);
+                const size = box.getSize(new THREE.Vector3()).length();
+                const center = box.getCenter(new THREE.Vector3());
+
+                model.position.x += (model.position.x - center.x);
+                model.position.y += (model.position.y - center.y);
+                model.position.z += (model.position.z - center.z);
+                
+                camera.position.copy(center);
+                camera.position.x += size / 1.5;
+                camera.position.y += size / 2.0;
+                camera.position.z += size / 1.5;
+                camera.lookAt(center);
+
+                scene.add(model);
+                modelLoader.classList.add('hidden'); // Hide loader
+            }, 
+            undefined, // onProgress callback (can be added)
+            (error) => {
+                console.error('Error loading 3D model:', error);
+                modelLoader.innerHTML = '<p class="text-red-500">Error loading model.</p>';
+            });
+
+            // 7. Start animation
+            animate();
+        }
+
+        function animate() {
+            animationFrameId = requestAnimationFrame(animate);
+            if (controls) controls.update();
+            if (renderer && scene && camera) renderer.render(scene, camera);
+        }
+
+        function destroy3DScene() {
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+
+            if (model) {
+                model.traverse(child => {
+                    if (child.isMesh) {
+                        child.geometry.dispose();
+                        if (child.material.isMaterial) {
+                            child.material.dispose();
+                        } else if (Array.isArray(child.material)) {
+                            child.material.forEach(material => material.dispose());
+                        }
+                        if(child.material.map) child.material.map.dispose();
+                    }
+                });
+                scene.remove(model);
+            }
+            
+            if(renderer) renderer.dispose();
+
+            scene = null;
+            camera = null;
+            renderer = null;
+            controls = null;
+            model = null;
+            animationFrameId = null;
+
+            // Reset loader text
+            modelLoader.innerHTML = `<div class="w-10 h-10 border-4 border-dashed rounded-full animate-spin border-primary-600"></div><span class="ml-4 text-gray-700 dark:text-gray-300">Loading 3D model...</span>`;
         }
 
         // === Animation on Scroll ===
