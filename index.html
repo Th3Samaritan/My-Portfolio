@@ -50,11 +50,33 @@
                             '900': '#00586e',
                             '950': '#003544',
                         },
-                    }
+                    },
+                    // For nested list styling in the notebook
+                    typography: ({ theme }) => ({
+                        DEFAULT: {
+                            css: {
+                                'ul > li::before': { backgroundColor: theme('colors.gray.500') },
+                                'ul ul > li::before': { backgroundColor: theme('colors.gray.400') },
+                                'ul ul ul > li::before': { backgroundColor: theme('colors.gray.300') },
+                                'ul.checklist > li': {
+                                    paddingLeft: '0 !important',
+                                    listStyleType: 'none !important',
+                                    margin: '0 !important',
+                                },
+                                'ul.checklist > li::before': {
+                                    display: 'none',
+                                },
+                            },
+                        },
+                    }),
                 }
             }
         }
     </script>
+    
+    <!-- Tailwind Typography for styling lists -->
+    <script src="https://cdn.tailwindcss.com/3.4.1?plugins=typography"></script>
+
 
     <style>
         /* Base font style */
@@ -134,6 +156,26 @@
         .dark #3d-canvas {
             background-color: #4a5568;
         }
+
+        /* Notebook Tabs styling */
+        .notebook-tab {
+            @apply px-4 py-3 sm:px-6 font-medium text-gray-600 dark:text-gray-400 border-b-2 border-transparent hover:text-primary-600 dark:hover:text-primary-400 hover:border-primary-500 transition-all duration-300;
+        }
+        .notebook-tab.active {
+            @apply text-primary-600 dark:text-primary-400 border-primary-600 dark:border-primary-400;
+        }
+        .notebook-content {
+            @apply hidden;
+        }
+        .notebook-content.active {
+            @apply block;
+        }
+        
+        /* Custom checkbox for checklists */
+        .task-checkbox {
+            @apply w-5 h-5 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer;
+        }
+
     </style>
 </head>
 
@@ -171,7 +213,11 @@
                 <a href="#skills" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Skills</a>
                 <a href="#projects" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Work</a>
                 <a href="#research" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Research</a>
-                <a href="#blog" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-4S00 transition-colors">Blog</a>
+                <a href="#blog" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Blog</a>
+                <a href="notebook.html" target="_blank" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center">
+                    Notebook
+                    <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </a>
                 <a href="#contact" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
             </div>
 
@@ -191,6 +237,7 @@
             <a href="#projects" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Work</a>
             <a href="#research" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Research</a>
             <a href="#blog" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Blog</a>
+            <a href="notebook.html" target="_blank" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Notebook (New Tab)</a>
             <a href="#contact" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Contact</a>
         </div>
     </header>
@@ -283,6 +330,8 @@
                 </p>
                 <p class="mt-6 text-lg text-gray-600 dark:text-gray-400">
                     I'm an innovative professional with a strong background in CAE, FEA, metallurgical and materials engineering, security engineering, and software engineering. With extensive experience in analyzing and designing materials, conducting simulations, ensuring system security, and developing cutting-edge software solutions, I bring a unique blend of technical expertise and problem-solving skills to drive project success.
+                    <br><br>
+                    Want to see how I work? Check out my <a href="notebook.html" target="_blank" class="font-medium text-primary-600 dark:text-primary-400 hover:underline">Digital Notebook</a> for my live pentesting checklists, code snippets, and research notes.
                 </p>
             </div>
 
@@ -539,7 +588,7 @@
                             </ul>
                         </div>
                     </div>
-                    <a href="httpsG://github.com/th3samaritan" target="_blank" class="inline-flex items-center justify-center mt-6 px-6 py-2 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all duration-300 transform hover:scale-105">
+                    <a href="https://github.com/th3samaritan" target="_blank" class="inline-flex items-center justify-center mt-6 px-6 py-2 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all duration-300 transform hover:scale-105">
                         View on GitHub
                         <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                     </a>
@@ -596,7 +645,7 @@
                 </div>
 
                 <!-- Research Card 4: AI CFD/FEA -->
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 space-y-4 flex flex-col justify-between">
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 space-y-4 flex flex-col justify-between lg:col-span-1 lg:col-start-2">
                     <div>
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="text-2xl font-bold text-gray-900 dark:text-white">AI-driven CFD & FEA</h3>
@@ -646,6 +695,10 @@
                 </div>
             </div>
         </section>
+
+        <!-- ===== Digital Notebook Section (#notebook) ===== -->
+        <!-- This section has been moved to notebook.html -->
+
 
         <!-- ===== Contact Section (#contact) ===== -->
         <section id="contact" class="py-24">
@@ -1112,6 +1165,39 @@
         function easeOutQuad(t) {
             return t * (2 - t);
         }
+        
+        // === Notebook Tabs Logic ===
+        // This logic is now in notebook.html
+        /*
+        const notebookTabs = document.getElementById('notebook-tabs');
+        const notebookContents = document.querySelectorAll('.notebook-content');
+        
+        notebookTabs.addEventListener('click', (e) => {
+            const tabButton = e.target.closest('button.notebook-tab');
+            if (!tabButton) return;
+
+            // Deactivate all tabs
+            notebookTabs.querySelectorAll('.notebook-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Deactivate all content
+            notebookContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Activate clicked tab
+            tabButton.classList.add('active');
+            
+            // Activate corresponding content
+            const tabName = tabButton.dataset.tab;
+            const activeContent = document.getElementById(`notebook-${tabName}`);
+            if (activeContent) {
+                activeContent.classList.add('active');
+            }
+        });
+        */
+
 
         // === Blog System (Fetch Only) ===
         async function fetchBlogs() {
@@ -1162,4 +1248,3 @@
     </script>
 </body>
 </html>
-
