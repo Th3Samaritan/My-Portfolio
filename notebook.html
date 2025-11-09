@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Abdulsamad Muyideen - Digital Notebook">
+    <meta name="keywords" content="cybersecurity, pentesting, checklist, notes, abdulsamad muyideen">
+    <title>Digital Notebook - Abdulsamad Muyideen</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        // Set up Tailwind CSS dark mode and custom font
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': {
+                            '50': '#effcff',
+                            '100': '#dff8ff',
+                            '200': '#b6f0ff',
+                            '300': '#78e7ff',
+                            '400': '#36d9ff',
+                            '500': '#0ac8f5',
+                            '600': '#00a3cc',
+                            '700': '#0083a3',
+                            '800': '#006a85',
+                            '900': '#00586e',
+                            '950': '#003544',
+                        },
+                    },
+                    // For nested list styling in the notebook
+                    typography: ({ theme }) => ({
+                        DEFAULT: {
+                            css: {
+                                'ul > li::before': { backgroundColor: theme('colors.gray.500') },
+                                'ul ul > li::before': { backgroundColor: theme('colors.gray.400') },
+                                'ul ul ul > li::before': { backgroundColor: theme('colors.gray.300') },
+                                'ul.checklist > li': {
+                                    paddingLeft: '0 !important',
+                                    listStyleType: 'none !important',
+                                    margin: '0 !important',
+                                },
+                                'ul.checklist > li::before': {
+                                    display: 'none',
+                                },
+                                // Style for code blocks in snippets
+                                'pre': {
+                                    backgroundColor: theme('colors.gray.100'),
+                                    color: theme('colors.gray.800'),
+                                    padding: theme('spacing.4'),
+                                    borderRadius: theme('borderRadius.md'),
+                                    overflowX: 'auto',
+                                },
+                                '.dark pre': {
+                                    backgroundColor: theme('colors.gray.800'),
+                                    color: theme('colors.gray.200'),
+                                }
+                            },
+                        },
+                    }),
+                }
+            }
+        }
+    </script>
+    
+    <!-- Tailwind Typography for styling lists -->
+    <script src="https://cdn.tailwindcss.com/3.4.1?plugins=typography"></script>
+
+
+    <style>
+        /* Base font style */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #2d3748;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #4a5568;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #718096;
+        }
+
+        /* Notebook Tabs styling */
+        .notebook-tab {
+            @apply px-4 py-3 sm:px-6 font-medium text-gray-600 dark:text-gray-400 border-b-2 border-transparent hover:text-primary-600 dark:hover:text-primary-400 hover:border-primary-500 transition-all duration-300;
+        }
+        .notebook-tab.active {
+            @apply text-primary-600 dark:text-primary-400 border-primary-600 dark:border-primary-400;
+        }
+        .notebook-content {
+            @apply hidden;
+        }
+        .notebook-content.active {
+            @apply block;
+        }
+        
+        /* Functional Checkbox for dynamic items */
+        .task-checkbox {
+            @apply w-5 h-5 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer transition-all;
+        }
+        
+        /* Style for checked items */
+        .note-item-checked span {
+            @apply line-through text-gray-400 dark:text-gray-500;
+        }
+
+        /* Delete/Copy button styles */
+        .delete-note, .copy-snippet {
+            @apply text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 transition-colors duration-200;
+        }
+        .copy-snippet {
+             @apply hover:text-primary-500 dark:hover:text-primary-400;
+        }
+
+        .note-item .delete-note {
+             @apply opacity-0 group-hover:opacity-100;
+        }
+
+        /* Code snippet styling */
+        .snippet-card {
+            @apply bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden;
+        }
+        .snippet-card pre {
+            @apply bg-gray-100 dark:bg-gray-900 p-4 rounded-b-lg text-sm overflow-x-auto;
+        }
+        .snippet-card pre code {
+            @apply font-mono;
+        }
+    </style>
+</head>
+
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 antialiased transition-colors duration-300">
+
+    <!-- ===== Theme Toggle Button ===== -->
+    <button id="theme-toggle" class="fixed bottom-5 right-5 z-50 p-3 bg-gray-100 dark:bg-gray-800 rounded-full shadow-lg text-primary-600 dark:text-primary-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300">
+        <!-- Sun Icon -->
+        <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+        <!-- Moon Icon -->
+        <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM10 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM3.05 4.54a1 1 0 00-1.414 1.414l.707.707a1 1 0 001.414-1.414l-.707-.707zM17.464 4.54a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 111.414-1.414l.707.707a1 1 0 010 1.414zM4.54 15.464a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM15.464 13.343a1 1 0 01-1.414-1.414l.707-.707a1 1 0 111.414 1.414l-.707.707z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+    </button>
+
+    <!-- ===== Header & Navigation ===== -->
+    <header class="sticky top-0 z-40 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-sm dark:shadow-gray-800 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo / Name -->
+            <a href="index.html" class="text-2xl font-bold text-gray-900 dark:text-white">
+                Abdulsamad<span class="text-primary-600 dark:text-primary-400">.</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex space-x-8">
+                <a href="index.html#home" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+                <a href="index.html#about" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
+                <a href="index.html#skills" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Skills</a>
+                <a href="index.html#projects" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Work</a>
+                <a href="index.html#contact" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white dark:bg-gray-900 shadow-lg border-t border-gray-200 dark:border-gray-700">
+            <a href="index.html#home" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Home</a>
+            <a href="index.html#about" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">About</a>
+            <a href="index.html#skills" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Skills</a>
+            <a href="index.html#projects" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Work</a>
+            <a href="index.html#contact" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Contact</a>
+        </div>
+    </header>
+
+    <main id="main-content" class="container mx-auto px-6"> <!-- Added ID for event delegation -->
+
+        <!-- ===== Digital Notebook Section (#notebook) ===== -->
+        <section id="notebook" class="py-24">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-sm font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400">Field Notes</h2>
+                <p class="mt-4 text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
+                    My Digital Notebook
+                </p>
+                <p class="mt-6 text-lg text-gray-600 dark:text-gray-400">
+                    A collection of my professional checklists, code snippets, and personal interests. Your notes are saved locally in your browser.
+                </p>
+            </div>
+
+            <!-- Notebook Tabs -->
+            <div class="max-w-6xl mx-auto mt-16">
+                <div class="border-b border-gray-200 dark:border-gray-700">
+                    <nav id="notebook-tabs" class="flex flex-wrap -mb-px" aria-label="Tabs">
+                        <button class="notebook-tab active" data-tab="pentesting">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+L                            Pentesting Checklists
+                        </button>
+                        <button class="notebook-tab" data-tab="snippets">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                            Code Snippets
+                        </button>
+                        <button class="notebook-tab" data-tab="library">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v11.494m-9-5.747h18"></path></svg>
+                            Library
+                        </button>
+                        <button class="notebook-tab" data-tab="misc">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Miscellany
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Notebook Content Panes -->
+                <div class="py-10">
+                    <!-- Pentesting Content -->
+                    <div id="notebook-pentesting" class="notebook-content active">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Pentesting Notes & Checklists</h3>
+                        
+                        <!-- Add Form -->
+                        <form id="add-pentesting-form" class="flex gap-4 mb-6">
+                            <input id="pentesting-input" type="text" placeholder="New checklist item (e.g., Test for IDORs)" required class="flex-grow px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <input id="pentesting-type" type="hidden" value="checklist"> <!-- All pentest notes are checklists -->
+                            <button type="submit" class="px-5 py-2 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all">Add Item</button>
+                        </form>
+
+                        <!-- Dynamic List -->
+                        <div id="pentesting-notes-list" class="space-y-3">
+                            <!-- JS will render notes here -->
+                        </div>
+                    </div>
+
+                    <!-- Code Snippets Content -->
+                    <div id="notebook-snippets" class="notebook-content">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">My Code Snippets</h3>
+
+                        <!-- Add Form -->
+                        <form id="add-snippets-form" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <input id="snippet-desc-input" type="text" placeholder="Description (e.g., Python Web Server)" required class="md:col-span-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <select id="snippet-type" class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                <option value="Python">Python</option>
+                                <option value="Bash">Bash</option>
+                                <option value="JavaScript">JavaScript</option>
+                                <option value="SQL">SQL</option>
+                                <option value="Materials">Materials Note</option>
+                            </select>
+                            <textarea id="snippet-input" placeholder="Paste your code or note here..." required rows="4" class="md:col-span-3 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 font-mono text-sm"></textarea>
+                            <button type="submit" class="md:col-span-3 px-5 py-2 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all">Add Snippet</button>
+                        </form>
+
+                        <!-- Dynamic List -->
+                        <div id="snippets-notes-list" class="space-y-3">
+                            <!-- JS will render notes here -->
+                        </div>
+                    </div>
+
+                    <!-- Library Content -->
+                    <div id="notebook-library" class="notebook-content">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">My Library</h3>
+
+                        <!-- Add Form -->
+                        <form id="add-library-form" class="flex flex-col sm:flex-row gap-4 mb-6">
+                            <input id="library-input" type="text" placeholder="New item (e.g., The Art of Invisibility)" required class="flex-grow px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <select id="library-type" class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                <option value="book">Book</option>
+                                <option value="music">Music/Artist</option>
+                            </select>
+                            <button type="submit" class="px-5 py-2 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all">Add Item</button>
+                        </form>
+
+                        <!-- Dynamic List -->
+                        <div id="library-notes-list" class="space-y-3">
+                            <!-- JS will render notes here -->
+                        </div>
+                    </div>
+
+                    <!-- Miscellany Content -->
+                    <div id="notebook-misc" class="notebook-content">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Miscellany</h3>
+
+                        <!-- Add Form -->
+                        <form id="add-misc-form" class="flex flex-col sm:flex-row gap-4 mb-6">
+                            <input id="misc-input" type="text" placeholder="New item (e.g., Get OSCP cert)" required class="flex-grow px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <select id="misc-type" class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                <option value="bucketlist">Bucket List Item</option>
+                                <option value="game">Favorite Game</option>
+                                <option value="quote">Quote</option>
+                            </select>
+                            <button type="submit" class="px-5 py-2 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all">Add Item</button>
+                        </form>
+
+                        <!-- Dynamic List -->
+                        <div id="misc-notes-list" class="space-y-3">
+                            <!-- JS will render notes here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer class="border-t border-gray-200 dark:border-gray-700 mt-16">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-600 dark:text-gray-400">
+            <p>© <span id="current-year">2025</span> Abdulsamad Muyideen. All rights reserved.</p>
+            <p class="text-sm mt-4">
+                <a href="index.html" class="text-primary-600 dark:text-primary-400 hover:underline">Return to Main Portfolio</a>
+            </p>
+             <p class="text-sm mt-4">
+                <button id="reset-notebook-btn" class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 hover:underline">
+                    Reset Notebook to Default
+                </button>
+            </p>
+        </div>
+    </footer>
+
+
+    <script>
+        // === Local Storage Key ===
+        const NOTEBOOK_DB_KEY = 'abdulsamadDigitalNotebook';
+
+        // === Default Data (for first load) ===
+        function getDefaultData() {
+            return {
+                pentesting: [
+                    { id: 1, type: 'checklist', content: 'A01: Broken Access Control: Test URL/param tampering, check for IDORs, verify roles.', checked: false, section: 'Web App (OWASP Top 10)' },
+                    { id: 2, type: 'checklist', content: 'A03: Injection: Test for SQLi (incl. blind), NoSQLi, OS Command, XSS.', checked: false, section: 'Web App (OWASP Top 10)' },
+                    { id: 3, type: 'checklist', content: 'A05: Security Misconfiguration: Check default creds, open S3 buckets, verbose errors.', checked: false, section: 'Web App (OWASP Top 10)' },
+                    { id: 4, type: 'checklist', content: 'A10: SSRF: Attempt to make the server request internal resources.', checked: false, section: 'Web App (OWASP Top 10)' },
+                    { id: 5, type: 'checklist', content: 'BOLA/IDOR: Can I access /api/v1/users/123 if I am user 456?', checked: false, section: 'REST API' },
+                    { id: 6, type: 'checklist', content: 'BFLA: Can I POST to /api/v1/admin/delete_user as a non-admin?', checked: false, section: 'REST API' },
+                    { id: 7, type: 'checklist', content: 'Mass Assignment: Can I send {"is_admin": true} during signup?', checked: false, section: 'REST API' },
+                    { id: 8, type: 'checklist', content: 'Introspection Query: Is introspection enabled? Can I map the schema?', checked: false, section: 'GraphQL API' },
+                    { id: 9, type: 'checklist', content: 'DoS (Nesting): Test for deeply nested queries e.g., { user { friends { friends... } } }', checked: false, section: 'GraphQL API' },
+                ],
+                snippets: [
+                    { id: 21, type: 'Python', description: 'Simple Web Server', content: 'python -m http.server 8000', checked: false },
+                    { id: 22, type: 'Bash', description: 'Recon One-Liner (subdomains)', content: 'assetfinder --subs-only example.com | httprobe -c 80 -t 200', checked: false },
+                ],
+                library: [
+                    { id: 10, type: 'book', content: 'The Art of Invisibility (Kevin Mitnick)', checked: false },
+                    { id: 11, type: 'book', content: 'Hacking: The Art of Exploitation (Jon Erickson)', checked: false },
+                    { id: 12, type: 'book', content: 'The Three-Body Problem (Cixin Liu)', checked: false },
+                    { id: 13, type: 'music', content: 'Lofi Hip Hop / Chillhop (for focus)', checked: false },
+                    { id: 14, type: 'music', content: 'Afrobeats (Burna Boy, Wizkid)', checked: false },
+                ],
+                misc: [
+                    { id: 15, type: 'bucketlist', content: 'Get a CISSP or OSCP certification.', checked: false },
+                    { id: 16, type: 'bucketlist', content: 'Present research at an international conference.', checked: false },
+                    { id: 17, type: 'bucketlist', content: 'Visit the Large Hadron Collider (CERN).', checked: false },
+                    { id: 18, type: 'game', content: 'Cyberpunk 2077', checked: false },
+                    { id: 19, type: 'game', content: 'The Witcher 3: Wild Hunt', checked: false },
+                    { id: 20, type: 'quote', content: '"The best way to predict the future is to invent it." - Alan Kay', checked: false },
+                ]
+            };
+        }
+
+        // === Load All Notes from DB ===
+        function loadNotes() {
+            let db = JSON.parse(localStorage.getItem(NOTEBOOK_DB_KEY));
+            if (!db) {
+                db = getDefaultData();
+                saveNotes(db);
+            }
+            // Ensure new tabs exist if loading old data
+            if (!db.snippets) {
+                db.snippets = getDefaultData().snippets;
+                saveNotes(db);
+            }
+            renderAllTabs(db);
+        }
+
+        // === Save All Notes to DB ===
+        function saveNotes(db) {
+            localStorage.setItem(NOTEBOOK_DB_KEY, JSON.stringify(db));
+        }
+
+        // === Render All Tabs ===
+        function renderAllTabs(db) {
+            renderNotes('pentesting', db.pentesting);
+            renderNotes('snippets', db.snippets);
+            renderNotes('library', db.library);
+            renderNotes('misc', db.misc);
+        }
+
+        // === Render a Single Tab's Notes ===
+        function renderNotes(tabName, notes) {
+            const listContainer = document.getElementById(`${tabName}-notes-list`);
+            listContainer.innerHTML = ''; // Clear existing notes
+            
+            if (tabName === 'pentesting') {
+                // Group by section for pentesting
+                const sections = {};
+                notes.forEach(note => {
+                    if (!sections[note.section]) {
+                        sections[note.section] = [];
+                    }
+                    sections[note.section].push(note);
+                });
+
+                for (const sectionName in sections) {
+                    const sectionWrapper = document.createElement('div');
+                    sectionWrapper.className = 'mb-6';
+                    sectionWrapper.innerHTML = `<h4 class="text-lg font-semibold text-gray-800 dark:text-gray-300 mb-3 border-b border-gray-200 dark:border-gray-700 pb-2">${sectionName}</h4>`;
+                    const sectionList = document.createElement('div');
+                    sectionList.className = 'space-y-3';
+                    sections[sectionName].forEach(note => {
+                        sectionList.appendChild(createNoteElement(note));
+                    });
+                    sectionWrapper.appendChild(sectionList);
+                    listContainer.appendChild(sectionWrapper);
+                }
+            } else if (tabName === 'snippets') {
+                // Group by type for snippets
+                const types = {};
+                notes.forEach(note => {
+                    if (!types[note.type]) {
+                        types[note.type] = [];
+                    }
+                    types[note.type].push(note);
+                });
+
+                for (const typeName in types) {
+                    const sectionWrapper = document.createElement('div');
+                    sectionWrapper.className = 'mb-6';
+                    sectionWrapper.innerHTML = `<h4 class="text-lg font-semibold text-gray-800 dark:text-gray-300 mb-3 border-b border-gray-200 dark:border-gray-700 pb-2">${typeName}</h4>`;
+                    const sectionList = document.createElement('div');
+                    sectionList.className = 'space-y-4';
+                    types[typeName].forEach(note => {
+                        sectionList.appendChild(createNoteElement(note));
+                    });
+                    sectionWrapper.appendChild(sectionList);
+                    listContainer.appendChild(sectionWrapper);
+                }
+            } else {
+                // Render as a flat list for other tabs
+                if(notes.length === 0) {
+                    listContainer.innerHTML = `<p class="text-gray-500 dark:text-gray-400 italic">No notes in this section yet.</p>`;
+                } else {
+                    notes.forEach(note => {
+                        listContainer.appendChild(createNoteElement(note));
+                    });
+                }
+            }
+        }
+
+        // === Create HTML for a Single Note Element ===
+        function createNoteElement(note) {
+            const noteEl = document.createElement('div');
+            noteEl.dataset.id = note.id;
+            noteEl.dataset.type = note.type;
+            
+            let innerHtml = '';
+
+            // 1. Determine HTML based on type
+            switch (note.type) {
+                case 'checklist':
+                case 'bucketlist':
+                    noteEl.className = `note-item group flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 ${note.checked ? 'note-item-checked' : ''}`;
+                    innerHtml = `
+                        <div class="flex items-center flex-grow overflow-hidden mr-4">
+                            <input type="checkbox" class="task-checkbox flex-shrink-0 mr-3" ${note.checked ? 'checked' : ''}>
+                            <span class="flex-grow">${note.content}</span>
+                        </div>
+                        <button class="delete-note flex-shrink-0 p-1">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                    `;
+                    break;
+                case 'book':
+                case 'music':
+                case 'game':
+                case 'quote':
+                    noteEl.className = `note-item group flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700`;
+                    let iconHtml = '';
+                    switch (note.type) {
+                        case 'book': iconHtml = `<svg class="w-5 h-5 mr-3 flex-shrink-0 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v11.494m-9-5.747h18"></path></svg>`; break;
+                        case 'music': iconHtml = `<svg class="w-5 h-5 mr-3 flex-shrink-0 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"></path></svg>`; break;
+                        case 'game': iconHtml = `<svg class="w-5 h-5 mr-3 flex-shrink-0 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`; break;
+                        case 'quote': iconHtml = `<svg class="w-5 h-5 mr-3 flex-shrink-0 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>`; break;
+                    }
+                    innerHtml = `
+                        <div class="flex items-center flex-grow overflow-hidden mr-4">
+                            ${iconHtml}
+                            <span class="flex-grow ${note.type === 'quote' ? 'italic' : ''}">${note.content}</span>
+                        </div>
+                        <button class="delete-note flex-shrink-0 p-1">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                    `;
+                    break;
+                
+                // New case for snippets
+                case 'Python':
+                case 'Bash':
+                case 'JavaScript':
+                case 'SQL':
+                case 'Materials':
+                    noteEl.className = `snippet-card note-item`; // No group class needed here
+                    innerHtml = `
+                        <div class="p-4 flex justify-between items-center">
+                            <h5 class="text-md font-semibold text-gray-900 dark:text-white">${note.description}</h5>
+                            <div class="flex space-x-3">
+                                <button class="copy-snippet p-1" data-clipboard-text="${encodeURIComponent(note.content)}" title="Copy code">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                </button>
+                                <button class="delete-note p-1" title="Delete snippet">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <pre><code>${note.content.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre>
+                    `;
+                    break;
+                
+                default:
+                    // Fallback for any other types
+                    noteEl.className = `note-item group flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700`;
+                    innerHtml = `
+                        <div class="flex items-center flex-grow overflow-hidden mr-4">
+                            <span class="flex-grow">${note.content}</span>
+                        </div>
+                        <button class="delete-note flex-shrink-0 p-1">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                    `;
+            }
+
+            // 2. Assemble the element's HTML
+            noteEl.innerHTML = innerHtml;
+            return noteEl;
+        }
+
+        // === Event Handler: Add a New Note ===
+        function handleAddNote(event, tabName) {
+            event.preventDefault();
+            
+            let newNote = { id: Date.now(), checked: false };
+            
+            if (tabName === 'snippets') {
+                const contentInput = document.getElementById('snippet-input');
+                const descInput = document.getElementById('snippet-desc-input');
+                const typeSelect = document.getElementById('snippet-type');
+                
+                const content = contentInput.value.trim();
+                const description = descInput.value.trim();
+                if (!content || !description) return;
+
+                newNote.type = typeSelect.value;
+                newNote.content = content;
+                newNote.description = description;
+
+                // Clear inputs
+                contentInput.value = '';
+                descInput.value = '';
+
+            } else {
+                const input = document.getElementById(`${tabName}-input`);
+                const typeSelect = document.getElementById(`${tabName}-type`);
+                
+                const content = input.value.trim();
+                if (!content) return; // Don't add empty notes
+                
+                newNote.type = typeSelect.value;
+                newNote.content = content;
+
+                // Special handling for pentesting to add a section
+                if (tabName === 'pentesting') {
+                    newNote.section = 'My Custom Checklist'; // Default section for new items
+                }
+                
+                // Clear input
+                input.value = '';
+            }
+            
+            // 1. Get DB
+            let db = JSON.parse(localStorage.getItem(NOTEBOOK_DB_KEY));
+            // 2. Update DB
+            db[tabName].push(newNote);
+            // 3. Save DB
+            saveNotes(db);
+            // 4. Re-render *just this tab*
+            renderNotes(tabName, db[tabName]);
+        }
+
+        // === Event Handler: Toggle or Delete a Note (Event Delegation) ===
+        function handleNoteInteract(event) {
+            const db = JSON.parse(localStorage.getItem(NOTEBOOK_DB_KEY));
+            
+            // --- Handle Deletion ---
+            const deleteButton = event.target.closest('.delete-note');
+            if (deleteButton) {
+                const noteItem = deleteButton.closest('.note-item');
+                const noteId = Number(noteItem.dataset.id);
+                const tabName = noteItem.closest('.notebook-content').id.split('-')[1];
+
+                // 1. Update DB (filter out the note)
+                db[tabName] = db[tabName].filter(note => note.id !== noteId);
+                // 2. Save DB
+                saveNotes(db);
+                // 3. Update UI (just remove the element)
+                noteItem.remove();
+            }
+
+            // --- Handle Checkbox Toggle ---
+            const checkbox = event.target.closest('.task-checkbox');
+            if (checkbox) {
+                const noteItem = checkbox.closest('.note-item');
+                const noteId = Number(noteItem.dataset.id);
+                const tabName = noteItem.closest('.notebook-content').id.split('-')[1];
+
+                // 1. Find note in DB and update
+                const note = db[tabName].find(n => n.id === noteId);
+                if (note) {
+                    note.checked = checkbox.checked;
+                    // 2. Save DB
+                    saveNotes(db);
+                    // 3. Update UI (toggle style)
+                    noteItem.classList.toggle('note-item-checked', note.checked);
+                }
+            }
+            
+            // --- Handle Copy Snippet ---
+            const copyButton = event.target.closest('.copy-snippet');
+            if (copyButton) {
+                const textToCopy = decodeURIComponent(copyButton.dataset.clipboardText);
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    // Optional: Show a "Copied!" message
+                    const originalIcon = copyButton.innerHTML;
+                    copyButton.innerHTML = `<svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+                    setTimeout(() => { copyButton.innerHTML = originalIcon; }, 1500);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            }
+        }
+        
+        // === Event Handler: Reset Notebook ===
+        function handleResetNotebook() {
+            if (confirm("Are you sure you want to delete all your custom notes and reset to the default checklists?")) {
+                const defaultDb = getDefaultData();
+                saveNotes(defaultDb);
+                renderAllTabs(defaultDb);
+            }
+        }
+
+
+        // === Initial Load & Event Listeners ===
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // === Theme Toggle Logic ===
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const darkIcon = document.getElementById('theme-toggle-dark-icon');
+            const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                darkIcon.classList.add('hidden');
+                lightIcon.classList.remove('hidden');
+            }
+
+            themeToggleBtn.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                const isDark = document.documentElement.classList.contains('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                darkIcon.classList.toggle('hidden', !isDark);
+                lightIcon.classList.toggle('hidden', isDark);
+            });
+
+            // === Mobile Menu Logic ===
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // === Notebook Tabs Logic ===
+            const notebookTabs = document.getElementById('notebook-tabs');
+            const notebookContents = document.querySelectorAll('.notebook-content');
+            
+            notebookTabs.addEventListener('click', (e) => {
+                const tabButton = e.target.closest('button.notebook-tab');
+                if (!tabButton) return;
+
+                notebookTabs.querySelectorAll('.notebook-tab').forEach(tab => tab.classList.remove('active'));
+                notebookContents.forEach(content => content.classList.remove('active'));
+                
+                tabButton.classList.add('active');
+                const tabName = tabButton.dataset.tab;
+                document.getElementById(`notebook-${tabName}`).classList.add('active');
+            });
+
+            // === Load Notebook Data ===
+            loadNotes();
+            
+            // === Attach Form Listeners ===
+            document.getElementById('add-pentesting-form').addEventListener('submit', (e) => handleAddNote(e, 'pentesting'));
+            document.getElementById('add-snippets-form').addEventListener('submit', (e) => handleAddNote(e, 'snippets'));
+            document.getElementById('add-library-form').addEventListener('submit', (e) => handleAddNote(e, 'library'));
+            document.getElementById('add-misc-form').addEventListener('submit', (e) => handleAddNote(e, 'misc'));
+            
+            // === Attach Main Content Listener (for Clicks/Deletes) ===
+            document.getElementById('main-content').addEventListener('click', handleNoteInteract);
+            
+            // === Attach Reset Button Listener ===
+            document.getElementById('reset-notebook-btn').addEventListener('click', handleResetNotebook);
+
+            // === Set current year in footer ===
+            document.getElementById('current-year').innerText = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>
