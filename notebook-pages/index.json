@@ -1,0 +1,22 @@
+[
+{
+"slug": "pentesting-checklists",
+"title": "Pentesting Checklists",
+"description": "My comprehensive checklists for Web App (OWASP), REST APIs, and GraphQL APIs."
+},
+{
+"slug": "code-snippets",
+"title": "Code Snippets",
+"description": "A collection of useful code for Python, Bash, and Materials/Simulation notes."
+},
+{
+"slug": "my-library",
+"title": "My Library",
+"description": "A curated list of my favorite books, music, and artists that inspire me."
+},
+{
+"slug": "miscellany",
+"title": "Miscellany",
+"description": "Personal favorites, quotes, and my bucket list of goals and things I want to do."
+}
+]

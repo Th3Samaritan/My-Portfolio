@@ -245,38 +245,45 @@
         <section id="notebook" class="py-16 sm:py-24">
 
             <!-- Header -->
-            <div class="text-center max-w-3xl mx-auto">
+            <div id="notebook-header" class="text-center max-w-3xl mx-auto">
                 <h2 class="text-base font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 font-sans">Field Notes</h2>
                 <p class="mt-4 text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white font-serif">
                     My Digital Notebook
                 </p>
                 <p class="mt-6 text-lg text-gray-600 dark:text-gray-400 font-sans">
-                    My personal collection of checklists, code snippets, notes, and favorites. This content is loaded from a single <code class="text-sm bg-gray-200 dark:bg-gray-700 p-1 rounded-md">notebook.md</code> file in my repo.
+                    My personal collection of checklists, code snippets, notes, and favorites, organized by chapter.
                 </p>
             </div>
 
-            <!-- Layout Container: Centered, single column -->
-            <div class="max-w-4xl mx-auto mt-16">
+            <!-- This container holds EITHER the TOC grid OR the page content -->
+            <div id="notebook-container" class="max-w-4xl mx-auto mt-16">
                 
-                <!-- Main Content: Markdown Render -->
-                <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl overflow-hidden">
-                    <div class="p-8 sm:p-12">
-                        
-                        <!-- Table of Contents (will be injected by JS) -->
-                        <div id="toc-container" class="mb-12">
-                            <div class="text-center col-span-full p-10">
-                                <div class="w-8 h-8 border-4 border-dashed rounded-full animate-spin border-primary-600 mx-auto"></div>
-                                <p class="mt-4 text-gray-600 dark:text-gray-400">Loading notes...</p>
-                            </div>
+                <!-- Table of Contents Grid -->
+                <div id="notebook-toc-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Loading spinner -->
+                    <div class="text-center col-span-full p-10">
+                        <div class="w-8 h-8 border-4 border-dashed rounded-full animate-spin border-primary-600 mx-auto"></div>
+                        <p class="mt-4 text-gray-600 dark:text-gray-400">Loading chapters...</p>
+                    </div>
+                    <!-- JS will render TOC cards here -->
+                </div>
+
+                <!-- Page Content (hidden by default) -->
+                <div id="notebook-page-content" class="hidden">
+                    
+                    <!-- Back Button -->
+                    <a href="/My-Portfolio/notebook.html" class="inline-flex items-center text-primary-600 dark:text-primary-400 hover:underline mb-8 font-medium font-sans">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        Back to Notebook Contents
+                    </a>
+
+                    <!-- Main Content "Paper" -->
+                    <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl overflow-hidden">
+                        <div class="p-8 sm:p-12">
+                            <article id="notebook-content-article" class="prose prose-lg dark:prose-invert max-w-none">
+                                <!-- JS will render Markdown-to-HTML here -->
+                            </article>
                         </div>
-
-                        <!-- Divider -->
-                        <hr class="border-gray-200 dark:border-gray-700">
-
-                        <!-- Article Content -->
-                        <article id="notebook-content" class="prose prose-lg dark:prose-invert max-w-none mt-12">
-                            <!-- JS will render Markdown-to-HTML here -->
-                        </article>
                     </div>
                 </div>
 
@@ -298,7 +305,8 @@
 
     <script>
         // === Global Variables ===
-        const notebookUrl = 'https://th3samaritan.github.io/My-Portfolio/notebook.md';
+        const notebookIndexUrl = 'https://th3samaritan.github.io/My-Portfolio/notebook-pages/index.json';
+        const notebookPagesBaseUrl = 'https://th3samaritan.github.io/My-Portfolio/notebook-pages/';
         
         const showdownConverter = new showdown.Converter({
             tables: true,
@@ -306,85 +314,104 @@
             strikethrough: true,
             tasklists: true,
             ghCompatibleHeaderId: true, // Crucial for linking
-            headerLevelStart: 1 // Start markdown headers at <h1>
+            headerLevelStart: 2 // Start markdown headers at <h2>
         });
         
-        const tocContainer = document.getElementById('toc-container');
-        const contentContainer = document.getElementById('notebook-content');
+        const notebookContainer = document.getElementById('notebook-container');
+        const tocGrid = document.getElementById('notebook-toc-grid');
+        const pageContent = document.getElementById('notebook-page-content');
+        const articleContainer = document.getElementById('notebook-content-article');
+        const notebookHeader = document.getElementById('notebook-header');
         
         // === Main Notebook Logic ===
         async function initNotebook() {
-            try {
-                const response = await fetch(notebookUrl);
-                if (!response.ok) throw new Error('Network response was not ok');
+            // Check for URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const pageSlug = urlParams.get('page');
 
-                const markdown = await response.text();
-                const html = showdownConverter.makeHtml(markdown);
-                
-                contentContainer.innerHTML = html;
-
-                // After rendering, build the Table of Contents
-                buildTOC();
-                
-                // No longer need to observe headings for this layout
-                // observeHeadings(); 
-
-            } catch (error) {
-                console.error('Failed to fetch notebook:', error);
-                tocContainer.innerHTML = `<p class="text-center text-red-500">Failed to load notebook.</p>`;
-                contentContainer.innerHTML = `<p class="text-center text-red-500">Failed to load notebook. Please try again later.</p>`;
+            if (pageSlug) {
+                // A specific page is requested
+                await fetchAndRenderPage(pageSlug);
+            } else {
+                // No page requested, show the Table of Contents
+                await fetchAndRenderTOC();
             }
         }
 
-        function buildTOC() {
-            // Find all h1 headings in the rendered content
-            const headings = contentContainer.querySelectorAll('h1');
-            let tocHtml = '';
-
-            headings.forEach(heading => {
-                const id = heading.id;
-                const text = heading.innerText;
+        // --- 1. Fetch and Render Table of Contents ---
+        async function fetchAndRenderTOC() {
+            try {
+                const response = await fetch(notebookIndexUrl);
+                if (!response.ok) throw new Error('Network response was not ok');
                 
-                if (id && text) {
-                    tocHtml += `
-                        <li>
-                            <a href="#${id}" class="block text-gray-600 dark:text-gray-400 font-medium py-1.5 px-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary-600 dark:hover:text-primary-400" data-target-id="${id}">
-                                ${text}
-                            </a>
-                        </li>
-                    `;
+                let pages = await response.json();
+                
+                tocGrid.innerHTML = ''; // Clear "Loading..."
+                notebookHeader.classList.remove('hidden');
+                pageContent.classList.add('hidden');
+
+                if (pages.length === 0) {
+                    tocGrid.innerHTML = `<p class="text-gray-500 dark:text-gray-400 text-center col-span-full">No notebook pages found.</p>`;
+                    return;
                 }
-            });
-            
-            // Replace "Loading..." with the real TOC
-            tocContainer.innerHTML = `
-                <h3 class="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-4">In this notebook</h3>
-                <ul class="space-y-2">
-                    ${tocHtml}
-                </ul>
-            `;
-            
-            // Add smooth scroll to new links
-            tocContainer.querySelectorAll('a').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    // Also update hash in URL
-                    history.pushState(null, null, this.getAttribute('href'));
+
+                pages.forEach(page => {
+                    const pageCard = document.createElement('a');
+                    // Use URL parameters for page navigation
+                    pageCard.href = `?page=${page.slug}`;
+                    pageCard.className = 'block p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 transform hover:scale-[1.03] hover:shadow-xl';
+                    
+                    pageCard.innerHTML = `
+                        <h2 class="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-2">${page.title}</h2>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4 font-sans">${page.description}</p>
+                        <span class="font-medium text-primary-600 dark:text-primary-400 hover:underline font-sans">Open Chapter &rarr;</span>
+                    `;
+                    tocGrid.appendChild(pageCard);
                 });
-            });
+
+            } catch (error) {
+                console.error('Failed to fetch notebook index:', error);
+                tocGrid.innerHTML = `<p class="text-center text-red-500 col-span-full">Failed to load notebook. Please try again later.</p>`;
+            }
         }
 
-        // We no longer need the observeHeadings function for this layout
-        /*
-        function observeHeadings() {
-            // ... (old code removed) ...
-        }
-        */
+        // --- 2. Fetch and Render a Single Page ---
+        async function fetchAndRenderPage(slug) {
+            try {
+                const pageUrl = `${notebookPagesBaseUrl}${slug}.md`;
+                const response = await fetch(pageUrl);
+                if (!response.ok) throw new Error('Page not found');
 
+                const markdown = await response.text();
+                const html = showdownConverter.makeHtml(markdown);
+
+                // Hide TOC, show page
+                notebookHeader.classList.add('hidden'); // Hide main "Digital Notebook" title
+                tocGrid.innerHTML = '';
+                tocGrid.classList.add('hidden');
+                
+                articleContainer.innerHTML = html;
+                pageContent.classList.remove('hidden');
+
+                // Update page title
+                const firstH2 = articleContainer.querySelector('h2');
+                if (firstH2) {
+                    document.title = `${firstH2.innerText} - My Notebook`;
+                }
+                
+                // Scroll to top of page
+                window.scrollTo(0, 0);
+
+            } catch (error) {
+                console.error('Failed to fetch page:', error);
+                notebookContainer.innerHTML = `
+                    <p class="text-center text-red-500">Error: Page not found.</p>
+                    <a href="/My-Portfolio/notebook.html" class="block text-center text-primary-600 dark:text-primary-400 hover:underline mt-4">
+                        &larr; Back to Notebook Contents
+                    </a>
+                `;
+            }
+        }
 
         // === Document Ready ===
         document.addEventListener('DOMContentLoaded', () => {
