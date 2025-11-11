@@ -7,6 +7,10 @@
     <meta name="keywords" content="blog, cybersecurity, software, materials, abdulsamad muyideen">
     <title>Personal Blog - Abdulsamad Muyideen</title>
     
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/My-Portfolio/manifest.json">
+    <meta name="theme-color" content="#00a3cc">
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -14,6 +18,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Showdown.js (Markdown to HTML converter) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 
     <script>
         // Set up Tailwind CSS dark mode and custom font
@@ -50,14 +57,18 @@
                                         color: theme('colors.primary.700'),
                                     },
                                 },
-                                'h1, h2, h3': {
+                                'h1, h2, h3, h4, h5, h6': {
                                     color: theme('colors.gray.900'),
+                                    fontWeight: '700',
+                                    marginTop: '1.5em',
+                                    marginBottom: '0.5em',
                                 },
                                 'code': {
                                     backgroundColor: theme('colors.gray.100'),
                                     color: theme('colors.gray.800'),
                                     padding: '2px 4px',
                                     borderRadius: '4px',
+                                    fontWeight: '500',
                                 },
                                 'pre': {
                                     backgroundColor: theme('colors.gray.100'),
@@ -69,7 +80,7 @@
                                 // Dark mode styles
                                 '.dark &': {
                                     color: theme('colors.gray.300'),
-                                    'h1, h2, h3': {
+                                    'h1, h2, h3, h4, h5, h6': {
                                         color: theme('colors.white'),
                                     },
                                     'a': {
@@ -135,11 +146,6 @@
         .dark ::-webkit-scrollbar-thumb:hover {
             background: #718096;
         }
-
-        /* Delete button styles */
-        .delete-post {
-            @apply text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 transition-colors duration-200 opacity-0 group-hover:opacity-100;
-        }
     </style>
 </head>
 
@@ -194,35 +200,41 @@
 
         <!-- ===== Blog Section ===== -->
         <section id="blog" class="py-24">
-            <div class="text-center max-w-3xl mx-auto">
-                <h2 class="text-sm font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400">My Thoughts</h2>
-                <p class="mt-4 text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
-                    My Personal Blog
-                </p>
-                <p class="mt-6 text-lg text-gray-600 dark:text-gray-400">
-                    A dynamic, locally-stored journal of my thoughts on technology, materials science, and security. Write, edit, and save your posts directly in the browser.
-                </p>
-            </div>
 
-            <!-- New Post Form -->
-            <div class="max-w-3xl mx-auto mt-16 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700">
-                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Write a New Post</h3>
-                <form id="add-post-form" class="space-y-6">
-                    <div>
-                        <label for="post-title-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Title</label>
-                        <input id="post-title-input" type="text" placeholder="Your post title" required class="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
-                    </div>
-                    <div>
-                        <label for="post-content-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Content (Markdown supported)</label>
-                        <textarea id="post-content-input" placeholder="Write your thoughts here..." required rows="8" class="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 font-mono text-sm"></textarea>
-                    </div>
-                    <button type="submit" class="w-full px-6 py-3 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all">Publish Post</button>
-                </form>
-            </div>
+            <!-- This container shows EITHER the post list OR the full post -->
+            <div id="blog-container" class="max-w-3xl mx-auto">
 
-            <!-- Blog Post Feed -->
-            <div id="blog-posts-list" class="max-w-3xl mx-auto mt-16 space-y-12">
-                <!-- JS will render posts here -->
+                <!-- Header (default) -->
+                <div id="blog-header" class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-sm font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400">My Thoughts</h2>
+                    <p class="mt-4 text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
+                        My Personal Blog
+                    </p>
+                    <p class="mt-6 text-lg text-gray-600 dark:text-gray-400">
+                        A journal of my thoughts on technology, materials science, and security, powered by Markdown files from my GitHub repo.
+                    </p>
+                </div>
+    
+                <!-- Blog Post List -->
+                <div id="blog-posts-list" class="mt-16 space-y-8">
+                    <!-- JS will render posts list here -->
+                    <div class="text-center col-span-full p-10">
+                        <div class="w-10 h-10 border-4 border-dashed rounded-full animate-spin border-primary-600 mx-auto"></div>
+                        <p class="mt-4 text-gray-600 dark:text-gray-400">Fetching blog posts...</p>
+                    </div>
+                </div>
+
+                <!-- Full Post Content -->
+                <div id="blog-post-content" class="hidden">
+                    <a href="/My-Portfolio/blog.html" class="inline-flex items-center text-primary-600 dark:text-primary-400 hover:underline mb-8">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        Back to all posts
+                    </a>
+                    <!-- Article content will be injected here -->
+                    <article class="prose prose-lg dark:prose-invert max-w-none">
+                        <!-- JS will render Markdown-to-HTML here -->
+                    </article>
+                </div>
             </div>
 
         </section>
@@ -236,153 +248,130 @@
             <p class="text-sm mt-4">
                 <a href="index.html" class="text-primary-600 dark:text-primary-400 hover:underline">Return to Main Portfolio</a>
             </p>
-             <p class="text-sm mt-4">
-                <button id="reset-blog-btn" class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 hover:underline">
-                    Reset All Blog Posts
-                </button>
-            </p>
         </div>
     </footer>
 
 
     <script>
-        // === Local Storage Key ===
-        const BLOG_DB_KEY = 'abdulsamadBlogPosts';
-        // === Global DB variable to hold state ===
-        let BLOG_DB = [];
-
-        // === Default Data (for first load) ===
-        function getDefaultData() {
-            return [
-                {
-                    id: Date.now(),
-                    date: new Date().toISOString(),
-                    title: 'Welcome to My Local-First Blog!',
-                    content: 'This is a sample blog post. \n\nAll your posts are saved directly in your browser\'s **localStorage**. You can add new posts, delete old ones, and reset the blog to this default state at any time. \n\nFeel free to delete this post and start writing!'
-                }
-            ];
-        }
-
-        // === Load All Posts from DB ===
-        function loadPosts() {
-            let db = JSON.parse(localStorage.getItem(BLOG_DB_KEY));
-            if (!db) {
-                db = getDefaultData();
-                BLOG_DB = db; // <-- Set the global variable FIRST
-                savePosts();  // <-- THEN save
-            } else {
-                BLOG_DB = db; // <-- Set the global variable
-            }
-            renderPosts(BLOG_DB);
-        }
-
-        // === Save All Posts to DB ===
-        function savePosts() {
-            localStorage.setItem(BLOG_DB_KEY, JSON.stringify(BLOG_DB));
-        }
-
-        // === Render All Posts ===
-        function renderPosts(posts) {
-            const listEl = document.getElementById('blog-posts-list');
-            listEl.innerHTML = ''; // Clear existing
-            
-            if (posts.length === 0) {
-                listEl.innerHTML = `<p class="text-gray-500 dark:text-gray-400 text-center">No posts yet. Write one above!</p>`;
-                return;
-            }
-
-            // Sort posts by date, newest first
-            posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            posts.forEach(post => {
-                const postEl = createPostElement(post);
-                listEl.appendChild(postEl);
-            });
-        }
-
-        // === Create HTML for a Single Post Element ===
-        function createPostElement(post) {
-            const postEl = document.createElement('article');
-            postEl.dataset.id = post.id;
-            postEl.className = 'blog-post group bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700';
-            
-            // Basic Markdown to HTML (for newlines)
-            const formattedContent = post.content
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/\n\n/g, '</p><p class="mt-4">')
-                .replace(/\n/g, '<br>')
-                .replace(/(\*\*)(.*?)\1/g, '<strong>$2</strong>') // Bold
-                .replace(/(\*)(.*?)\1/g, '<em>$2</em>'); // Italic
-
-            postEl.innerHTML = `
-                <div class="flex justify-between items-center mb-3">
-                    <p class="text-sm text-gray-500 dark:text-gray-400">
-                        ${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                    </p>
-                    <button class="delete-post" title="Delete post" data-id="${post.id}">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                    </button>
-                </div>
-                <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-4">${post.title.replace(/</g, "&lt;")}</h2>
-                <div class="prose prose-lg dark:prose-invert max-w-none">
-                    <p>${formattedContent}</p>
-                </div>
-            `;
-            return postEl;
-        }
-
-        // === Event Handler: Add a New Post ===
-        function handleAddPost(event) {
-            event.preventDefault();
-            
-            const titleInput = document.getElementById('post-title-input');
-            const contentInput = document.getElementById('post-content-input');
-            
-            const newPost = {
-                id: Date.now(),
-                date: new Date().toISOString(),
-                title: titleInput.value,
-                content: contentInput.value
-            };
-
-            // Update global state
-            BLOG_DB.push(newPost);
-            // Save global state
-            savePosts();
-            // Re-render all posts
-            renderPosts(BLOG_DB);
-
-            // Clear form
-            titleInput.value = '';
-            contentInput.value = '';
-        }
-
-        // === Event Handler: Delete a Post (Event Delegation) ===
-        function handleDeletePost(event) {
-            const deleteButton = event.target.closest('.delete-post');
-            if (deleteButton) {
-                const postId = Number(deleteButton.dataset.id);
-                if (confirm("Are you sure you want to delete this post?")) {
-                    // 1. Update DB
-                    BLOG_DB = BLOG_DB.filter(post => post.id !== postId);
-                    // 2. Save DB
-                    savePosts();
-                    // 3. Re-render
-                    renderPosts(BLOG_DB);
-                }
-            }
-        }
+        // === Global Variables ===
+        // FIX: Use full absolute URLs for fetching from GitHub Pages
+        const blogIndexUrl = 'https://th3samaritan.github.io/My-Portfolio/blog-posts/index.json';
+        const blogPostsBaseUrl = 'https://th3samaritan.github.io/My-Portfolio/blog-posts/';
         
-        // === Event Handler: Reset Blog ===
-        function handleResetBlog() {
-            if (confirm("Are you sure you want to delete all your blog posts and reset to the default?")) {
-                BLOG_DB = getDefaultData();
-                savePosts();
-                renderPosts(BLOG_DB);
+        const showdownConverter = new showdown.Converter({
+            tables: true,
+            simplifiedAutoLink: true,
+            strikethrough: true,
+            tasklists: true,
+            headerLevelStart: 2 // Start markdown headers at <h2>
+        });
+
+        // === DOM Elements ===
+        const blogContainer = document.getElementById('blog-container');
+        const blogHeader = document.getElementById('blog-header');
+        const listContainer = document.getElementById('blog-posts-list');
+        const postContainer = document.getElementById('blog-post-content');
+        
+        // === Main Blog Logic ===
+        async function initBlog() {
+            // Check for URL parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const postSlug = urlParams.get('post');
+
+            if (postSlug) {
+                // A specific post is requested
+                await fetchAndRenderPost(postSlug);
+            } else {
+                // No post requested, show the list
+                await fetchAndRenderList();
             }
         }
 
+        // --- 1. Fetch and Render Post List ---
+        async function fetchAndRenderList() {
+            try {
+                const response = await fetch(blogIndexUrl);
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                let posts = await response.json();
+                
+                // Sort by date, newest first
+                posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                listContainer.innerHTML = ''; // Clear "Loading..."
+                blogHeader.classList.remove('hidden');
+                postContainer.classList.add('hidden');
+
+                if (posts.length === 0) {
+                    listContainer.innerHTML = `<p class="text-gray-500 dark:text-gray-400 text-center">No blog posts found.</p>`;
+                    return;
+                }
+
+                posts.forEach(post => {
+                    const postCard = document.createElement('a');
+                    // FIX: Use URL parameters correctly for relative paths
+                    postCard.href = `?post=${post.slug}`;
+                    postCard.className = 'block p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 transform hover:scale-[1.03] hover:shadow-xl';
+                    
+                    postCard.innerHTML = `
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">${post.title}</h2>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
+                            ${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                        </p>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">${post.description}</p>
+                        <span class="font-medium text-primary-600 dark:text-primary-400 hover:underline">Read More &rarr;</span>
+                    `;
+                    listContainer.appendChild(postCard);
+                });
+
+            } catch (error) {
+                console.error('Failed to fetch blog index:', error);
+                listContainer.innerHTML = `<p class="text-center text-red-500">Failed to load blog posts. Please try again later.</p>`;
+            }
+        }
+
+        // --- 2. Fetch and Render a Single Post ---
+        async function fetchAndRenderPost(slug) {
+            try {
+                const postUrl = `${blogPostsBaseUrl}${slug}.md`;
+                const response = await fetch(postUrl);
+                if (!response.ok) throw new Error('Post not found');
+
+                const markdown = await response.text();
+                const html = showdownConverter.makeHtml(markdown);
+
+                // Show post, hide list
+                blogHeader.classList.add('hidden');
+                listContainer.innerHTML = '';
+                listContainer.classList.add('hidden');
+                
+                postContainer.innerHTML = `
+                    <a href="/My-Portfolio/blog.html" class="inline-flex items-center text-primary-600 dark:text-primary-400 hover:underline mb-8">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        Back to all posts
+                    </a>
+                    <article class="prose prose-lg dark:prose-invert max-w-none">
+                        ${html}
+                    </article>
+                `;
+                postContainer.classList.remove('hidden');
+
+                // Update page title
+                const firstH2 = postContainer.querySelector('h2');
+                if (firstH2) {
+                    document.title = `${firstH2.innerText} - Abdulsamad's Blog`;
+                }
+
+            } catch (error) {
+                console.error('Failed to fetch post:', error);
+                blogContainer.innerHTML = `
+                    <p class="text-center text-red-500">Error: Post not found.</p>
+                    <a href="/My-Portfolio/blog.html" class="block text-center text-primary-600 dark:text-primary-400 hover:underline mt-4">
+                        &larr; Back to all posts
+                    </a>
+                `;
+            }
+        }
 
         // === Document Ready ===
         document.addEventListener('DOMContentLoaded', () => {
@@ -424,16 +413,18 @@
             document.getElementById('current-year').innerText = new Date().getFullYear();
 
             // --- Blog Init ---
-            loadPosts();
-
-            // --- Blog Form Listener ---
-            document.getElementById('add-post-form').addEventListener('submit', handleAddPost);
+            initBlog();
             
-            // --- Blog Interaction Listener (Event Delegation) ---
-            document.getElementById('main-content').addEventListener('click', handleDeletePost);
-            
-            // --- Reset Button ---
-            document.getElementById('reset-blog-btn').addEventListener('click', handleResetBlog);
+            // Register Service Worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/My-Portfolio/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            }
         });
     </script>
 </body>

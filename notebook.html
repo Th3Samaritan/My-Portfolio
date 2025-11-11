@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Abdulsamad Muyideen - Digital Notebook">
-    <meta name="keywords" content="cybersecurity, pentesting, checklist, notes, abdulsamad muyideen">
-    <title>Digital Notebook - Abdulsamad Muyideen</title>
+    <meta name="description" content="Abdulsamad Muyideen - Digital Notebook & Field Notes">
+    <meta name="keywords" content="notebook, pentesting, checklists, code snippets, cybersecurity, software, materials">
+    <title>My Digital Notebook - Abdulsamad Muyideen</title>
     
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/My-Portfolio/manifest.json">
+    <meta name="theme-color" content="#00a3cc">
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -14,6 +18,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Showdown.js (Markdown to HTML converter) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 
     <script>
         // Set up Tailwind CSS dark mode and custom font
@@ -39,22 +46,30 @@
                             '950': '#003544',
                         },
                     },
-                    // For nested list styling in the notebook
+                    // For styling blog post content
                     typography: ({ theme }) => ({
                         DEFAULT: {
                             css: {
-                                'ul > li::before': { backgroundColor: theme('colors.gray.500') },
-                                'ul ul > li::before': { backgroundColor: theme('colors.gray.400') },
-                                'ul ul ul > li::before': { backgroundColor: theme('colors.gray.300') },
-                                'ul.checklist > li': {
-                                    paddingLeft: '0 !important',
-                                    listStyleType: 'none !important',
-                                    margin: '0 !important',
+                                color: theme('colors.gray.700'),
+                                a: {
+                                    color: theme('colors.primary.600'),
+                                    '&:hover': {
+                                        color: theme('colors.primary.700'),
+                                    },
                                 },
-                                'ul.checklist > li::before': {
-                                    display: 'none',
+                                'h1, h2, h3, h4, h5, h6': {
+                                    color: theme('colors.gray.900'),
+                                    fontWeight: '700',
+                                    marginTop: '1.5em',
+                                    marginBottom: '0.5em',
                                 },
-                                // Style for code blocks in snippets
+                                'code': {
+                                    backgroundColor: theme('colors.gray.100'),
+                                    color: theme('colors.gray.800'),
+                                    padding: '2px 4px',
+                                    borderRadius: '4px',
+                                    fontWeight: '500',
+                                },
                                 'pre': {
                                     backgroundColor: theme('colors.gray.100'),
                                     color: theme('colors.gray.800'),
@@ -62,10 +77,53 @@
                                     borderRadius: theme('borderRadius.md'),
                                     overflowX: 'auto',
                                 },
-                                '.dark pre': {
-                                    backgroundColor: theme('colors.gray.800'),
-                                    color: theme('colors.gray.200'),
-                                }
+                                'ul > li::before': { // Style list bullets
+                                    backgroundColor: theme('colors.gray.400'),
+                                },
+                                'input[type="checkbox"]': { // Style task list checkboxes
+                                    borderRadius: theme('borderRadius.sm'),
+                                    borderColor: theme('colors.gray.400'),
+                                    color: theme('colors.primary.600'),
+                                    '&:focus': {
+                                        ring: 'none',
+                                    },
+                                },
+                                // Dark mode styles
+                                '.dark &': {
+                                    color: theme('colors.gray.300'),
+                                    'h1, h2, h3, h4, h5, h6': {
+                                        color: theme('colors.white'),
+                                    },
+                                    'a': {
+                                        color: theme('colors.primary.400'),
+                                        '&:hover': {
+                                            color: theme('colors.primary.300'),
+                                        },
+                                    },
+                                    'code': {
+                                        backgroundColor: theme('colors.gray.800'),
+                                        color: theme('colors.gray.200'),
+                                    },
+                                    'pre': {
+                                        backgroundColor: theme('colors.gray.800'),
+                                        color: theme('colors.gray.200'),
+                                    },
+                                    'strong': {
+                                        color: theme('colors.white'),
+                                    },
+                                    'blockquote': {
+                                        color: theme('colors.gray.400'),
+                                        borderLeftColor: theme('colors.gray.700'),
+                                    },
+                                    'ul > li::before': {
+                                        backgroundColor: theme('colors.gray.600'),
+                                    },
+                                    'input[type="checkbox"]': {
+                                        borderColor: theme('colors.gray.600'),
+                                        backgroundColor: theme('colors.gray.800'),
+                                        color: theme('colors.primary.500'),
+                                    },
+                                },
                             },
                         },
                     }),
@@ -74,9 +132,8 @@
         }
     </script>
     
-    <!-- Tailwind Typography for styling lists -->
-    <script src="https://cdn.tailwindcss.com/3.4.1?plugins=typography"></script>
-
+    <!-- Tailwind Typography and Forms plugins -->
+    <script src="https://cdn.tailwindcss.com/3.4.1?plugins=typography,forms"></script>
 
     <style>
         /* Base font style */
@@ -108,53 +165,6 @@
         .dark ::-webkit-scrollbar-thumb:hover {
             background: #718096;
         }
-
-        /* Notebook Tabs styling */
-        .notebook-tab {
-            @apply flex items-center px-4 py-3 sm:px-6 font-medium text-gray-600 dark:text-gray-400 border-b-2 border-transparent hover:text-primary-600 dark:hover:text-primary-400 hover:border-primary-500 transition-all duration-300;
-        }
-        .notebook-tab.active {
-            @apply text-primary-600 dark:text-primary-400 border-primary-600 dark:border-primary-400;
-        }
-        .notebook-content {
-            @apply hidden;
-        }
-        .notebook-content.active {
-            @apply block;
-        }
-        
-        /* Functional Checkbox for dynamic items */
-        .task-checkbox {
-            @apply w-5 h-5 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer transition-all;
-        }
-        
-        /* Style for checked items */
-        .note-item-checked span {
-            @apply line-through text-gray-400 dark:text-gray-500;
-        }
-
-        /* Delete/Copy button styles */
-        .delete-note, .copy-snippet {
-            @apply text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400 transition-colors duration-200;
-        }
-        .copy-snippet {
-             @apply hover:text-primary-500 dark:hover:text-primary-400;
-        }
-
-        .note-item .delete-note {
-             @apply opacity-0 group-hover:opacity-100;
-        }
-
-        /* Code snippet styling */
-        .snippet-card {
-            @apply bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden;
-        }
-        .snippet-card pre {
-            @apply bg-gray-100 dark:bg-gray-900 p-4 rounded-b-lg text-sm overflow-x-auto;
-        }
-        .snippet-card pre code {
-            @apply font-mono;
-        }
     </style>
 </head>
 
@@ -182,6 +192,7 @@
                 <a href="index.html#about" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
                 <a href="index.html#skills" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Skills</a>
                 <a href="index.html#projects" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Work</a>
+                <a href="blog.html" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Blog</a>
                 <a href="index.html#contact" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
             </div>
 
@@ -199,136 +210,43 @@
             <a href="index.html#about" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">About</a>
             <a href="index.html#skills" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Skills</a>
             <a href="index.html#projects" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Work</a>
+            <a href="blog.html" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Blog</a>
             <a href="index.html#contact" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Contact</a>
         </div>
     </header>
 
-    <main id="main-content" class="container mx-auto px-6"> <!-- Added ID for event delegation -->
+    <main id="main-content" class="container mx-auto px-6">
 
-        <!-- ===== Digital Notebook Section (#notebook) ===== -->
+        <!-- ===== Notebook Section ===== -->
         <section id="notebook" class="py-24">
-            <div class="text-center max-w-3xl mx-auto">
-                <h2 class="text-sm font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400">Field Notes</h2>
-                <p class="mt-4 text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
-                    My Digital Notebook
-                </p>
-                <p class="mt-6 text-lg text-gray-600 dark:text-gray-400">
-                    A collection of my professional checklists, code snippets, and personal interests. Your notes are saved locally in your browser.
-                </p>
-            </div>
 
-            <!-- Notebook Tabs -->
-            <div class="max-w-6xl mx-auto mt-16">
-                <div class="border-b border-gray-200 dark:border-gray-700">
-                    <nav id="notebook-tabs" class="flex flex-wrap -mb-px" aria-label="Tabs">
-                        <button class="notebook-tab active" data-tab="pentesting">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                            Pentesting Checklists
-                        </button>
-                        <button class="notebook-tab" data-tab="snippets">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                            Code Snippets
-                        </button>
-                        <button class="notebook-tab" data-tab="library">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v11.494m-9-5.747h18"></path></svg>
-                            Library
-                        </button>
-                        <button class="notebook-tab" data-tab="misc">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Miscellany
-                        </button>
-                    </nav>
+            <div class="max-w-4xl mx-auto">
+                <!-- Header -->
+                <div id="notebook-header" class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-sm font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400">My Notes</h2>
+                    <p class="mt-4 text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
+                        My Digital Notebook
+                    </p>
+                    <p class="mt-6 text-lg text-gray-600 dark:text-gray-400">
+                        A public, read-only collection of my personal checklists, code snippets, and notes, rendered directly from a Markdown file in my repo.
+                    </p>
                 </div>
-
-                <!-- Notebook Content Panes -->
-                <div class="py-10">
-                    <!-- Pentesting Content -->
-                    <div id="notebook-pentesting" class="notebook-content active">
-                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Pentesting Notes & Checklists</h3>
-                        
-                        <!-- Add Form -->
-                        <form id="add-pentesting-form" class="flex gap-4 mb-6">
-                            <input id="pentesting-input" type="text" placeholder="New checklist item (e.g., Test for IDORs)" required class="flex-grow px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
-                            <input id="pentesting-type" type="hidden" value="checklist"> <!-- All pentest notes are checklists -->
-                            <button type="submit" class="px-5 py-2 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all">Add Item</button>
-                        </form>
-
-                        <!-- Dynamic List -->
-                        <div id="pentesting-notes-list" class="space-y-3">
-                            <!-- JS will render notes here -->
-                        </div>
+    
+                <!-- Notebook Content -->
+                <div id="notebook-content-wrapper">
+                    <!-- Loading State -->
+                    <div id="notebook-loader" class="text-center col-span-full p-10">
+                        <div class="w-10 h-10 border-4 border-dashed rounded-full animate-spin border-primary-600 mx-auto"></div>
+                        <p class="mt-4 text-gray-600 dark:text-gray-400">Fetching notebook...</p>
                     </div>
 
-                    <!-- Code Snippets Content -->
-                    <div id="notebook-snippets" class="notebook-content">
-                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">My Code Snippets</h3>
-
-                        <!-- Add Form -->
-                        <form id="add-snippets-form" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                            <input id="snippet-desc-input" type="text" placeholder="Description (e.g., Python Web Server)" required class="md:col-span-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
-                            <select id="snippet-type" class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
-                                <option value="Python">Python</option>
-                                <option value="Bash">Bash</option>
-                                <option value="JavaScript">JavaScript</option>
-                                <option value="SQL">SQL</option>
-                                <option value="Materials">Materials Note</option>
-                            </select>
-                            <textarea id="snippet-input" placeholder="Paste your code or note here..." required rows="4" class="md:col-span-3 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 font-mono text-sm"></textarea>
-                            <button type="submit" class="md:col-span-3 px-5 py-2 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all">Add Snippet</button>
-                        </form>
-
-                        <!-- Dynamic List -->
-                        <div id="snippets-notes-list" class="space-y-3">
-                            <!-- JS will render notes here -->
-                        </div>
-                    </div>
-
-                    <!-- Library Content -->
-                    <div id="notebook-library" class="notebook-content">
-                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">My Library</h3>
-
-                        <!-- Add Form -->
-                        <form id="add-library-form" class="flex flex-col sm:flex-row gap-4 mb-6">
-                            <input id="library-input" type="text" placeholder="New item (e.g., The Art of Invisibility)" required class="flex-grow px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
-                            <select id="library-type" class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
-                                <option value="Cybersecurity Book">Cybersecurity Book</option>
-                                <option value="Software Book">Software Book</option>
-                                <option value="Tech Book">Tech Book</option>
-                                <option value="Fiction">Fiction</option>
-                                <option value="Non-Fiction">Non-Fiction</option>
-                                <option value="Music/Artist">Music/Artist</option>
-                            </select>
-                            <button type="submit" class="px-5 py-2 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all">Add Item</button>
-                        </form>
-
-                        <!-- Dynamic List -->
-                        <div id="library-notes-list" class="space-y-3">
-                            <!-- JS will render notes here -->
-                        </div>
-                    </div>
-
-                    <!-- Miscellany Content -->
-                    <div id="notebook-misc" class="notebook-content">
-                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Miscellany</h3>
-
-                        <!-- Add Form -->
-                        <form id="add-misc-form" class="flex flex-col sm:flex-row gap-4 mb-6">
-                            <input id="misc-input" type="text" placeholder="New item (e.g., Get OSCP cert)" required class="flex-grow px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
-                            <select id="misc-type" class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500">
-                                <option value="bucketlist">Bucket List Item</option>
-                                <option value="game">Favorite Game</option>
-                                <option value="quote">Quote</option>
-                            </select>
-                            <button type="submit" class="px-5 py-2 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all">Add Item</button>
-                        </form>
-
-                        <!-- Dynamic List -->
-                        <div id="misc-notes-list" class="space-y-3">
-                            <!-- JS will render notes here -->
-                        </div>
-                    </div>
+                    <!-- Article content will be injected here -->
+                    <article id="notebook-content" class="prose prose-lg dark:prose-invert max-w-none">
+                        <!-- JS will render Markdown-to-HTML here -->
+                    </article>
                 </div>
             </div>
+
         </section>
 
     </main>
@@ -340,349 +258,51 @@
             <p class="text-sm mt-4">
                 <a href="index.html" class="text-primary-600 dark:text-primary-400 hover:underline">Return to Main Portfolio</a>
             </p>
-             <p class="text-sm mt-4">
-                <button id="reset-notebook-btn" class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 hover:underline">
-                    Reset Notebook to Default
-                </button>
-            </p>
         </div>
     </footer>
 
 
     <script>
-        // === Local Storage Key ===
-        const NOTEBOOK_DB_KEY = 'abdulsamadDigitalNotebook';
-        // === Global DB variable to hold state ===
-        let NOTEBOOK_DB = {};
-
-        // === Default Data (for first load) ===
-        function getDefaultData() {
-            return {
-                pentesting: [
-                    { id: 1, type: 'header', text: 'Web App (OWASP Top 10)', checked: false },
-                    { id: 2, type: 'checklist', text: 'A01: Broken Access Control', checked: false },
-                    { id: 3, type: 'checklist', text: 'A02: Cryptographic Failures', checked: false },
-                    { id: 4, type: 'checklist', text: 'A03: Injection (SQL, NoSQL, OS, XSS)', checked: false },
-                    { id: 5, type: 'checklist', text: 'A04: Insecure Design', checked: false },
-                    { id: 6, type: 'checklist', text: 'A05: Security Misconfiguration', checked: false },
-                    { id: 7, type: 'checklist', text: 'A06: Vulnerable/Outdated Components', checked: false },
-                    { id: 8, type: 'checklist', text: 'A07: Identification & Authentication Failures', checked: false },
-                    { id: 9, type: 'checklist', text: 'A08: Software & Data Integrity Failures', checked: false },
-                    { id: 10, type: 'checklist', text: 'A09: Security Logging & Monitoring Failures', checked: false },
-                    { id: 11, type: 'checklist', text: 'A10: Server-Side Request Forgery (SSRF)', checked: false },
-                    { id: 12, type: 'header', text: 'REST API Checklist', checked: false },
-                    { id: 13, type: 'checklist', text: 'Test for Broken Object Level Authorization (BOLA/IDOR)', checked: true },
-                    { id: 14, type: 'checklist', text: 'Test for Broken User Authentication', checked: false },
-                    { id: 15, type: 'checklist', text: 'Test for Excessive Data Exposure', checked: false },
-                    { id: 16, type: 'checklist', text: 'Test for Lack of Resources & Rate Limiting', checked: false },
-                    { id: 17, type: 'checklist', text: 'Test for Broken Function Level Authorization', checked: false },
-                    { id: 18, type: 'checklist', text: 'Test for Mass Assignment', checked: false },
-                    { id: 19, type: 'checklist', text: 'Test for Security Misconfiguration (e.g., verbs, CORS)', checked: false },
-                    { id: 20, type: 'checklist', text: 'Test for Injection (SQLi, Commandi)', checked: false },
-                    { id: 21, type: 'checklist', text: 'Test for Improper Assets Management (e.g., /v1/ /v2/ endpoints)', checked: false },
-                    { id: 22, type: 'checklist', text: 'Test for Insufficient Logging & Monitoring', checked: false },
-                    { id: 23, type: 'header', text: 'GraphQL API Checklist', checked: false },
-                    { id: 24, type: 'checklist', text: 'Test for Introspection Query (if enabled)', checked: false },
-                    { id: 25, type: 'checklist', text: 'Test for Batching Attacks (DoS)', checked: false },
-                    { id: 26, type: 'checklist', text: 'Test for Circular/Deep Query Attacks (DoS)', checked: false },
-                    { id: 27, type: 'checklist', text: 'Test for Insufficient Authorization on Resolvers', checked: false },
-                    { id: 28, type: 'checklist', text: 'Test for SQLi/NoSQLi in query arguments', checked: false },
-                ],
-                library: [
-                    { id: 1, type: 'Cybersecurity Book', text: 'The Art of Invisibility (Kevin Mitnick)', checked: false },
-                    { id: 2, type: 'Cybersecurity Book', text: 'Ghost in the Wires (Kevin Mitnick)', checked: false },
-                    { id: 3, type: 'Tech Book', text: 'The Phoenix Project', checked: false },
-                    { id: 4, type: 'Music/Artist', text: 'Lo-Fi / Chillhop (for focus)', checked: false },
-                    { id: 5, type: 'Music/Artist', text: 'Hans Zimmer (for deep work)', checked: false },
-                    { id: 6, type: 'Music/Artist', text: 'Classic Rock (for debugging)', checked: false },
-                ],
-                misc: [
-                    { id: 1, type: 'quote', text: '"There is no patch for human stupidity." - Kevin Mitnick', checked: false },
-                    { id: 2, type: 'quote', text: '"Amateurs hack systems, professionals hack people."', checked: false },
-                    { id: 3, type: 'game', text: 'Cyberpunk 2077', checked: false },
-                    { id: 4, type: 'game', text: 'Valorant', checked: false },
-                    { id: 5, type: 'game', text: 'FIFA / EA Sports FC', checked: false },
-                    { id: 6, type: 'bucketlist', text: 'Get OSCP Certification', checked: true },
-                    { id: 7, type: 'bucketlist', text: 'Present research at a major security conference', checked: false },
-                    { id: 8, type: 'bucketlist', text: 'Design and 3D print a full-scale quadcopter frame', checked: false },
-                ],
-                snippets: [
-                    { id: 1, type: 'Bash', text: 'Recon One-Liner (subfinder + httpx)', code: 'subfinder -d target.com -silent | httpx -silent -title -status-code -tech-detect', checked: false },
-                    { id: 2, type: 'Python', text: 'Quick Python Web Server', code: 'python3 -m http.server 8000', checked: false },
-                    { id: 3, type: 'Materials', text: 'HDPE 3D Printing Note', code: 'Extruder Temp: 210-230°C\nBed Temp: 100-110°C (PEI or PP sheet)\nNotes: Prone to warping! Use a heated enclosure and brim/raft. Must be very dry.', checked: false },
-                ]
-            };
-        }
-
-        // === Load All Notes from DB ===
-        function loadNotes() {
-            let db = JSON.parse(localStorage.getItem(NOTEBOOK_DB_KEY));
-            if (!db) {
-                db = getDefaultData();
-                NOTEBOOK_DB = db; // <-- Set the global variable FIRST
-                saveNotes();      // <-- THEN save (with no args)
-            } else {
-                NOTEBOOK_DB = db; // <-- Set the global variable
-            }
-
-            // Ensure new tabs exist if loading old data
-            if (!NOTEBOOK_DB.snippets) {
-                NOTEBOOK_DB.snippets = getDefaultData().snippets;
-                saveNotes(); // <-- Save if we added snippets
-            }
-            
-            renderAllTabs(NOTEBOOK_DB);
-        }
-
-        // === Save All Notes to DB ===
-        function saveNotes() { // <-- No longer takes an argument
-            localStorage.setItem(NOTEBOOK_DB_KEY, JSON.stringify(NOTEBOOK_DB)); // <-- Saves the global variable
-        }
-
-        // === Render All Tabs ===
-        function renderAllTabs(db) {
-            if (db.pentesting) renderNotes('pentesting', db.pentesting);
-            if (db.library) renderNotes('library', db.library);
-            if (db.misc) renderNotes('misc', db.misc);
-            if (db.snippets) renderNotes('snippets', db.snippets);
-        }
-
-        // === Render a Specific List of Notes ===
-        function renderNotes(tabName, notes) {
-            const listEl = document.getElementById(`${tabName}-notes-list`);
-            listEl.innerHTML = ''; // Clear existing
-            if (notes.length === 0) {
-                listEl.innerHTML = `<p class="text-gray-500 dark:text-gray-400">No notes in this section yet.</p>`;
-                return;
-            }
-            notes.forEach(note => {
-                const noteEl = createNoteElement(note);
-                noteEl.dataset.tab = tabName; // Add tab name for event delegation
-                listEl.appendChild(noteEl);
-            });
-        }
-
-        // === Create HTML for a Single Note Element ===
-        function createNoteElement(note) {
-            const noteEl = document.createElement('div');
-            noteEl.dataset.id = note.id;
-            noteEl.classList.add('note-item', 'group'); // Add group for hover effects
-            
-            // --- Special render for SNIPPETS ---
-            if (note.tab === 'snippets') {
-                noteEl.innerHTML = `
-                    <div class="snippet-card">
-                        <div class="p-4 flex justify-between items-center">
-                            <div>
-                                <h4 class="font-bold text-gray-900 dark:text-white">${note.text}</h4>
-                                <span class="text-sm font-medium text-primary-600 dark:text-primary-400 bg-primary-100 dark:bg-primary-900/50 px-2 py-0.5 rounded">${note.type}</span>
-                            </div>
-                            <div class="flex gap-4">
-                                <button class="copy-snippet" title="Copy code">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 4h8a2 2 0 012 2v8a2 2 0 01-2 2h-8a2 2 0 01-2-2v-8a2 2 0 012-2z"></path></svg>
-                                </button>
-                                <button class="delete-note" title="Delete note">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                </button>
-                            </div>
-                        </div>
-                        <pre><code>${note.code.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code></pre>
-                    </div>
-                `;
-                return noteEl;
-            }
-
-            // --- Default render for other tabs ---
-            let icon = '';
-            let contentHtml = '';
-            
-            switch (note.type) {
-                case 'checklist':
-                    icon = `<input type="checkbox" class="task-checkbox" ${note.checked ? 'checked' : ''}>`;
-                    break;
-                case 'Cybersecurity Book':
-                    icon = `<svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>`;
-                    break;
-                case 'Software Book':
-                    icon = `<svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>`;
-                    break;
-                case 'Tech Book':
-                    icon = `<svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v11a2 2 0 01-2 2z"></path></svg>`;
-                    break;
-                case 'Fiction':
-                case 'Non-Fiction':
-                    icon = `<svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v11.494m-9-5.747h18"></path></svg>`;
-                    break;
-                case 'Music/Artist':
-                    icon = `<svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"></path></svg>`;
-                    break;
-                case 'game':
-                    icon = `<svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
-                    break;
-                case 'bucketlist':
-                    icon = `<svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>`;
-                    break;
-                case 'quote':
-                    icon = `<svg class="w-5 h-5 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>`;
-                    break;
-                case 'header':
-                    noteEl.innerHTML = `<h4 class="mt-4 text-lg font-semibold text-gray-800 dark:text-white">${note.text}</h4>`;
-                    return noteEl;
-            }
-
-            if (note.checked) noteEl.classList.add('note-item-checked');
-            
-            noteEl.innerHTML = `
-                <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700">
-                    <div class="flex items-center gap-3">
-                        ${icon}
-                        <div class="flex flex-col">
-                            <span>${note.text.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</span>
-                            ${(note.type.includes('Book') || note.type === 'Fiction' || note.type === 'Non-Fiction' || note.type === 'Music/Artist') ? `<span class="text-xs font-medium text-primary-600 dark:text-primary-400">${note.type}</span>` : ''}
-                        </div>
-                    </div>
-                    <button class="delete-note" title="Delete note">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                    </button>
-                </div>
-            `;
-            return noteEl;
-        }
-
-        // === Event Handler: Add a New Note ===
-        function handleAddNote(event, tabName) {
-            event.preventDefault();
-            
-            const newNote = {
-                id: Date.now(),
-                checked: false,
-                tab: tabName // Add tab name to note object
-            };
-
-            if (tabName === 'snippets') {
-                const descInput = document.getElementById('snippet-desc-input');
-                const typeInput = document.getElementById('snippet-type');
-                const codeInput = document.getElementById('snippet-input');
-                
-                newNote.text = descInput.value;
-                newNote.type = typeInput.value;
-                newNote.code = codeInput.value;
-
-                descInput.value = '';
-                codeInput.value = '';
-            } else {
-                const input = document.getElementById(`${tabName}-input`);
-                const type = document.getElementById(`${tabName}-type`);
-                
-                newNote.text = input.value;
-                newNote.type = type.value;
-                
-                input.value = '';
-            }
-            
-            // 1. Get DB (from global state)
-            // let db = JSON.parse(localStorage.getItem(NOTEBOOK_DB_KEY)); // <-- REMOVED
-            // 2. Update DB (global state)
-            NOTEBOOK_DB[tabName].push(newNote);
-            // 3. Save DB
-            saveNotes(); // <-- Save the global state
-            // 4. Re-render *just this tab*
-            renderNotes(tabName, NOTEBOOK_DB[tabName]);
-        }
-
-        // === Event Handler: Toggle or Delete a Note (Event Delegation) ===
-        function handleNoteInteract(event) {
-            const db = NOTEBOOK_DB; // Use global state
-            
-            // --- Handle Deletion ---
-            const deleteButton = event.target.closest('.delete-note');
-            if (deleteButton) {
-                const noteItem = deleteButton.closest('.note-item, .snippet-card'); // Support both types
-                const tabName = noteItem.dataset.tab;
-                const noteId = Number(noteItem.dataset.id);
-
-                if (confirm("Are you sure you want to delete this note?")) {
-                    // 1. Update DB (filter out the note)
-                    db[tabName] = db[tabName].filter(note => note.id !== noteId);
-                    // 2. Save DB
-                    saveNotes();
-                    // 3. Update UI (just remove the element)
-                    noteItem.remove();
-                }
-                return; // Stop further processing
-            }
-
-            // --- Handle Checkbox Toggle ---
-            const checkbox = event.target.closest('.task-checkbox');
-            if (checkbox) {
-                const noteItem = checkbox.closest('.note-item');
-                const noteId = Number(noteItem.dataset.id);
-                const tabName = noteItem.dataset.tab;
-
-                // 1. Find note in DB and update
-                const note = db[tabName].find(n => n.id === noteId);
-                if (note) {
-                    note.checked = checkbox.checked;
-                    // 2. Save DB
-                    saveNotes();
-                    // 3. Update UI (toggle style)
-                    noteItem.classList.toggle('note-item-checked', note.checked);
-                }
-            }
-            
-            // --- Handle Copy Snippet ---
-            const copyButton = event.target.closest('.copy-snippet');
-            if (copyButton) {
-                const noteItem = copyButton.closest('.snippet-card');
-                const noteId = Number(noteItem.dataset.id);
-                const tabName = noteItem.dataset.tab;
-                
-                const note = db[tabName].find(n => n.id === noteId);
-                if (note && note.code) {
-                    // Modern clipboard API (requires secure context - HTTPS or localhost)
-                    if (navigator.clipboard) {
-                        navigator.clipboard.writeText(note.code).then(() => {
-                            copyButton.innerHTML = `<svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
-                            setTimeout(() => {
-                                copyButton.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 4h8a2 2 0 012 2v8a2 2 0 01-2 2h-8a2 2 0 01-2-2v-8a2 2 0 012-2z"></path></svg>`;
-                            }, 2000);
-                        }).catch(err => {
-                            console.error('Failed to copy: ', err);
-                            alert('Failed to copy. See console for error.');
-                        });
-                    } else {
-                        // Fallback for insecure contexts (like file://)
-                        try {
-                            const textArea = document.createElement('textarea');
-                            textArea.value = note.code;
-                            document.body.appendChild(textArea);
-                            textArea.select();
-                            document.execCommand('copy');
-                            document.body.removeChild(textArea);
-                            
-                            copyButton.innerHTML = `<svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
-                            setTimeout(() => {
-                                copyButton.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 4h8a2 2 0 012 2v8a2 2 0 01-2 2h-8a2 2 0 01-2-2v-8a2 2 0 012-2z"></path></svg>`;
-                            }, 2000);
-                        } catch (err) {
-                            console.error('Fallback copy failed: ', err);
-                            alert('Copying failed. Please copy manually.');
-                        }
-                    }
-                }
-            }
-        }
+        // === Global Variables ===
+        const notebookUrl = 'https://th3samaritan.github.io/My-Portfolio/notebook.md';
         
-        // === Event Handler: Reset Notebook ===
-        function handleResetNotebook() {
-            if (confirm("Are you sure you want to delete all your custom notes and reset to the default checklists?")) {
-                const defaultDb = getDefaultData();
-                NOTEBOOK_DB = defaultDb; // <-- Update global state
-                saveNotes(); // <-- Save global state
-                renderAllTabs(defaultDb);
+        const showdownConverter = new showdown.Converter({
+            tables: true,
+            simplifiedAutoLink: true,
+            strikethrough: true,
+            tasklists: true,
+            headerLevelStart: 2 // Start markdown headers at <h2>
+        });
+
+        // === DOM Elements ===
+        const notebookContent = document.getElementById('notebook-content');
+        const notebookLoader = document.getElementById('notebook-loader');
+        
+        // === Main Notebook Logic ===
+        async function fetchNotebook() {
+            try {
+                const response = await fetch(notebookUrl);
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const markdown = await response.text();
+                const html = showdownConverter.makeHtml(markdown);
+
+                // Render content
+                notebookContent.innerHTML = html;
+                notebookLoader.classList.add('hidden'); // Hide loader
+                notebookContent.classList.remove('hidden'); // Show content
+
+                // Disable checkboxes after rendering
+                const checkboxes = notebookContent.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(cb => {
+                    cb.disabled = true;
+                });
+
+            } catch (error) {
+                console.error('Failed to fetch notebook:', error);
+                notebookLoader.innerHTML = `<p class="text-center text-red-500">Failed to load notebook. Please try again later.</p>`;
             }
         }
-
 
         // === Document Ready ===
         document.addEventListener('DOMContentLoaded', () => {
@@ -723,36 +343,19 @@
             // --- Footer Year ---
             document.getElementById('current-year').innerText = new Date().getFullYear();
 
-            // --- Notebook Init ---
-            loadNotes(); // Load all notes from localStorage
-
-            // --- Notebook Tab Switching ---
-            const tabs = document.querySelectorAll('.notebook-tab');
-            const contents = document.querySelectorAll('.notebook-content');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    // Deactivate all
-                    tabs.forEach(t => t.classList.remove('active'));
-                    contents.forEach(c => c.classList.remove('active'));
-                    
-                    // Activate clicked
-                    tab.classList.add('active');
-                    document.getElementById(`notebook-${tab.dataset.tab}`).classList.add('active');
-                });
-            });
-
-            // --- Notebook Form Listeners ---
-            document.getElementById('add-pentesting-form').addEventListener('submit', (e) => handleAddNote(e, 'pentesting'));
-            document.getElementById('add-library-form').addEventListener('submit', (e) => handleAddNote(e, 'library'));
-            document.getElementById('add-misc-form').addEventListener('submit', (e) => handleAddNote(e, 'misc'));
-            document.getElementById('add-snippets-form').addEventListener('submit', (e) => handleAddNote(e, 'snippets'));
+            // --- Fetch Notebook Content ---
+            fetchNotebook();
             
-            // --- Notebook Interaction Listener (Event Delegation) ---
-            // Listen on the main container for any clicks
-            document.getElementById('main-content').addEventListener('click', handleNoteInteract);
-            
-            // --- Reset Button ---
-            document.getElementById('reset-notebook-btn').addEventListener('click', handleResetNotebook);
+            // Register Service Worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/My-Portfolio/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            }
         });
     </script>
 </body>

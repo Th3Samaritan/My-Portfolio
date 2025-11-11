@@ -7,6 +7,10 @@
     <meta name="keywords" content="cybersecurity, software engineering, machine learning, materials engineering, Abdulsamad Muyideen, portfolio">
     <title>Abdulsamad Muyideen - Multidisciplinary Engineer</title>
     
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/My-Portfolio/manifest.json">
+    <meta name="theme-color" content="#00a3cc">
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -680,11 +684,11 @@
                     My Personal Blog
                 </p>
                 <p class="mt-6 text-lg text-gray-600 dark:text-gray-400">
-                    I've moved my blog off a backend and into a dynamic, locally-stored journal. You can read my thoughts on tech and security, and the blog page itself is a demo of dynamic local-first web apps.
+                    A journal of my thoughts on tech, materials, and security, powered by Markdown files hosted directly in my GitHub repo.
                 </p>
                 <a href="blog.html" class="inline-flex items-center justify-center mt-10 px-8 py-3 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all duration-300 transform hover:scale-105">
-                    Read & Write on My Blog
-                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    Read My Blog
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v11.494m-9-5.747h18"></path></svg>
                 </a>
             </div>
         </section>
@@ -1240,6 +1244,17 @@
 
             // Fetch blogs - This is no longer needed
             // fetchBlogs();
+            
+            // Register Service Worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/My-Portfolio/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            }
         });
     </script>
 </body>

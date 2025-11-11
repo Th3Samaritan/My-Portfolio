@@ -1,0 +1,3 @@
+Gifting back to the community
+Date: March 3, 2025
+For years now I have been working on a lot of projects, volunteered once a while for some collaboration but I have not really been able to work on my own personal open source projects to give back to the community, as a way of saying thank you. But this year it is one of my to-do list in 3 tech fields, Cyber security, software development, and Machine learning. #Th3Samaritan
