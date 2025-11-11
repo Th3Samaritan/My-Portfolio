@@ -213,7 +213,7 @@
                 <a href="#skills" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Skills</a>
                 <a href="#projects" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Work</a>
                 <a href="#research" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Research</a>
-                <a href="#blog" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Blog</a>
+                <a href="blog.html" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Blog</a>
                 <a href="notebook.html" target="_blank" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center">
                     Notebook
                     <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
@@ -236,7 +236,7 @@
             <a href="#skills" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Skills</a>
             <a href="#projects" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Work</a>
             <a href="#research" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Research</a>
-            <a href="#blog" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Blog</a>
+            <a href="blog.html" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Blog</a>
             <a href="notebook.html" target="_blank" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Notebook (New Tab)</a>
             <a href="#contact" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Contact</a>
         </div>
@@ -677,22 +677,15 @@
             <div class="text-center max-w-3xl mx-auto fade-in">
                 <h2 class="text-sm font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400">My Thoughts</h2>
                 <p class="mt-4 text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
-                    From the Blog
+                    My Personal Blog
                 </p>
                 <p class="mt-6 text-lg text-gray-600 dark:text-gray-400">
-                    A place where I share my thoughts on technology, materials science, and security.
-                    <br>
-                    <span class="text-sm">(Posts fetched from my live Render backend)</span>
+                    I've moved my blog off a backend and into a dynamic, locally-stored journal. You can read my thoughts on tech and security, and the blog page itself is a demo of dynamic local-first web apps.
                 </p>
-            </div>
-
-            <!-- Blog Posts Container -->
-            <div id="blogPosts" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mt-16 fade-in">
-                <!-- Blog posts will be dynamically inserted here by JavaScript -->
-                <div class="text-center col-span-full p-10">
-                    <div class="w-10 h-10 border-4 border-dashed rounded-full animate-spin border-primary-600 mx-auto"></div>
-                    <p class="mt-4 text-gray-600 dark:text-gray-400">Fetching blog posts...</p>
-                </div>
+                <a href="blog.html" class="inline-flex items-center justify-center mt-10 px-8 py-3 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all duration-300 transform hover:scale-105">
+                    Read & Write on My Blog
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </a>
             </div>
         </section>
 
@@ -1200,6 +1193,8 @@
 
 
         // === Blog System (Fetch Only) ===
+        // This has been removed and replaced with a link to blog.html
+        /*
         async function fetchBlogs() {
             const blogPostsContainer = document.getElementById('blogPosts');
             try {
@@ -1226,6 +1221,7 @@
                 blogPostsContainer.innerHTML = `<p class="text-center col-span-full text-red-500">Failed to fetch blog posts. Please try again later.</p>`;
             }
         }
+        */
 
         // === Window Load Event ===
         window.addEventListener('load', () => {
@@ -1242,8 +1238,8 @@
             // Set current year in footer
             document.getElementById('current-year').innerText = new Date().getFullYear();
 
-            // Fetch blogs
-            fetchBlogs();
+            // Fetch blogs - This is no longer needed
+            // fetchBlogs();
         });
     </script>
 </body>
