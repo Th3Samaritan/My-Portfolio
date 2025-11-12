@@ -1,116 +1,99 @@
-// Define a cache name
-const CACHE_NAME = 'abdulsamad-portfolio-v1.5'; // Incremented version
+// A unique name for the cache
+const CACHE_NAME = 'abdulsamad-portfolio-v1';
 
-// List all the files and assets to cache
-// IMPORTANT: All paths must be absolute from the root of the domain
+// All the URLs to cache for offline use
+// This list MUST be updated every time you add a new file (page, image, post)
 const URLS_TO_CACHE = [
-  '/My-Portfolio/index.html',
-  '/My-Portfolio/notebook.html',
-  '/My-Portfolio/blog.html',
-  
-  // NEW Notebook structure
-  '/My-Portfolio/notebook-pages/index.json',
-  '/My-Portfolio/notebook-pages/pentesting-checklists.md',
-  '/My-Portfolio/notebook-pages/code-snippets.md',
-  '/My-Portfolio/notebook-pages/my-library.md',
-  '/My-Portfolio/notebook-pages/miscellany.md',
-  
-  '/My-Portfolio/assets/profile-pic.JPG',
-  '/My-Portfolio/assets/cybersecurity-project.jpg',
-  '/My-Portfolio/assets/software-project.jpg',
-  '/My-Portfolio/assets/ml-project.jpg',
-  '/My-Portfolio/assets/materials-project.jpg',
-  '/My-Portfolio/assets/my-cv.pdf',
-  'https://cdn.tailwindcss.com',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700;900&display=swap', // Added Merriweather font
-  'https://cdn.skypack.dev/three@0.132.2/build/three.module.js',
-  'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader.js',
-  'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js',
-  'https://cdn.tailwindcss.com/3.4.1?plugins=typography',
-  
-  // Blog posts
-  '/My-Portfolio/blog-posts/index.json',
-  '/My-Portfolio/blog-posts/web-cache-vulnerability.md',
-  '/My-Portfolio/blog-posts/enlightened.md',
-  '/My-Portfolio/blog-posts/grit-on-cybersecurity.md',
-  '/My-Portfolio/blog-posts/test-of-grit.md',
-  '/My-Portfolio/blog-posts/dont-limit-yourself.md',
-  '/My-Portfolio/blog-posts/searching-the-web-with-ai.md',
-  '/My-Portfolio/blog-posts/gifting-back-to-the-community.md',
-  '/My-Portfolio/blog-posts/first-of-many-alchemy.md'
+    // Core Pages
+    '/My-Portfolio/',
+    '/My-Portfolio/index.html',
+    '/My-Portfolio/blog.html',
+    '/My-Portfolio/notebook.html',
+    '/My-Portfolio/gallery.html',
+    '/My-Portfolio/manifest.json',
+
+    // Assets
+    '/My-Portfolio/assets/profile-pic.JPG',
+    '/My-Portfolio/assets/cybersecurity-project.jpg',
+    '/My-Portfolio/assets/software-project.jpg',
+    '/My-Portfolio/assets/ml-project.jpg',
+    '/My-Portfolio/assets/materials-project.jpg',
+    '/My-Portfolio/assets/my-cv.pdf',
+
+    // Blog Files
+    '/My-Portfolio/blog-posts/index.json',
+    '/My-Portfolio/blog-posts/web-cache-vulnerability.md',
+    '/My-Portfolio/blog-posts/enlightened.md',
+    '/My-Portfolio/blog-posts/grit-on-cybersecurity.md',
+    '/My-Portfolio/blog-posts/test-of-grit.md',
+    '/My-Portfolio/blog-posts/dont-limit-yourself.md',
+    '/My-Portfolio/blog-posts/searching-the-web-with-ai.md',
+    '/My-Portfolio/blog-posts/gifting-back-to-the-community.md',
+    '/My-Portfolio/blog-posts/first-of-many-alchemy.md',
+
+    // Notebook Files
+    '/My-Portfolio/notebook-pages/index.json',
+    '/My-Portfolio/notebook-pages/pentesting-checklists.md',
+    '/My-Portfolio/notebook-pages/code-snippets.md',
+    '/My-Portfolio/notebook-pages/my-library.md',
+    '/My-Portfolio/notebook-pages/miscellany.md',
+    
+    // Gallery Files
+    '/My-Portfolio/models-data/index.json',
+    // Note: 3D models themselves are NOT cached by default, as they can be very large.
+
+    // CDNs (Scripts and Fonts)
+    'https://cdn.tailwindcss.com',
+    'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap',
+    'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700;900&display=swap',
+    'https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js',
+    'https://cdn.skypack.dev/three@0.132.2/build/three.module.js',
+    'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader.js',
+    'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js'
 ];
 
-// 1. Install Event: Cache all the core files
+// Install event: open cache and add all URLs
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Opened cache. Caching core files...');
-        // We use addAll to fetch and cache all the URLs
-        // If any fetch fails, the whole install fails.
-        return Promise.all(
-          URLS_TO_CACHE.map(url => {
-            // Handle fonts that might be tricky to cache
-            if (url.startsWith('https://fonts.googleapis.com')) {
-                return fetch(url).then(response => {
-                    if (response.ok) return cache.put(url, response);
-                    return Promise.resolve(); // Don't fail install for fonts
-                }).catch(err => {
-                    console.warn(`Failed to cache font ${url}: ${err}`);
-                });
-            }
-            // Cache all other files
-            return cache.add(url).catch(err => {
-              console.warn(`Failed to cache ${url}: ${err}`);
-            });
-          })
-        );
-      })
-  );
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then(cache => {
+                console.log('Opened cache, adding all files...');
+                return cache.addAll(URLS_TO_CACHE);
+            })
+            .catch(err => {
+                console.error('Failed to open cache: ', err);
+            })
+    );
 });
 
-// 2. Activate Event: Clean up old caches
+// Activate event: clean up old caches
 self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            console.log(`Deleting old cache: ${cacheName}`);
-            return caches.delete(cacheName);
-          }
+    event.waitUntil(
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.map(cacheName => {
+                    if (cacheName !== CACHE_NAME) {
+                        console.log('Deleting old cache:', cacheName);
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
         })
-      );
-    })
-  );
-  return self.clients.claim();
+    );
 });
 
-// 3. Fetch Event: Serve from cache first, then network
+// Fetch event: serve from cache if available, otherwise fetch from network
 self.addEventListener('fetch', event => {
-  // Use a cache-first strategy
-  event.respondWith(
-    caches.match(event.request)
-      .then(cachedResponse => {
-        
-        // If the resource is in the cache, return it
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-
-        // If not in cache, fetch from network
-        return fetch(event.request).then(
-          networkResponse => {
-            // We don't dynamically cache new requests here to keep the cache clean
-            // Only the files in URLS_TO_CACHE are cached on install.
-            return networkResponse;
-          }
-        ).catch(error => {
-          console.error('Fetch failed:', error, event.request.url);
-          // You could return a custom offline page here if you had one
-        });
-      })
-  );
+    event.respondWith(
+        caches.match(event.request)
+            .then(response => {
+                // If the request is in the cache, return it
+                if (response) {
+                    return response;
+                }
+                
+                // Otherwise, fetch from the network
+                return fetch(event.request);
+            })
+    );
 });

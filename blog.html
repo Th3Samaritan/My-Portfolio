@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,12 +14,12 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts (Inter) -->
+    <!-- Google Fonts (Inter & Merriweather) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <!-- Showdown.js (Markdown to HTML converter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Showdown.js (Markdown to HTML) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 
     <script>
@@ -28,6 +30,7 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
                     },
                     colors: {
                         'primary': {
@@ -44,8 +47,8 @@
                             '950': '#003544',
                         },
                     },
-                    // For styling blog post content
-                    typography: ({ theme }) => ({
+                    // Add prose styles for rendered Markdown
+                    typography: (theme) => ({
                         DEFAULT: {
                             css: {
                                 color: theme('colors.gray.700'),
@@ -55,102 +58,111 @@
                                         color: theme('colors.primary.700'),
                                     },
                                 },
-                                'h1, h2, h3, h4, h5, h6': {
+                                h1: {
+                                    fontFamily: theme('fontFamily.serif').join(','),
                                     color: theme('colors.gray.900'),
-                                    fontWeight: '700',
-                                    marginTop: '1.5em',
-                                    marginBottom: '0.5em',
                                 },
-                                'code': {
-                                    backgroundColor: theme('colors.gray.100'),
+                                h2: {
+                                    fontFamily: theme('fontFamily.serif').join(','),
+                                    color: theme('colors.gray.900'),
+                                    borderBottom: '1px solid ' + theme('colors.gray.200'),
+                                    paddingBottom: '0.25rem',
+                                },
+                                h3: {
+                                    fontFamily: theme('fontFamily.serif').join(','),
                                     color: theme('colors.gray.800'),
-                                    padding: '2px 4px',
-                                    borderRadius: '4px',
+                                },
+                                'ul > li::before': {
+                                    backgroundColor: theme('colors.gray.400'),
+                                },
+                                code: {
+                                    color: theme('colors.pink.600'),
+                                    backgroundColor: theme('colors.gray.100'),
+                                    padding: '0.25rem 0.4rem',
+                                    borderRadius: '0.25rem',
                                     fontWeight: '500',
                                 },
-                                'pre': {
-                                    backgroundColor: theme('colors.gray.100'),
-                                    color: theme('colors.gray.800'),
-                                    padding: theme('spacing.4'),
-                                    borderRadius: theme('borderRadius.md'),
-                                    overflowX: 'auto',
+                                'code::before': { content: '"" !important' },
+                                'code::after': { content: '"" !important' },
+                                pre: {
+                                    color: theme('colors.gray.200'),
+                                    backgroundColor: theme('colors.gray.800'),
                                 },
-                                // Dark mode styles
-                                '.dark &': {
-                                    color: theme('colors.gray.300'),
-                                    'h1, h2, h3, h4, h5, h6': {
-                                        color: theme('colors.white'),
+                                'pre code': {
+                                    color: 'inherit',
+                                    backgroundColor: 'transparent',
+                                    padding: '0',
+                                    borderRadius: '0',
+                                    fontWeight: '400',
+                                },
+                            },
+                        },
+                        dark: {
+                            css: {
+                                color: theme('colors.gray.300'),
+                                a: {
+                                    color: theme('colors.primary.400'),
+                                    '&:hover': {
+                                        color: theme('colors.primary.300'),
                                     },
-                                    'a': {
-                                        color: theme('colors.primary.400'),
-                                        '&:hover': {
-                                            color: theme('colors.primary.300'),
-                                        },
-                                    },
-                                    'code': {
-                                        backgroundColor: theme('colors.gray.800'),
-                                        color: theme('colors.gray.200'),
-                                    },
-                                    'pre': {
-                                        backgroundColor: theme('colors.gray.800'),
-                                        color: theme('colors.gray.200'),
-                                    },
-                                    'strong': {
-                                        color: theme('colors.white'),
-                                    },
-                                    'blockquote': {
-                                        color: theme('colors.gray.400'),
-                                        borderLeftColor: theme('colors.gray.700'),
-                                    },
+                                },
+                                h1: {
+                                    color: theme('colors.white'),
+                                },
+                                h2: {
+                                    color: theme('colors.white'),
+                                    borderBottom: '1px solid ' + theme('colors.gray.700'),
+                                },
+                                h3: {
+                                    color: theme('colors.gray.200'),
+                                },
+                                'ul > li::before': {
+                                    backgroundColor: theme('colors.gray.500'),
+                                },
+                                code: {
+                                    color: theme('colors.pink.400'),
+                                    backgroundColor: theme('colors.gray.800'),
+                                },
+                                pre: {
+                                    color: theme('colors.gray.200'),
+                                    backgroundColor: theme('colors.gray.900'),
                                 },
                             },
                         },
                     }),
-                }
+                },
+                plugins: [
+                    require('@tailwindcss/typography'),
+                ],
             }
         }
     </script>
     
-    <!-- Tailwind Typography for styling lists -->
-    <script src="https://cdn.tailwindcss.com/3.4.1?plugins=typography"></script>
-
     <style>
         /* Base font style */
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* bg-gray-100 */
         }
-
+        .dark body {
+            background-color: #1a1a2e; /* Custom dark "desk" color */
+        }
+        
         /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a0aec0;
-        }
-        .dark ::-webkit-scrollbar-track {
-            background: #2d3748;
-        }
-        .dark ::-webkit-scrollbar-thumb {
-            background: #4a5568;
-        }
-        .dark ::-webkit-scrollbar-thumb:hover {
-            background: #718096;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a0aec0; }
+        .dark ::-webkit-scrollbar-track { background: #2d3748; }
+        .dark ::-webkit-scrollbar-thumb { background: #4a5568; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #718096; }
     </style>
 </head>
 
-<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 antialiased transition-colors duration-300">
+<body class="bg-gray-100 dark:bg-gray-900/50 text-gray-800 dark:text-gray-200 antialiased transition-colors duration-300">
 
     <!-- ===== Theme Toggle Button ===== -->
-    <button id="theme-toggle" class="fixed bottom-5 right-5 z-50 p-3 bg-gray-100 dark:bg-gray-800 rounded-full shadow-lg text-primary-600 dark:text-primary-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300">
+    <button id="theme-toggle" class="fixed bottom-5 right-5 z-50 p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg text-primary-600 dark:text-primary-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300">
         <!-- Sun Icon -->
         <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
         <!-- Moon Icon -->
@@ -167,11 +179,9 @@
 
             <!-- Desktop Nav -->
             <div class="hidden md:flex space-x-8">
-                <a href="index.html#home" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
-                <a href="index.html#about" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
-                <a href="index.html#skills" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Skills</a>
-                <a href="index.html#projects" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Work</a>
+                <a href="index.html" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
                 <a href="notebook.html" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Notebook</a>
+                <a href="gallery.html" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Gallery</a>
                 <a href="index.html#contact" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
             </div>
 
@@ -185,11 +195,9 @@
 
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white dark:bg-gray-900 shadow-lg border-t border-gray-200 dark:border-gray-700">
-            <a href="index.html#home" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Home</a>
-            <a href="index.html#about" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">About</a>
-            <a href="index.html#skills" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Skills</a>
-            <a href="index.html#projects" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Work</a>
+            <a href="index.html" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Home</a>
             <a href="notebook.html" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Notebook</a>
+            <a href="gallery.html" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Gallery</a>
             <a href="index.html#contact" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Contact</a>
         </div>
     </header>
@@ -197,44 +205,59 @@
     <main id="main-content" class="container mx-auto px-6">
 
         <!-- ===== Blog Section ===== -->
-        <section id="blog" class="py-24">
+        <section id="blog" class="py-16 sm:py-24">
 
-            <!-- This container shows EITHER the post list OR the full post -->
-            <div id="blog-container" class="max-w-3xl mx-auto">
+            <!-- This container holds EITHER the list OR the post -->
+            <div id="blog-container" class="max-w-5xl mx-auto">
+                
+                <!-- Blog List (Default View) -->
+                <div id="blog-list-view">
+                    <div class="text-center max-w-3xl mx-auto">
+                        <h2 class="text-base font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 font-sans">My Thoughts</h2>
+                        <p class="mt-4 text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white font-serif">
+                            Personal Blog
+                        </p>
+                        <p class="mt-6 text-lg text-gray-600 dark:text-gray-400 font-sans">
+                            A place where I share my thoughts on technology, materials science, and security. My posts are written in Markdown and stored in my GitHub repo.
+                        </p>
+                    </div>
 
-                <!-- Header (default) -->
-                <div id="blog-header" class="text-center max-w-3xl mx-auto">
-                    <h2 class="text-sm font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400">My Thoughts</h2>
-                    <p class="mt-4 text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
-                        My Personal Blog
-                    </p>
-                    <p class="mt-6 text-lg text-gray-600 dark:text-gray-400">
-                        A journal of my thoughts on technology, materials science, and security, powered by Markdown files from my GitHub repo.
-                    </p>
-                </div>
-    
-                <!-- Blog Post List -->
-                <div id="blog-posts-list" class="mt-16 space-y-8">
-                    <!-- JS will render posts list here -->
-                    <div class="text-center col-span-full p-10">
-                        <div class="w-10 h-10 border-4 border-dashed rounded-full animate-spin border-primary-600 mx-auto"></div>
-                        <p class="mt-4 text-gray-600 dark:text-gray-400">Fetching blog posts...</p>
+                    <div id="blog-posts-list" class="space-y-12 mt-16">
+                        <!-- Loading spinner -->
+                        <div class="text-center p-10">
+                            <div class="w-8 h-8 border-4 border-dashed rounded-full animate-spin border-primary-600 mx-auto"></div>
+                            <p class="mt-4 text-gray-600 dark:text-gray-400">Loading posts...</p>
+                        </div>
+                        <!-- JS will render blog posts here -->
                     </div>
                 </div>
 
-                <!-- Full Post Content -->
-                <div id="blog-post-content" class="hidden">
-                    <a href="/my-portfolio/blog.html" class="inline-flex items-center text-primary-600 dark:text-primary-400 hover:underline mb-8">
+                <!-- Blog Post (Hidden by default) -->
+                <div id="blog-post-view" class="hidden">
+                    
+                    <!-- Back Button -->
+                    <a href="/My-Portfolio/blog.html" class="inline-flex items-center text-primary-600 dark:text-primary-400 hover:underline mb-8 font-medium font-sans">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                        Back to all posts
+                        Back to All Posts
                     </a>
-                    <!-- Article content will be injected here -->
-                    <article class="prose prose-lg dark:prose-invert max-w-none">
-                        <!-- JS will render Markdown-to-HTML here -->
-                    </article>
-                </div>
-            </div>
 
+                    <!-- Article "Paper" -->
+                    <article class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8 sm:p-12">
+                        <h1 id="post-title" class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white font-serif"></h1>
+                        <p id="post-date" class="text-lg text-gray-500 dark:text-gray-400 mt-4 mb-6 font-medium"></p>
+                        
+                        <div id="post-content" class="prose prose-lg dark:prose-dark max-w-none prose-pre:bg-gray-800 dark:prose-pre:bg-gray-900">
+                            <!-- Loading spinner -->
+                            <div class="text-center p-10">
+                                <div class="w-8 h-8 border-4 border-dashed rounded-full animate-spin border-primary-600 mx-auto"></div>
+                                <p class="mt-4 text-gray-600 dark:text-gray-400">Loading post...</p>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+
+            </div>
         </section>
 
     </main>
@@ -252,122 +275,135 @@
 
     <script>
         // === Global Variables ===
-        // FIX: Use full absolute URLs for fetching from GitHub Pages
         const blogIndexUrl = 'https://th3samaritan.github.io/My-Portfolio/blog-posts/index.json';
-        const blogPostsBaseUrl = 'https://th3samaritan.github.io/My-Portfolio/blog-posts/';
+        const blogContentUrlBase = 'https://th3samaritan.github.io/My-Portfolio/blog-posts/';
         
+        // --- DOM Elements ---
+        const blogListView = document.getElementById('blog-list-view');
+        const blogPostView = document.getElementById('blog-post-view');
+        const blogPostsList = document.getElementById('blog-posts-list');
+        const postTitle = document.getElementById('post-title');
+        const postDate = document.getElementById('post-date');
+        const postContent = document.getElementById('post-content');
+        
+        // --- Showdown.js Converter ---
         const showdownConverter = new showdown.Converter({
-            tables: true,
+            ghCompatibleHeaderId: true,
+            parseImgDimensions: true,
             simplifiedAutoLink: true,
             strikethrough: true,
+            tables: true,
             tasklists: true,
-            headerLevelStart: 2 // Start markdown headers at <h2>
+            emoji: true,
+            extensions: [] // No extensions
         });
-        
-        const blogContainer = document.getElementById('blog-container');
-        const blogHeader = document.getElementById('blog-header');
-        const listContainer = document.getElementById('blog-posts-list');
-        const postContainer = document.getElementById('blog-post-content');
-        
+
         // === Main Blog Logic ===
         async function initBlog() {
-            // Check for URL parameter
             const urlParams = new URLSearchParams(window.location.search);
             const postSlug = urlParams.get('post');
-
-            if (postSlug) {
-                // A specific post is requested
-                await fetchAndRenderPost(postSlug);
-            } else {
-                // No post requested, show the list
-                await fetchAndRenderList();
+            
+            try {
+                if (postSlug) {
+                    // We are on a single post, fetch that post's content
+                    await fetchAndRenderPost(postSlug);
+                } else {
+                    // We are on the list, fetch the index
+                    await fetchAndRenderList();
+                }
+            } catch (error) {
+                console.error('Failed to init blog:', error);
+                const container = postSlug ? blogPostView : blogListView;
+                container.innerHTML = `
+                    <p class="text-center text-red-500">${error.message}.</p>
+                    <a href="/My-Portfolio/blog.html" class="block text-center text-primary-600 dark:text-primary-400 hover:underline mt-4">
+                        &larr; Back to All Posts
+                    </a>
+                `;
+                container.classList.remove('hidden');
+                // Hide the other one
+                (postSlug ? blogListView : blogPostView).classList.add('hidden');
             }
         }
 
         // --- 1. Fetch and Render Post List ---
         async function fetchAndRenderList() {
-            try {
-                const response = await fetch(blogIndexUrl);
-                if (!response.ok) throw new Error('Network response was not ok');
-                
-                let posts = await response.json();
-                
-                // Sort by date, newest first
-                posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-                
-                listContainer.innerHTML = ''; // Clear "Loading..."
-                blogHeader.classList.remove('hidden');
-                postContainer.classList.add('hidden');
+            const response = await fetch(blogIndexUrl);
+            if (!response.ok) throw new Error('Could not load blog index');
+            const posts = await response.json();
 
-                if (posts.length === 0) {
-                    listContainer.innerHTML = `<p class="text-gray-500 dark:text-gray-400 text-center">No blog posts found.</p>`;
-                    return;
-                }
+            blogPostsList.innerHTML = ''; // Clear "Loading..."
+            blogListView.classList.remove('hidden');
+            blogPostView.classList.add('hidden');
 
-                posts.forEach(post => {
-                    const postCard = document.createElement('a');
-                    // FIX: Use URL parameters correctly for relative paths
-                    postCard.href = `?post=${post.slug}`;
-                    postCard.className = 'block p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 transform hover:scale-[1.03] hover:shadow-xl';
-                    
-                    postCard.innerHTML = `
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">${post.title}</h2>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
-                            ${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                        </p>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4">${post.description}</p>
-                        <span class="font-medium text-primary-600 dark:text-primary-400 hover:underline">Read More &rarr;</span>
-                    `;
-                    listContainer.appendChild(postCard);
-                });
-
-            } catch (error) {
-                console.error('Failed to fetch blog index:', error);
-                listContainer.innerHTML = `<p class="text-center text-red-500">Failed to load blog posts. Please try again later.</p>`;
+            if (posts.length === 0) {
+                blogPostsList.innerHTML = `<p class="text-gray-500 dark:text-gray-400 text-center">No blog posts found.</p>`;
+                return;
             }
+
+            posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8 sm:p-10 border border-gray-200 dark:border-gray-700';
+                
+                const postDate = new Date(post.date).toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+                
+                postElement.innerHTML = `
+                    <h2 class="text-3xl font-serif font-bold text-gray-900 dark:text-white mb-2">
+                        <a href="?post=${post.slug}" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">${post.title}</a>
+                    </h2>
+                    <p class="text-lg text-gray-500 dark:text-gray-400 font-medium mb-4">${postDate}</p>
+                    <p class="text-lg text-gray-600 dark:text-gray-300 mb-6">${post.description}</p>
+                    <a href="?post=${post.slug}" class="font-bold text-primary-600 dark:text-primary-400 hover:underline">
+                        Read More &rarr;
+                    </a>
+                `;
+                blogPostsList.appendChild(postElement);
+            });
         }
 
         // --- 2. Fetch and Render a Single Post ---
         async function fetchAndRenderPost(slug) {
+            const contentUrl = `${blogContentUrlBase}${slug}.md`;
+            
+            // First, fetch the index to get the title and date
+            let title = 'Post';
+            let date = '';
             try {
-                const postUrl = `${blogPostsBaseUrl}${slug}.md`;
-                const response = await fetch(postUrl);
-                if (!response.ok) throw new Error('Post not found');
-
-                const markdown = await response.text();
-                const html = showdownConverter.makeHtml(markdown);
-
-                // Show post, hide list
-                blogHeader.classList.add('hidden');
-                listContainer.innerHTML = '';
-                listContainer.classList.add('hidden');
-                
-                postContainer.innerHTML = `
-                    <a href="/My-Portfolio/blog.html" class="inline-flex items-center text-primary-600 dark:text-primary-400 hover:underline mb-8">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                        Back to all posts
-                    </a>
-                    <article class="prose prose-lg dark:prose-invert max-w-none">
-                        ${html}
-                    </article>
-                `;
-                postContainer.classList.remove('hidden');
-
-                // Update page title
-                const firstH2 = postContainer.querySelector('h2');
-                if (firstH2) {
-                    document.title = `${firstH2.innerText} - Abdulsamad's Blog`;
+                const indexRes = await fetch(blogIndexUrl);
+                const posts = await indexRes.json();
+                const postData = posts.find(p => p.slug === slug);
+                if (postData) {
+                    title = postData.title;
+                    date = new Date(postData.date).toLocaleDateString('en-US', {
+                        year: 'numeric', month: 'long', day: 'numeric'
+                    });
                 }
-
-            } catch (error) {
-                console.error('Failed to fetch post:', error);
-                blogContainer.innerHTML = `
-                    <p class="text-center text-red-500">Error: Post not found.</p>
-                    <a href="/My-Portfolio/blog.html" class="block text-center text-primary-600 dark:text-primary-400 hover:underline mt-4">
-                        &larr; Back to all posts
-                    </a>
-                `;
+            } catch (e) {
+                console.error("Could not fetch index for metadata, but proceeding.");
             }
+
+            // Now, fetch the Markdown content
+            const response = await fetch(contentUrl);
+            if (!response.ok) throw new Error('Could not load blog post');
+            const markdown = await response.text();
+            
+            // Convert Markdown to HTML
+            const html = showdownConverter.makeHtml(markdown);
+
+            // Populate and show the post view
+            blogListView.classList.add('hidden');
+            blogPostView.classList.remove('hidden');
+            postTitle.innerText = title;
+            postDate.innerText = date;
+            postContent.innerHTML = html;
+            
+            // Update page title
+            document.title = `${title} - My Blog`;
+            
+            // Scroll to top of page
+            window.scrollTo(0, 0);
         }
 
         // === Document Ready ===

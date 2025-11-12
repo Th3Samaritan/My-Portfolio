@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Abdulsamad Muyideen - Digital Notebook & Checklists">
-    <meta name="keywords" content="notebook, checklists, cybersecurity, software, materials, abdulsamad muyideen">
-    <title>My Digital Notebook - Abdulsamad Muyideen</title>
+    <meta name="description" content="Abdulsamad Muyideen - Digital Notebook">
+    <meta name="keywords" content="cybersecurity, software, materials, notes, portfolio, abdulsamad muyideen">
+    <title>Digital Notebook - Abdulsamad Muyideen</title>
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="/My-Portfolio/manifest.json">
@@ -14,12 +14,12 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts (Inter for body, Merriweather for headings) -->
+    <!-- Google Fonts (Inter & Merriweather) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
-
-    <!-- Showdown.js (Markdown to HTML converter) -->
+    
+    <!-- Showdown.js (Markdown to HTML) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 
     <script>
@@ -47,113 +47,116 @@
                             '950': '#003544',
                         },
                     },
-                    // For styling markdown content
-                    typography: ({ theme }) => ({
+                    // Add prose styles for rendered Markdown
+                    typography: (theme) => ({
                         DEFAULT: {
                             css: {
                                 color: theme('colors.gray.700'),
-                                fontFamily: theme('fontFamily.sans'), // Body font
                                 a: {
                                     color: theme('colors.primary.600'),
                                     '&:hover': {
                                         color: theme('colors.primary.700'),
                                     },
                                 },
-                                'h1, h2, h3, h4, h5, h6': {
-                                    fontFamily: theme('fontFamily.serif'), // Heading font
+                                h1: {
+                                    fontFamily: theme('fontFamily.serif').join(','),
                                     color: theme('colors.gray.900'),
-                                    fontWeight: '900',
-                                    marginTop: '1.5em',
-                                    marginBottom: '0.5em',
-                                    scrollMarginTop: '80px', // Offset for sticky header
                                 },
-                                'code': {
-                                    backgroundColor: theme('colors.gray.100'),
+                                h2: {
+                                    fontFamily: theme('fontFamily.serif').join(','),
+                                    color: theme('colors.gray.900'),
+                                    borderBottom: '1px solid ' + theme('colors.gray.200'),
+                                    paddingBottom: '0.25rem',
+                                },
+                                h3: {
+                                    fontFamily: theme('fontFamily.serif').join(','),
                                     color: theme('colors.gray.800'),
-                                    padding: '2px 4px',
-                                    borderRadius: '4px',
+                                },
+                                'ul > li::before': {
+                                    backgroundColor: theme('colors.gray.400'),
+                                },
+                                'input[type="checkbox"]': {
+                                  borderRadius: theme('borderRadius.DEFAULT'),
+                                  color: theme('colors.primary.600'),
+                                  '&:focus': {
+                                    ring: '0',
+                                    outline: '0',
+                                  },
+                                },
+                                'input[type="checkbox"]:disabled': {
+                                  color: theme('colors.gray.400'),
+                                  opacity: '0.75',
+                                },
+                                code: {
+                                    color: theme('colors.pink.600'),
+                                    backgroundColor: theme('colors.gray.100'),
+                                    padding: '0.25rem 0.4rem',
+                                    borderRadius: '0.25rem',
                                     fontWeight: '500',
-                                    fontFamily: 'monospace',
                                 },
-                                'pre': {
-                                    backgroundColor: theme('colors.gray.100'),
-                                    color: theme('colors.gray.800'),
-                                    padding: theme('spacing.4'),
-                                    borderRadius: theme('borderRadius.md'),
-                                    overflowX: 'auto',
+                                'code::before': { content: '"" !important' },
+                                'code::after': { content: '"" !important' },
+                                pre: {
+                                    color: theme('colors.gray.200'),
+                                    backgroundColor: theme('colors.gray.800'),
                                 },
                                 'pre code': {
-                                    backgroundColor: 'transparent',
                                     color: 'inherit',
+                                    backgroundColor: 'transparent',
                                     padding: '0',
                                     borderRadius: '0',
                                     fontWeight: '400',
                                 },
-                                'ul': {
-                                    listStyleType: 'disc',
-                                    paddingLeft: '1.5em',
-                                },
-                                'ol': {
-                                    listStyleType: 'decimal',
-                                    paddingLeft: '1.5em',
-                                },
-                                'li > ul': {
-                                    marginTop: '0.5em',
-                                },
-                                'li > ol': {
-                                    marginTop: '0.5em',
-                                },
-                                // Tasklist styles
-                                'ul li.task-list-item': {
-                                    listStyleType: 'none',
-                                    paddingLeft: '0.5em',
-                                },
-                                'ul li.task-list-item input[type="checkbox"]': {
-                                    marginRight: '0.5em',
-                                    width: '1.15em',
-                                    height: '1.15em',
-                                    cursor: 'not-allowed', // Make them look read-only
-                                },
-
-                                // Dark mode styles
-                                '.dark &': {
-                                    color: theme('colors.gray.300'),
-                                    'h1, h2, h3, h4, h5, h6': {
-                                        color: theme('colors.white'),
+                            },
+                        },
+                        dark: {
+                            css: {
+                                color: theme('colors.gray.300'),
+                                a: {
+                                    color: theme('colors.primary.400'),
+                                    '&:hover': {
+                                        color: theme('colors.primary.300'),
                                     },
-                                    'a': {
-                                        color: theme('colors.primary.400'),
-                                        '&:hover': {
-                                            color: theme('colors.primary.300'),
-                                        },
-                                    },
-                                    'code': {
-                                        backgroundColor: theme('colors.gray.800'),
-                                        color: theme('colors.gray.200'),
-                                    },
-                                    'pre': {
-                                        backgroundColor: theme('colors.gray.800'),
-                                        color: theme('colors.gray.200'),
-                                    },
-                                    'strong': {
-                                        color: theme('colors.white'),
-                                    },
-                                    'blockquote': {
-                                        color: theme('colors.gray.400'),
-                                        borderLeftColor: theme('colors.gray.700'),
-                                    },
+                                },
+                                h1: {
+                                    color: theme('colors.white'),
+                                },
+                                h2: {
+                                    color: theme('colors.white'),
+                                    borderBottom: '1px solid ' + theme('colors.gray.700'),
+                                },
+                                h3: {
+                                    color: theme('colors.gray.200'),
+                                },
+                                'ul > li::before': {
+                                    backgroundColor: theme('colors.gray.500'),
+                                },
+                                'input[type="checkbox"]': {
+                                  color: theme('colors.primary.500'),
+                                },
+                                'input[type="checkbox"]:disabled': {
+                                  color: theme('colors.gray.600'),
+                                },
+                                code: {
+                                    color: theme('colors.pink.400'),
+                                    backgroundColor: theme('colors.gray.800'),
+                                },
+                                pre: {
+                                    color: theme('colors.gray.200'),
+                                    backgroundColor: theme('colors.gray.900'),
                                 },
                             },
                         },
                     }),
-                }
+                },
+                plugins: [
+                    require('@tailwindcss/typography'),
+                    require('@tailwindcss/forms'),
+                ],
             }
         }
     </script>
     
-    <!-- Tailwind Typography for styling lists -->
-    <script src="https://cdn.tailwindcss.com/3.4.1?plugins=typography"></script>
-
     <style>
         /* Base font style */
         body {
@@ -163,32 +166,20 @@
         .dark body {
             background-color: #1a1a2e; /* Custom dark "desk" color */
         }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a0aec0;
-        }
-        .dark ::-webkit-scrollbar-track {
-            background: #2d3748;
-        }
-        .dark ::-webkit-scrollbar-thumb {
-            background: #4a5568;
-        }
-        .dark ::-webkit-scrollbar-thumb:hover {
-            background: #718096;
-        }
         
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a0aec0; }
+        .dark ::-webkit-scrollbar-track { background: #2d3748; }
+        .dark ::-webkit-scrollbar-thumb { background: #4a5568; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #718096; }
+
+        /* Make disabled checkboxes look correct */
+        .prose input[type="checkbox"]:disabled {
+            background-color: currentColor;
+        }
     </style>
 </head>
 
@@ -212,11 +203,9 @@
 
             <!-- Desktop Nav -->
             <div class="hidden md:flex space-x-8">
-                <a href="index.html#home" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
-                <a href="index.html#about" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
-                <a href="index.html#skills" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Skills</a>
-                <a href="index.html#projects" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Work</a>
+                <a href="index.html" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
                 <a href="blog.html" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Blog</a>
+                <a href="gallery.html" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Gallery</a>
                 <a href="index.html#contact" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
             </div>
 
@@ -230,11 +219,9 @@
 
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white dark:bg-gray-900 shadow-lg border-t border-gray-200 dark:border-gray-700">
-            <a href="index.html#home" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Home</a>
-            <a href="index.html#about" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">About</a>
-            <a href="index.html#skills" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Skills</a>
-            <a href="index.html#projects" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Work</a>
+            <a href="index.html" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Home</a>
             <a href="blog.html" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Blog</a>
+            <a href="gallery.html" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Gallery</a>
             <a href="index.html#contact" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Contact</a>
         </div>
     </header>
@@ -244,47 +231,53 @@
         <!-- ===== Notebook Section ===== -->
         <section id="notebook" class="py-16 sm:py-24">
 
-            <!-- Header -->
-            <div id="notebook-header" class="text-center max-w-3xl mx-auto">
-                <h2 class="text-base font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 font-sans">Field Notes</h2>
-                <p class="mt-4 text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white font-serif">
-                    My Digital Notebook
-                </p>
-                <p class="mt-6 text-lg text-gray-600 dark:text-gray-400 font-sans">
-                    My personal collection of checklists, code snippets, notes, and favorites, organized by chapter.
-                </p>
-            </div>
-
-            <!-- This container holds EITHER the TOC grid OR the page content -->
-            <div id="notebook-container" class="max-w-4xl mx-auto mt-16">
+            <!-- This container holds EITHER the "cover" page OR the "page" content -->
+            <div id="notebook-container" class="max-w-5xl mx-auto">
                 
-                <!-- Table of Contents Grid -->
-                <div id="notebook-toc-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Loading spinner -->
-                    <div class="text-center col-span-full p-10">
-                        <div class="w-8 h-8 border-4 border-dashed rounded-full animate-spin border-primary-600 mx-auto"></div>
-                        <p class="mt-4 text-gray-600 dark:text-gray-400">Loading chapters...</p>
+                <!-- Notebook "Cover" / Table of Contents -->
+                <div id="notebook-cover-view">
+                    <div class="text-center max-w-3xl mx-auto">
+                        <h2 class="text-base font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 font-sans">My Field Notes</h2>
+                        <p class="mt-4 text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white font-serif">
+                            Digital Notebook
+                        </p>
+                        <p class="mt-6 text-lg text-gray-600 dark:text-gray-400 font-sans">
+                            A public collection of my notes, checklists, code snippets, and personal favorites. This journal is read-only and version-controlled in my GitHub repo.
+                        </p>
                     </div>
-                    <!-- JS will render TOC cards here -->
+                    
+                    <!-- Notebook Pages Grid -->
+                    <div id="notebook-pages-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
+                        <!-- Loading spinner -->
+                        <div class="text-center col-span-full p-10">
+                            <div class="w-8 h-8 border-4 border-dashed rounded-full animate-spin border-primary-600 mx-auto"></div>
+                            <p class="mt-4 text-gray-600 dark:text-gray-400">Loading notebook...</p>
+                        </div>
+                        <!-- JS will render notebook "pages" here as cards -->
+                    </div>
                 </div>
 
-                <!-- Page Content (hidden by default) -->
-                <div id="notebook-page-content" class="hidden">
+                <!-- Notebook "Page" View (Hidden by default) -->
+                <div id="notebook-page-view" class="hidden">
                     
                     <!-- Back Button -->
                     <a href="/My-Portfolio/notebook.html" class="inline-flex items-center text-primary-600 dark:text-primary-400 hover:underline mb-8 font-medium font-sans">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                        Back to Notebook Contents
+                        Back to Notebook
                     </a>
 
-                    <!-- Main Content "Paper" -->
-                    <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl overflow-hidden">
-                        <div class="p-8 sm:p-12">
-                            <article id="notebook-content-article" class="prose prose-lg dark:prose-invert max-w-none">
-                                <!-- JS will render Markdown-to-HTML here -->
-                            </article>
+                    <!-- Journal Page -->
+                    <article class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8 sm:p-12">
+                        <h1 id="page-title" class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white font-serif mb-6"></h1>
+                        <div id="page-content" class="prose prose-lg dark:prose-dark max-w-none prose-pre:bg-gray-800 dark:prose-pre:bg-gray-900 prose-input:text-primary-600 dark:prose-input:text-primary-500">
+                            <!-- Loading spinner -->
+                            <div class="text-center p-10">
+                                <div class="w-8 h-8 border-4 border-dashed rounded-full animate-spin border-primary-600 mx-auto"></div>
+                                <p class="mt-4 text-gray-600 dark:text-gray-400">Loading page...</p>
+                            </div>
                         </div>
-                    </div>
+                    </article>
+
                 </div>
 
             </div>
@@ -306,111 +299,125 @@
     <script>
         // === Global Variables ===
         const notebookIndexUrl = 'https://th3samaritan.github.io/My-Portfolio/notebook-pages/index.json';
-        const notebookPagesBaseUrl = 'https://th3samaritan.github.io/My-Portfolio/notebook-pages/';
+        const notebookContentUrlBase = 'https://th3samaritan.github.io/My-Portfolio/notebook-pages/';
         
+        // --- DOM Elements ---
+        const coverView = document.getElementById('notebook-cover-view');
+        const pageView = document.getElementById('notebook-page-view');
+        const pagesGrid = document.getElementById('notebook-pages-grid');
+        const pageTitle = document.getElementById('page-title');
+        const pageContent = document.getElementById('page-content');
+        
+        // --- Showdown.js Converter ---
         const showdownConverter = new showdown.Converter({
-            tables: true,
+            ghCompatibleHeaderId: true,
+            parseImgDimensions: true,
             simplifiedAutoLink: true,
             strikethrough: true,
+            tables: true,
             tasklists: true,
-            ghCompatibleHeaderId: true, // Crucial for linking
-            headerLevelStart: 2 // Start markdown headers at <h2>
+            emoji: true,
+            extensions: [] // No extensions
         });
-        
-        const notebookContainer = document.getElementById('notebook-container');
-        const tocGrid = document.getElementById('notebook-toc-grid');
-        const pageContent = document.getElementById('notebook-page-content');
-        const articleContainer = document.getElementById('notebook-content-article');
-        const notebookHeader = document.getElementById('notebook-header');
-        
+
         // === Main Notebook Logic ===
         async function initNotebook() {
-            // Check for URL parameter
             const urlParams = new URLSearchParams(window.location.search);
             const pageSlug = urlParams.get('page');
-
-            if (pageSlug) {
-                // A specific page is requested
-                await fetchAndRenderPage(pageSlug);
-            } else {
-                // No page requested, show the Table of Contents
-                await fetchAndRenderTOC();
+            
+            try {
+                if (pageSlug) {
+                    // We are on a specific page, fetch that page's content
+                    await fetchAndRenderPage(pageSlug);
+                } else {
+                    // We are on the "cover", fetch the index of pages
+                    await fetchAndRenderCover();
+                }
+            } catch (error) {
+                console.error('Failed to init notebook:', error);
+                const container = pageSlug ? pageView : coverView;
+                container.innerHTML = `
+                    <p class="text-center text-red-500">${error.message}.</p>
+                    <a href="/My-Portfolio/notebook.html" class="block text-center text-primary-600 dark:text-primary-400 hover:underline mt-4">
+                        &larr; Back to Notebook
+                    </a>
+                `;
+                container.classList.remove('hidden');
+                // Hide the other one
+                (pageSlug ? coverView : pageView).classList.add('hidden');
             }
         }
 
-        // --- 1. Fetch and Render Table of Contents ---
-        async function fetchAndRenderTOC() {
-            try {
-                const response = await fetch(notebookIndexUrl);
-                if (!response.ok) throw new Error('Network response was not ok');
-                
-                let pages = await response.json();
-                
-                tocGrid.innerHTML = ''; // Clear "Loading..."
-                notebookHeader.classList.remove('hidden');
-                pageContent.classList.add('hidden');
+        // --- 1. Fetch and Render "Cover" (Table of Contents) ---
+        async function fetchAndRenderCover() {
+            const response = await fetch(notebookIndexUrl);
+            if (!response.ok) throw new Error('Could not load notebook index');
+            const pages = await response.json();
 
-                if (pages.length === 0) {
-                    tocGrid.innerHTML = `<p class="text-gray-500 dark:text-gray-400 text-center col-span-full">No notebook pages found.</p>`;
-                    return;
-                }
+            pagesGrid.innerHTML = ''; // Clear "Loading..."
+            coverView.classList.remove('hidden');
+            pageView.classList.add('hidden');
 
-                pages.forEach(page => {
-                    const pageCard = document.createElement('a');
-                    // Use URL parameters for page navigation
-                    pageCard.href = `?page=${page.slug}`;
-                    pageCard.className = 'block p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 transform hover:scale-[1.03] hover:shadow-xl';
-                    
-                    pageCard.innerHTML = `
-                        <h2 class="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-2">${page.title}</h2>
-                        <p class="text-gray-600 dark:text-gray-400 mb-4 font-sans">${page.description}</p>
-                        <span class="font-medium text-primary-600 dark:text-primary-400 hover:underline font-sans">Open Chapter &rarr;</span>
-                    `;
-                    tocGrid.appendChild(pageCard);
-                });
-
-            } catch (error) {
-                console.error('Failed to fetch notebook index:', error);
-                tocGrid.innerHTML = `<p class="text-center text-red-500 col-span-full">Failed to load notebook. Please try again later.</p>`;
+            if (pages.length === 0) {
+                pagesGrid.innerHTML = `<p class="text-gray-500 dark:text-gray-400 text-center col-span-full">No notebook pages found.</p>`;
+                return;
             }
+
+            pages.forEach(page => {
+                const pageCard = document.createElement('a');
+                pageCard.href = `?page=${page.slug}`;
+                pageCard.className = 'block p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 transform hover:scale-[1.03] hover:shadow-xl';
+                
+                pageCard.innerHTML = `
+                    <h2 class="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-2">${page.title}</h2>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4 font-sans">${page.description}</p>
+                    <span class="font-medium text-primary-600 dark:text-primary-400 hover:underline font-sans">Open Page &rarr;</span>
+                `;
+                pagesGrid.appendChild(pageCard);
+            });
         }
 
         // --- 2. Fetch and Render a Single Page ---
         async function fetchAndRenderPage(slug) {
+            const contentUrl = `${notebookContentUrlBase}${slug}.md`;
+            
+            // First, fetch the index to get the title
+            let title = 'Page';
             try {
-                const pageUrl = `${notebookPagesBaseUrl}${slug}.md`;
-                const response = await fetch(pageUrl);
-                if (!response.ok) throw new Error('Page not found');
-
-                const markdown = await response.text();
-                const html = showdownConverter.makeHtml(markdown);
-
-                // Hide TOC, show page
-                notebookHeader.classList.add('hidden'); // Hide main "Digital Notebook" title
-                tocGrid.innerHTML = '';
-                tocGrid.classList.add('hidden');
-                
-                articleContainer.innerHTML = html;
-                pageContent.classList.remove('hidden');
-
-                // Update page title
-                const firstH2 = articleContainer.querySelector('h2');
-                if (firstH2) {
-                    document.title = `${firstH2.innerText} - My Notebook`;
+                const indexRes = await fetch(notebookIndexUrl);
+                const pages = await indexRes.json();
+                const pageData = pages.find(p => p.slug === slug);
+                if (pageData) {
+                    title = pageData.title;
                 }
-                
-                // Scroll to top of page
-                window.scrollTo(0, 0);
-
-            } catch (error) {
-                console.error('Failed to fetch page:', error);
-                notebookContainer.innerHTML = `
-                    <p class="text-center text-red-500">Error: Page not found.</p>
-                    <a href="/My-Portfolio/notebook.html" class="block text-center text-primary-600 dark:text-primary-400 hover:underline mt-4">
-                        &larr; Back to Notebook Contents
-                    </a>
-                `;
+            } catch (e) {
+                console.error("Could not fetch index for title, but proceeding.");
             }
+
+            // Now, fetch the Markdown content
+            const response = await fetch(contentUrl);
+            if (!response.ok) throw new Error('Could not load notebook page');
+            const markdown = await response.text();
+            
+            // Convert Markdown to HTML
+            const html = showdownConverter.makeHtml(markdown);
+
+            // Populate and show the page view
+            coverView.classList.add('hidden');
+            pageView.classList.remove('hidden');
+            pageTitle.innerText = title;
+            pageContent.innerHTML = html;
+            
+            // Update page title
+            document.title = `${title} - Digital Notebook`;
+
+            // Disable all rendered checkboxes
+            pageContent.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.disabled = true;
+            });
+            
+            // Scroll to top of page
+            window.scrollTo(0, 0);
         }
 
         // === Document Ready ===

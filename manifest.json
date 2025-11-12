@@ -1,1 +1,22 @@
-{"name": "Abdulsamad's Portfolio & Notebook","short_name": "Abdulsamad","description": "The portfolio, blog, and digital notebook of Abdulsamad Muyideen.","start_url": "/My-Portfolio/index.html","scope": "/My-Portfolio/","display": "standalone","background_color": "#ffffff","theme_color": "#00a3cc","icons": [{"src": "https://www.google.com/search?q=https://placehold.co/192x192/00a3cc/ffffff%3Ftext%3DAM","type": "image/png","sizes": "192x192"},{"src": "https://www.google.com/search?q=https://placehold.co/512x512/00a3cc/ffffff%3Ftext%3DAM","type": "image/png","sizes": "512x512"}]}
+{
+"name": "Abdulsamad Muyideen - Portfolio",
+"short_name": "A. Muyideen",
+"description": "The personal portfolio of Abdulsamad Muyideen, a multidisciplinary engineer.",
+"start_url": "/My-Portfolio/index.html",
+"display": "standalone",
+"background_color": "#1a1a2e",
+"theme_color": "#00a3cc",
+"orientation": "portrait-primary",
+"icons": [
+{
+"src": "https://www.google.com/search?q=https://placehold.co/192x192/00a3cc/FFFFFF%3Ftext%3DAM",
+"type": "image/png",
+"sizes": "192x192"
+},
+{
+"src": "https://www.google.com/search?q=https://placehold.co/512x512/00a3cc/FFFFFF%3Ftext%3DAM",
+"type": "image/png",
+"sizes": "512x512"
+}
+]
+}

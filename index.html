@@ -10,7 +10,7 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="/My-Portfolio/manifest.json">
     <meta name="theme-color" content="#00a3cc">
-
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -54,33 +54,11 @@
                             '900': '#00586e',
                             '950': '#003544',
                         },
-                    },
-                    // For nested list styling in the notebook
-                    typography: ({ theme }) => ({
-                        DEFAULT: {
-                            css: {
-                                'ul > li::before': { backgroundColor: theme('colors.gray.500') },
-                                'ul ul > li::before': { backgroundColor: theme('colors.gray.400') },
-                                'ul ul ul > li::before': { backgroundColor: theme('colors.gray.300') },
-                                'ul.checklist > li': {
-                                    paddingLeft: '0 !important',
-                                    listStyleType: 'none !important',
-                                    margin: '0 !important',
-                                },
-                                'ul.checklist > li::before': {
-                                    display: 'none',
-                                },
-                            },
-                        },
-                    }),
+                    }
                 }
             }
         }
     </script>
-    
-    <!-- Tailwind Typography for styling lists -->
-    <script src="https://cdn.tailwindcss.com/3.4.1?plugins=typography"></script>
-
 
     <style>
         /* Base font style */
@@ -150,7 +128,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* 3D Canvas styles */
+        /* 3D Canvas styles (no longer needed here, but keeping for modal fallback if we add one) */
         #3d-canvas {
             width: 100%;
             height: 400px;
@@ -160,26 +138,6 @@
         .dark #3d-canvas {
             background-color: #4a5568;
         }
-
-        /* Notebook Tabs styling */
-        .notebook-tab {
-            @apply px-4 py-3 sm:px-6 font-medium text-gray-600 dark:text-gray-400 border-b-2 border-transparent hover:text-primary-600 dark:hover:text-primary-400 hover:border-primary-500 transition-all duration-300;
-        }
-        .notebook-tab.active {
-            @apply text-primary-600 dark:text-primary-400 border-primary-600 dark:border-primary-400;
-        }
-        .notebook-content {
-            @apply hidden;
-        }
-        .notebook-content.active {
-            @apply block;
-        }
-        
-        /* Custom checkbox for checklists */
-        .task-checkbox {
-            @apply w-5 h-5 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer;
-        }
-
     </style>
 </head>
 
@@ -216,12 +174,10 @@
                 <a href="#about" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">About</a>
                 <a href="#skills" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Skills</a>
                 <a href="#projects" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Work</a>
+                <a href="gallery.html" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Gallery</a>
                 <a href="#research" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Research</a>
                 <a href="blog.html" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Blog</a>
-                <a href="notebook.html" target="_blank" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center">
-                    Notebook
-                    <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                </a>
+                <a href="notebook.html" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Notebook</a>
                 <a href="#contact" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
             </div>
 
@@ -239,9 +195,10 @@
             <a href="#about" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">About</a>
             <a href="#skills" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Skills</a>
             <a href="#projects" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Work</a>
+            <a href="gallery.html" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Gallery</a>
             <a href="#research" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Research</a>
             <a href="blog.html" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Blog</a>
-            <a href="notebook.html" target="_blank" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Notebook (New Tab)</a>
+            <a href="notebook.html" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Notebook</a>
             <a href="#contact" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Contact</a>
         </div>
     </header>
@@ -335,7 +292,10 @@
                 <p class="mt-6 text-lg text-gray-600 dark:text-gray-400">
                     I'm an innovative professional with a strong background in CAE, FEA, metallurgical and materials engineering, security engineering, and software engineering. With extensive experience in analyzing and designing materials, conducting simulations, ensuring system security, and developing cutting-edge software solutions, I bring a unique blend of technical expertise and problem-solving skills to drive project success.
                     <br><br>
-                    Want to see how I work? Check out my <a href="notebook.html" target="_blank" class="font-medium text-primary-600 dark:text-primary-400 hover:underline">Digital Notebook</a> for my live pentesting checklists, code snippets, and research notes.
+                    <a href="notebook.html" class="font-medium text-primary-600 dark:text-primary-400 hover:underline">
+                        You can check out my Digital Notebook &rarr;
+                    </a>
+                    for my checklists, code snippets, and favorite books.
                 </p>
             </div>
 
@@ -592,7 +552,7 @@
                             </ul>
                         </div>
                     </div>
-                    <a href="https://github.com/th3samaritan" target="_blank" class="inline-flex items-center justify-center mt-6 px-6 py-2 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all duration-300 transform hover:scale-105">
+                    <a href="httpsG://github.com/th3samaritan" target="_blank" class="inline-flex items-center justify-center mt-6 px-6 py-2 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all duration-300 transform hover:scale-105">
                         View on GitHub
                         <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                     </a>
@@ -649,7 +609,7 @@
                 </div>
 
                 <!-- Research Card 4: AI CFD/FEA -->
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 space-y-4 flex flex-col justify-between lg:col-span-1 lg:col-start-2">
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 space-y-4 flex flex-col justify-between">
                     <div>
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="text-2xl font-bold text-gray-900 dark:text-white">AI-driven CFD & FEA</h3>
@@ -676,7 +636,7 @@
             </div>
         </section>
 
-        <!-- ===== Blog Section (#blog) ===== -->
+        <!-- ===== Blog Section (Link) ===== -->
         <section id="blog" class="py-24">
             <div class="text-center max-w-3xl mx-auto fade-in">
                 <h2 class="text-sm font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400">My Thoughts</h2>
@@ -684,17 +644,14 @@
                     My Personal Blog
                 </p>
                 <p class="mt-6 text-lg text-gray-600 dark:text-gray-400">
-                    A journal of my thoughts on tech, materials, and security, powered by Markdown files hosted directly in my GitHub repo.
+                    A place where I share my thoughts on technology, materials science, and security. My posts are written in Markdown and stored in my GitHub repo.
                 </p>
-                <a href="blog.html" class="inline-flex items-center justify-center mt-10 px-8 py-3 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all duration-300 transform hover:scale-105">
+                <a href="blog.html" class="inline-flex items-center justify-center mt-8 px-8 py-3 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all duration-300 transform hover:scale-105">
                     Read My Blog
-                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v11.494m-9-5.747h18"></path></svg>
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                 </a>
             </div>
         </section>
-
-        <!-- ===== Digital Notebook Section (#notebook) ===== -->
-        <!-- This section has been moved to notebook.html -->
 
 
         <!-- ===== Contact Section (#contact) ===== -->
@@ -781,13 +738,9 @@
                 <!-- Static Image (Fallback) -->
                 <img id="modalImage" src="" alt="Project Image" class="w-full h-auto max-h-80 object-cover rounded-lg shadow-md">
                 
-                <!-- 3D Viewer Container -->
+                <!-- 3D Viewer Container (This is no longer used for a gallery) -->
                 <div id="3d-viewer-container" class="relative hidden">
-                    <canvas id="3d-canvas"></canvas>
-                    <div id="3d-loader" class="absolute inset-0 flex items-center justify-center bg-gray-100/50 dark:bg-gray-800/50">
-                        <div class="w-10 h-10 border-4 border-dashed rounded-full animate-spin border-primary-600"></div>
-                        <span class="ml-4 text-gray-700 dark:text-gray-300">Loading 3D model...</span>
-                    </div>
+                    <p class="text-center text-gray-600 dark:text-gray-400">3D Models for this project are available in the main gallery.</p>
                 </div>
 
                 <div class="flex flex-wrap gap-2">
@@ -815,6 +768,15 @@
                     <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Key Impact</h3>
                     <p id="modalImpact" class="text-gray-600 dark:text-gray-400"></p>
                 </div>
+
+                <!-- Link to Gallery for Materials Project -->
+                <div id="gallery-link-container" class="pt-4 border-t border-gray-200 dark:border-gray-700 hidden">
+                    <a href="gallery.html" class="inline-flex items-center justify-center w-full px-6 py-3 bg-primary-600 text-white font-semibold rounded-lg shadow-md hover:bg-primary-700 transition-all duration-300 transform hover:scale-105">
+                        View 3D Model Gallery
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    </a>
+                </div>
+
             </div>
         </div>
     </div>
@@ -822,17 +784,12 @@
 
     <!-- 
       This script tag is set to type="module" to allow ES6 imports for Three.js 
+      Note: 3D logic is no longer here, it has been moved to gallery.html.
+      This script is now just for the main page logic.
     -->
     <script type="module">
-        // === Three.js Imports ===
-        import * as THREE from 'three';
-        import { GLTFLoader } from 'three/loaders/GLTFLoader';
-        import { OrbitControls } from 'three/controls/OrbitControls';
-
-        // === 3D Scene Globals ===
-        let scene, camera, renderer, controls, model, animationFrameId;
-
         // === Enhanced Project Details ===
+        // 3D models are now in gallery.html. This just controls the modal content.
         const projectDetails = {
             cybersecurity: {
                 title: 'Advanced Pentesting & Automation',
@@ -872,9 +829,7 @@
                 tech: 'SolidWorks, Ansys (FEA, CFD), Carbon Fiber Fab, 3D Printing',
                 role: 'Materials & Design Engineer',
                 img: 'assets/materials-project.jpg',
-                is3D: true,
-                // Placeholder model. Replace this with the path to your own .glb or .gltf file!
-                modelUrl: 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/DamagedHelmet/glTF/DamagedHelmet.gltf'
+                is3D: true // This flag will now just show the "View Gallery" button
             }
         };
 
@@ -959,8 +914,7 @@
         // === Project Modal Logic ===
         const modal = document.getElementById('projectModal');
         const modalImg = document.getElementById('modalImage');
-        const canvasContainer = document.getElementById('3d-viewer-container');
-        const modelLoader = document.getElementById('3d-loader');
+        const galleryLinkContainer = document.getElementById('gallery-link-container');
         
         // Make showProjectModal accessible globally
         window.showProjectModal = function(category) {
@@ -975,17 +929,15 @@
             document.getElementById('modalDesc').innerText = details.desc;
             document.getElementById('modalImpact').innerText = details.impact;
 
-            if (details.is3D && details.modelUrl) {
-                // Show 3D viewer, hide image
-                modalImg.classList.add('hidden');
-                canvasContainer.classList.remove('hidden');
-                modelLoader.classList.remove('hidden');
-                init3DScene(details.modelUrl); // Start the 3D scene
+            // Check if it's the 3D project
+            if (details.is3D) {
+                // Show the "View Gallery" button
+                galleryLinkContainer.classList.remove('hidden');
+                modalImg.src = details.img; // Still show the main image
             } else {
-                // Show static image, hide 3D viewer
+                // Hide the "View Gallery" button
+                galleryLinkContainer.classList.add('hidden');
                 modalImg.src = details.img;
-                modalImg.classList.remove('hidden');
-                canvasContainer.classList.add('hidden');
             }
 
             modal.classList.remove('hidden');
@@ -997,114 +949,8 @@
             if (isOutside) {
                 modal.classList.add('hidden');
                 document.body.style.overflow = 'auto'; // Re-enable scrolling
-                destroy3DScene(); // Clean up 3D scene
             }
             event.stopPropagation();
-        }
-
-        // === 3D Scene Functions ===
-        function init3DScene(modelUrl) {
-            const canvas = document.getElementById('3d-canvas');
-            
-            // 1. Scene
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(document.documentElement.classList.contains('dark') ? 0x4a5568 : 0xf1f1f1);
-
-            // 2. Camera
-            const container = document.getElementById('3d-viewer-container');
-            const w = container.clientWidth;
-            const h = 400; // Fixed height from CSS
-            camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
-            camera.position.set(0, 0, 5); // Adjust as needed
-            scene.add(camera);
-
-            // 3. Renderer
-            renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-            renderer.setSize(w, h);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.outputEncoding = THREE.sRGBEncoding;
-
-            // 4. Controls
-            controls = new OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.autoRotate = true; // Nice little auto-spin
-            controls.autoRotateSpeed = 1.0;
-
-            // 5. Lights
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-            scene.add(ambientLight);
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-            directionalLight.position.set(5, 10, 7.5);
-            scene.add(directionalLight);
-
-            // 6. Loader
-            const loader = new GLTFLoader();
-            loader.load(modelUrl, (gltf) => {
-                model = gltf.scene;
-                
-                // Auto-center and scale model (basic version)
-                const box = new THREE.Box3().setFromObject(model);
-                const size = box.getSize(new THREE.Vector3()).length();
-                const center = box.getCenter(new THREE.Vector3());
-
-                model.position.x += (model.position.x - center.x);
-                model.position.y += (model.position.y - center.y);
-                model.position.z += (model.position.z - center.z);
-                
-                camera.position.copy(center);
-                camera.position.x += size / 1.5;
-                camera.position.y += size / 2.0;
-                camera.position.z += size / 1.5;
-                camera.lookAt(center);
-
-                scene.add(model);
-                modelLoader.classList.add('hidden'); // Hide loader
-            }, 
-            undefined, // onProgress callback (can be added)
-            (error) => {
-                console.error('Error loading 3D model:', error);
-                modelLoader.innerHTML = '<p class="text-red-500">Error loading model.</p>';
-            });
-
-            // 7. Start animation
-            animate();
-        }
-
-        function animate() {
-            animationFrameId = requestAnimationFrame(animate);
-            if (controls) controls.update();
-            if (renderer && scene && camera) renderer.render(scene, camera);
-        }
-
-        function destroy3DScene() {
-            if (animationFrameId) cancelAnimationFrame(animationFrameId);
-
-            if (model) {
-                model.traverse(child => {
-                    if (child.isMesh) {
-                        child.geometry.dispose();
-                        if (child.material.isMaterial) {
-                            child.material.dispose();
-                        } else if (Array.isArray(child.material)) {
-                            child.material.forEach(material => material.dispose());
-                        }
-                        if(child.material.map) child.material.map.dispose();
-                    }
-                });
-                scene.remove(model);
-            }
-            
-            if(renderer) renderer.dispose();
-
-            scene = null;
-            camera = null;
-            renderer = null;
-            controls = null;
-            model = null;
-            animationFrameId = null;
-
-            // Reset loader text
-            modelLoader.innerHTML = `<div class="w-10 h-10 border-4 border-dashed rounded-full animate-spin border-primary-600"></div><span class="ml-4 text-gray-700 dark:text-gray-300">Loading 3D model...</span>`;
         }
 
         // === Animation on Scroll ===
@@ -1162,70 +1008,6 @@
         function easeOutQuad(t) {
             return t * (2 - t);
         }
-        
-        // === Notebook Tabs Logic ===
-        // This logic is now in notebook.html
-        /*
-        const notebookTabs = document.getElementById('notebook-tabs');
-        const notebookContents = document.querySelectorAll('.notebook-content');
-        
-        notebookTabs.addEventListener('click', (e) => {
-            const tabButton = e.target.closest('button.notebook-tab');
-            if (!tabButton) return;
-
-            // Deactivate all tabs
-            notebookTabs.querySelectorAll('.notebook-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Deactivate all content
-            notebookContents.forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Activate clicked tab
-            tabButton.classList.add('active');
-            
-            // Activate corresponding content
-            const tabName = tabButton.dataset.tab;
-            const activeContent = document.getElementById(`notebook-${tabName}`);
-            if (activeContent) {
-                activeContent.classList.add('active');
-            }
-        });
-        */
-
-
-        // === Blog System (Fetch Only) ===
-        // This has been removed and replaced with a link to blog.html
-        /*
-        async function fetchBlogs() {
-            const blogPostsContainer = document.getElementById('blogPosts');
-            try {
-                const response = await fetch('https://my-portfolio-3f0t.onrender.com/api/blogs');
-                if (!response.ok) throw new Error('Network response was not ok');
-                
-                const blogs = await response.json();
-                
-                if (blogs.length === 0) {
-                     blogPostsContainer.innerHTML = `<p class="text-center col-span-full text-gray-600 dark:text-gray-400">No blog posts found.</p>`;
-                     return;
-                }
-
-                // Render blogs with Tailwind classes
-                blogPostsContainer.innerHTML = blogs.map(blog => `
-                    <div class="blog-post bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 transform hover:scale-[1.03] hover:shadow-xl">
-                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">${blog.title}</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-500 mb-3">Date: ${new Date(blog.date).toLocaleDateString()}</p>
-                        <p class="text-gray-600 dark:text-gray-400">${blog.content}</p>
-                    </div>
-                `).join('');
-            } catch (error) {
-                console.error('Error fetching blogs:', error);
-                blogPostsContainer.innerHTML = `<p class="text-center col-span-full text-red-500">Failed to fetch blog posts. Please try again later.</p>`;
-            }
-        }
-        */
 
         // === Window Load Event ===
         window.addEventListener('load', () => {
@@ -1241,9 +1023,6 @@
 
             // Set current year in footer
             document.getElementById('current-year').innerText = new Date().getFullYear();
-
-            // Fetch blogs - This is no longer needed
-            // fetchBlogs();
             
             // Register Service Worker
             if ('serviceWorker' in navigator) {
