@@ -2,7 +2,7 @@
 {
 "slug": "uav-airframe-demo",
 "name": "UAV Airframe (Demo)",
-"url": "./drone_g-es-313-01.glb",
+"url": "/models-data/drone_g-es-313-01.glb",
 "description": "This is the primary airframe for the custom UAV project. Designed in SolidWorks and optimized for a balance of low weight and high structural rigidity. The design focuses on aerodynamic efficiency simulation full design is classified."
 },
 {
@@ -14,25 +14,25 @@
 {
 "slug": "Spring Design Model",
 "name": "Spring Design Model",
-"url": "./spring.glb",
+"url": "/models-data/spring.glb",
 "description": "A Protype Design of a Spring, Designed using SolidWorks."
 },
 {
 "slug": "Automatic Solar Powered Boom Sprayer",
 "name": "Automatic Solar Powered Boom Sprayer",
-"url": "./aspbs.glb",
+"url": "/models-data/aspbs.glb",
 "description": "A Pioneer Machine Design for Automatic Solar Boom Sprayer to increase Efficiency of Agricultural Farm Process sponsored by Technical Division of Institute of Agricultural Research (IAR), Ahmadu Bello University (ABU)."
 },
 {
 "slug": "servo-cover",
 "name": "3d Printed Servo Cover",
-"url": "./servo_cover.glb",
+"url": "/models-data/servo_cover.glb",
 "description": "A 3d Printed Servo Cover made up of PLA and was used as mould to make the carbon fiber prototype, Designed using Solidworks."
 },
 {
 "slug": "Sugarcane Grinding Machine",
 "name": "Sugarcane Grinding Machine",
-"url": "./sugarcane_grinder.glb",
+"url": "/models-data/sugarcane_grinder.glb",
 "description": "A Protype Machine Design for Sugarcane Grinder made with stainless steel, Aluminum, and some other metals."
 }
 ]
