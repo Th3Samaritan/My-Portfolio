@@ -54,7 +54,11 @@ const URLS_TO_CACHE = [
     'https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js',
     'https://cdn.skypack.dev/three@0.132.2/build/three.module.js',
     'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader.js',
-    'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js'
+    'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js',
+    // --- ADDED DRACO DECODER ---
+    'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/DRACOLoader.js',
+    'https://www.gstatic.com/draco/v1/decoders/draco_decoder.wasm',
+    'https://www.gstatic.com/draco/v1/decoders/draco_decoder.js'
 ];
 
 // Install event

@@ -25,7 +25,8 @@
         "imports": {
             "three": "https://cdn.skypack.dev/three@0.132.2/build/three.module.js",
             "three/loaders/GLTFLoader": "https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader.js",
-            "three/controls/OrbitControls": "https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js"
+            "three/controls/OrbitControls": "https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js",
+            "three/loaders/DRACOLoader": "https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/DRACOLoader.js"
         }
     }
     </script>
@@ -213,6 +214,7 @@
         import * as THREE from 'three';
         import { GLTFLoader } from 'three/loaders/GLTFLoader';
         import { OrbitControls } from 'three/controls/OrbitControls';
+        import { DRACOLoader } from 'three/loaders/DRACOLoader';
         
         // === Global Variables ===
         const portfolioBaseUrl = 'https://th3samaritan.github.io/My-Portfolio';
@@ -227,6 +229,13 @@
         const galleryGrid = document.getElementById('gallery-grid');
         const modelLoader = document.getElementById('3d-loader');
         
+        // --- DRACO Loader Setup ---
+        const dracoLoader = new DRACOLoader();
+        // Set the path to the decoder files, which we'll cache with the service worker
+        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
+        const gltfLoader = new GLTFLoader();
+        gltfLoader.setDRACOLoader(dracoLoader);
+
         // === Main Gallery Logic ===
         async function initGallery() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -350,8 +359,8 @@
             scene.add(directionalLight);
 
             // 6. Loader
-            const loader = new GLTFLoader();
-            loader.load(modelUrl, (gltf) => {
+            // Use the gltfLoader defined globally that already has DRACO set up
+            gltfLoader.load(modelUrl, (gltf) => {
                 model = gltf.scene;
                 
                 // Auto-center and scale model (basic version)
