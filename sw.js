@@ -1,99 +1,164 @@
-// A unique name for the cache
 const CACHE_NAME = 'abdulsamad-portfolio-v1';
+const GITHUB_REPO_PATH = '/My-Portfolio';
 
-// All the URLs to cache for offline use
-// This list MUST be updated every time you add a new file (page, image, post)
+// URLs to cache
 const URLS_TO_CACHE = [
-    // Core Pages
-    '/My-Portfolio/',
-    '/My-Portfolio/index.html',
-    '/My-Portfolio/blog.html',
-    '/My-Portfolio/notebook.html',
-    '/My-Portfolio/gallery.html',
-    '/My-Portfolio/manifest.json',
+    // Core HTML
+    `${GITHUB_REPO_PATH}/`,
+    `${GITHUB_REPO_PATH}/index.html`,
+    `${GITHUB_REPO_PATH}/blog.html`,
+    `${GITHUB_REPO_PATH}/notebook.html`,
+    `${GITHUB_REPO_PATH}/gallery.html`,
+    
+    // PWA Manifest
+    `${GITHUB_REPO_PATH}/manifest.json`,
 
     // Assets
-    '/My-Portfolio/assets/profile-pic.JPG',
-    '/My-Portfolio/assets/cybersecurity-project.jpg',
-    '/My-Portfolio/assets/software-project.jpg',
-    '/My-Portfolio/assets/ml-project.jpg',
-    '/My-Portfolio/assets/materials-project.jpg',
-    '/My-Portfolio/assets/my-cv.pdf',
+    `${GITHUB_REPO_PATH}/assets/profile-pic.JPG`,
+    `${GITHUB_REPO_PATH}/assets/cybersecurity-project.jpg`,
+    `${GITHUB_REPO_PATH}/assets/software-project.jpg`,
+    `${GITHUB_REPO_PATH}/assets/ml-project.jpg`,
+    `${GITHUB_REPO_PATH}/assets/materials-project.jpg`,
+    `${GITHUB_REPO_PATH}/assets/my-cv.pdf`,
 
-    // Blog Files
-    '/My-Portfolio/blog-posts/index.json',
-    '/My-Portfolio/blog-posts/web-cache-vulnerability.md',
-    '/My-Portfolio/blog-posts/enlightened.md',
-    '/My-Portfolio/blog-posts/grit-on-cybersecurity.md',
-    '/My-Portfolio/blog-posts/test-of-grit.md',
-    '/My-Portfolio/blog-posts/dont-limit-yourself.md',
-    '/My-Portfolio/blog-posts/searching-the-web-with-ai.md',
-    '/My-Portfolio/blog-posts/gifting-back-to-the-community.md',
-    '/My-Portfolio/blog-posts/first-of-many-alchemy.md',
+    // Blog JSON and Markdown
+    `${GITHUB_REPO_PATH}/blog-posts/index.json`,
+    `${GITHUB_REPO_PATH}/blog-posts/web-cache-vulnerability.md`,
+    `${GITHUB_REPO_PATH}/blog-posts/enlightened.md`,
+    `${GITHUB_REPO_PATH}/blog-posts/grit-on-cybersecurity.md`,
+    `${GITHUB_REPO_PATH}/blog-posts/test-of-grit.md`,
+    `${GITHUB_REPO_PATH}/blog-posts/dont-limit-yourself.md`,
+    `${GITHUB_REPO_PATH}/blog-posts/searching-the-web-with-ai.md`,
+    `${GITHUB_REPO_PATH}/blog-posts/gifting-back-to-the-community.md`,
+    `${GITHUB_REPO_PATH}/blog-posts/first-of-many-alchemy.md`,
 
-    // Notebook Files
-    '/My-Portfolio/notebook-pages/index.json',
-    '/My-Portfolio/notebook-pages/pentesting-checklists.md',
-    '/My-Portfolio/notebook-pages/code-snippets.md',
-    '/My-Portfolio/notebook-pages/my-library.md',
-    '/My-Portfolio/notebook-pages/miscellany.md',
+    // Notebook JSON and Markdown
+    `${GITHUB_REPO_PATH}/notebook-pages/index.json`,
+    `${GITHUB_REPO_PATH}/notebook-pages/pentesting-checklists.md`,
+    `${GITHUB_REPO_PATH}/notebook-pages/code-snippets.md`,
+    `${GITHUB_REPO_PATH}/notebook-pages/my-library.md`,
+    `${GITHUB_REPO_PATH}/notebook-pages/miscellany.md`,
     
-    // Gallery Files
-    '/My-Portfolio/models-data/index.json',
-    // Note: 3D models themselves are NOT cached by default, as they can be very large.
+    // Gallery JSON and Models
+    `${GITHUB_REPO_PATH}/models-data/index.json`,
+    `${GITHUB_REPO_PATH}/models-data/drone_g-es-313-01.glb`,
+    `${GITHUB_REPO_PATH}/models-data/spring.glb`,
+    `${GITHUB_REPO_PATH}/models-data/aspbs.glb`,
+    `${GITHUB_REPO_PATH}/models-data/servo_cover.glb`,
+    `${GITHUB_REPO_PATH}/models-data/sugarcane_grinder.glb`,
 
-    // CDNs (Scripts and Fonts)
+    // CDNs (Fonts, Tailwind, JS Libs)
     'https://cdn.tailwindcss.com',
     'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap',
-    'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700;900&display=swap',
+    'https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2',
     'https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js',
     'https://cdn.skypack.dev/three@0.132.2/build/three.module.js',
     'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader.js',
     'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js'
 ];
 
-// Install event: open cache and add all URLs
+// Install event
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {
-                console.log('Opened cache, adding all files...');
-                return cache.addAll(URLS_TO_CACHE);
+                console.log('Opened cache:', CACHE_NAME);
+                // We use addAll which will fail if any single request fails.
+                // We use { mode: 'no-cors' } for CDN requests to avoid opaque responses
+                // This is a simplified caching, a more robust solution would handle CDN failures gracefully.
+                const cdnRequests = URLS_TO_CACHE
+                    .filter(url => url.startsWith('https://'))
+                    .map(url => new Request(url, { mode: 'no-cors' }));
+                    
+                const localRequests = URLS_TO_CACHE
+                    .filter(url => !url.startsWith('https://'));
+
+                return Promise.all([
+                    cache.addAll(localRequests),
+                    ...cdnRequests.map(req => cache.add(req))
+                ]);
             })
-            .catch(err => {
-                console.error('Failed to open cache: ', err);
-            })
+            .then(() => self.skipWaiting()) // Activate the new SW immediately
     );
 });
 
-// Activate event: clean up old caches
+// Activate event
 self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys().then(cacheNames => {
             return Promise.all(
-                cacheNames.map(cacheName => {
-                    if (cacheName !== CACHE_NAME) {
-                        console.log('Deleting old cache:', cacheName);
-                        return caches.delete(cacheName);
+                cacheNames.map(cache => {
+                    if (cache !== CACHE_NAME) {
+                        console.log('Deleting old cache:', cache);
+                        return caches.delete(cache);
                     }
                 })
             );
-        })
+        }).then(() => self.clients.claim()) // Take control of all open clients
     );
 });
 
-// Fetch event: serve from cache if available, otherwise fetch from network
+// Fetch event (Network first, then Cache)
+// This strategy ensures users always get the freshest content if they are online.
+// If they are offline, they will get the cached version.
 self.addEventListener('fetch', event => {
+    // For navigation requests (HTML pages), use Network First
+    if (event.request.mode === 'navigate') {
+        event.respondWith(
+            fetch(event.request)
+                .then(response => {
+                    // Check if we received a valid response
+                    if (response && response.status === 200) {
+                        // Clone the response and put it in the cache
+                        const responseToCache = response.clone();
+                        caches.open(CACHE_NAME)
+                            .then(cache => {
+                                cache.put(event.request, responseToCache);
+                            });
+                    }
+                    return response;
+                })
+                .catch(() => {
+                    // Network failed, try to get it from the cache
+                    // For navigation, this will serve the offline page
+                    return caches.match(event.request)
+                        .then(response => {
+                            // If we have it in cache, return it.
+                            // If not, fall back to a specific offline page (or just fail)
+                            return response || caches.match(`${GITHUB_REPO_PATH}/index.html`);
+                        });
+                })
+        );
+        return;
+    }
+
+    // For all other requests (CSS, JS, images, models), use Cache First
     event.respondWith(
         caches.match(event.request)
             .then(response => {
-                // If the request is in the cache, return it
+                // Cache hit - return response
                 if (response) {
                     return response;
                 }
-                
-                // Otherwise, fetch from the network
-                return fetch(event.request);
+
+                // Not in cache - go to network
+                return fetch(event.request).then(
+                    response => {
+                        // Check if we received a valid response
+                        if (!response || response.status !== 200 || response.type === 'error') {
+                            return response;
+                        }
+
+                        // Clone the response and put it in the cache
+                        const responseToCache = response.clone();
+                        caches.open(CACHE_NAME)
+                            .then(cache => {
+                                cache.put(event.request, responseToCache);
+                            });
+                        
+                        return response;
+                    }
+                );
             })
     );
 });

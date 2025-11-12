@@ -215,7 +215,8 @@
         import { OrbitControls } from 'three/controls/OrbitControls';
         
         // === Global Variables ===
-        const modelIndexUrl = 'https://th3samaritan.github.io/My-Portfolio/models-data/index.json';
+        const portfolioBaseUrl = 'https://th3samaritan.github.io/My-Portfolio';
+        const modelIndexUrl = `${portfolioBaseUrl}/models-data/index.json`;
         
         // --- 3D Scene Globals ---
         let scene, camera, renderer, controls, model, animationFrameId;
@@ -253,7 +254,7 @@
                 console.error('Failed to init gallery:', error);
                 const container = modelSlug ? detailView : gridView;
                 container.innerHTML = `
-                    <p class="text-center text-red-500">${error.message}.</p>
+                    <p class="text-center text-red-500">${error.message}. Please ensure the 'models-data/index.json' file exists and is correct.</p>
                     <a href="/My-Portfolio/gallery.html" class="block text-center text-primary-600 dark:text-primary-400 hover:underline mt-4">
                         &larr; Back to Gallery
                     </a>
@@ -271,13 +272,14 @@
             detailView.classList.add('hidden');
 
             if (models.length === 0) {
-                galleryGrid.innerHTML = `<p class="text-gray-500 dark:text-gray-400 text-center col-span-full">No 3D models found.</p>`;
+                galleryGrid.innerHTML = `<p class="text-gray-500 dark:text-gray-400 text-center col-span-full">No 3D models found in index.json.</p>`;
                 return;
             }
 
             models.forEach(model => {
                 const modelCard = document.createElement('a');
-                modelCard.href = `?model=${model.slug}`;
+                // Use JS to build the link to avoid query param issues
+                modelCard.href = `/My-Portfolio/gallery.html?model=${model.slug}`;
                 modelCard.className = 'block p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 transform hover:scale-[1.03] hover:shadow-xl';
                 
                 modelCard.innerHTML = `
@@ -303,7 +305,10 @@
             
             // Show loader and init 3D scene
             modelLoader.classList.remove('hidden');
-            init3DScene(modelData.url);
+            
+            // Construct the full URL
+            const modelUrl = `${portfolioBaseUrl}${modelData.url}`;
+            init3DScene(modelUrl);
             
             // Scroll to top of page
             window.scrollTo(0, 0);
@@ -370,7 +375,7 @@
             undefined, // onProgress callback
             (error) => {
                 console.error('Error loading 3D model:', error);
-                modelLoader.innerHTML = '<p class="text-red-500 p-4">Error loading model.</p>';
+                modelLoader.innerHTML = `<p class="text-red-500 p-4">Error loading model. Check file path and CORS policy.</p>`;
             });
 
             // 7. Start animation
