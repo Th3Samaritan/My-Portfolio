@@ -1,254 +1,214 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Abdulsamad Muyideen - 3D Model Gallery">
-    <meta name="keywords" content="3d models, cad, simulation, fea, cfd, abdulsamad muyideen">
-    <title>3D Model Gallery - Abdulsamad Muyideen</title>
-    
-    <!-- PWA Manifest -->
+    <meta name="description" content="Abdulsamad Muyideen — Interactive 3D Model Gallery of CAD designs, renders, and simulations.">
+    <title>3D Gallery — Abdulsamad Muyideen</title>
+
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="manifest" href="/My-Portfolio/manifest.json">
-    <meta name="theme-color" content="#00a3cc">
+    <meta name="theme-color" content="#0A0A0A">
+    <meta property="og:title" content="3D Model Gallery — Abdulsamad Muyideen">
+    <meta property="og:description" content="Interactive 3D collection of CAD designs, rendered images, and engineering simulations.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts (Inter & Merriweather) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 
-    <!-- Three.js (for 3D models) -->
     <script type="importmap">
     {
         "imports": {
-            "three": "https://cdn.skypack.dev/three@0.132.2/build/three.module.js",
-            "three/loaders/GLTFLoader": "https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader.js",
-            "three/controls/OrbitControls": "https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js",
-            "three/loaders/DRACOLoader": "https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/DRACOLoader.js"
+            "three": "https://esm.sh/three@0.160.0/build/three.module.js",
+            "three/loaders/GLTFLoader": "https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js",
+            "three/controls/OrbitControls": "https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js",
+            "three/loaders/DRACOLoader": "https://esm.sh/three@0.160.0/examples/jsm/loaders/DRACOLoader.js"
         }
     }
     </script>
-
-    <script>
-        // Set up Tailwind CSS dark mode and custom font
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Merriweather', 'serif'],
-                    },
-                    colors: {
-                        'primary': {
-                            '50': '#effcff',
-                            '100': '#dff8ff',
-                            '200': '#b6f0ff',
-                            '300': '#78e7ff',
-                            '400': '#36d9ff',
-                            '500': '#0ac8f5',
-                            '600': '#00a3cc',
-                            '700': '#0083a3',
-                            '800': '#006a85',
-                            '900': '#00586e',
-                            '950': '#003544',
-                        },
-                    },
-                }
-            }
-        }
-    </script>
-    
-    <style>
-        /* Base font style */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6; /* bg-gray-100 */
-        }
-        .dark body {
-            background-color: #1a1a2e; /* Custom dark "desk" color */
-        }
-
-        /* 3D Canvas styles */
-        #3d-canvas {
-            width: 100%;
-            height: 500px; /* Taller canvas for dedicated page */
-            border-radius: 16px;
-            background-color: #e5e7eb; /* bg-gray-200 */
-        }
-        .dark #3d-canvas {
-            background-color: #374151; /* bg-gray-700 */
-        }
-        
-        /* Custom scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #a0aec0; }
-        .dark ::-webkit-scrollbar-track { background: #2d3748; }
-        .dark ::-webkit-scrollbar-thumb { background: #4a5568; }
-        .dark ::-webkit-scrollbar-thumb:hover { background: #718096; }
-    </style>
 </head>
 
-<body class="bg-gray-100 dark:bg-gray-900/50 text-gray-800 dark:text-gray-200 antialiased transition-colors duration-300">
+<body>
 
-    <!-- ===== Theme Toggle Button ===== -->
-    <button id="theme-toggle" class="fixed bottom-5 right-5 z-50 p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg text-primary-600 dark:text-primary-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300">
-        <!-- Sun Icon -->
-        <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-        <!-- Moon Icon -->
-        <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM10 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM3.05 4.54a1 1 0 00-1.414 1.414l.707.707a1 1 0 001.414-1.414l-.707-.707zM17.464 4.54a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 111.414-1.414l.707.707a1 1 0 010 1.414zM4.54 15.464a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM15.464 13.343a1 1 0 01-1.414-1.414l.707-.707a1 1 0 111.414 1.414l-.707.707z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+    <!-- Theme Toggle -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+        <svg id="theme-toggle-dark-icon" style="display:none" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+        <svg id="theme-toggle-light-icon" style="display:none" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM10 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM3.05 4.54a1 1 0 00-1.414 1.414l.707.707a1 1 0 001.414-1.414l-.707-.707zM17.464 4.54a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 111.414-1.414l.707.707z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
     </button>
 
-    <!-- ===== Header & Navigation ===== -->
-    <header class="sticky top-0 z-40 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-sm dark:shadow-gray-800 transition-all duration-300">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <!-- Logo / Name -->
-            <a href="index.html" class="text-2xl font-bold text-gray-900 dark:text-white">
-                Abdulsamad<span class="text-primary-600 dark:text-primary-400">.</span>
-            </a>
-
-            <!-- Desktop Nav -->
-            <div class="hidden md:flex space-x-8">
-                <a href="index.html" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
-                <a href="blog.html" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Blog</a>
-                <a href="notebook.html" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Notebook</a>
-                <a href="index.html#contact" class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Contact</a>
+    <!-- Header -->
+    <header class="nav-header">
+        <nav class="nav-inner">
+            <a href="index.html" class="nav-logo">Abdulsamad<span class="nav-logo-dot">.</span></a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+                <a href="notebook.html" class="nav-link">Notebook</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
             </div>
-
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
+            <button id="mobile-menu-button" class="mobile-menu-btn" aria-label="Toggle menu">
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
             </button>
         </nav>
-
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white dark:bg-gray-900 shadow-lg border-t border-gray-200 dark:border-gray-700">
-            <a href="index.html" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Home</a>
-            <a href="blog.html" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Blog</a>
-            <a href="notebook.html" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Notebook</a>
-            <a href="index.html#contact" class="block py-3 px-6 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">Contact</a>
+        <div id="mobile-menu" class="mobile-menu">
+            <a href="index.html">Home</a>
+            <a href="blog.html">Blog</a>
+            <a href="notebook.html">Notebook</a>
+            <a href="index.html#contact">Contact</a>
         </div>
     </header>
 
-    <main id="main-content" class="container mx-auto px-6">
+    <main class="container">
+        <section class="section" style="padding-top: 3rem;">
+            <div id="gallery-container" style="max-width: 72rem; margin: 0 auto;">
 
-        <!-- ===== Gallery Section ===== -->
-        <section id="gallery" class="py-16 sm:py-24">
-
-            <!-- This container holds EITHER the master grid OR the detail view -->
-            <div id="gallery-container" class="max-w-5xl mx-auto">
-                
-                <!-- Master Gallery Grid (Default View) -->
+                <!-- ===== Grid View ===== -->
                 <div id="gallery-grid-view">
-                    <div class="text-center max-w-3xl mx-auto">
-                        <h2 class="text-base font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 font-sans">Materials & Simulation</h2>
-                        <p class="mt-4 text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white font-serif">
-                            3D Model Gallery
-                        </p>
-                        <p class="mt-6 text-lg text-gray-600 dark:text-gray-400 font-sans">
-                            An interactive collection of my 3D designs, models, and simulations. Click on any model to view it in 3D and read its detailed description.
-                        </p>
+                    <div class="text-center">
+                        <p class="section-label">Materials & Simulation</p>
+                        <h1 class="section-title">3D Model Gallery</h1>
+                        <p class="section-desc mx-auto">An interactive collection of my CAD designs, rendered images, and engineering simulations. Click on any model to explore.</p>
                     </div>
-
-                    <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
-                        <!-- Loading spinner -->
-                        <div class="text-center col-span-full p-10">
-                            <div class="w-8 h-8 border-4 border-dashed rounded-full animate-spin border-primary-600 mx-auto"></div>
-                            <p class="mt-4 text-gray-600 dark:text-gray-400">Loading models...</p>
+                    <div id="gallery-grid" class="grid grid-1 md\:grid-2 lg\:grid-3 gap-8" style="margin-top: 3rem;">
+                        <div class="text-center" style="grid-column: 1 / -1; padding: 3rem 0;">
+                            <div class="preloader-spinner" style="margin: 0 auto;"></div>
+                            <p style="margin-top: 1rem; color: var(--text-muted);">Loading gallery...</p>
                         </div>
-                        <!-- JS will render gallery cards here -->
                     </div>
                 </div>
 
-                <!-- Detail View (Hidden by default) -->
+                <!-- ===== Detail View ===== -->
                 <div id="gallery-detail-view" class="hidden">
-                    
-                    <!-- Back Button -->
-                    <a href="/My-Portfolio/gallery.html" class="inline-flex items-center text-primary-600 dark:text-primary-400 hover:underline mb-8 font-medium font-sans">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+
+                    <!-- Back link -->
+                    <a href="/My-Portfolio/gallery.html" id="back-link" style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 500; color: var(--text-muted); margin-bottom: 2rem; text-decoration: none;">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                         Back to Gallery
                     </a>
 
                     <!-- 3D Viewer -->
-                    <div id="3d-viewer-container" class="relative bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-4">
-                        <canvas id="3d-canvas"></canvas>
-                        <!-- 3D Loader -->
-                        <div id="3d-loader" class="absolute inset-0 flex items-center justify-center bg-gray-200/50 dark:bg-gray-800/50 rounded-2xl">
-                            <div class="w-10 h-10 border-4 border-dashed rounded-full animate-spin border-primary-600"></div>
-                            <span class="ml-4 text-gray-700 dark:text-gray-300">Loading 3D model...</span>
+                    <div id="3d-viewer-container" class="viewer-wrapper">
+                        <canvas id="3d-canvas" class="canvas-3d"></canvas>
+                        <div id="3d-loader" class="canvas-loader">
+                            <div class="preloader-spinner"></div>
+                            <span>Loading 3D model...</span>
+                        </div>
+                        <div class="viewer-controls-hint">
+                            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+                            Drag to rotate · Scroll to zoom
                         </div>
                     </div>
 
-                    <!-- Model Description -->
-                    <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8 sm:p-12 mt-8">
-                        <h1 id="model-name" class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white font-serif"></h1>
-                        <p id="model-description" class="text-lg text-gray-600 dark:text-gray-400 mt-6"></p>
+                    <!-- Info + Specs: Two-column -->
+                    <div class="detail-info">
+                        <div class="detail-description">
+                            <h1 id="model-name"></h1>
+                            <p id="model-description"></p>
+                        </div>
+                        <div id="spec-sidebar" class="card spec-card">
+                            <h3>Technical Specs</h3>
+                            <table class="spec-table">
+                                <tbody id="spec-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Rendered Images Section -->
+                    <div id="renders-section" class="media-section">
+                        <div class="media-section-header">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <h2>Rendered Images</h2>
+                            <span id="renders-count" class="media-count"></span>
+                        </div>
+                        <div id="renders-grid" class="media-grid"></div>
+                    </div>
+
+                    <!-- Simulation Results Section -->
+                    <div id="simulations-section" class="media-section">
+                        <div class="media-section-header">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                            <h2>Simulation Results</h2>
+                            <span id="simulations-count" class="media-count"></span>
+                        </div>
+                        <div id="simulations-grid" class="media-grid"></div>
                     </div>
 
                 </div>
-
             </div>
         </section>
-
     </main>
 
-    <!-- ===== Footer ===== -->
-    <footer class="border-t border-gray-200 dark:border-gray-700 mt-16">
-        <div class="container mx-auto px-6 py-8 text-center text-gray-600 dark:text-gray-400">
-            <p>© <span id="current-year">2025</span> Abdulsamad Muyideen. All rights reserved.</p>
-            <p class="text-sm mt-4">
-                <a href="index.html" class="text-primary-600 dark:text-primary-400 hover:underline">Return to Main Portfolio</a>
-            </p>
+    <!-- ===== Lightbox ===== -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+        <img id="lightbox-img" src="" alt="Enlarged view">
+        <div id="lightbox-caption" class="lightbox-caption"></div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; <span id="current-year">2025</span> Abdulsamad Muyideen. All rights reserved.</p>
+            <p style="margin-top: 0.5rem;"><a href="index.html">Return to Main Portfolio</a></p>
         </div>
     </footer>
 
+    <script src="main.js"></script>
 
+    <!-- Lightbox Logic -->
+    <script>
+        function openLightbox(src, caption) {
+            const lb = document.getElementById('lightbox');
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox-caption').innerText = caption || '';
+            lb.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    </script>
+
+    <!-- Gallery Logic (ES Module) -->
     <script type="module">
-        // === Three.js Imports ===
         import * as THREE from 'three';
         import { GLTFLoader } from 'three/loaders/GLTFLoader';
         import { OrbitControls } from 'three/controls/OrbitControls';
         import { DRACOLoader } from 'three/loaders/DRACOLoader';
-        
-        // === Global Variables ===
+
         const portfolioBaseUrl = 'https://th3samaritan.github.io/My-Portfolio';
-        const modelIndexUrl = `${portfolioBaseUrl}/models-data/index.json`;
-        
-        // --- 3D Scene Globals ---
+        const modelIndexUrl = portfolioBaseUrl + '/models-data/index.json';
+
         let scene, camera, renderer, controls, model, animationFrameId;
 
-        // --- DOM Elements ---
         const gridView = document.getElementById('gallery-grid-view');
         const detailView = document.getElementById('gallery-detail-view');
         const galleryGrid = document.getElementById('gallery-grid');
         const modelLoader = document.getElementById('3d-loader');
-        
-        // --- DRACO Loader Setup ---
+
         const dracoLoader = new DRACOLoader();
-        // Set the path to the decoder files, which we'll cache with the service worker
         dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
         const gltfLoader = new GLTFLoader();
         gltfLoader.setDRACOLoader(dracoLoader);
 
-        // === Main Gallery Logic ===
+        /* ====== SVG Icons ====== */
+        const cubeIcon = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2 1m0 0l-2-1m2 1v2.5M3 15l2 1m0 0l2-1m-2 1v2.5M3 12l2 1m0 0l2-1m-2 1v2.5M3 9l2 1m0 0l2-1m-2 1v2.5"></path></svg>`;
+        const zoomIcon = `<svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>`;
+
+        /* ====== Init ====== */
         async function initGallery() {
             const urlParams = new URLSearchParams(window.location.search);
             const modelSlug = urlParams.get('model');
-            
+
             try {
-                // Always fetch the index, we'll need it either way
                 const response = await fetch(modelIndexUrl);
                 if (!response.ok) throw new Error('Could not load model database');
                 const models = await response.json();
 
                 if (modelSlug) {
-                    // Find the specific model to display
                     const modelData = models.find(m => m.slug === modelSlug);
                     if (modelData) {
                         await displayDetailView(modelData);
@@ -256,114 +216,194 @@
                         throw new Error('Model not found');
                     }
                 } else {
-                    // No slug, display the master grid
                     displayGridView(models);
                 }
             } catch (error) {
-                console.error('Failed to init gallery:', error);
+                console.error('Gallery init error:', error);
                 const container = modelSlug ? detailView : gridView;
-                container.innerHTML = `
-                    <p class="text-center text-red-500">${error.message}. Please ensure the 'models-data/index.json' file exists and is correct.</p>
-                    <a href="/My-Portfolio/gallery.html" class="block text-center text-primary-600 dark:text-primary-400 hover:underline mt-4">
-                        &larr; Back to Gallery
-                    </a>
-                `;
+                container.innerHTML = `<p class="text-center" style="color:red;">${error.message}</p><a href="/My-Portfolio/gallery.html" style="display:block;text-align:center;margin-top:1rem;color:var(--text-muted);">← Back to Gallery</a>`;
                 container.classList.remove('hidden');
-                // Hide the other one
                 (modelSlug ? gridView : detailView).classList.add('hidden');
             }
         }
 
-        // --- 1. Display Master Grid View ---
+        /* ====== Grid View ====== */
         function displayGridView(models) {
-            galleryGrid.innerHTML = ''; // Clear "Loading..."
+            galleryGrid.innerHTML = '';
             gridView.classList.remove('hidden');
             detailView.classList.add('hidden');
 
             if (models.length === 0) {
-                galleryGrid.innerHTML = `<p class="text-gray-500 dark:text-gray-400 text-center col-span-full">No 3D models found in index.json.</p>`;
+                galleryGrid.innerHTML = '<p style="text-align:center;color:var(--text-muted);grid-column:1/-1;">No 3D models found.</p>';
                 return;
             }
 
-            models.forEach(model => {
-                const modelCard = document.createElement('a');
-                // Use JS to build the link to avoid query param issues
-                modelCard.href = `/My-Portfolio/gallery.html?model=${model.slug}`;
-                modelCard.className = 'block p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 transform hover:scale-[1.03] hover:shadow-xl';
-                
-                modelCard.innerHTML = `
-                    <h2 class="text-2xl font-serif font-bold text-gray-900 dark:text-white mb-2">${model.name}</h2>
-                    <p class="text-gray-600 dark:text-gray-400 mb-4 font-sans line-clamp-3">${model.description}</p>
-                    <span class="font-medium text-primary-600 dark:text-primary-400 hover:underline font-sans">View Model &rarr;</span>
+            models.forEach(m => {
+                const card = document.createElement('a');
+                card.href = '/My-Portfolio/gallery.html?model=' + m.slug;
+                card.className = 'card gallery-card';
+
+                // Thumbnail or placeholder
+                const thumbHtml = m.thumbnail
+                    ? `<img src="${portfolioBaseUrl}${m.thumbnail}" alt="${m.name}" class="gallery-card-thumb" loading="lazy" onerror="this.outerHTML='<div class=\\'gallery-card-placeholder\\'>${cubeIcon}</div>'">`
+                    : `<div class="gallery-card-placeholder">${cubeIcon}</div>`;
+
+                // Spec tags
+                const specs = m.specs || {};
+                let tagsHtml = '';
+                if (specs.Material) tagsHtml += `<span class="tag">${specs.Material}</span>`;
+                if (specs.Software) tagsHtml += `<span class="tag">${specs.Software}</span>`;
+
+                // Media count
+                const renderCount = (m.renders || []).length;
+                const simCount = (m.simulations || []).length;
+                let mediaLabel = '';
+                if (renderCount > 0 || simCount > 0) {
+                    const parts = [];
+                    if (renderCount > 0) parts.push(renderCount + ' render' + (renderCount > 1 ? 's' : ''));
+                    if (simCount > 0) parts.push(simCount + ' sim' + (simCount > 1 ? 's' : ''));
+                    mediaLabel = `<span style="font-size:0.6875rem;color:var(--text-muted);margin-left:auto;">${parts.join(' · ')}</span>`;
+                }
+
+                card.innerHTML = `
+                    ${thumbHtml}
+                    <div class="gallery-card-body">
+                        <h2>${m.name}</h2>
+                        <p>${m.description}</p>
+                        ${tagsHtml ? `<div class="gallery-card-tags">${tagsHtml}</div>` : ''}
+                        <div style="display:flex;align-items:center;">
+                            <span class="gallery-card-cta">Explore Model →</span>
+                            ${mediaLabel}
+                        </div>
+                    </div>
                 `;
-                galleryGrid.appendChild(modelCard);
+                galleryGrid.appendChild(card);
             });
         }
 
-        // --- 2. Display Detail (Single Model) View ---
+        /* ====== Detail View ====== */
         async function displayDetailView(modelData) {
             gridView.classList.add('hidden');
             detailView.classList.remove('hidden');
 
-            // Populate text content
+            // Name & Description
             document.getElementById('model-name').innerText = modelData.name;
             document.getElementById('model-description').innerText = modelData.description;
-            
-            // Update page title
-            document.title = `${modelData.name} - 3D Gallery`;
-            
-            // Show loader and init 3D scene
+            document.title = modelData.name + ' — 3D Gallery';
+
+            // Specs table
+            const specBody = document.getElementById('spec-table-body');
+            specBody.innerHTML = '';
+            const specs = modelData.specs || {};
+            for (const [key, val] of Object.entries(specs)) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${key}</td><td>${val}</td>`;
+                specBody.appendChild(tr);
+            }
+
+            // If no specs, hide sidebar
+            const sidebar = document.getElementById('spec-sidebar');
+            sidebar.style.display = Object.keys(specs).length > 0 ? '' : 'none';
+
+            // Rendered Images
+            const rendersSection = document.getElementById('renders-section');
+            const rendersGrid = document.getElementById('renders-grid');
+            const renders = modelData.renders || [];
+            document.getElementById('renders-count').innerText = renders.length + ' image' + (renders.length !== 1 ? 's' : '');
+
+            if (renders.length > 0) {
+                rendersSection.style.display = '';
+                rendersGrid.innerHTML = '';
+                renders.forEach(r => {
+                    const item = document.createElement('div');
+                    item.className = 'media-item';
+                    item.onclick = () => openLightbox(portfolioBaseUrl + r.src, r.caption);
+                    item.setAttribute('role', 'button');
+                    item.setAttribute('tabindex', '0');
+                    item.onkeydown = (e) => { if (e.key === 'Enter') openLightbox(portfolioBaseUrl + r.src, r.caption); };
+                    item.innerHTML = `
+                        <div class="media-item-zoom">${zoomIcon}</div>
+                        <img src="${portfolioBaseUrl}${r.src}" alt="${r.caption}" loading="lazy" onerror="this.style.background='var(--bg-tertiary)';this.alt='Image not found'">
+                        <div class="media-item-caption">${r.caption}</div>
+                    `;
+                    rendersGrid.appendChild(item);
+                });
+            } else {
+                rendersSection.style.display = '';
+                rendersGrid.innerHTML = '<div class="empty-media">No rendered images yet. Add images to <code>models-data/images/</code> and update <code>index.json</code>.</div>';
+            }
+
+            // Simulations
+            const simsSection = document.getElementById('simulations-section');
+            const simsGrid = document.getElementById('simulations-grid');
+            const sims = modelData.simulations || [];
+            document.getElementById('simulations-count').innerText = sims.length + ' result' + (sims.length !== 1 ? 's' : '');
+
+            if (sims.length > 0) {
+                simsSection.style.display = '';
+                simsGrid.innerHTML = '';
+                sims.forEach(s => {
+                    const item = document.createElement('div');
+                    item.className = 'media-item';
+                    item.onclick = () => openLightbox(portfolioBaseUrl + s.src, s.caption);
+                    item.setAttribute('role', 'button');
+                    item.setAttribute('tabindex', '0');
+                    item.onkeydown = (e) => { if (e.key === 'Enter') openLightbox(portfolioBaseUrl + s.src, s.caption); };
+                    item.innerHTML = `
+                        ${s.type ? `<span class="media-item-badge">${s.type}</span>` : ''}
+                        <div class="media-item-zoom">${zoomIcon}</div>
+                        <img src="${portfolioBaseUrl}${s.src}" alt="${s.caption}" loading="lazy" onerror="this.style.background='var(--bg-tertiary)';this.alt='Image not found'">
+                        <div class="media-item-caption">${s.caption}</div>
+                    `;
+                    simsGrid.appendChild(item);
+                });
+            } else {
+                simsSection.style.display = '';
+                simsGrid.innerHTML = '<div class="empty-media">No simulation results yet. Add images/GIFs to <code>models-data/simulations/</code> and update <code>index.json</code>.</div>';
+            }
+
+            // Load 3D model
             modelLoader.classList.remove('hidden');
-            
-            // Construct the full URL
-            const modelUrl = `${portfolioBaseUrl}${modelData.url}`;
+            const modelUrl = portfolioBaseUrl + modelData.url;
             init3DScene(modelUrl);
-            
-            // Scroll to top of page
             window.scrollTo(0, 0);
         }
 
-        // === 3D Scene Functions ===
+        /* ====== Three.js Scene ====== */
         function init3DScene(modelUrl) {
             const canvas = document.getElementById('3d-canvas');
-            
-            // 1. Scene
             scene = new THREE.Scene();
-            scene.background = new THREE.Color(document.documentElement.classList.contains('dark') ? 0x374151 : 0xe5e7eb);
+            const isDark = document.documentElement.classList.contains('dark');
+            scene.background = new THREE.Color(isDark ? 0x141414 : 0xf5f5f5);
 
-            // 2. Camera
             const container = document.getElementById('3d-viewer-container');
             const w = container.clientWidth;
-            const h = 500; // Fixed height from CSS
+            const h = 500;
             camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
-            camera.position.set(0, 0, 5); 
+            camera.position.set(0, 0, 5);
             scene.add(camera);
 
-            // 3. Renderer
             renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
             renderer.setSize(w, h);
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.outputEncoding = THREE.sRGBEncoding;
 
-            // 4. Controls
             controls = new OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
-            controls.autoRotate = true; 
+            controls.autoRotate = true;
             controls.autoRotateSpeed = 1.0;
 
-            // 5. Lights
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
             scene.add(ambientLight);
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-            directionalLight.position.set(5, 10, 7.5);
-            scene.add(directionalLight);
+            const dir1 = new THREE.DirectionalLight(0xffffff, 1);
+            dir1.position.set(5, 10, 7.5);
+            scene.add(dir1);
+            const dir2 = new THREE.DirectionalLight(0xffffff, 0.4);
+            dir2.position.set(-5, -2, -5);
+            scene.add(dir2);
 
-            // 6. Loader
-            // Use the gltfLoader defined globally that already has DRACO set up
             gltfLoader.load(modelUrl, (gltf) => {
                 model = gltf.scene;
-                
-                // Auto-center and scale model (basic version)
                 const box = new THREE.Box3().setFromObject(model);
                 const size = box.getSize(new THREE.Vector3()).length();
                 const center = box.getCenter(new THREE.Vector3());
@@ -371,24 +411,33 @@
                 model.position.x += (model.position.x - center.x);
                 model.position.y += (model.position.y - center.y);
                 model.position.z += (model.position.z - center.z);
-                
+
                 camera.position.copy(center);
                 camera.position.x += size / 1.5;
                 camera.position.y += size / 2.0;
                 camera.position.z += size / 1.5;
                 camera.lookAt(center);
+                controls.target.copy(center);
 
                 scene.add(model);
-                modelLoader.classList.add('hidden'); // Hide loader
-            }, 
-            undefined, // onProgress callback
+                modelLoader.classList.add('hidden');
+            },
+            undefined,
             (error) => {
-                console.error('Error loading 3D model:', error);
-                modelLoader.innerHTML = `<p class="text-red-500 p-4">Error loading model. Check file path and CORS policy.</p>`;
+                console.error('3D load error:', error);
+                modelLoader.innerHTML = '<p style="color:red;padding:1rem;">Error loading 3D model. Check file path and CORS policy.</p>';
             });
 
-            // 7. Start animation
             animate();
+
+            // Resize handler
+            const resizeObserver = new ResizeObserver(() => {
+                const newW = container.clientWidth;
+                camera.aspect = newW / h;
+                camera.updateProjectionMatrix();
+                renderer.setSize(newW, h);
+            });
+            resizeObserver.observe(container);
         }
 
         function animate() {
@@ -397,87 +446,30 @@
             if (renderer && scene && camera) renderer.render(scene, camera);
         }
 
-        // Clean up scene when navigating away
         function destroy3DScene() {
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
             if (model) {
                 model.traverse(child => {
                     if (child.isMesh) {
                         child.geometry.dispose();
-                        if (child.material.isMaterial) {
+                        if (Array.isArray(child.material)) {
+                            child.material.forEach(m => {
+                                if (m.map) m.map.dispose();
+                                m.dispose();
+                            });
+                        } else if (child.material) {
+                            if (child.material.map) child.material.map.dispose();
                             child.material.dispose();
-                        } else if (Array.isArray(child.material)) {
-                            child.material.forEach(material => material.dispose());
                         }
-                        if(child.material.map) child.material.map.dispose();
                     }
                 });
                 if (scene) scene.remove(model);
             }
-            if(renderer) renderer.dispose();
-            scene = null;
-            camera = null;
-            renderer = null;
-            controls = null;
-            model = null;
-            animationFrameId = null;
+            if (renderer) renderer.dispose();
+            scene = camera = renderer = controls = model = animationFrameId = null;
         }
 
-        // === Document Ready ===
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // --- Theme Toggle Init ---
-            const themeToggleBtn = document.getElementById('theme-toggle');
-            const darkIcon = document.getElementById('theme-toggle-dark-icon');
-            const lightIcon = document.getElementById('theme-toggle-light-icon');
-            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
-                darkIcon.classList.remove('hidden');
-                lightIcon.classList.add('hidden');
-            } else {
-                document.documentElement.classList.remove('dark');
-                darkIcon.classList.add('hidden');
-                lightIcon.classList.remove('hidden');
-            }
-            themeToggleBtn.addEventListener('click', () => {
-                document.documentElement.classList.toggle('dark');
-                const isDark = document.documentElement.classList.contains('dark');
-                localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                darkIcon.classList.toggle('hidden', !isDark);
-                lightIcon.classList.toggle('hidden', isDark);
-            });
-
-            // --- Mobile Menu Init ---
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.addEventListener('click', (e) => {
-                if (e.target.tagName === 'A') {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // --- Footer Year ---
-            document.getElementById('current-year').innerText = new Date().getFullYear();
-
-            // --- Gallery Init ---
-            initGallery();
-            
-            // Register Service Worker
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/My-Portfolio/sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    })
-                    .catch(error => {
-                        console.log('ServiceWorker registration failed: ', error);
-                    });
-            }
-        });
-
-        // Clean up the 3D scene when the user navigates away
+        document.addEventListener('DOMContentLoaded', initGallery);
         window.addEventListener('beforeunload', destroy3DScene);
     </script>
 </body>

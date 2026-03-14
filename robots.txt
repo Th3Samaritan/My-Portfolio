@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://th3samaritan.github.io/My-Portfolio/sitemap.xml

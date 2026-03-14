@@ -1,7 +1,6 @@
-const CACHE_NAME = 'abdulsamad-portfolio-v1';
+const CACHE_NAME = 'abdulsamad-portfolio-v2';
 const GITHUB_REPO_PATH = '/My-Portfolio';
 
-// URLs to cache
 const URLS_TO_CACHE = [
     // Core HTML
     `${GITHUB_REPO_PATH}/`,
@@ -9,9 +8,15 @@ const URLS_TO_CACHE = [
     `${GITHUB_REPO_PATH}/blog.html`,
     `${GITHUB_REPO_PATH}/notebook.html`,
     `${GITHUB_REPO_PATH}/gallery.html`,
-    
-    // PWA Manifest
+    `${GITHUB_REPO_PATH}/404.html`,
+
+    // CSS & JS
+    `${GITHUB_REPO_PATH}/styles.css`,
+    `${GITHUB_REPO_PATH}/main.js`,
+
+    // PWA Manifest & Favicon
     `${GITHUB_REPO_PATH}/manifest.json`,
+    `${GITHUB_REPO_PATH}/assets/favicon.svg`,
 
     // Assets
     `${GITHUB_REPO_PATH}/assets/profile-pic.JPG`,
@@ -38,25 +43,12 @@ const URLS_TO_CACHE = [
     `${GITHUB_REPO_PATH}/notebook-pages/code-snippets.md`,
     `${GITHUB_REPO_PATH}/notebook-pages/my-library.md`,
     `${GITHUB_REPO_PATH}/notebook-pages/miscellany.md`,
-    
-    // Gallery JSON and Models
-    `${GITHUB_REPO_PATH}/models-data/index.json`,
-    `${GITHUB_REPO_PATH}/models-data/drone_g-es-313-01.glb`,
-    `${GITHUB_REPO_PATH}/models-data/spring.glb`,
-    `${GITHUB_REPO_PATH}/models-data/aspbs.glb`,
-    `${GITHUB_REPO_PATH}/models-data/servo_cover.glb`,
-    `${GITHUB_REPO_PATH}/models-data/sugarcane_grinder.glb`,
 
-    // CDNs (Fonts, Tailwind, JS Libs)
-    'https://cdn.tailwindcss.com',
-    'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap',
-    'https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2',
+    // Gallery JSON (models are large, cache on demand)
+    `${GITHUB_REPO_PATH}/models-data/index.json`,
+
+    // CDNs
     'https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js',
-    'https://cdn.skypack.dev/three@0.132.2/build/three.module.js',
-    'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader.js',
-    'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js',
-    // --- ADDED DRACO DECODER ---
-    'https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/DRACOLoader.js',
     'https://www.gstatic.com/draco/v1/decoders/draco_decoder.wasm',
     'https://www.gstatic.com/draco/v1/decoders/draco_decoder.js'
 ];
@@ -67,22 +59,21 @@ self.addEventListener('install', event => {
         caches.open(CACHE_NAME)
             .then(cache => {
                 console.log('Opened cache:', CACHE_NAME);
-                // We use addAll which will fail if any single request fails.
-                // We use { mode: 'no-cors' } for CDN requests to avoid opaque responses
-                // This is a simplified caching, a more robust solution would handle CDN failures gracefully.
                 const cdnRequests = URLS_TO_CACHE
                     .filter(url => url.startsWith('https://'))
                     .map(url => new Request(url, { mode: 'no-cors' }));
-                    
+
                 const localRequests = URLS_TO_CACHE
                     .filter(url => !url.startsWith('https://'));
 
                 return Promise.all([
                     cache.addAll(localRequests),
-                    ...cdnRequests.map(req => cache.add(req))
+                    ...cdnRequests.map(req => cache.add(req).catch(() => {
+                        console.warn('Failed to cache CDN resource:', req.url);
+                    }))
                 ]);
             })
-            .then(() => self.skipWaiting()) // Activate the new SW immediately
+            .then(() => self.skipWaiting())
     );
 });
 
@@ -98,71 +89,43 @@ self.addEventListener('activate', event => {
                     }
                 })
             );
-        }).then(() => self.clients.claim()) // Take control of all open clients
+        }).then(() => self.clients.claim())
     );
 });
 
-// Fetch event (Network first, then Cache)
-// This strategy ensures users always get the freshest content if they are online.
-// If they are offline, they will get the cached version.
+// Fetch event (Network first for navigation, Cache first for assets)
 self.addEventListener('fetch', event => {
-    // For navigation requests (HTML pages), use Network First
     if (event.request.mode === 'navigate') {
         event.respondWith(
             fetch(event.request)
                 .then(response => {
-                    // Check if we received a valid response
                     if (response && response.status === 200) {
-                        // Clone the response and put it in the cache
                         const responseToCache = response.clone();
-                        caches.open(CACHE_NAME)
-                            .then(cache => {
-                                cache.put(event.request, responseToCache);
-                            });
+                        caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache));
                     }
                     return response;
                 })
                 .catch(() => {
-                    // Network failed, try to get it from the cache
-                    // For navigation, this will serve the offline page
                     return caches.match(event.request)
-                        .then(response => {
-                            // If we have it in cache, return it.
-                            // If not, fall back to a specific offline page (or just fail)
-                            return response || caches.match(`${GITHUB_REPO_PATH}/index.html`);
-                        });
+                        .then(response => response || caches.match(`${GITHUB_REPO_PATH}/index.html`));
                 })
         );
         return;
     }
 
-    // For all other requests (CSS, JS, images, models), use Cache First
     event.respondWith(
         caches.match(event.request)
             .then(response => {
-                // Cache hit - return response
-                if (response) {
-                    return response;
-                }
+                if (response) return response;
 
-                // Not in cache - go to network
-                return fetch(event.request).then(
-                    response => {
-                        // Check if we received a valid response
-                        if (!response || response.status !== 200 || response.type === 'error') {
-                            return response;
-                        }
-
-                        // Clone the response and put it in the cache
-                        const responseToCache = response.clone();
-                        caches.open(CACHE_NAME)
-                            .then(cache => {
-                                cache.put(event.request, responseToCache);
-                            });
-                        
+                return fetch(event.request).then(response => {
+                    if (!response || response.status !== 200 || response.type === 'error') {
                         return response;
                     }
-                );
+                    const responseToCache = response.clone();
+                    caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache));
+                    return response;
+                });
             })
     );
 });
