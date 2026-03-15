@@ -137,6 +137,7 @@
     const typeTarget = document.getElementById('typewriter-text');
     if (typeTarget) {
         const phrases = [
+            "Too Busy using code to reform reality.",
             "Solving the 3-Body Problem of Modern Tech.",
             "Building Secure Software Architectures.",
             "Simulating Advanced Composite Materials.",
