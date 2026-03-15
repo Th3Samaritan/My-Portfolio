@@ -20,30 +20,58 @@
 
 <body>
 
-    <!-- Theme Toggle -->
+    <!-- ===== Branded Preloader ===== -->
+    <div id="preloader" class="preloader">
+        <div class="brand-loader">
+            <span style="animation-delay: 0.1s">A</span>
+            <span style="animation-delay: 0.2s">b</span>
+            <span style="animation-delay: 0.3s">d</span>
+            <span style="animation-delay: 0.4s">u</span>
+            <span style="animation-delay: 0.5s">l</span>
+            <span style="animation-delay: 0.6s">s</span>
+            <span style="animation-delay: 0.7s">a</span>
+            <span style="animation-delay: 0.8s">m</span>
+            <span style="animation-delay: 0.9s">a</span>
+            <span style="animation-delay: 1.0s">d</span>
+            <span class="dot">.</span>
+        </div>
+    </div>
+
+    <!-- ===== Theme Toggle ===== -->
     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
         <svg id="theme-toggle-dark-icon" style="display:none" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
         <svg id="theme-toggle-light-icon" style="display:none" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM10 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM3.05 4.54a1 1 0 00-1.414 1.414l.707.707a1 1 0 001.414-1.414l-.707-.707zM17.464 4.54a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 111.414-1.414l.707.707z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
     </button>
 
-    <!-- Header -->
-    <header class="nav-header">
+    <!-- ===== Header & Navigation ===== -->
+    <header class="nav-header glass-panel">
         <nav class="nav-inner">
             <a href="index.html" class="nav-logo">Abdulsamad<span class="nav-logo-dot">.</span></a>
+
             <div class="nav-links">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="notebook.html" class="nav-link">Notebook</a>
+                <a href="index.html#home" class="nav-link">Home</a>
+                <a href="index.html#about" class="nav-link">About</a>
+                <a href="index.html#work" class="nav-link">Work</a>
                 <a href="gallery.html" class="nav-link">Gallery</a>
+                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="notebook.html" class="nav-link">Notebook</a>
                 <a href="index.html#contact" class="nav-link">Contact</a>
             </div>
-            <button id="mobile-menu-button" class="mobile-menu-btn" aria-label="Toggle menu">
-                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+
+            <button id="mobile-menu-button" class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
             </button>
         </nav>
-        <div id="mobile-menu" class="mobile-menu">
-            <a href="index.html">Home</a>
-            <a href="notebook.html">Notebook</a>
+
+        <div id="mobile-menu" class="mobile-menu glass-panel">
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#work">Work</a>
             <a href="gallery.html">Gallery</a>
+            <a href="blog.html">Blog</a>
+            <a href="notebook.html">Notebook</a>
             <a href="index.html#contact">Contact</a>
         </div>
     </header>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline — Abdulsamad Muyideen</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .offline-container {
+            max-width: 28rem;
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <main class="offline-container">
+        <svg style="width: 4rem; height: 4rem; margin: 0 auto 1.5rem; color: var(--text-muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <h1 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.75rem;">You are offline</h1>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">It seems you've lost your connection. You can still access pages you've previously visited.</p>
+        <button onclick="window.history.back()" class="btn btn-primary">Go Back</button>
+        <a href="/My-Portfolio/" class="btn btn-secondary" style="margin-top: 1rem; display: block;">Try Home Page</a>
+    </main>
+</body>
+</html>

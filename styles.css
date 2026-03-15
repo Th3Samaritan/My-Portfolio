@@ -144,6 +144,135 @@ a {
     padding-right: 1.5rem;
 }
 
+/* ---------- Premium Design Tokens ---------- */
+
+/* Glassmorphism Panel */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass-panel {
+    background: rgba(20, 20, 20, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Animated Gradient Hero Text */
+.gradient-text {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: gradientShift 4s linear infinite;
+}
+
+/* Only apply gradient in dark mode or dark sections */
+.dark .gradient-text, .force-dark .gradient-text {
+    background-image: linear-gradient(to right, #FAFAFA, #A3A3A3, #525252, #FAFAFA);
+}
+
+@keyframes gradientShift {
+    to { background-position: 200% center; }
+}
+
+/* ---------- Animations ---------- */
+
+/* Typewriter Effect Cursor */
+.typewriter-cursor {
+    display: inline-block;
+    width: 3px;
+    height: 1.1em;
+    background-color: var(--accent);
+    vertical-align: middle;
+    animation: blink 1s step-end infinite;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Staggered Fade Up / Reveal */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Profile Image Ring Animation */
+.profile-ring {
+    position: relative;
+    display: inline-block;
+    border-radius: 50%;
+    padding: 4px;
+    background: linear-gradient(45deg, var(--border), var(--text-muted), var(--border));
+    background-size: 200% 200%;
+    animation: gradientRing 4s ease infinite;
+}
+
+@keyframes gradientRing {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ---------- Preloader (Branded) ---------- */
+.preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background-color: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.preloader.loaded {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.brand-loader {
+    font-size: 2rem;
+    font-weight: 800;
+    font-family: var(--font-heading);
+    letter-spacing: -0.05em;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+}
+
+.brand-loader span {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: letterReveal 0.5s forwards;
+    display: inline-block;
+}
+
+.brand-loader .dot {
+    color: var(--text-muted);
+    animation: dotPulse 1.5s infinite;
+}
+
+@keyframes letterReveal {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dotPulse {
+    0%, 100% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
 /* ---------- Scrollbar ---------- */
 ::-webkit-scrollbar {
     width: 6px;

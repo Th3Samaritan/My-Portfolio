@@ -13,6 +13,35 @@
       "type": "image/svg+xml",
       "sizes": "any",
       "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "View Gallery",
+      "url": "/My-Portfolio/gallery.html",
+      "description": "Browse the 3D Model Gallery"
+    },
+    {
+      "name": "Read Blog",
+      "url": "/My-Portfolio/blog.html",
+      "description": "Read the latest engineering notes"
+    },
+    {
+      "name": "Contact Me",
+      "url": "/My-Portfolio/index.html#contact",
+      "description": "Get in touch for collaboration"
     }
   ]
 }

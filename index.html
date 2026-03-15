@@ -39,9 +39,21 @@
 
 <body>
 
-    <!-- ===== Preloader ===== -->
+    <!-- ===== Branded Preloader ===== -->
     <div id="preloader" class="preloader">
-        <div class="preloader-spinner"></div>
+        <div class="brand-loader">
+            <span style="animation-delay: 0.1s">A</span>
+            <span style="animation-delay: 0.2s">b</span>
+            <span style="animation-delay: 0.3s">d</span>
+            <span style="animation-delay: 0.4s">u</span>
+            <span style="animation-delay: 0.5s">l</span>
+            <span style="animation-delay: 0.6s">s</span>
+            <span style="animation-delay: 0.7s">a</span>
+            <span style="animation-delay: 0.8s">m</span>
+            <span style="animation-delay: 0.9s">a</span>
+            <span style="animation-delay: 1.0s">d</span>
+            <span class="dot">.</span>
+        </div>
     </div>
 
     <!-- ===== Theme Toggle ===== -->
@@ -50,155 +62,154 @@
         <svg id="theme-toggle-light-icon" style="display:none" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM10 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM3.05 4.54a1 1 0 00-1.414 1.414l.707.707a1 1 0 001.414-1.414l-.707-.707zM17.464 4.54a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 111.414-1.414l.707.707z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
     </button>
 
-    <!-- ===== Header & Navigation ===== -->
-    <header class="nav-header">
+    <!-- ===== Header & Navigation (Simplified & Scroll-Spy Ready) ===== -->
+    <header class="nav-header glass-panel">
         <nav class="nav-inner">
             <a href="#home" class="nav-logo">Abdulsamad<span class="nav-logo-dot">.</span></a>
 
             <div class="nav-links">
-                <a href="#home" class="nav-link">Home</a>
+                <a href="#home" class="nav-link active">Home</a>
                 <a href="#about" class="nav-link">About</a>
-                <a href="#skills" class="nav-link">Skills</a>
-                <a href="#projects" class="nav-link">Work</a>
+                <a href="#work" class="nav-link">Work</a>
                 <a href="gallery.html" class="nav-link">Gallery</a>
-                <a href="#research" class="nav-link">Research</a>
                 <a href="blog.html" class="nav-link">Blog</a>
-                <a href="notebook.html" class="nav-link">Notebook</a>
                 <a href="#contact" class="nav-link">Contact</a>
             </div>
 
-            <button id="mobile-menu-button" class="mobile-menu-btn" aria-label="Toggle menu">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button id="mobile-menu-button" class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
             </button>
         </nav>
 
-        <div id="mobile-menu" class="mobile-menu">
+        <div id="mobile-menu" class="mobile-menu glass-panel">
             <a href="#home">Home</a>
             <a href="#about">About</a>
-            <a href="#skills">Skills</a>
-            <a href="#projects">Work</a>
+            <a href="#work">Work</a>
             <a href="gallery.html">Gallery</a>
-            <a href="#research">Research</a>
             <a href="blog.html">Blog</a>
-            <a href="notebook.html">Notebook</a>
             <a href="#contact">Contact</a>
         </div>
     </header>
 
-    <main class="container">
+    <main>
+        <!-- ===== Premium Hero Section ===== -->
+        <section id="home" class="force-dark" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background-color: #0A0A0A; padding-top: 5rem; position: relative;">
+            
+            <div class="container relative z-10 w-full">
+                <div class="grid lg\:grid-5-col gap-8 items-center w-full">
 
-        <!-- ===== Hero Section ===== -->
-        <section id="home" class="section" style="min-height: 100vh; display: flex; align-items: center; padding-top: 5rem;">
-            <div class="grid lg\:grid-5-col gap-8 items-center w-full" style="width:100%">
+                    <!-- Left: Text Content -->
+                    <div class="reveal" style="display:flex; flex-direction:column; gap:1.75rem;">
+                        
+                        <!-- Status Pill -->
+                        <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 0.375rem 0.875rem; border-radius: 9999px; width: fit-content;">
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background-color: #10B981; box-shadow: 0 0 8px rgba(16,185,129,0.8);"></span>
+                            <span style="font-size: 0.8125rem; font-weight: 500; color: #D4D4D4; letter-spacing: 0.05em; text-transform: uppercase;">Available for Collaboration</span>
+                        </div>
 
-                <!-- Left: Text Content -->
-                <div class="fade-in" style="display:flex; flex-direction:column; gap:1.5rem;">
-                    <img src="assets/profile-pic.JPG" alt="Abdulsamad Muyideen" class="profile-img" loading="eager" style="align-self: flex-start;">
+                        <h1 style="font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; letter-spacing: -0.04em; line-height: 1.05; color: #FAFAFA;">
+                            Hi, I'm <br class="hidden sm:block">
+                            <span class="gradient-text">Abdulsamad</span>.
+                        </h1>
 
-                    <h1 style="font-size: clamp(2.25rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1;">
-                        Hi, I'm Abdulsamad
-                    </h1>
+                        <!-- Typewriter Effect Subtitle -->
+                        <p class="h-8 sm:h-auto overflow-hidden" style="font-size: clamp(1.125rem, 2vw, 1.5rem); font-weight: 500; color: #A3A3A3;">
+                            <span id="typewriter-text" style="color: #FAFAFA;">A Multidisciplinary Engineer.</span><span class="typewriter-cursor"></span>
+                        </p>
 
-                    <p style="font-size: 1.25rem; font-weight: 500; color: var(--text-secondary);">
-                        A Multidisciplinary Engineer solving the "3 Body Problem" of modern tech.
-                    </p>
+                        <p style="font-size: 1rem; color: #A3A3A3; max-width: 32rem; line-height: 1.8;">
+                            I operate at the intersection of the physical and digital worlds. From building secure microservices and predictive ML models, to designing carbon-fiber UAVs and running complex FEA simulations.
+                        </p>
 
-                    <p style="font-size: 1rem; color: var(--text-secondary); max-width: 40rem;">
-                        I build secure, intelligent software and solve complex challenges in materials science. From developing predictive ML models for material properties to conducting advanced penetration testing, I operate at the intersection of the physical and digital worlds.
-                    </p>
-
-                    <div class="flex flex-wrap" style="gap: 1rem; padding-top: 0.5rem;">
-                        <a href="assets/my-cv.pdf" download class="btn btn-primary">
-                            Download CV
-                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        </a>
-                        <a href="#contact" class="btn btn-secondary">Get In Touch</a>
-                    </div>
-                </div>
-
-                <!-- Right: Three Pillars -->
-                <div class="fade-in" style="display: flex; flex-direction: column; gap: 1rem; transition-delay: 200ms;">
-
-                    <div class="card" style="padding: 1.5rem;">
-                        <div class="flex items-center" style="gap: 1rem;">
-                            <div class="icon-circle">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2 1m0 0l-2-1m2 1v2.5M3 15l2 1m0 0l2-1m-2 1v2.5M3 12l2 1m0 0l2-1m-2 1v2.5M3 9l2 1m0 0l2-1m-2 1v2.5"></path></svg>
-                            </div>
-                            <div>
-                                <h3 style="font-size: 1.125rem; font-weight: 700; color: var(--text-primary);">Materials & Simulation</h3>
-                                <p style="font-size: 0.875rem; color: var(--text-muted);">FEA, 3D CAD, and ML-driven materials analysis.</p>
-                            </div>
+                        <div class="flex flex-wrap" style="gap: 1rem; padding-top: 1rem;">
+                            <a href="#work" class="btn" style="background: #FAFAFA; color: #0A0A0A; font-weight: 700;">
+                                View My Work
+                            </a>
+                            <a href="#contact" class="btn" style="background: rgba(255,255,255,0.1); color: #FAFAFA; border: 1px solid rgba(255,255,255,0.2);">
+                                Get In Touch
+                            </a>
+                        </div>
+                        
+                        <div style="padding-top: 2rem; display: flex; gap: 1rem; align-items: center;">
+                            <a href="https://github.com/th3samaritan" target="_blank" rel="noopener" style="color: #A3A3A3; transition: color 0.2s;" onmouseover="this.style.color='#FAFAFA'" onmouseout="this.style.color='#A3A3A3'" aria-label="GitHub">
+                                <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            </a>
+                            <a href="https://linkedin.com/in/abdulsamad-muyideen-8b478a210" target="_blank" rel="noopener" style="color: #A3A3A3; transition: color 0.2s;" onmouseover="this.style.color='#FAFAFA'" onmouseout="this.style.color='#A3A3A3'" aria-label="LinkedIn">
+                                <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                            </a>
                         </div>
                     </div>
 
-                    <div class="card" style="padding: 1.5rem;">
-                        <div class="flex items-center" style="gap: 1rem;">
-                            <div class="icon-circle">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                            </div>
-                            <div>
-                                <h3 style="font-size: 1.125rem; font-weight: 700; color: var(--text-primary);">Software Engineering</h3>
-                                <p style="font-size: 0.875rem; color: var(--text-muted);">Secure web/app dev with Python, Java, and React.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card" style="padding: 1.5rem;">
-                        <div class="flex items-center" style="gap: 1rem;">
-                            <div class="icon-circle">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                            </div>
-                            <div>
-                                <h3 style="font-size: 1.125rem; font-weight: 700; color: var(--text-primary);">Cybersecurity</h3>
-                                <p style="font-size: 0.875rem; color: var(--text-muted);">Red/Blue Team operations and penetration testing.</p>
-                            </div>
+                    <!-- Right: Profile Image -->
+                    <div class="reveal relative" style="display: flex; justify-content: center; transition-delay: 200ms;">
+                        <!-- Animated Gradient Background Glow -->
+                        <div style="position: absolute; inset: -2rem; background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%); z-index: 0; pointer-events: none;"></div>
+                        
+                        <div class="profile-ring" style="z-index: 1;">
+                            <img src="assets/profile-pic.JPG" alt="Abdulsamad Muyideen" style="width: 16rem; height: 16rem; object-fit: cover; border-radius: 50%; border: 4px solid #0A0A0A; display: block;" loading="eager">
                         </div>
                     </div>
 
                 </div>
             </div>
+
+            <!-- Scroll Indicator -->
+            <a href="#about" aria-label="Scroll down" style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); color: #525252; animation: bounce 2s infinite;">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            </a>
+            <style>@keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);} 40% {transform: translateY(-10px) translateX(-50%);} 60% {transform: translateY(-5px) translateX(-50%);} }</style>
         </section>
 
-        <!-- ===== About ===== -->
+        <!-- ===== About & Counters (Side-by-Side Premium Layout) ===== -->
         <section id="about" class="section">
-            <div class="text-center fade-in" style="max-width: var(--container-narrow); margin: 0 auto;">
-                <p class="section-label">About Me</p>
-                <h2 class="section-title">A Quick Introduction</h2>
-                <p class="section-desc mx-auto" style="margin-top: 1.5rem;">
-                    I'm an innovative professional with a strong background in CAE, FEA, metallurgical and materials engineering, security engineering, and software engineering. With extensive experience in analyzing and designing materials, conducting simulations, ensuring system security, and developing cutting-edge software solutions, I bring a unique blend of technical expertise and problem-solving skills to drive project success.
-                </p>
-                <p style="margin-top: 1rem; color: var(--text-secondary);">
-                    <a href="notebook.html" style="font-weight: 500; text-decoration: underline; text-underline-offset: 3px;">Check out my Digital Notebook →</a> for my checklists, code snippets, and favorite books.
-                </p>
-            </div>
+            <div class="grid lg\:grid-2 gap-8 items-center w-full">
+                <!-- Left: Text -->
+                <div class="reveal">
+                    <p class="section-label" style="text-align: left;">About Me</p>
+                    <h2 class="section-title" style="text-align: left;">Bridging Physical & Digital</h2>
+                    <p class="section-desc" style="text-align: left; margin-top: 1.5rem; max-width: 100%;">
+                        I'm an innovative professional with a strong background in CAE, FEA, metallurgical engineering, security engineering, and software architecture. 
+                        By combining deep materials analysis with advanced computational modeling and secure software development, I bring a unique blend of technical expertise to solve complex, multidisciplinary problems.
+                    </p>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);">
+                        <a href="notebook.html" style="font-weight: 600; text-decoration: underline; text-underline-offset: 4px; color: var(--text-primary); transition: color 0.2s;">Explore my Digital Notebook →</a> <br>
+                        <span style="font-size: 0.875rem;">(Checklists, code snippets, and reading lists)</span>
+                    </p>
+                </div>
 
-            <!-- Counters -->
-            <div id="counters" class="grid sm\:grid-2 md\:grid-4 gap-6 fade-in" style="max-width: 60rem; margin: 4rem auto 0;">
-                <div class="card text-center" style="padding: 1.5rem;">
-                    <h3 style="font-size: 0.8125rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Cybersecurity</h3>
-                    <div class="counter-value count" data-target="15" style="margin-top: 0.5rem;">0</div>
-                    <p style="font-size: 0.875rem; color: var(--text-secondary);">Projects</p>
-                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Clients: <strong data-client-target="8">0</strong></p>
-                </div>
-                <div class="card text-center" style="padding: 1.5rem;">
-                    <h3 style="font-size: 0.8125rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Software Eng.</h3>
-                    <div class="counter-value count" data-target="20" style="margin-top: 0.5rem;">0</div>
-                    <p style="font-size: 0.875rem; color: var(--text-secondary);">Projects</p>
-                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Clients: <strong data-client-target="10">0</strong></p>
-                </div>
-                <div class="card text-center" style="padding: 1.5rem;">
-                    <h3 style="font-size: 0.8125rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Machine Learning</h3>
-                    <div class="counter-value count" data-target="12" style="margin-top: 0.5rem;">0</div>
-                    <p style="font-size: 0.875rem; color: var(--text-secondary);">Projects</p>
-                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Clients: <strong data-client-target="5">0</strong></p>
-                </div>
-                <div class="card text-center" style="padding: 1.5rem;">
-                    <h3 style="font-size: 0.8125rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Materials Eng.</h3>
-                    <div class="counter-value count" data-target="10" style="margin-top: 0.5rem;">0</div>
-                    <p style="font-size: 0.875rem; color: var(--text-secondary);">Projects</p>
-                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Clients: <strong data-client-target="6">0</strong></p>
+                <!-- Right: Counters Grid -->
+                <div id="counters" class="grid sm\:grid-2 gap-4 reveal" style="transition-delay: 200ms;">
+                    
+                    <div class="card text-center glass-panel" style="padding: 1.5rem; transition: transform 0.3s ease; cursor: default;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                        <h3 style="font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Cybersecurity</h3>
+                        <div class="counter-value count gradient-text" data-target="15" style="margin-top: 0.5rem; font-size: 2.5rem; line-height: 1;">0</div>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 500;">Projects</p>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Clients: <strong data-client-target="8">0</strong></p>
+                    </div>
+
+                    <div class="card text-center glass-panel" style="padding: 1.5rem; transition: transform 0.3s ease; cursor: default;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                        <h3 style="font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Software Eng.</h3>
+                        <div class="counter-value count gradient-text" data-target="20" style="margin-top: 0.5rem; font-size: 2.5rem; line-height: 1;">0</div>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 500;">Projects</p>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Clients: <strong data-client-target="10">0</strong></p>
+                    </div>
+
+                    <div class="card text-center glass-panel" style="padding: 1.5rem; transition: transform 0.3s ease; cursor: default;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                        <h3 style="font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Machine Learning</h3>
+                        <div class="counter-value count gradient-text" data-target="12" style="margin-top: 0.5rem; font-size: 2.5rem; line-height: 1;">0</div>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 500;">Projects</p>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Clients: <strong data-client-target="5">0</strong></p>
+                    </div>
+
+                    <div class="card text-center glass-panel" style="padding: 1.5rem; transition: transform 0.3s ease; cursor: default;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                        <h3 style="font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Materials Eng.</h3>
+                        <div class="counter-value count gradient-text" data-target="10" style="margin-top: 0.5rem; font-size: 2.5rem; line-height: 1;">0</div>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 500;">Projects</p>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Clients: <strong data-client-target="6">0</strong></p>
+                    </div>
+
                 </div>
             </div>
         </section>

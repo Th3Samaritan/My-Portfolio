@@ -1,4 +1,4 @@
-const CACHE_NAME = 'abdulsamad-portfolio-v2';
+const CACHE_NAME = 'abdulsamad-portfolio-v3';
 const GITHUB_REPO_PATH = '/My-Portfolio';
 
 const URLS_TO_CACHE = [
@@ -9,6 +9,7 @@ const URLS_TO_CACHE = [
     `${GITHUB_REPO_PATH}/notebook.html`,
     `${GITHUB_REPO_PATH}/gallery.html`,
     `${GITHUB_REPO_PATH}/404.html`,
+    `${GITHUB_REPO_PATH}/offline.html`,
 
     // CSS & JS
     `${GITHUB_REPO_PATH}/styles.css`,
