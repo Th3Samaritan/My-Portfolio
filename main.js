@@ -221,17 +221,120 @@
         }
     });
 
+    // === Scroll to Top Button ===
+    const scrollTopBtn = document.getElementById('scroll-top-btn');
+    if (scrollTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 600) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // === Fade-in Observer Fallback (for any remaining .fade-in elements) ===
+    document.querySelectorAll('.fade-in').forEach(el => {
+        revealObserver.observe(el);
+    });
+
     // === Service Worker & PWA Integration ===
     let deferredPrompt;
-    
-    // Listen for the install prompt event
+    const pwaBanner = document.getElementById('pwa-install-banner');
+    const pwaInstallBtn = document.getElementById('pwa-install-btn');
+    const pwaDismissBtn = document.getElementById('pwa-dismiss-btn');
+
+    // Show the install banner when the browser fires beforeinstallprompt
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        console.log('PWA is installable. Event trapped.');
-        // We can show a custom install UI here later if desired.
+
+        // Don't show if the user previously dismissed it
+        if (localStorage.getItem('pwa-install-dismissed') === 'true') return;
+
+        if (pwaBanner) {
+            pwaBanner.classList.remove('hidden');
+        }
     });
 
+    if (pwaInstallBtn) {
+        pwaInstallBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log('PWA install outcome:', outcome);
+            deferredPrompt = null;
+            if (pwaBanner) pwaBanner.classList.add('hidden');
+        });
+    }
+
+    if (pwaDismissBtn) {
+        pwaDismissBtn.addEventListener('click', () => {
+            if (pwaBanner) pwaBanner.classList.add('hidden');
+            localStorage.setItem('pwa-install-dismissed', 'true');
+        });
+    }
+
+    // Hide install banner if app is already installed
+    window.addEventListener('appinstalled', () => {
+        if (pwaBanner) pwaBanner.classList.add('hidden');
+        deferredPrompt = null;
+        console.log('PWA was installed.');
+    });
+
+    // === Blog Notification System ===
+    const notifBanner = document.getElementById('notif-banner');
+    const notifEnableBtn = document.getElementById('notif-enable-btn');
+    const notifDismissBtn = document.getElementById('notif-dismiss-btn');
+
+    function shouldShowNotifBanner() {
+        if (!('Notification' in window) || !('serviceWorker' in navigator)) return false;
+        if (Notification.permission === 'granted') return false;
+        if (Notification.permission === 'denied') return false;
+        if (localStorage.getItem('notif-dismissed') === 'true') return false;
+        return true;
+    }
+
+    // Show the notification banner after a short delay if conditions met
+    if (shouldShowNotifBanner() && notifBanner) {
+        setTimeout(() => {
+            // Only show if the PWA banner isn't already showing
+            if (pwaBanner && !pwaBanner.classList.contains('hidden')) return;
+            notifBanner.classList.remove('hidden');
+        }, 8000); // 8 second delay so it's not intrusive
+    }
+
+    if (notifEnableBtn) {
+        notifEnableBtn.addEventListener('click', async () => {
+            const permission = await Notification.requestPermission();
+            if (permission === 'granted') {
+                console.log('Notification permission granted.');
+                // Subscribe to push notifications (requires a push server in production)
+                if ('serviceWorker' in navigator) {
+                    const reg = await navigator.serviceWorker.ready;
+                    // For now, show a confirmation notification
+                    new Notification('Subscribed!', {
+                        body: "You'll be notified when new blog posts are published.",
+                        icon: 'assets/favicon.svg'
+                    });
+                    localStorage.setItem('notif-subscribed', 'true');
+                }
+            }
+            if (notifBanner) notifBanner.classList.add('hidden');
+        });
+    }
+
+    if (notifDismissBtn) {
+        notifDismissBtn.addEventListener('click', () => {
+            if (notifBanner) notifBanner.classList.add('hidden');
+            localStorage.setItem('notif-dismissed', 'true');
+        });
+    }
+
+    // === Service Worker Registration ===
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/My-Portfolio/sw.js')
@@ -241,4 +344,3 @@
     }
 
 })();
-

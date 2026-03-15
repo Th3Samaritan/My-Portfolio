@@ -359,6 +359,10 @@ a {
     width: 100%;
 }
 
+.nav-link.active::after {
+    width: 100%;
+}
+
 /* Mobile Menu */
 .mobile-menu-btn {
     display: flex;
@@ -1392,4 +1396,129 @@ a {
     border-radius: var(--radius-md);
     color: var(--text-muted);
     font-size: 0.8125rem;
+}
+
+/* ---------- Nav CV Download Button ---------- */
+.btn-nav-cv {
+    display: none;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: var(--text-inverse);
+    border-radius: var(--radius-full);
+    transition: all var(--transition-fast);
+}
+
+.btn-nav-cv:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+}
+
+@media (min-width: 768px) {
+    .btn-nav-cv { display: inline-flex; margin-left: 1rem; }
+}
+
+/* ---------- Scroll to Top ---------- */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 5rem;
+    right: 1.25rem;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    color: var(--text-secondary);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-fast);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+}
+
+.scroll-top-btn.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+/* ---------- PWA Install Banner ---------- */
+.pwa-banner,
+.notif-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 55;
+    padding: 0.75rem 1rem;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark .pwa-banner,
+.dark .notif-banner {
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.4);
+}
+
+.pwa-banner-inner,
+.notif-banner-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* ---------- Premium Footer ---------- */
+.footer-premium {
+    border-top: 1px solid var(--border);
+    padding: 3rem 0 1.5rem;
+    background: var(--bg-secondary);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+@media (min-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 2fr 1fr 1fr;
+    }
+}
+
+.footer-grid a:hover {
+    color: var(--text-primary) !important;
+}
+
+.footer-bottom {
+    padding-top: 1.5rem;
+    text-align: center;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
 }
