@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MAST — Brand Identity v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@200;300;400;500;600;700&family=Barlow:wght@200;300;400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#06080F; --bg2:#08090F; --border:#0E1018; --border2:#14162A;
+  --hi:#E8E2D4; --mid:#4A4A5E; --lo:#1A1A28;
+  --amber:#C9903A; --amber2:#E0AA50; --amber3:#7A5418;
+  --steel:#1A5C8A; --steel2:#2E7EB4; --navy:#0D2238; --navy2:#1A4060;
+  --paper:#F0EDE7; --gold:#FFD060;
+}
+html,body{background:var(--bg);font-family:'Barlow',sans-serif;color:var(--hi);}
+.page{max-width:1020px;margin:0 auto;padding:72px 40px 120px;}
+.section{margin-bottom:88px;}
+.sl{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:300;letter-spacing:5px;text-transform:uppercase;color:#1C1E30;padding-bottom:16px;margin-bottom:40px;border-bottom:1px solid #0A0C14;}
+.cell{border-radius:16px;display:flex;align-items:center;justify-content:center;padding:48px 36px;position:relative;overflow:hidden;}
+.dk{background:var(--bg2);border:1px solid var(--border);}
+.lt{background:var(--paper);}
+.wh{background:#fff;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.g6{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;}
+.ctag{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:8.5px;letter-spacing:3px;text-transform:uppercase;color:#14142A;}
+.lt .ctag,.wh .ctag{color:#B4B0A8;}
+.icon-frame{border-radius:28%;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ltr-card{background:#07090F;border:1px solid #0E1018;border-radius:12px;padding:24px 14px 32px;display:flex;flex-direction:column;align-items:center;gap:18px;position:relative;}
+.ltr-label{font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:700;letter-spacing:2px;color:var(--gold);line-height:1;}
+.ltr-sub{font-family:'Barlow',sans-serif;font-size:8.5px;font-weight:300;color:#1E1E30;text-align:center;line-height:1.6;}
+.ltr-name{position:absolute;bottom:9px;right:11px;font-family:'Barlow Condensed',sans-serif;font-size:7px;letter-spacing:2px;color:#14142A;text-transform:uppercase;}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ══ MASTHEAD ══ -->
+<div style="margin-bottom:80px;padding-bottom:40px;border-bottom:1px solid #0A0B12;">
+  <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:5px;color:#18182A;text-transform:uppercase;margin-bottom:18px;">Brand Identity System — v3.0</div>
+  <div style="font-family:'Barlow Condensed',sans-serif;font-size:56px;font-weight:700;letter-spacing:16px;color:var(--hi);line-height:1;margin-bottom:10px;">MAST</div>
+  <div style="font-family:'Barlow',sans-serif;font-size:10.5px;font-weight:300;letter-spacing:3px;color:#24243C;">
+    MATERIALS · ADVANCED · SCIENCE · TECHNOLOGY · CONSOLIDATE
+  </div>
+
+  <!-- Cipher badge -->
+  <div style="margin-top:24px;display:inline-flex;align-items:center;gap:0;background:#07080E;border:1px solid #12142A;border-radius:8px;overflow:hidden;">
+    <div style="padding:10px 18px;border-right:1px solid #12142A;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:8px;letter-spacing:3px;color:#1A1A2E;text-transform:uppercase;margin-bottom:4px;">Founder's Cipher</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;letter-spacing:8px;color:var(--amber);">M·A·O·T</div>
+    </div>
+    <div style="padding:10px 18px;border-right:1px solid #12142A;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:8px;letter-spacing:3px;color:#1A1A2E;text-transform:uppercase;margin-bottom:4px;">Identity Mark</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;letter-spacing:8px;color:var(--hi);">M·A·S·T</div>
+    </div>
+    <div style="padding:10px 18px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:8px;letter-spacing:3px;color:#1A1A2E;text-transform:uppercase;margin-bottom:4px;">Full Cipher</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;letter-spacing:8px;color:var(--steel2);">M·A·S·T·C·O</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     00 — THE MARK
+══════════════════════════════ -->
+<div class="section">
+  <div class="sl">00 — The Prism — All 6 Letters Encoded</div>
+
+  <div style="background:#07080E;border:1px solid #0E1018;border-radius:16px;padding:52px;display:flex;gap:64px;align-items:flex-start;flex-wrap:wrap;">
+
+    <!-- Full mark with overlay showing all letters labelled -->
+    <div style="flex-shrink:0;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="220" height="220">
+        <!-- ── BASE PRISM ── -->
+        <!-- TOP face: Amber — Materials, Additive, Physical -->
+        <polygon points="120,30 181,66 120,102 59,66" fill="#C9903A"/>
+        <!-- RIGHT face: Steel — Aerospace, Drone -->
+        <polygon points="181,66 181,138 120,174 120,102" fill="#1A5C8A"/>
+        <!-- LEFT face: Navy — AI, Cyber, Software -->
+        <polygon points="59,66 120,102 120,174 59,138" fill="#0D2238"/>
+        <!-- Face separators -->
+        <line x1="120" y1="30"  x2="120" y2="102" stroke="#06080F" stroke-width="2"/>
+        <line x1="120" y1="102" x2="181" y2="138" stroke="#06080F" stroke-width="2"/>
+        <line x1="120" y1="102" x2="59"  y2="138" stroke="#06080F" stroke-width="2"/>
+        <!-- Outer hex -->
+        <polygon points="120,30 181,66 181,138 120,174 59,138 59,66"
+          fill="none" stroke="#C9903A" stroke-width="0.8" stroke-opacity="0.25"/>
+
+        <!-- ── CIPHER LETTER INDICATORS  ── -->
+        <!-- M label — outer frame top / twin peaks region -->
+        <text x="120" y="24" font-family="'Barlow Condensed',sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#FFD060" opacity="0.85">M</text>
+        <!-- A label — top face (the A is the whole top face) -->
+        <text x="120" y="78" font-family="'Barlow Condensed',sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#06080F" opacity="0.6">A</text>
+        <!-- S label — diagonal path label -->
+        <text x="166" y="90" font-family="'Barlow Condensed',sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#06080F" opacity="0.5">S</text>
+        <!-- T label — spine + crossbar region -->
+        <text x="134" y="148" font-family="'Barlow Condensed',sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#06080F" opacity="0.45">T</text>
+        <!-- C label — outer left arc -->
+        <text x="42" y="105" font-family="'Barlow Condensed',sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#FFD060" opacity="0.8">C</text>
+        <!-- O label — full outer hex bottom -->
+        <text x="120" y="194" font-family="'Barlow Condensed',sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#FFD060" opacity="0.8">O</text>
+      </svg>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:8px;letter-spacing:3px;color:#1E1E30;text-transform:uppercase;text-align:center;margin-top:12px;">All 6 letters · one geometry</div>
+    </div>
+
+    <!-- Breakdown -->
+    <div style="flex:1;min-width:260px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:2.5px;color:var(--amber);text-transform:uppercase;margin-bottom:16px;">Six Letters · One Prism</div>
+      <p style="font-family:'Barlow',sans-serif;font-size:12px;font-weight:300;line-height:1.9;color:#2E304A;margin-bottom:28px;">
+        M, A, S, T live in the inner face geometry. C and O live in the outer hexagonal perimeter — the boundary that contains everything. The full cipher <span style="color:#3A3A56;">M·A·S·T·C·O</span> is encoded without adding a single element. The mark was always complete.
+      </p>
+
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:center;padding:9px 14px;background:#06080F;border:1px solid #0E1018;border-radius:6px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--gold);">M</div>
+          <div style="font-family:'Barlow',sans-serif;font-size:10px;font-weight:300;color:#2A2A3C;line-height:1.5;">Outer legs + twin peak slopes + center valley — <span style="color:#1E1E30;">Muyideen</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:center;padding:9px 14px;background:#06080F;border:1px solid #0E1018;border-radius:6px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--gold);">A</div>
+          <div style="font-family:'Barlow',sans-serif;font-size:10px;font-weight:300;color:#2A2A3C;line-height:1.5;">Top face = apex, two slopes, horizontal crossbar — <span style="color:#1E1E30;">AbdulSamad</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:center;padding:9px 14px;background:#06080F;border:1px solid #0E1018;border-radius:6px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--gold);">S</div>
+          <div style="font-family:'Barlow',sans-serif;font-size:10px;font-weight:300;color:#2A2A3C;line-height:1.5;">Upper-right arc → pivot → lower-left arc through diagonal — <span style="color:#1E1E30;">Science / Software</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:center;padding:9px 14px;background:#06080F;border:1px solid #0E1018;border-radius:6px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--gold);">T</div>
+          <div style="font-family:'Barlow',sans-serif;font-size:10px;font-weight:300;color:#2A2A3C;line-height:1.5;">Upper crossbar + full vertical spine apex to base — <span style="color:#1E1E30;">Teniola · Technology</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:center;padding:9px 14px;background:#06080F;border:1px solid #0C162A;border-radius:6px;border-color:#0C162A;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--steel2);">C</div>
+          <div style="font-family:'Barlow',sans-serif;font-size:10px;font-weight:300;color:#2A2A3C;line-height:1.5;">Five outer hex edges (left arc, open right) — <span style="color:#1E1E30;">Consolidate</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:center;padding:9px 14px;background:#06080F;border:1px solid #0C162A;border-radius:6px;border-color:#0C162A;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--steel2);">O</div>
+          <div style="font-family:'Barlow',sans-serif;font-size:10px;font-weight:300;color:#2A2A3C;line-height:1.5;">Full outer hexagonal perimeter — the enclosing ring — <span style="color:#1E1E30;">Oladimeji</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     01 — LETTER ANATOMY CARDS
+══════════════════════════════ -->
+<div class="section">
+  <div class="sl">01 — Letter Anatomy — M · A · S · T · C · O</div>
+
+  <!-- Row 1: M A S T -->
+  <div class="g4" style="margin-bottom:14px;">
+
+    <!-- M -->
+    <div class="ltr-card">
+      <svg viewBox="0 0 200 200" width="118" height="118" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="100,26 157,59 100,92 43,59" fill="#C9903A" opacity="0.07"/>
+        <polygon points="157,59 157,125 100,158 100,92" fill="#1A5C8A" opacity="0.07"/>
+        <polygon points="43,59 100,92 100,158 43,125" fill="#0D2238" opacity="0.1"/>
+        <polygon points="100,26 157,59 157,125 100,158 43,125 43,59" fill="none" stroke="#14162A" stroke-width="1.2"/>
+        <!-- M: left outer leg -->
+        <line x1="43" y1="59" x2="43" y2="125" stroke="#FFD060" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- M: left peak slope -->
+        <line x1="43" y1="59" x2="100" y2="26" stroke="#FFD060" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- M: right peak slope -->
+        <line x1="100" y1="26" x2="157" y2="59" stroke="#FFD060" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- M: right outer leg -->
+        <line x1="157" y1="59" x2="157" y2="125" stroke="#FFD060" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- M: center valley -->
+        <line x1="100" y1="26" x2="100" y2="92" stroke="#FFD060" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div class="ltr-label">M</div>
+        <div class="ltr-sub">Twin outer legs · peak slopes<br/>center valley descent</div>
+      </div>
+      <div class="ltr-name">Muyideen</div>
+    </div>
+
+    <!-- A -->
+    <div class="ltr-card">
+      <svg viewBox="0 0 200 200" width="118" height="118" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="100,26 157,59 100,92 43,59" fill="#C9903A" opacity="0.07"/>
+        <polygon points="157,59 157,125 100,158 100,92" fill="#1A5C8A" opacity="0.07"/>
+        <polygon points="43,59 100,92 100,158 43,125" fill="#0D2238" opacity="0.1"/>
+        <polygon points="100,26 157,59 157,125 100,158 43,125 43,59" fill="none" stroke="#14162A" stroke-width="1.2"/>
+        <!-- A: left leg slope -->
+        <line x1="43" y1="59" x2="100" y2="26" stroke="#FFD060" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- A: right leg slope -->
+        <line x1="100" y1="26" x2="157" y2="59" stroke="#FFD060" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- A: crossbar = base of top face -->
+        <line x1="43" y1="59" x2="157" y2="59" stroke="#FFD060" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div class="ltr-label">A</div>
+        <div class="ltr-sub">Top face = the letter A<br/>apex · slopes · crossbar</div>
+      </div>
+      <div class="ltr-name">AbdulSamad</div>
+    </div>
+
+    <!-- S -->
+    <div class="ltr-card">
+      <svg viewBox="0 0 200 200" width="118" height="118" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="100,26 157,59 100,92 43,59" fill="#C9903A" opacity="0.07"/>
+        <polygon points="157,59 157,125 100,158 100,92" fill="#1A5C8A" opacity="0.07"/>
+        <polygon points="43,59 100,92 100,158 43,125" fill="#0D2238" opacity="0.1"/>
+        <polygon points="100,26 157,59 157,125 100,158 43,125 43,59" fill="none" stroke="#14162A" stroke-width="1.2"/>
+        <!-- S upper arc: top → upper-right → center -->
+        <polyline points="100,26 157,59 100,92" fill="none" stroke="#FFD060" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- S lower arc: center → lower-left → bottom -->
+        <polyline points="100,92 43,125 100,158" fill="none" stroke="#FFD060" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <div class="ltr-label">S</div>
+        <div class="ltr-sub">Upper-right arc · center pivot<br/>lower-left arc</div>
+      </div>
+      <div class="ltr-name">Science · Software</div>
+    </div>
+
+    <!-- T -->
+    <div class="ltr-card">
+      <svg viewBox="0 0 200 200" width="118" height="118" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="100,26 157,59 100,92 43,59" fill="#C9903A" opacity="0.07"/>
+        <polygon points="157,59 157,125 100,158 100,92" fill="#1A5C8A" opacity="0.07"/>
+        <polygon points="43,59 100,92 100,158 43,125" fill="#0D2238" opacity="0.1"/>
+        <polygon points="100,26 157,59 157,125 100,158 43,125 43,59" fill="none" stroke="#14162A" stroke-width="1.2"/>
+        <!-- T: crossbar -->
+        <line x1="43" y1="59" x2="157" y2="59" stroke="#FFD060" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- T: full vertical spine -->
+        <line x1="100" y1="26" x2="100" y2="158" stroke="#FFD060" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div class="ltr-label">T</div>
+        <div class="ltr-sub">Horizontal crossbar<br/>full vertical spine</div>
+      </div>
+      <div class="ltr-name">Teniola · Technology</div>
+    </div>
+
+  </div>
+
+  <!-- Row 2: C and O — outer hex letters — wider cards -->
+  <div class="g2">
+
+    <!-- C -->
+    <div class="ltr-card" style="padding:28px 24px 36px;flex-direction:row;gap:28px;align-items:center;">
+      <svg viewBox="0 0 200 200" width="130" height="130" xmlns="http://www.w3.org/2000/svg">
+        <!-- Ghost prism -->
+        <polygon points="100,26 157,59 100,92 43,59" fill="#C9903A" opacity="0.06"/>
+        <polygon points="157,59 157,125 100,158 100,92" fill="#1A5C8A" opacity="0.06"/>
+        <polygon points="43,59 100,92 100,158 43,125" fill="#0D2238" opacity="0.08"/>
+        <!-- Outer hex ghost -->
+        <polygon points="100,26 157,59 157,125 100,158 43,125 43,59" fill="none" stroke="#14162A" stroke-width="1.2"/>
+        <!--
+          C = 5 outer hex edges, RIGHT SIDE OPEN (missing right vertical 157,59→157,125)
+          Path: top(100,26)→upper-right(157,59)  [start top]
+          Actually C opens to the right:
+          start at upper-right (157,59) — go BACKWARDS around:
+          (157,59) → (100,26) → (43,59) → (43,125) → (100,158) → (157,125)
+          Missing: the right vertical edge (157,59)→(157,125) — that's the C opening
+        -->
+        <polyline
+          points="157,59 100,26 43,59 43,125 100,158 157,125"
+          fill="none" stroke="#FFD060" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Dashed gap indicator -->
+        <line x1="157" y1="59" x2="157" y2="125" stroke="#FFD060" stroke-width="1.5" stroke-dasharray="5 5" stroke-opacity="0.25"/>
+      </svg>
+      <div style="flex:1;">
+        <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px;">
+          <div class="ltr-label" style="font-size:38px;">C</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2.5px;color:#1A5C8A;text-transform:uppercase;">Outer Hex · Left Arc</div>
+        </div>
+        <div class="ltr-sub" style="text-align:left;font-size:10.5px;line-height:1.8;color:#24243A;">
+          Five of the six outer hexagon edges trace a perfect C — the right vertical edge is the open gap. The outer boundary of the prism <em>contains</em> Consolidate. The company name was never external to the mark — it was always its perimeter.
+        </div>
+        <div style="margin-top:12px;font-family:'Barlow Condensed',sans-serif;font-size:8px;letter-spacing:3px;color:#12142A;text-transform:uppercase;">Consolidate</div>
+      </div>
+    </div>
+
+    <!-- O -->
+    <div class="ltr-card" style="padding:28px 24px 36px;flex-direction:row;gap:28px;align-items:center;">
+      <svg viewBox="0 0 200 200" width="130" height="130" xmlns="http://www.w3.org/2000/svg">
+        <!-- Ghost prism -->
+        <polygon points="100,26 157,59 100,92 43,59" fill="#C9903A" opacity="0.06"/>
+        <polygon points="157,59 157,125 100,158 100,92" fill="#1A5C8A" opacity="0.06"/>
+        <polygon points="43,59 100,92 100,158 43,125" fill="#0D2238" opacity="0.08"/>
+        <!--
+          O = The full closed outer hexagonal perimeter
+          All 6 edges: (100,26)→(157,59)→(157,125)→(100,158)→(43,125)→(43,59)→(100,26)
+        -->
+        <polygon
+          points="100,26 157,59 157,125 100,158 43,125 43,59"
+          fill="none" stroke="#FFD060" stroke-width="3.2" stroke-linejoin="round"/>
+        <!-- Internal face lines — very subtle -->
+        <line x1="100" y1="26" x2="100" y2="92" stroke="#FFD060" stroke-width="0.8" stroke-opacity="0.15"/>
+        <line x1="100" y1="92" x2="157" y2="125" stroke="#FFD060" stroke-width="0.8" stroke-opacity="0.15"/>
+        <line x1="100" y1="92" x2="43" y2="125" stroke="#FFD060" stroke-width="0.8" stroke-opacity="0.15"/>
+      </svg>
+      <div style="flex:1;">
+        <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:10px;">
+          <div class="ltr-label" style="font-size:38px;">O</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2.5px;color:#1A5C8A;text-transform:uppercase;">Full Outer Perimeter</div>
+        </div>
+        <div class="ltr-sub" style="text-align:left;font-size:10.5px;line-height:1.8;color:#24243A;">
+          The complete outer hexagonal boundary — all six edges closed — forms the O. It is the ring that holds everything together. The whole prism seen as a silhouette is O. The name not often spoken, but always present — like the boundary itself.
+        </div>
+        <div style="margin-top:12px;font-family:'Barlow Condensed',sans-serif;font-size:8px;letter-spacing:3px;color:#12142A;text-transform:uppercase;">Oladimeji</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Cipher summary strip -->
+  <div style="margin-top:16px;background:#06080F;border:1px solid #0C0E18;border-radius:10px;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+    <div style="font-family:'Barlow',sans-serif;font-size:11px;font-weight:300;color:#22223A;line-height:1.85;max-width:580px;">
+      <span style="color:#3A3A52;">M</span>uyideen · <span style="color:#3A3A52;">A</span>bdulSamad · <span style="color:#3A3A52;">S</span>cience · <span style="color:#3A3A52;">T</span>eniola · <span style="color:#3A3A52;">C</span>onsolidate · <span style="color:#3A3A52;">O</span>ladimeji —
+      six meanings, six letters, one unmodified geometric form.
+      The prism signs itself completely.
+    </div>
+    <div style="display:flex;gap:2px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:700;letter-spacing:0;color:var(--amber);">M</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:700;letter-spacing:0;color:var(--amber);">A</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:700;letter-spacing:0;color:var(--amber);">S</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:700;letter-spacing:0;color:var(--amber);">T</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:700;letter-spacing:0;color:var(--steel2);margin-left:6px;">C</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:700;letter-spacing:0;color:var(--steel2);">O</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     02 — APP ICON
+══════════════════════════════ -->
+<div class="section">
+  <div class="sl">02 — App Icon</div>
+  <div class="g2">
+    <div class="cell dk" style="padding:52px;">
+      <div class="icon-frame" style="width:208px;height:208px;background:#06080F;box-shadow:0 32px 80px rgba(0,0,0,0.85),0 0 0 1px rgba(201,144,58,0.12);">
+        <svg viewBox="0 0 200 200" width="208" height="208" xmlns="http://www.w3.org/2000/svg">
+          <rect width="200" height="200" fill="#06080F"/>
+          <polygon points="100,26 157,59 100,92 43,59" fill="#C9903A"/>
+          <polygon points="157,59 157,125 100,158 100,92" fill="#1A5C8A"/>
+          <polygon points="43,59 100,92 100,158 43,125" fill="#0D2238"/>
+          <line x1="100" y1="26" x2="100" y2="92" stroke="#06080F" stroke-width="2"/>
+          <line x1="100" y1="92" x2="157" y2="125" stroke="#06080F" stroke-width="2"/>
+          <line x1="100" y1="92" x2="43"  y2="125" stroke="#06080F" stroke-width="2"/>
+          <polygon points="100,26 157,59 157,125 100,158 43,125 43,59" fill="none" stroke="#C9903A" stroke-width="0.8" stroke-opacity="0.2"/>
+        </svg>
+      </div>
+      <div class="ctag">Primary Dark · 1024×1024</div>
+    </div>
+    <div class="cell lt" style="padding:52px;">
+      <div class="icon-frame" style="width:208px;height:208px;background:#F0EDE7;box-shadow:0 24px 64px rgba(0,0,0,0.14),0 0 0 1px rgba(0,0,0,0.06);">
+        <svg viewBox="0 0 200 200" width="208" height="208" xmlns="http://www.w3.org/2000/svg">
+          <rect width="200" height="200" fill="#F0EDE7"/>
+          <polygon points="100,26 157,59 100,92 43,59" fill="#1A1612"/>
+          <polygon points="157,59 157,125 100,158 100,92" fill="#3A3630"/>
+          <polygon points="43,59 100,92 100,158 43,125" fill="#5A5650"/>
+          <line x1="100" y1="26" x2="100" y2="92" stroke="#F0EDE7" stroke-width="2"/>
+          <line x1="100" y1="92" x2="157" y2="125" stroke="#F0EDE7" stroke-width="2"/>
+          <line x1="100" y1="92" x2="43"  y2="125" stroke="#F0EDE7" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="ctag">Light · 1024×1024</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     03 — SCALE
+══════════════════════════════ -->
+<div class="section">
+  <div class="sl">03 — Scale · 192 → 16px</div>
+  <div class="cell dk" style="flex-wrap:wrap;gap:36px;padding:52px;">
+    <!-- 192 -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+      <div class="icon-frame" style="width:192px;height:192px;background:#06080F;box-shadow:0 16px 48px rgba(0,0,0,.7);">
+        <svg viewBox="0 0 200 200" width="192" height="192" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#06080F"/>
+        <polygon points="100,26 157,59 100,92 43,59" fill="#C9903A"/><polygon points="157,59 157,125 100,158 100,92" fill="#1A5C8A"/><polygon points="43,59 100,92 100,158 43,125" fill="#0D2238"/>
+        <line x1="100" y1="26" x2="100" y2="92" stroke="#06080F" stroke-width="2"/><line x1="100" y1="92" x2="157" y2="125" stroke="#06080F" stroke-width="2"/><line x1="100" y1="92" x2="43" y2="125" stroke="#06080F" stroke-width="2"/></svg>
+      </div>
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:#18182A;">192</span>
+    </div>
+    <!-- 96 -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+      <div class="icon-frame" style="width:96px;height:96px;background:#06080F;box-shadow:0 8px 24px rgba(0,0,0,.7);">
+        <svg viewBox="0 0 200 200" width="96" height="96" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#06080F"/>
+        <polygon points="100,26 157,59 100,92 43,59" fill="#C9903A"/><polygon points="157,59 157,125 100,158 100,92" fill="#1A5C8A"/><polygon points="43,59 100,92 100,158 43,125" fill="#0D2238"/>
+        <line x1="100" y1="26" x2="100" y2="92" stroke="#06080F" stroke-width="2.5"/><line x1="100" y1="92" x2="157" y2="125" stroke="#06080F" stroke-width="2.5"/><line x1="100" y1="92" x2="43" y2="125" stroke="#06080F" stroke-width="2.5"/></svg>
+      </div>
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:#18182A;">96</span>
+    </div>
+    <!-- 64 -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+      <div class="icon-frame" style="width:64px;height:64px;background:#06080F;box-shadow:0 6px 16px rgba(0,0,0,.7);">
+        <svg viewBox="0 0 200 200" width="64" height="64" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#06080F"/>
+        <polygon points="100,26 157,59 100,92 43,59" fill="#C9903A"/><polygon points="157,59 157,125 100,158 100,92" fill="#1A5C8A"/><polygon points="43,59 100,92 100,158 43,125" fill="#0D2238"/>
+        <line x1="100" y1="26" x2="100" y2="92" stroke="#06080F" stroke-width="3"/><line x1="100" y1="92" x2="157" y2="125" stroke="#06080F" stroke-width="3"/><line x1="100" y1="92" x2="43" y2="125" stroke="#06080F" stroke-width="3"/></svg>
+      </div>
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:#18182A;">64</span>
+    </div>
+    <!-- 48 -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+      <div class="icon-frame" style="width:48px;height:48px;background:#06080F;box-shadow:0 4px 12px rgba(0,0,0,.7);">
+        <svg viewBox="0 0 200 200" width="48" height="48" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#06080F"/>
+        <polygon points="100,22 160,57 100,92 40,57" fill="#C9903A"/><polygon points="160,57 160,128 100,163 100,92" fill="#1A5C8A"/><polygon points="40,57 100,92 100,163 40,128" fill="#0D2238"/>
+        <line x1="100" y1="22" x2="100" y2="92" stroke="#06080F" stroke-width="3.5"/><line x1="100" y1="92" x2="160" y2="128" stroke="#06080F" stroke-width="3.5"/><line x1="100" y1="92" x2="40" y2="128" stroke="#06080F" stroke-width="3.5"/></svg>
+      </div>
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:#18182A;">48</span>
+    </div>
+    <!-- 32 -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+      <div class="icon-frame" style="width:32px;height:32px;background:#06080F;box-shadow:0 2px 8px rgba(0,0,0,.7);">
+        <svg viewBox="0 0 200 200" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#06080F"/>
+        <polygon points="100,20 162,55 100,90 38,55" fill="#C9903A"/><polygon points="162,55 162,130 100,165 100,90" fill="#1A5C8A"/><polygon points="38,55 100,90 100,165 38,130" fill="#0D2238"/>
+        <line x1="100" y1="20" x2="100" y2="90" stroke="#06080F" stroke-width="4"/><line x1="100" y1="90" x2="162" y2="130" stroke="#06080F" stroke-width="4"/><line x1="100" y1="90" x2="38" y2="130" stroke="#06080F" stroke-width="4"/></svg>
+      </div>
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:#18182A;">32</span>
+    </div>
+    <!-- 20 -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+      <div class="icon-frame" style="width:20px;height:20px;background:#06080F;box-shadow:0 1px 4px rgba(0,0,0,.7);">
+        <svg viewBox="0 0 200 200" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#06080F"/>
+        <polygon points="100,16 164,53 100,90 36,53" fill="#C9903A"/><polygon points="164,53 164,132 100,169 100,90" fill="#1A5C8A"/><polygon points="36,53 100,90 100,169 36,132" fill="#0D2238"/>
+        <line x1="100" y1="16" x2="100" y2="90" stroke="#06080F" stroke-width="5"/><line x1="100" y1="90" x2="164" y2="132" stroke="#06080F" stroke-width="5"/><line x1="100" y1="90" x2="36" y2="132" stroke="#06080F" stroke-width="5"/></svg>
+      </div>
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:#18182A;">20</span>
+    </div>
+    <!-- 16 -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+      <div class="icon-frame" style="width:16px;height:16px;background:#06080F;box-shadow:0 1px 3px rgba(0,0,0,.7);">
+        <svg viewBox="0 0 200 200" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#06080F"/>
+        <polygon points="100,14 165,51 100,88 35,51" fill="#C9903A"/><polygon points="165,51 165,135 100,172 100,88" fill="#1A5C8A"/><polygon points="35,51 100,88 100,172 35,135" fill="#0D2238"/>
+        <line x1="100" y1="14" x2="100" y2="88" stroke="#06080F" stroke-width="6"/><line x1="100" y1="88" x2="165" y2="135" stroke="#06080F" stroke-width="6"/><line x1="100" y1="88" x2="35" y2="135" stroke="#06080F" stroke-width="6"/></svg>
+      </div>
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:#18182A;">16</span>
+    </div>
+    <div class="ctag">Three faces distinct at every size — 192px to 16px</div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     04 — LOGO LOCKUPS
+══════════════════════════════ -->
+<div class="section">
+  <div class="sl">04 — Full Logo Lockup</div>
+  <div style="display:flex;flex-direction:column;gap:18px;">
+
+    <div class="cell dk" style="padding:44px 52px;justify-content:flex-start;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 108" width="620" height="108">
+        <polygon points="54,8 90,29 54,50 18,29" fill="#C9903A"/>
+        <polygon points="90,29 90,71 54,92 54,50" fill="#1A5C8A"/>
+        <polygon points="18,29 54,50 54,92 18,71" fill="#0D2238"/>
+        <line x1="54" y1="8"  x2="54" y2="50" stroke="#06080F" stroke-width="1.5"/>
+        <line x1="54" y1="50" x2="90" y2="71" stroke="#06080F" stroke-width="1.5"/>
+        <line x1="54" y1="50" x2="18" y2="71" stroke="#06080F" stroke-width="1.5"/>
+        <polygon points="54,8 90,29 90,71 54,92 18,71 18,29" fill="none" stroke="#C9903A" stroke-width="0.6" stroke-opacity="0.2"/>
+        <line x1="116" y1="14" x2="116" y2="94" stroke="#12142A" stroke-width="1"/>
+        <text x="136" y="67" font-family="'Barlow Condensed',sans-serif" font-size="58" font-weight="700" letter-spacing="10" fill="#E8E2D4">MAST</text>
+        <text x="137" y="88" font-family="'Barlow',sans-serif" font-size="7.5" font-weight="300" letter-spacing="3.2" fill="#22223A">MATERIALS · ADVANCED · SCIENCE &amp; TECHNOLOGY · CONSOLIDATE</text>
+      </svg>
+      <div class="ctag">Primary Dark</div>
+    </div>
+
+    <div class="cell lt" style="padding:44px 52px;justify-content:flex-start;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 108" width="620" height="108">
+        <polygon points="54,8 90,29 54,50 18,29" fill="#1A1612"/>
+        <polygon points="90,29 90,71 54,92 54,50" fill="#3A3630"/>
+        <polygon points="18,29 54,50 54,92 18,71" fill="#5A5650"/>
+        <line x1="54" y1="8"  x2="54" y2="50" stroke="#F0EDE7" stroke-width="1.5"/>
+        <line x1="54" y1="50" x2="90" y2="71" stroke="#F0EDE7" stroke-width="1.5"/>
+        <line x1="54" y1="50" x2="18" y2="71" stroke="#F0EDE7" stroke-width="1.5"/>
+        <line x1="116" y1="14" x2="116" y2="94" stroke="#D0CCC6" stroke-width="0.8"/>
+        <text x="136" y="67" font-family="'Barlow Condensed',sans-serif" font-size="58" font-weight="700" letter-spacing="10" fill="#1A1612">MAST</text>
+        <text x="137" y="88" font-family="'Barlow',sans-serif" font-size="7.5" font-weight="300" letter-spacing="3.2" fill="#9A9690">MATERIALS · ADVANCED · SCIENCE &amp; TECHNOLOGY · CONSOLIDATE</text>
+      </svg>
+      <div class="ctag">Light</div>
+    </div>
+
+    <div class="cell wh" style="padding:44px 52px;justify-content:flex-start;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 108" width="620" height="108">
+        <polygon points="54,8 90,29 54,50 18,29" fill="#C9903A"/>
+        <polygon points="90,29 90,71 54,92 54,50" fill="#1A5C8A"/>
+        <polygon points="18,29 54,50 54,92 18,71" fill="#0D406A"/>
+        <line x1="54" y1="8"  x2="54" y2="50" stroke="#ffffff" stroke-width="1.5"/>
+        <line x1="54" y1="50" x2="90" y2="71" stroke="#ffffff" stroke-width="1.5"/>
+        <line x1="54" y1="50" x2="18" y2="71" stroke="#ffffff" stroke-width="1.5"/>
+        <line x1="116" y1="14" x2="116" y2="94" stroke="#D8D4CE" stroke-width="0.8"/>
+        <text x="136" y="67" font-family="'Barlow Condensed',sans-serif" font-size="58" font-weight="700" letter-spacing="10" fill="#0C0E18">MAST</text>
+        <text x="137" y="88" font-family="'Barlow',sans-serif" font-size="7.5" font-weight="300" letter-spacing="3.2" fill="#9A9690">MATERIALS · ADVANCED · SCIENCE &amp; TECHNOLOGY · CONSOLIDATE</text>
+      </svg>
+      <div class="ctag">On White</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     05 — FOUNDER CIPHER FULL
+══════════════════════════════ -->
+<div class="section">
+  <div class="sl">05 — Founder's Cipher · Complete</div>
+  <div style="background:#07080E;border:1px solid #0E1018;border-radius:16px;padding:52px;display:flex;gap:60px;align-items:center;flex-wrap:wrap;">
+    <div style="flex-shrink:0;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="180" height="180">
+        <polygon points="100,26 157,59 100,92 43,59" fill="#C9903A" opacity="0.92"/>
+        <polygon points="157,59 157,125 100,158 100,92" fill="#1A5C8A" opacity="0.92"/>
+        <polygon points="43,59 100,92 100,158 43,125" fill="#0D2238" opacity="0.92"/>
+        <line x1="100" y1="26" x2="100" y2="92" stroke="#06080F" stroke-width="1.8"/>
+        <line x1="100" y1="92" x2="157" y2="125" stroke="#06080F" stroke-width="1.8"/>
+        <line x1="100" y1="92" x2="43"  y2="125" stroke="#06080F" stroke-width="1.8"/>
+        <polygon points="100,26 157,59 157,125 100,158 43,125 43,59" fill="none" stroke="#C9903A" stroke-width="0.9" stroke-opacity="0.3"/>
+        <!-- Face ciphers -->
+        <text x="100" y="68" font-family="'Barlow Condensed',sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#06080F" opacity="0.55">M · A</text>
+        <text x="140" y="115" font-family="'Barlow Condensed',sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#ffffff" opacity="0.35">S · T</text>
+        <text x="60" y="115" font-family="'Barlow Condensed',sans-serif" font-size="10" font-weight="600" text-anchor="middle" fill="#ffffff" opacity="0.25">O</text>
+        <!-- C outer arc label -->
+        <text x="26" y="94" font-family="'Barlow Condensed',sans-serif" font-size="10" font-weight="700" text-anchor="middle" fill="#FFD060" opacity="0.7">C</text>
+      </svg>
+    </div>
+
+    <div style="flex:1;min-width:260px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:3px;color:var(--amber);text-transform:uppercase;margin-bottom:18px;">Muyideen AbdulSamad Oladimeji Teniola</div>
+
+      <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:24px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 16px;background:#06080F;border:1px solid #0C0E18;border-radius:6px;">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--amber);width:18px;">M</span>
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:#28284A;text-transform:uppercase;flex:1;margin:0 12px;">Top Face · Inner Frame</span>
+          <span style="font-family:'Barlow',sans-serif;font-size:10px;font-weight:300;color:#22223A;">Muyideen · Materials</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 16px;background:#06080F;border:1px solid #0C0E18;border-radius:6px;">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--amber);width:18px;">A</span>
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:#28284A;text-transform:uppercase;flex:1;margin:0 12px;">Top Face Geometry</span>
+          <span style="font-family:'Barlow',sans-serif;font-size:10px;font-weight:300;color:#22223A;">AbdulSamad · Advanced</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 16px;background:#06080F;border:1px solid #0C0E18;border-radius:6px;">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--amber);width:18px;">S</span>
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:#28284A;text-transform:uppercase;flex:1;margin:0 12px;">Diagonal Face Flow</span>
+          <span style="font-family:'Barlow',sans-serif;font-size:10px;font-weight:300;color:#22223A;">Science · Software</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 16px;background:#06080F;border:1px solid #0C0E18;border-radius:6px;">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--amber);width:18px;">T</span>
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:#28284A;text-transform:uppercase;flex:1;margin:0 12px;">Spine + Crossbar</span>
+          <span style="font-family:'Barlow',sans-serif;font-size:10px;font-weight:300;color:#22223A;">Teniola · Technology</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 16px;background:#06080F;border:1px solid #0C1220;border-radius:6px;">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--steel2);width:18px;">C</span>
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:#1A2A38;text-transform:uppercase;flex:1;margin:0 12px;">Outer Hex · Left Arc Open</span>
+          <span style="font-family:'Barlow',sans-serif;font-size:10px;font-weight:300;color:#1A2232;">Consolidate</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 16px;background:#06080F;border:1px solid #0C1220;border-radius:6px;">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--steel2);width:18px;">O</span>
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:2px;color:#1A2A38;text-transform:uppercase;flex:1;margin:0 12px;">Full Outer Perimeter</span>
+          <span style="font-family:'Barlow',sans-serif;font-size:10px;font-weight:300;color:#1A2232;">Oladimeji</span>
+        </div>
+      </div>
+
+      <div style="font-family:'Barlow',sans-serif;font-size:11px;font-weight:300;color:#1E2030;line-height:1.85;padding-top:16px;border-top:1px solid #0C0E18;">
+        The mark carries a name within a name — MAST the company is MAOT the person, and all six are already written in the geometry. The prism is complete. Nothing needs to be added to say everything.
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ FOOTER ══ -->
+<div style="padding-top:36px;border-top:1px solid #0A0B12;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+  <div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:4px;color:#12132A;text-transform:uppercase;">MAST Consolidate · Brand Identity System · v3.0</div>
+    <div style="font-family:'Barlow',sans-serif;font-size:9.5px;font-weight:300;color:#14142A;margin-top:5px;">Muyideen AbdulSamad Oladimeji Teniola — Founder &amp; Principal</div>
+  </div>
+  <div style="display:flex;gap:4px;align-items:center;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--amber);letter-spacing:2px;">MAST</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:300;color:var(--steel2);letter-spacing:1px;margin-left:2px;">CO</div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

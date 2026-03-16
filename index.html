@@ -12,7 +12,7 @@
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="/My-Portfolio/manifest.json">
-    <meta name="theme-color" content="#0A0A0A">
+    <meta name="theme-color" content="#06080F">
 
     <!-- Open Graph -->
     <meta property="og:title" content="Muyideen AbdulSamad Teniola — Multidisciplinary Engineer">
@@ -65,7 +65,31 @@
     <!-- ===== Header & Navigation (Simplified & Scroll-Spy Ready) ===== -->
     <header class="nav-header glass-panel">
         <nav class="nav-inner">
-            <a href="#home" class="nav-logo">Abdulsamad<span class="nav-logo-dot">.</span></a>
+            <a href="#home" class="nav-logo" style="display:flex;align-items:center;gap:10px;">
+                <svg class="nav-prism-icon" viewBox="0 0 32 36" width="28" height="32" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;filter:drop-shadow(0 0 6px rgba(201,144,58,0.25));">
+                    <defs>
+                        <linearGradient id="navTop" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#E0AA50"/><stop offset="100%" stop-color="#C9903A"/></linearGradient>
+                        <linearGradient id="navRight" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2E7EB4"/><stop offset="100%" stop-color="#1A5C8A"/></linearGradient>
+                        <linearGradient id="navLeft" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#1A4060"/><stop offset="100%" stop-color="#0D2238"/></linearGradient>
+                    </defs>
+                    <polygon points="16,2 28,9 16,16 4,9" fill="url(#navTop)">
+                        <animate attributeName="opacity" values="0.92;1;0.92" dur="4s" repeatCount="indefinite"/>
+                    </polygon>
+                    <polygon points="28,9 28,23 16,30 16,16" fill="url(#navRight)">
+                        <animate attributeName="opacity" values="0.88;0.98;0.88" dur="4s" begin="0.4s" repeatCount="indefinite"/>
+                    </polygon>
+                    <polygon points="4,9 16,16 16,30 4,23" fill="url(#navLeft)">
+                        <animate attributeName="opacity" values="0.9;1;0.9" dur="4s" begin="0.8s" repeatCount="indefinite"/>
+                    </polygon>
+                    <line x1="16" y1="2" x2="16" y2="16" stroke="var(--bg, #0A0A0A)" stroke-width="1.2"/>
+                    <line x1="16" y1="16" x2="28" y2="23" stroke="var(--bg, #0A0A0A)" stroke-width="1.2"/>
+                    <line x1="16" y1="16" x2="4" y2="23" stroke="var(--bg, #0A0A0A)" stroke-width="1.2"/>
+                    <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="none" stroke="#C9903A" stroke-width="0.5" stroke-opacity="0.2">
+                        <animate attributeName="stroke-opacity" values="0.1;0.35;0.1" dur="3s" repeatCount="indefinite"/>
+                    </polygon>
+                </svg>
+                <span>Abdulsamad<span class="nav-logo-dot">.</span></span>
+            </a>
 
             <div class="nav-links">
                 <a href="#home" class="nav-link active">Home</a>
@@ -554,7 +578,18 @@
         <div class="container">
             <div class="footer-grid">
                 <div>
-                    <a href="#home" class="nav-logo" style="font-size: 1.25rem;">Abdulsamad<span class="nav-logo-dot">.</span></a>
+                    <a href="#home" class="nav-logo" style="font-size: 1.25rem; display:flex; align-items:center; gap:8px;">
+                        <svg viewBox="0 0 32 36" width="24" height="28" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;filter:drop-shadow(0 0 4px rgba(201,144,58,0.2));">
+                            <polygon points="16,2 28,9 16,16 4,9" fill="#C9903A"><animate attributeName="opacity" values="0.92;1;0.92" dur="4s" repeatCount="indefinite"/></polygon>
+                            <polygon points="28,9 28,23 16,30 16,16" fill="#1A5C8A"><animate attributeName="opacity" values="0.88;0.98;0.88" dur="4s" begin="0.4s" repeatCount="indefinite"/></polygon>
+                            <polygon points="4,9 16,16 16,30 4,23" fill="#0D2238"><animate attributeName="opacity" values="0.9;1;0.9" dur="4s" begin="0.8s" repeatCount="indefinite"/></polygon>
+                            <line x1="16" y1="2" x2="16" y2="16" stroke="var(--bg, #0A0A0A)" stroke-width="1.2"/>
+                            <line x1="16" y1="16" x2="28" y2="23" stroke="var(--bg, #0A0A0A)" stroke-width="1.2"/>
+                            <line x1="16" y1="16" x2="4" y2="23" stroke="var(--bg, #0A0A0A)" stroke-width="1.2"/>
+                            <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="none" stroke="#C9903A" stroke-width="0.5" stroke-opacity="0.2"><animate attributeName="stroke-opacity" values="0.1;0.35;0.1" dur="3s" repeatCount="indefinite"/></polygon>
+                        </svg>
+                        <span>Abdulsamad<span class="nav-logo-dot">.</span></span>
+                    </a>
                     <p style="font-size: 0.8125rem; color: var(--text-muted); margin-top: 0.75rem; max-width: 20rem; line-height: 1.7;">Multidisciplinary engineer bridging the physical and digital worlds. Always building, always learning.</p>
                     <p style="font-size: 0.75rem; font-style: italic; color: var(--text-muted); margin-top: 0.5rem; letter-spacing: 0.02em;">"Too Busy using code to reform reality."</p>
                 </div>

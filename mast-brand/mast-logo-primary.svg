@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480">
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&amp;family=Barlow:wght@300&amp;display=swap');</style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="480" fill="#06080F" rx="0"/>
+
+  <!-- Subtle hex grid texture -->
+  <g opacity="0.025" stroke="#C9903A" stroke-width="0.5" fill="none">
+    <polygon points="80,60 110,77 110,111 80,128 50,111 50,77"/>
+    <polygon points="140,60 170,77 170,111 140,128 110,111 110,77"/>
+    <polygon points="200,60 230,77 230,111 200,128 170,111 170,77"/>
+    <polygon points="260,60 290,77 290,111 260,128 230,111 230,77"/>
+    <polygon points="80,128 110,145 110,179 80,196 50,179 50,145"/>
+    <polygon points="140,196 170,213 170,247 140,264 110,247 110,213"/>
+  </g>
+
+  <!-- ── LARGE PRISM MARK ── -->
+  <g transform="translate(104, 88)">
+    <!-- TOP face -->
+    <polygon points="120,0  228,62  120,124  12,62" fill="#C9903A"/>
+    <!-- RIGHT face -->
+    <polygon points="228,62  228,186  120,248  120,124" fill="#1A5C8A"/>
+    <!-- LEFT face -->
+    <polygon points="12,62  120,124  120,248  12,186" fill="#0D2238"/>
+    <!-- Face separators -->
+    <line x1="120" y1="0"   x2="120" y2="124" stroke="#06080F" stroke-width="2.5"/>
+    <line x1="120" y1="124" x2="228" y2="186" stroke="#06080F" stroke-width="2.5"/>
+    <line x1="120" y1="124" x2="12"  y2="186" stroke="#06080F" stroke-width="2.5"/>
+    <!-- Outer hex subtle edge -->
+    <polygon points="120,0 228,62 228,186 120,248 12,186 12,62"
+      fill="none" stroke="#C9903A" stroke-width="1" stroke-opacity="0.3"/>
+  </g>
+
+  <!-- ── WORDMARK ── -->
+  <!-- MAST in large condensed bold -->
+  <text x="312" y="248"
+    font-family="'Barlow Condensed', 'Arial Narrow', sans-serif"
+    font-size="152"
+    font-weight="700"
+    letter-spacing="18"
+    fill="#E8E2D4">MAST</text>
+
+  <!-- Vertical rule between mark and type -->
+  <line x1="284" y1="108" x2="284" y2="348" stroke="#1A1C2E" stroke-width="1.2"/>
+
+  <!-- Full name subtitle -->
+  <text x="314" y="292"
+    font-family="'Barlow', sans-serif"
+    font-size="13.5"
+    font-weight="300"
+    letter-spacing="5"
+    fill="#22223A">MATERIALS · ADVANCED · SCIENCE · TECHNOLOGY</text>
+
+  <!-- Consolidate line -->
+  <text x="314" y="316"
+    font-family="'Barlow Condensed', sans-serif"
+    font-size="11"
+    font-weight="300"
+    letter-spacing="8"
+    fill="#14142A">CONSOLIDATE</text>
+
+  <!-- Cipher mark: small M·A·S·T·C·O -->
+  <text x="314" y="356"
+    font-family="'Barlow Condensed', sans-serif"
+    font-size="9"
+    font-weight="400"
+    letter-spacing="5"
+    fill="#1A1A2E">M · A · S · T · C · O</text>
+
+  <!-- Bottom amber hairline -->
+  <line x1="60" y1="410" x2="740" y2="410" stroke="#C9903A" stroke-width="0.5" stroke-opacity="0.15"/>
+
+  <!-- Footer domain bar -->
+  <text x="400" y="438"
+    font-family="'Barlow', sans-serif"
+    font-size="9"
+    font-weight="300"
+    letter-spacing="3.5"
+    text-anchor="middle"
+    fill="#1A1A28">AI · CYBERSECURITY · SOFTWARE · AEROSPACE · ADDITIVE MANUFACTURING · MATERIALS ENGINEERING</text>
+</svg>

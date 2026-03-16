@@ -1,4 +1,74 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="64" fill="#0A0A0A"/>
-  <text x="50%" y="53%" dominant-baseline="central" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="180" fill="#FAFAFA">MAST</text>
+  <defs>
+    <!-- Ambient glow filter -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Subtle inner shadow -->
+    <linearGradient id="topFace" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E0AA50"/>
+      <stop offset="100%" stop-color="#C9903A"/>
+    </linearGradient>
+    <linearGradient id="rightFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2E7EB4"/>
+      <stop offset="100%" stop-color="#1A5C8A"/>
+    </linearGradient>
+    <linearGradient id="leftFace" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1A4060"/>
+      <stop offset="100%" stop-color="#0D2238"/>
+    </linearGradient>
+    <!-- Outer hex glow -->
+    <filter id="hexGlow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="#06080F"/>
+
+  <!-- Subtle radial ambient light -->
+  <circle cx="256" cy="220" r="200" fill="url(#topFace)" opacity="0.03"/>
+
+  <!-- Outer hex frame with pulse animation -->
+  <polygon points="256,66 402,150 402,318 256,402 110,318 110,150"
+    fill="none" stroke="#C9903A" stroke-width="1.2" stroke-opacity="0.15" filter="url(#hexGlow)">
+    <animate attributeName="stroke-opacity" values="0.08;0.25;0.08" dur="4s" repeatCount="indefinite"/>
+  </polygon>
+
+  <!-- TOP face — Amber -->
+  <polygon points="256,80 390,158 256,236 122,158" fill="url(#topFace)">
+    <animate attributeName="opacity" values="0.92;1;0.92" dur="6s" repeatCount="indefinite"/>
+  </polygon>
+
+  <!-- RIGHT face — Steel Blue -->
+  <polygon points="390,158 390,314 256,392 256,236" fill="url(#rightFace)">
+    <animate attributeName="opacity" values="0.88;0.95;0.88" dur="6s" begin="0.5s" repeatCount="indefinite"/>
+  </polygon>
+
+  <!-- LEFT face — Navy -->
+  <polygon points="122,158 256,236 256,392 122,314" fill="url(#leftFace)">
+    <animate attributeName="opacity" values="0.92;1;0.92" dur="6s" begin="1s" repeatCount="indefinite"/>
+  </polygon>
+
+  <!-- Face separator lines -->
+  <line x1="256" y1="80" x2="256" y2="236" stroke="#06080F" stroke-width="4"/>
+  <line x1="256" y1="236" x2="390" y2="314" stroke="#06080F" stroke-width="4"/>
+  <line x1="256" y1="236" x2="122" y2="314" stroke="#06080F" stroke-width="4"/>
+
+  <!-- Edge highlight lines for depth -->
+  <line x1="256" y1="80" x2="390" y2="158" stroke="#E0AA50" stroke-width="0.8" opacity="0.3"/>
+  <line x1="256" y1="80" x2="122" y2="158" stroke="#E0AA50" stroke-width="0.8" opacity="0.2"/>
+  <line x1="390" y1="158" x2="390" y2="314" stroke="#2E7EB4" stroke-width="0.8" opacity="0.2"/>
+
+  <!-- Outer hex subtle secondary ring -->
+  <polygon points="256,66 402,150 402,318 256,402 110,318 110,150"
+    fill="none" stroke="#C9903A" stroke-width="0.6" stroke-opacity="0.08"/>
 </svg>

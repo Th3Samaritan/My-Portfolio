@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MAST Consolidate — Materials · Advanced · Science · Technology</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,200;0,300;0,400;0,600;0,700;1,300&family=Barlow:wght@200;300;400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════════════════════
+   RESET & ROOT
+══════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:       #06080F;
+  --bg1:      #08090F;
+  --bg2:      #0A0C14;
+  --bg3:      #0D101A;
+  --line:     #0E1020;
+  --line2:    #14172A;
+  --hi:       #E8E2D4;
+  --mid:      #4A4860;
+  --lo:       #1C1E30;
+  --amber:    #C9903A;
+  --amber-hi: #E0AA50;
+  --amber-lo: #7A5418;
+  --steel:    #1A5C8A;
+  --steel-hi: #2E80B4;
+  --navy:     #0D2238;
+  --paper:    #F0EDE7;
+  --gold:     #FFD060;
+  --ease:     cubic-bezier(.16,1,.3,1);
+}
+
+html{scroll-behavior:smooth;background:var(--bg);}
+body{
+  font-family:'Barlow',sans-serif;
+  background:var(--bg);
+  color:var(--hi);
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* ══ CUSTOM CURSOR ══ */
+.cursor{
+  position:fixed;width:8px;height:8px;background:var(--amber);
+  border-radius:50%;pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);transition:transform .1s,width .2s,height .2s,opacity .2s;
+  mix-blend-mode:normal;
+}
+.cursor-ring{
+  position:fixed;width:32px;height:32px;border:1px solid rgba(201,144,58,.35);
+  border-radius:50%;pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);transition:transform .12s var(--ease),width .25s,height .25s,border-color .25s;
+}
+body:has(a:hover) .cursor{width:14px;height:14px;background:var(--amber-hi);}
+body:has(a:hover) .cursor-ring{width:48px;height:48px;border-color:rgba(201,144,58,.5);}
+
+/* ══ SCROLLBAR ══ */
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--amber-lo);}
+
+/* ══ TYPOGRAPHY ══ */
+.display{font-family:'Cormorant Garamond',serif;font-weight:300;}
+.label{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:300;letter-spacing:5px;text-transform:uppercase;color:var(--lo);}
+.label-amber{color:var(--amber);}
+.label-steel{color:var(--steel-hi);}
+
+/* ══ UTILITY ══ */
+.sr{opacity:0;transform:translateY(32px);transition:opacity .9s var(--ease),transform .9s var(--ease);}
+.sr.vis{opacity:1;transform:none;}
+.sr-l{opacity:0;transform:translateX(-32px);transition:opacity .9s var(--ease),transform .9s var(--ease);}
+.sr-l.vis{opacity:1;transform:none;}
+.sr-r{opacity:0;transform:translateX(32px);transition:opacity .9s var(--ease),transform .9s var(--ease);}
+.sr-r.vis{opacity:1;transform:none;}
+.delay1{transition-delay:.1s!important;}
+.delay2{transition-delay:.2s!important;}
+.delay3{transition-delay:.3s!important;}
+.delay4{transition-delay:.4s!important;}
+.delay5{transition-delay:.5s!important;}
+.delay6{transition-delay:.6s!important;}
+
+
+/* ════════════════════════════════════════════════
+   NAV
+════════════════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:0 48px;height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(6,8,15,.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+  transition:border-color .3s;
+}
+.nav-logo{display:flex;align-items:center;gap:14px;text-decoration:none;}
+.nav-logo-mark{flex-shrink:0;}
+.nav-wordmark{
+  font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;
+  letter-spacing:6px;color:var(--hi);
+}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:300;
+  letter-spacing:3px;text-transform:uppercase;color:var(--mid);
+  text-decoration:none;transition:color .2s;
+}
+.nav-links a:hover{color:var(--amber);}
+.nav-cta{
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:400;
+  letter-spacing:3px;text-transform:uppercase;color:var(--bg);
+  background:var(--amber);padding:8px 20px;text-decoration:none;
+  transition:background .2s,transform .2s;
+}
+.nav-cta:hover{background:var(--amber-hi);transform:translateY(-1px);}
+
+/* ════════════════════════════════════════════════
+   HERO
+════════════════════════════════════════════════ */
+#hero{
+  min-height:100vh;display:flex;align-items:center;
+  position:relative;overflow:hidden;padding:0 48px;
+  padding-top:64px;
+}
+
+/* Animated hex grid background */
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 71px, rgba(201,144,58,.022) 72px),
+    repeating-linear-gradient(60deg, transparent, transparent 71px, rgba(201,144,58,.015) 72px),
+    repeating-linear-gradient(120deg, transparent, transparent 71px, rgba(201,144,58,.015) 72px);
+  pointer-events:none;
+}
+/* Gradient vignette */
+.hero-vignette{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 80% at 60% 40%, transparent 0%, rgba(6,8,15,.7) 100%);
+  pointer-events:none;
+}
+
+/* Floating prism */
+.hero-prism-wrap{
+  position:absolute;right:6%;top:50%;transform:translateY(-50%);
+  animation:float 8s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes float{
+  0%,100%{transform:translateY(-50%) rotate(0deg);}
+  33%{transform:translateY(calc(-50% - 18px)) rotate(1.5deg);}
+  66%{transform:translateY(calc(-50% + 12px)) rotate(-1deg);}
+}
+.hero-prism-glow{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:480px;height:480px;
+  background:radial-gradient(circle, rgba(201,144,58,.08) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+/* Hero text */
+.hero-content{position:relative;z-index:2;max-width:640px;}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  margin-bottom:36px;
+  animation:fadeUp .8s var(--ease) .1s both;
+}
+.hero-eyebrow-dot{width:5px;height:5px;background:var(--amber);border-radius:50%;flex-shrink:0;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+
+.hero-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(72px,9vw,128px);
+  font-weight:700;
+  letter-spacing:clamp(8px,2vw,22px);
+  line-height:.92;
+  color:var(--hi);
+  margin-bottom:8px;
+  animation:fadeUp .9s var(--ease) .2s both;
+}
+.hero-title-italic{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-weight:300;
+  font-size:clamp(24px,3vw,40px);
+  letter-spacing:clamp(4px,1vw,10px);
+  color:var(--amber);display:block;
+  margin-top:4px;
+  animation:fadeUp .9s var(--ease) .3s both;
+}
+.hero-sub{
+  font-family:'Barlow',sans-serif;font-size:14px;font-weight:300;
+  letter-spacing:1.5px;line-height:1.9;color:var(--mid);
+  max-width:440px;margin:28px 0 44px;
+  animation:fadeUp .9s var(--ease) .4s both;
+}
+.hero-actions{
+  display:flex;gap:16px;flex-wrap:wrap;
+  animation:fadeUp .9s var(--ease) .5s both;
+}
+.btn-primary{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:4px;text-transform:uppercase;text-decoration:none;
+  color:var(--bg);background:var(--amber);
+  padding:14px 32px;border:1px solid var(--amber);
+  transition:background .2s,color .2s,transform .2s;display:inline-block;
+}
+.btn-primary:hover{background:transparent;color:var(--amber);transform:translateY(-2px);}
+.btn-ghost{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:300;
+  letter-spacing:4px;text-transform:uppercase;text-decoration:none;
+  color:var(--mid);border:1px solid var(--line2);
+  padding:14px 32px;transition:color .2s,border-color .2s,transform .2s;display:inline-block;
+}
+.btn-ghost:hover{color:var(--hi);border-color:var(--mid);transform:translateY(-2px);}
+
+/* Scroll indicator */
+.hero-scroll{
+  position:absolute;bottom:36px;left:48px;
+  display:flex;align-items:center;gap:12px;
+  animation:fadeUp .9s var(--ease) .8s both;
+}
+.scroll-line{width:40px;height:1px;background:var(--lo);}
+.scroll-text{font-family:'Barlow Condensed',sans-serif;font-size:8px;letter-spacing:4px;color:var(--lo);text-transform:uppercase;}
+
+/* ════════════════════════════════════════════════
+   MARQUEE STRIP
+════════════════════════════════════════════════ */
+.marquee-strip{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:14px 0;overflow:hidden;white-space:nowrap;background:var(--bg1);
+}
+.marquee-inner{
+  display:inline-flex;animation:marquee 28s linear infinite;
+}
+.marquee-inner:hover{animation-play-state:paused;}
+.marquee-item{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:300;
+  letter-spacing:4px;text-transform:uppercase;color:var(--lo);
+  padding:0 32px;
+  display:inline-flex;align-items:center;gap:32px;
+}
+.marquee-item::after{content:'·';color:var(--amber);font-size:18px;}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+
+/* ════════════════════════════════════════════════
+   SECTION COMMONS
+════════════════════════════════════════════════ */
+section{padding:120px 48px;}
+.section-inner{max-width:1080px;margin:0 auto;}
+.section-head{display:flex;align-items:flex-start;gap:24px;margin-bottom:72px;}
+.section-num{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;
+  font-weight:200;letter-spacing:3px;color:var(--lo);
+  margin-top:5px;flex-shrink:0;
+}
+.h2{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(36px,5vw,60px);font-weight:600;
+  letter-spacing:clamp(2px,1vw,6px);line-height:1.05;
+}
+.h2-em{color:var(--amber);}
+.body-text{
+  font-family:'Barlow',sans-serif;font-size:14px;font-weight:300;
+  line-height:1.95;color:var(--mid);max-width:560px;
+}
+.divider{height:1px;background:var(--line);margin:0;}
+
+/* ════════════════════════════════════════════════
+   ABOUT
+════════════════════════════════════════════════ */
+#about{background:var(--bg1);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.about-statement{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,4vw,46px);font-weight:300;font-style:italic;
+  line-height:1.35;color:var(--hi);
+}
+.about-statement em{font-style:normal;color:var(--amber);}
+.about-right{display:flex;flex-direction:column;gap:28px;}
+.stat-row{
+  padding:20px 0;border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:baseline;
+}
+.stat-num{
+  font-family:'Barlow Condensed',sans-serif;font-size:42px;font-weight:600;
+  letter-spacing:2px;color:var(--amber);
+}
+.stat-label{font-family:'Barlow',sans-serif;font-size:11px;font-weight:300;letter-spacing:2px;color:var(--lo);}
+
+/* ════════════════════════════════════════════════
+   DOMAINS
+════════════════════════════════════════════════ */
+#domains{background:var(--bg);}
+.domains-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+}
+.domain-card{
+  background:var(--bg1);padding:44px 36px;
+  position:relative;overflow:hidden;
+  transition:background .35s;
+  cursor:default;
+}
+.domain-card::before{
+  content:'';position:absolute;inset:0;
+  opacity:0;transition:opacity .35s;
+}
+.domain-card:hover{background:var(--bg2);}
+.domain-card.amber::before{background:linear-gradient(135deg,rgba(201,144,58,.07) 0%,transparent 60%);}
+.domain-card.steel::before{background:linear-gradient(135deg,rgba(26,92,138,.1) 0%,transparent 60%);}
+.domain-card.navy::before{background:linear-gradient(135deg,rgba(13,34,56,.2) 0%,transparent 60%);}
+.domain-card:hover::before{opacity:1;}
+
+.domain-icon{
+  width:44px;height:44px;margin-bottom:28px;
+  flex-shrink:0;
+}
+.domain-num{
+  font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:300;
+  letter-spacing:4px;color:var(--lo);margin-bottom:16px;text-transform:uppercase;
+}
+.domain-title{
+  font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:600;
+  letter-spacing:2px;color:var(--hi);margin-bottom:14px;line-height:1.2;
+}
+.domain-desc{
+  font-family:'Barlow',sans-serif;font-size:12px;font-weight:300;
+  line-height:1.9;color:var(--mid);
+}
+.domain-arrow{
+  position:absolute;bottom:32px;right:32px;
+  font-family:'Barlow Condensed',sans-serif;font-size:18px;color:var(--lo);
+  transition:color .2s,transform .2s;
+}
+.domain-card:hover .domain-arrow{color:var(--amber);transform:translate(4px,-4px);}
+
+/* ════════════════════════════════════════════════
+   CIPHER SECTION
+════════════════════════════════════════════════ */
+#cipher{
+  background:var(--bg1);
+  position:relative;overflow:hidden;
+}
+.cipher-bg-mark{
+  position:absolute;right:-6%;top:50%;transform:translateY(-50%);
+  opacity:.025;pointer-events:none;
+}
+.cipher-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.cipher-left{}
+.cipher-letters{
+  display:flex;gap:0;margin-bottom:48px;
+}
+.cipher-letter{
+  display:flex;flex-direction:column;align-items:center;
+  padding:0 20px 0 0;border-right:1px solid var(--line);
+  margin-right:20px;
+}
+.cipher-letter:last-child{border-right:none;}
+.cl-char{
+  font-family:'Barlow Condensed',sans-serif;font-size:52px;font-weight:700;
+  line-height:1;margin-bottom:6px;
+}
+.cl-name{font-family:'Barlow',sans-serif;font-size:9px;font-weight:300;letter-spacing:2px;color:var(--lo);text-align:center;}
+.cipher-right{display:flex;flex-direction:column;gap:16px;}
+.cipher-item{
+  display:flex;gap:16px;align-items:flex-start;
+  padding:16px 20px;border-left:2px solid var(--line);
+  transition:border-color .2s,background .2s;
+}
+.cipher-item:hover{border-color:var(--amber);background:rgba(201,144,58,.03);}
+.ci-letter{
+  font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;
+  line-height:1;flex-shrink:0;width:20px;
+}
+.ci-body{}
+.ci-title{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:4px;}
+.ci-desc{font-family:'Barlow',sans-serif;font-size:11px;font-weight:300;line-height:1.7;color:var(--lo);}
+
+/* ════════════════════════════════════════════════
+   FOUNDER
+════════════════════════════════════════════════ */
+#founder{background:var(--bg);}
+.founder-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.founder-quote{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(22px,3vw,34px);font-weight:300;font-style:italic;
+  line-height:1.55;color:var(--hi);margin-bottom:32px;
+}
+.founder-quote em{font-style:normal;color:var(--amber);}
+.founder-attribution{
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:4px;color:var(--lo);
+  text-transform:uppercase;margin-bottom:36px;
+}
+.founder-name{
+  font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:600;
+  letter-spacing:4px;color:var(--hi);margin-bottom:6px;
+}
+.founder-title-text{font-family:'Barlow',sans-serif;font-size:11px;font-weight:300;letter-spacing:2px;color:var(--lo);}
+.founder-domains{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;
+}
+.founder-tag{
+  font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  background:var(--bg2);border:1px solid var(--line2);color:var(--lo);
+  padding:5px 12px;
+}
+.founder-right{display:flex;flex-direction:column;gap:20px;}
+.founder-pillar{
+  padding:20px 24px;border-left:2px solid var(--line);
+  transition:border-color .2s;
+}
+.founder-pillar:hover{border-color:var(--steel);}
+.fp-label{font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--steel-hi);margin-bottom:6px;}
+.fp-text{font-family:'Barlow',sans-serif;font-size:12px;font-weight:300;line-height:1.75;color:var(--mid);}
+
+/* ════════════════════════════════════════════════
+   APPROACH
+════════════════════════════════════════════════ */
+#approach{background:var(--bg1);}
+.approach-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--line);border:1px solid var(--line);
+  margin-top:64px;
+}
+.approach-step{
+  background:var(--bg1);padding:36px 28px;
+  position:relative;
+}
+.step-num{
+  font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;font-style:italic;
+  color:var(--lo);line-height:1;margin-bottom:20px;
+}
+.step-title{
+  font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:600;
+  letter-spacing:2px;color:var(--hi);margin-bottom:12px;
+}
+.step-desc{font-family:'Barlow',sans-serif;font-size:11px;font-weight:300;line-height:1.8;color:var(--mid);}
+
+/* ════════════════════════════════════════════════
+   CTA BAND
+════════════════════════════════════════════════ */
+#cta{
+  background:var(--amber-lo);
+  padding:96px 48px;text-align:center;
+  position:relative;overflow:hidden;
+  border-top:1px solid rgba(201,144,58,.15);
+}
+#cta::before{
+  content:'MAST';
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Barlow Condensed',sans-serif;font-size:clamp(120px,20vw,280px);
+  font-weight:700;letter-spacing:0.2em;
+  color:rgba(255,255,255,.025);pointer-events:none;white-space:nowrap;
+}
+.cta-label{margin-bottom:16px;}
+.cta-heading{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(32px,5vw,64px);font-weight:700;
+  letter-spacing:8px;color:var(--hi);margin-bottom:20px;
+}
+.cta-sub{
+  font-family:'Barlow',sans-serif;font-size:13px;font-weight:300;
+  letter-spacing:1.5px;color:rgba(232,226,212,.5);
+  max-width:480px;margin:0 auto 44px;line-height:1.8;
+}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.btn-light{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:4px;text-transform:uppercase;text-decoration:none;
+  color:var(--amber-lo);background:var(--hi);
+  padding:14px 36px;border:1px solid var(--hi);
+  transition:background .2s,color .2s,transform .2s;display:inline-block;
+}
+.btn-light:hover{background:transparent;color:var(--hi);transform:translateY(-2px);}
+.btn-outline-light{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:300;
+  letter-spacing:4px;text-transform:uppercase;text-decoration:none;
+  color:rgba(232,226,212,.6);border:1px solid rgba(232,226,212,.25);
+  padding:14px 36px;transition:color .2s,border-color .2s,transform .2s;display:inline-block;
+}
+.btn-outline-light:hover{color:var(--hi);border-color:var(--hi);transform:translateY(-2px);}
+
+/* ════════════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════════════ */
+footer{
+  background:var(--bg);
+  border-top:1px solid var(--line);
+  padding:64px 48px 40px;
+}
+.footer-grid{
+  max-width:1080px;margin:0 auto;
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;
+  margin-bottom:56px;
+}
+.footer-brand{}
+.footer-logo-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.footer-wordmark{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;letter-spacing:6px;color:var(--hi);}
+.footer-tagline{font-family:'Barlow',sans-serif;font-size:11px;font-weight:300;line-height:1.8;color:var(--lo);max-width:280px;margin-bottom:20px;}
+.footer-col-title{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--amber);margin-bottom:18px;}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-links a{font-family:'Barlow',sans-serif;font-size:11px;font-weight:300;letter-spacing:1px;color:var(--lo);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--hi);}
+.footer-bottom{
+  max-width:1080px;margin:0 auto;
+  padding-top:24px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+}
+.footer-copy{font-family:'Barlow',sans-serif;font-size:10px;font-weight:300;letter-spacing:2px;color:var(--lo);}
+.footer-cipher{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:4px;color:var(--lo);}
+.footer-cipher span{color:var(--amber);}
+
+</style>
+</head>
+<body>
+
+<!-- ── CURSOR ── -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ════════════════════════════════════════════
+     NAV
+════════════════════════════════════════════ -->
+<nav>
+  <a href="#" class="nav-logo">
+    <svg class="nav-logo-mark" viewBox="0 0 32 36" width="28" height="32" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="16,2 28,9 16,16 4,9" fill="#C9903A"/>
+      <polygon points="28,9 28,23 16,30 16,16" fill="#1A5C8A"/>
+      <polygon points="4,9 16,16 16,30 4,23" fill="#0D2238"/>
+      <line x1="16" y1="2" x2="16" y2="16" stroke="#06080F" stroke-width="1.2"/>
+      <line x1="16" y1="16" x2="28" y2="23" stroke="#06080F" stroke-width="1.2"/>
+      <line x1="16" y1="16" x2="4" y2="23" stroke="#06080F" stroke-width="1.2"/>
+      <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="none" stroke="#C9903A" stroke-width="0.5" stroke-opacity="0.25"/>
+    </svg>
+    <span class="nav-wordmark">MAST</span>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#domains">Domains</a></li>
+    <li><a href="#cipher">Our Mark</a></li>
+    <li><a href="#founder">Founder</a></li>
+    <li><a href="#approach">Approach</a></li>
+  </ul>
+
+  <a href="#cta" class="nav-cta">Engage</a>
+</nav>
+
+
+<!-- ════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-vignette"></div>
+
+  <!-- Floating prism -->
+  <div class="hero-prism-wrap">
+    <div class="hero-prism-glow"></div>
+    <svg viewBox="0 0 320 370" width="320" height="370" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 64px rgba(201,144,58,.12))">
+      <!-- TOP face -->
+      <polygon points="160,30 268,92 160,154 52,92" fill="#C9903A" opacity="0.92"/>
+      <!-- RIGHT face -->
+      <polygon points="268,92 268,216 160,278 160,154" fill="#1A5C8A" opacity="0.92"/>
+      <!-- LEFT face -->
+      <polygon points="52,92 160,154 160,278 52,216" fill="#0D2238" opacity="0.95"/>
+      <!-- Separators -->
+      <line x1="160" y1="30"  x2="160" y2="154" stroke="#06080F" stroke-width="2.5"/>
+      <line x1="160" y1="154" x2="268" y2="216" stroke="#06080F" stroke-width="2.5"/>
+      <line x1="160" y1="154" x2="52"  y2="216" stroke="#06080F" stroke-width="2.5"/>
+      <!-- Outer hex frame -->
+      <polygon points="160,30 268,92 268,216 160,278 52,216 52,92" fill="none" stroke="#C9903A" stroke-width="1" stroke-opacity="0.3"/>
+      <!-- Very subtle interior lines -->
+      <line x1="160" y1="30" x2="52" y2="92"  stroke="#C9903A" stroke-width="0.5" stroke-opacity="0.12"/>
+      <line x1="160" y1="30" x2="268" y2="92" stroke="#C9903A" stroke-width="0.5" stroke-opacity="0.12"/>
+    </svg>
+  </div>
+
+  <!-- Content -->
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-dot"></div>
+      <span class="label label-amber">Materials · Advanced · Science · Technology · Consolidate</span>
+    </div>
+
+    <h1 class="hero-title">
+      MAST
+      <span class="hero-title-italic">Consolidate</span>
+    </h1>
+
+    <p class="hero-sub">
+      A multi-domain technology and engineering company unifying artificial intelligence, cybersecurity, software, aerospace, drone systems, additive manufacturing, and materials science into one consolidated vision.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#domains" class="btn-primary">Explore Domains</a>
+      <a href="#about" class="btn-ghost">Our Vision</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Scroll</span>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════
+     MARQUEE
+════════════════════════════════════════════ -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <!-- Two copies for seamless loop -->
+    <span class="marquee-item">Materials Engineering</span>
+    <span class="marquee-item">Advanced AI Systems</span>
+    <span class="marquee-item">Cybersecurity</span>
+    <span class="marquee-item">Software Engineering</span>
+    <span class="marquee-item">Aircraft Engineering</span>
+    <span class="marquee-item">Drone Systems</span>
+    <span class="marquee-item">Additive Manufacturing</span>
+    <span class="marquee-item">General Engineering</span>
+    <span class="marquee-item">Materials Engineering</span>
+    <span class="marquee-item">Advanced AI Systems</span>
+    <span class="marquee-item">Cybersecurity</span>
+    <span class="marquee-item">Software Engineering</span>
+    <span class="marquee-item">Aircraft Engineering</span>
+    <span class="marquee-item">Drone Systems</span>
+    <span class="marquee-item">Additive Manufacturing</span>
+    <span class="marquee-item">General Engineering</span>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     ABOUT
+════════════════════════════════════════════ -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-head sr">
+      <span class="section-num">01</span>
+      <div>
+        <div class="label label-amber" style="margin-bottom:12px;">About MAST</div>
+        <h2 class="h2">We build what <br/><em class="h2-em">others separate.</em></h2>
+      </div>
+    </div>
+
+    <div class="about-grid">
+      <div class="sr-l">
+        <p class="about-statement">
+          "At MAST, <em>every domain</em> informs the other. The algorithm shapes the alloy. The material enables the aircraft. The aircraft demands the software. <em>Separation is the inefficiency</em> we eliminate."
+        </p>
+      </div>
+
+      <div class="sr-r delay2">
+        <div class="about-right">
+          <div class="label" style="margin-bottom:8px;">The Consolidated Advantage</div>
+          <p class="body-text" style="margin-bottom:32px;">
+            Where other firms specialise, MAST consolidates. Our structure allows cross-domain intelligence — insights from materials science informing AI architecture, cybersecurity principles shaping hardware design, aerospace engineering driving additive manufacturing constraints.
+          </p>
+          <div class="stat-row">
+            <div>
+              <div class="stat-num">6</div>
+              <div class="stat-label">Integrated Domains</div>
+            </div>
+            <div style="text-align:right;">
+              <div class="stat-num" style="color:var(--steel-hi);">1</div>
+              <div class="stat-label">Unified Vision</div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <div>
+              <div class="stat-num" style="color:var(--hi);">∞</div>
+              <div class="stat-label">Cross-domain leverage</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-style:italic;color:var(--amber);">M·A·S·T</div>
+              <div class="stat-label">The cipher that signs everything</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ════════════════════════════════════════════
+     DOMAINS
+════════════════════════════════════════════ -->
+<section id="domains">
+  <div class="section-inner">
+    <div class="section-head sr">
+      <span class="section-num">02</span>
+      <div>
+        <div class="label label-amber" style="margin-bottom:12px;">Domains of Expertise</div>
+        <h2 class="h2">Six disciplines. <br/><em class="h2-em">One company.</em></h2>
+      </div>
+    </div>
+
+    <div class="domains-grid sr delay1">
+      <!-- AI -->
+      <div class="domain-card amber">
+        <div class="domain-num">Domain 01</div>
+        <svg class="domain-icon" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="22,2 38,11 38,29 22,38 6,29 6,11" fill="none" stroke="#C9903A" stroke-width="1.2" opacity="0.4"/>
+          <polygon points="22,8 32,14 32,26 22,32 12,26 12,14" fill="none" stroke="#C9903A" stroke-width="1.2"/>
+          <circle cx="22" cy="22" r="3" fill="#C9903A"/>
+          <line x1="22" y1="14" x2="22" y2="8"  stroke="#C9903A" stroke-width="1" opacity="0.6"/>
+          <line x1="32" y1="26" x2="38" y2="29" stroke="#C9903A" stroke-width="1" opacity="0.6"/>
+          <line x1="12" y1="26" x2="6"  y2="29" stroke="#C9903A" stroke-width="1" opacity="0.6"/>
+        </svg>
+        <h3 class="domain-title">Artificial Intelligence &amp; Machine Learning</h3>
+        <p class="domain-desc">Domain-specific language models, intelligent systems, materials informatics, simulation AI, and autonomous decision architectures.</p>
+        <div class="domain-arrow">↗</div>
+      </div>
+
+      <!-- Cybersecurity -->
+      <div class="domain-card steel">
+        <div class="domain-num">Domain 02</div>
+        <svg class="domain-icon" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 4 L38 10 L38 24 C38 32 30 38 22 42 C14 38 6 32 6 24 L6 10 Z" fill="none" stroke="#1A5C8A" stroke-width="1.2"/>
+          <path d="M22 10 L32 15 L32 24 C32 29 27 33 22 36 C17 33 12 29 12 24 L12 15 Z" fill="none" stroke="#2E7EB4" stroke-width="1"/>
+          <line x1="16" y1="22" x2="20" y2="26" stroke="#1A5C8A" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="20" y1="26" x2="28" y2="18" stroke="#1A5C8A" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <h3 class="domain-title">Cybersecurity</h3>
+        <p class="domain-desc">Secure-by-design systems architecture, threat modelling, hardware-level security, embedded systems protection, and aerospace cyber resilience.</p>
+        <div class="domain-arrow">↗</div>
+      </div>
+
+      <!-- Software -->
+      <div class="domain-card navy">
+        <div class="domain-num">Domain 03</div>
+        <svg class="domain-icon" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="8" width="36" height="28" rx="2" fill="none" stroke="#2E7EB4" stroke-width="1.2"/>
+          <line x1="4" y1="16" x2="40" y2="16" stroke="#1A5C8A" stroke-width="1"/>
+          <circle cx="9" cy="12" r="1.5" fill="#C9903A"/>
+          <circle cx="14" cy="12" r="1.5" fill="#C9903A" opacity="0.5"/>
+          <circle cx="19" cy="12" r="1.5" fill="#C9903A" opacity="0.25"/>
+          <path d="M11 24 L15 28 L11 32" fill="none" stroke="#2E7EB4" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="17" y1="32" x2="25" y2="32" stroke="#1A5C8A" stroke-width="1" opacity="0.6"/>
+        </svg>
+        <h3 class="domain-title">Software Engineering</h3>
+        <p class="domain-desc">Full-stack platforms, embedded software, real-time systems, SLM inference infrastructure, API design, and engineering simulation software.</p>
+        <div class="domain-arrow">↗</div>
+      </div>
+
+      <!-- Aerospace -->
+      <div class="domain-card steel">
+        <div class="domain-num">Domain 04</div>
+        <svg class="domain-icon" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 4 L36 20 L30 20 L30 38 L22 36 L14 38 L14 20 L8 20 Z" fill="none" stroke="#1A5C8A" stroke-width="1.2"/>
+          <line x1="14" y1="24" x2="8"  y2="30" stroke="#1A5C8A" stroke-width="1" opacity="0.6"/>
+          <line x1="30" y1="24" x2="36" y2="30" stroke="#1A5C8A" stroke-width="1" opacity="0.6"/>
+          <line x1="22" y1="20" x2="22" y2="28" stroke="#2E7EB4" stroke-width="1"/>
+          <circle cx="22" cy="30" r="2" fill="#1A5C8A"/>
+        </svg>
+        <h3 class="domain-title">Aircraft &amp; Aerospace Engineering</h3>
+        <p class="domain-desc">Airframe design, structural analysis, FEA/CFD simulation, composite structures, avionics integration, and certification-grade engineering.</p>
+        <div class="domain-arrow">↗</div>
+      </div>
+
+      <!-- Drones -->
+      <div class="domain-card amber">
+        <div class="domain-num">Domain 05</div>
+        <svg class="domain-icon" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="22" cy="22" r="4" fill="none" stroke="#C9903A" stroke-width="1.2"/>
+          <line x1="22" y1="18" x2="22" y2="10" stroke="#C9903A" stroke-width="1.2"/>
+          <line x1="22" y1="26" x2="22" y2="34" stroke="#C9903A" stroke-width="1.2"/>
+          <line x1="18" y1="22" x2="10" y2="22" stroke="#C9903A" stroke-width="1.2"/>
+          <line x1="26" y1="22" x2="34" y2="22" stroke="#C9903A" stroke-width="1.2"/>
+          <circle cx="22" cy="8"  r="3" fill="none" stroke="#C9903A" stroke-width="1" opacity="0.7"/>
+          <circle cx="22" cy="36" r="3" fill="none" stroke="#C9903A" stroke-width="1" opacity="0.7"/>
+          <circle cx="8"  cy="22" r="3" fill="none" stroke="#C9903A" stroke-width="1" opacity="0.7"/>
+          <circle cx="36" cy="22" r="3" fill="none" stroke="#C9903A" stroke-width="1" opacity="0.7"/>
+        </svg>
+        <h3 class="domain-title">Drone &amp; UAV Systems</h3>
+        <p class="domain-desc">UAV platform design, flight control systems, autonomous navigation, sensor integration, payload engineering, and regulatory compliance.</p>
+        <div class="domain-arrow">↗</div>
+      </div>
+
+      <!-- Materials / Additive -->
+      <div class="domain-card amber">
+        <div class="domain-num">Domain 06</div>
+        <svg class="domain-icon" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="22,4 38,13 38,31 22,40 6,31 6,13" fill="none" stroke="#C9903A" stroke-width="1.2"/>
+          <polygon points="22,10 32,16 32,28 22,34 12,28 12,16" fill="none" stroke="#C9903A" stroke-width="0.8" opacity="0.5"/>
+          <circle cx="22" cy="4"  r="2" fill="#C9903A"/>
+          <circle cx="38" cy="13" r="2" fill="#C9903A" opacity="0.6"/>
+          <circle cx="38" cy="31" r="2" fill="#C9903A" opacity="0.6"/>
+          <circle cx="22" cy="40" r="2" fill="#C9903A" opacity="0.4"/>
+          <circle cx="6"  cy="31" r="2" fill="#C9903A" opacity="0.4"/>
+          <circle cx="6"  cy="13" r="2" fill="#C9903A" opacity="0.4"/>
+          <circle cx="22" cy="22" r="3" fill="#C9903A"/>
+        </svg>
+        <h3 class="domain-title">Materials &amp; Additive Manufacturing</h3>
+        <p class="domain-desc">Materials selection, 4D metamaterial design, FDM/SLA process engineering, gradient composites, phase simulation, and mechanical property prediction.</p>
+        <div class="domain-arrow">↗</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ════════════════════════════════════════════
+     CIPHER
+════════════════════════════════════════════ -->
+<section id="cipher">
+  <div class="cipher-bg-mark">
+    <svg viewBox="0 0 400 460" width="500" height="575" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="200,40 324,112 200,184 76,112" fill="#C9903A"/>
+      <polygon points="324,112 324,256 200,328 200,184" fill="#1A5C8A"/>
+      <polygon points="76,112 200,184 200,328 76,256" fill="#0D2238"/>
+      <line x1="200" y1="40"  x2="200" y2="184" stroke="#0A0B12" stroke-width="3"/>
+      <line x1="200" y1="184" x2="324" y2="256" stroke="#0A0B12" stroke-width="3"/>
+      <line x1="200" y1="184" x2="76"  y2="256" stroke="#0A0B12" stroke-width="3"/>
+    </svg>
+  </div>
+
+  <div class="section-inner" style="position:relative;z-index:2;">
+    <div class="section-head sr">
+      <span class="section-num">03</span>
+      <div>
+        <div class="label label-amber" style="margin-bottom:12px;">The Mark &amp; The Cipher</div>
+        <h2 class="h2">Six letters. <br/><em class="h2-em">One geometry.</em></h2>
+      </div>
+    </div>
+
+    <div class="cipher-grid">
+      <div class="sr-l">
+        <div class="cipher-letters">
+          <div class="cipher-letter">
+            <span class="cl-char" style="color:var(--amber);">M</span>
+            <span class="cl-name">Muyideen</span>
+          </div>
+          <div class="cipher-letter">
+            <span class="cl-char" style="color:var(--amber);">A</span>
+            <span class="cl-name">AbdulSamad</span>
+          </div>
+          <div class="cipher-letter">
+            <span class="cl-char" style="color:var(--hi);">S</span>
+            <span class="cl-name">Science</span>
+          </div>
+          <div class="cipher-letter">
+            <span class="cl-char" style="color:var(--hi);">T</span>
+            <span class="cl-name">Teniola</span>
+          </div>
+          <div class="cipher-letter">
+            <span class="cl-char" style="color:var(--steel-hi);">C</span>
+            <span class="cl-name">Consolidate</span>
+          </div>
+          <div class="cipher-letter">
+            <span class="cl-char" style="color:var(--steel-hi);">O</span>
+            <span class="cl-name">Oladimeji</span>
+          </div>
+        </div>
+
+        <p class="body-text" style="margin-bottom:28px;">
+          The MAST prism is not merely a symbol — it is a cipher. Every letter of the company's name, and every initial of the founder's full name, is geometrically encoded within the same unmodified prism. Nothing was added. They were always there.
+        </p>
+        <p class="body-text">
+          M in the outer frame and twin peaks. A in the top face. S in the diagonal arc. T in the vertical spine. C in five outer edges. O in the full perimeter. The mark signs itself completely.
+        </p>
+      </div>
+
+      <div class="sr-r delay2">
+        <div class="cipher-right">
+          <div class="cipher-item">
+            <span class="ci-letter" style="color:var(--amber);">M</span>
+            <div class="ci-body">
+              <div class="ci-title" style="color:var(--amber);">Inner Frame · Twin Peaks</div>
+              <div class="ci-desc">Outer left and right legs, peak slopes, and center valley. Muyideen · Materials · Manufacturing</div>
+            </div>
+          </div>
+          <div class="cipher-item">
+            <span class="ci-letter" style="color:var(--amber);">A</span>
+            <div class="ci-body">
+              <div class="ci-title" style="color:var(--amber);">Top Face Geometry</div>
+              <div class="ci-desc">The entire top face is the letter A — apex, two slopes, crossbar. AbdulSamad · Advanced</div>
+            </div>
+          </div>
+          <div class="cipher-item">
+            <span class="ci-letter" style="color:var(--mid);">S</span>
+            <div class="ci-body">
+              <div class="ci-title" style="color:var(--mid);">Diagonal Arc · Pivot</div>
+              <div class="ci-desc">Upper-right arc to center, pivot, lower-left arc to base. Science · Software · Systems</div>
+            </div>
+          </div>
+          <div class="cipher-item">
+            <span class="ci-letter" style="color:var(--mid);">T</span>
+            <div class="ci-body">
+              <div class="ci-title" style="color:var(--mid);">Crossbar · Full Spine</div>
+              <div class="ci-desc">Horizontal crossbar at the top level, full vertical spine apex to base. Teniola · Technology</div>
+            </div>
+          </div>
+          <div class="cipher-item">
+            <span class="ci-letter" style="color:var(--steel-hi);">C</span>
+            <div class="ci-body">
+              <div class="ci-title" style="color:var(--steel-hi);">Outer Hex · Left Arc Open</div>
+              <div class="ci-desc">Five of six outer edges. The boundary that holds everything. Consolidate</div>
+            </div>
+          </div>
+          <div class="cipher-item">
+            <span class="ci-letter" style="color:var(--steel-hi);">O</span>
+            <div class="ci-body">
+              <div class="ci-title" style="color:var(--steel-hi);">Full Outer Perimeter</div>
+              <div class="ci-desc">The complete closed hexagonal boundary. The ring that contains all three worlds. Oladimeji</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ════════════════════════════════════════════
+     APPROACH
+════════════════════════════════════════════ -->
+<section id="approach">
+  <div class="section-inner">
+    <div class="section-head sr">
+      <span class="section-num">04</span>
+      <div>
+        <div class="label label-amber" style="margin-bottom:12px;">How We Work</div>
+        <h2 class="h2">Methodology of <br/><em class="h2-em">consolidation.</em></h2>
+      </div>
+    </div>
+
+    <div class="approach-grid sr delay1">
+      <div class="approach-step">
+        <div class="step-num">I</div>
+        <h3 class="step-title">Analyse</h3>
+        <p class="step-desc">We map the full problem space across domains. Where others see isolated engineering challenges, we see interconnected systems waiting to be optimised together.</p>
+      </div>
+      <div class="approach-step">
+        <div class="step-num">II</div>
+        <h3 class="step-title">Simulate</h3>
+        <p class="step-desc">Computational models first — FEA, CFD, ML-driven property prediction, digital twins. We test in simulation before committing to material reality.</p>
+      </div>
+      <div class="approach-step">
+        <div class="step-num">III</div>
+        <h3 class="step-title">Fabricate</h3>
+        <p class="step-desc">Additive and subtractive manufacturing guided by data. The algorithm decides the geometry. The printer builds it. The material validates the model.</p>
+      </div>
+      <div class="approach-step">
+        <div class="step-num">IV</div>
+        <h3 class="step-title">Deploy</h3>
+        <p class="step-desc">Software, hardware, and intelligence delivered as integrated systems. Built to operate, not just demonstrate. Tested to certification standards.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ════════════════════════════════════════════
+     FOUNDER
+════════════════════════════════════════════ -->
+<section id="founder" style="background:var(--bg1);">
+  <div class="section-inner">
+    <div class="section-head sr">
+      <span class="section-num">05</span>
+      <div>
+        <div class="label label-amber" style="margin-bottom:12px;">The Founder</div>
+        <h2 class="h2">The engineer behind <br/><em class="h2-em">the prism.</em></h2>
+      </div>
+    </div>
+
+    <div class="founder-grid">
+      <div class="sr-l">
+        <p class="founder-quote">
+          "I didn't choose these domains because they were fashionable. I chose them because I genuinely work across all of them — and I realised <em>nobody was building the infrastructure to do all of them together.</em>"
+        </p>
+        <div class="founder-attribution">— Founder, MAST Consolidate</div>
+
+        <div class="founder-name">Muyideen AbdulSamad<br/>Oladimeji Teniola</div>
+        <div class="founder-title-text" style="margin-top:4px;">BEng Metallurgical & Materials Engineering · Airframe Engineer · UAV Designer · Software & ML Engineer</div>
+
+        <div class="founder-domains">
+          <span class="founder-tag">Materials Engineering</span>
+          <span class="founder-tag">AI / ML</span>
+          <span class="founder-tag">Full-Stack Dev</span>
+          <span class="founder-tag">Aerospace</span>
+          <span class="founder-tag">FEA / FEM</span>
+          <span class="founder-tag">Additive Mfg</span>
+          <span class="founder-tag">SLM / LLM</span>
+          <span class="founder-tag">UAV Design</span>
+        </div>
+      </div>
+
+      <div class="sr-r delay2">
+        <div class="founder-right">
+          <div class="founder-pillar">
+            <div class="fp-label">Physical Domain</div>
+            <div class="fp-text">BEng in Metallurgical & Materials Engineering. XGBoost-driven mechanical property prediction. Iron-carbon phase diagram simulation. ANSYS ACP composites. SolidWorks structural design.</div>
+          </div>
+          <div class="founder-pillar">
+            <div class="fp-label">Aerospace Domain</div>
+            <div class="fp-text">Airframe Engineering internship experience. UAV drone design engineer. Structural analysis, load path optimisation, and composite airframe design.</div>
+          </div>
+          <div class="founder-pillar">
+            <div class="fp-label">Digital Domain</div>
+            <div class="fp-text">LLM/SLM architecture from scratch — GPT, LLaMA, LoRA, knowledge distillation. Full-stack React/Node.js. ML in Rust. Intelligent routing systems. Materials informatics pipelines.</div>
+          </div>
+          <div class="founder-pillar">
+            <div class="fp-label">Research Direction</div>
+            <div class="fp-text">4D auxetic metamaterials with gradient PLA/TPU composites. Shape memory behaviour. SolidWorks → ANSYS → ML → inverse design workflow. Prospective HIT graduate research.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════
+     CTA
+════════════════════════════════════════════ -->
+<section id="cta">
+  <div class="label label-amber" style="justify-content:center;display:flex;margin-bottom:20px;">
+    <span>Begin a Conversation</span>
+  </div>
+  <h2 class="cta-heading sr">CONSOLIDATE<br/>WITH US</h2>
+  <p class="cta-sub sr delay1">
+    Whether you need a single domain or all six, MAST brings the depth of a specialist and the breadth of a consolidator to every engagement.
+  </p>
+  <div class="cta-btns sr delay2">
+    <a href="mailto:hello@mastconsolidate.com" class="btn-light">Start a Project</a>
+    <a href="#domains" class="btn-outline-light">View Domains</a>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo-row">
+        <svg viewBox="0 0 28 32" width="22" height="25" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="14,2 24,8 14,14 4,8" fill="#C9903A"/>
+          <polygon points="24,8 24,20 14,26 14,14" fill="#1A5C8A"/>
+          <polygon points="4,8 14,14 14,26 4,20" fill="#0D2238"/>
+          <line x1="14" y1="2" x2="14" y2="14" stroke="#06080F" stroke-width="1"/>
+          <line x1="14" y1="14" x2="24" y2="20" stroke="#06080F" stroke-width="1"/>
+          <line x1="14" y1="14" x2="4"  y2="20" stroke="#06080F" stroke-width="1"/>
+        </svg>
+        <span class="footer-wordmark">MAST</span>
+      </div>
+      <p class="footer-tagline">Materials Advanced Science &amp; Technology Consolidate — where six domains become one integrated capability.</p>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:3px;color:var(--lo);">M · A · S · T · C · O</div>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Domains</div>
+      <ul class="footer-links">
+        <li><a href="#">Artificial Intelligence</a></li>
+        <li><a href="#">Cybersecurity</a></li>
+        <li><a href="#">Software Engineering</a></li>
+        <li><a href="#">Aerospace</a></li>
+        <li><a href="#">Drone Systems</a></li>
+        <li><a href="#">Materials &amp; Additive</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="#">About</a></li>
+        <li><a href="#">The Mark</a></li>
+        <li><a href="#">Approach</a></li>
+        <li><a href="#">Founder</a></li>
+        <li><a href="#">Research</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <ul class="footer-links">
+        <li><a href="#">Start a Project</a></li>
+        <li><a href="#">Partnerships</a></li>
+        <li><a href="#">Research Collab</a></li>
+        <li><a href="#">hello@mast.co</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 MAST Consolidate. All rights reserved.</span>
+    <span class="footer-cipher">
+      <span>M</span>uyideen · <span>A</span>bdulSamad · <span>O</span>ladimeji · <span>T</span>eniola
+    </span>
+  </div>
+</footer>
+
+
+<!-- ════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════ -->
+<script>
+// ── Custom cursor ──
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx+'px';
+  cursor.style.top  = my+'px';
+});
+(function animRing(){
+  rx += (mx-rx)*.12;
+  ry += (my-ry)*.12;
+  ring.style.left = rx+'px';
+  ring.style.top  = ry+'px';
+  requestAnimationFrame(animRing);
+})();
+
+// ── Scroll reveal ──
+const sr = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis'); });
+}, {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+
+document.querySelectorAll('.sr,.sr-l,.sr-r').forEach(el => sr.observe(el));
+
+// ── Nav scroll state ──
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  nav.style.borderBottomColor = window.scrollY > 20 ? 'rgba(201,144,58,.12)' : '';
+});
+</script>
+
+</body>
+</html>
