@@ -22,7 +22,7 @@
 
     --text-primary: #0A0A0A;
     --text-secondary: #525252;
-    --text-muted: #A3A3A3;
+    --text-muted: #737373;
     --text-inverse: #FAFAFA;
 
     --accent: #0A0A0A;
@@ -33,7 +33,7 @@
     --border-hover: #D4D4D4;
 
     --tag-bg: #F5F5F5;
-    --tag-text: #525252;
+    --tag-text: #404040;
 
     --status-active-bg: #ECFDF5;
     --status-active-text: #065F46;
@@ -73,8 +73,8 @@
     --paper-border-light: #e5d8bc;
     --paper-ink: #2c1810;
     --paper-ink-heading: #1a0d07;
-    --paper-ink-muted: #8b7658;
-    --paper-ink-faded: #b8a58b;
+    --paper-ink-muted: #6b5a3d;
+    --paper-ink-faded: #9b8a70;
     --paper-accent: #8b2500;
     --paper-accent-blue: #2e5a88;
     --paper-shadow: rgba(44, 24, 16, 0.12);
@@ -94,7 +94,7 @@
 
     --text-primary: #FAFAFA;
     --text-secondary: #A3A3A3;
-    --text-muted: #525252;
+    --text-muted: #8C8C8C;
     --text-inverse: #0A0A0A;
 
     --accent: #FAFAFA;
@@ -124,13 +124,13 @@
     --paper-border-light: #3d3425;
     --paper-ink: #d4c5b2;
     --paper-ink-heading: #e8dcc8;
-    --paper-ink-muted: #8b7d6b;
-    --paper-ink-faded: #5a5042;
+    --paper-ink-muted: #b5a58a;
+    --paper-ink-faded: #6b5e4e;
     --paper-accent: #c7512e;
     --paper-accent-blue: #6b9ec2;
     --paper-shadow: rgba(0, 0, 0, 0.35);
     --paper-shadow-lg: rgba(0, 0, 0, 0.5);
-}
+
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
     --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
@@ -712,23 +712,7 @@ a {
     height: 1.125rem;
 }
 
-/* ---------- Preloader ---------- */
-.preloader {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg-primary);
-    transition: opacity 0.6s ease;
-}
-
-.preloader.fade-out {
-    opacity: 0;
-    pointer-events: none;
-}
-
+/* ---------- Preloader Spinner ---------- */
 .preloader-spinner {
     width: 2rem;
     height: 2rem;
@@ -972,8 +956,9 @@ a {
 }
 
 .prose pre {
-    background: #1a1a1a;
-    color: #e5e5e5;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
     padding: 1rem;
     border-radius: var(--radius-md);
     overflow-x: auto;
@@ -2190,8 +2175,32 @@ a {
     margin: 0 auto;
 }
 
-/* Responsive */
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .blog-post-sheet {
+        padding: 2rem !important;
+    }
+}
+
 @media (max-width: 640px) {
+    /* Layout */
+    .section {
+        padding: 3rem 0;
+    }
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Typography */
+    .section-title {
+        font-size: 1.625rem;
+    }
+    .section-desc {
+        font-size: 1rem;
+    }
+
+    /* Blog cards */
     .blog-card {
         flex-direction: column;
         padding: 1.25rem !important;
@@ -2204,5 +2213,81 @@ a {
     }
     .blog-post-sheet {
         padding: 1.5rem !important;
+    }
+    .blog-page-content {
+        padding: 0 1rem;
+    }
+
+    /* Profile image */
+    .profile-ring img {
+        width: clamp(10rem, 45vw, 16rem) !important;
+        height: clamp(10rem, 45vw, 16rem) !important;
+    }
+
+    /* Counters grid */
+    #counters .counter-value {
+        font-size: 1.75rem !important;
+    }
+    #counters .card {
+        padding: 1rem !important;
+    }
+
+    /* Project grid cards */
+    #projectGrid .card {
+        padding: 1rem !important;
+    }
+    .project-card-tag {
+        font-size: 0.625rem;
+        padding: 0.2rem 0.5rem;
+    }
+
+    /* Research cards */
+    #research-grid .card {
+        padding: 1.25rem !important;
+    }
+
+    /* Contact form */
+    .social-link span {
+        font-size: 0.8125rem;
+    }
+
+    /* Footer */
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    .footer-premium {
+        padding: 2rem 0 1rem;
+    }
+
+    /* Blog controls */
+    .blog-tag-filters {
+        gap: 0.35rem;
+    }
+    .blog-tag-btn {
+        padding: 0.25rem 0.6rem;
+        font-size: 0.625rem;
+    }
+
+    /* 3D Canvas */
+    .canvas-3d {
+        height: 300px !important;
+    }
+
+    /* Latest posts on homepage */
+    .home-blog-card h3 {
+        font-size: 0.9375rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .blog-post-title {
+        font-size: 1.3rem !important;
+    }
+    .blog-post-sheet {
+        padding: 1.25rem !important;
+    }
+    .blog-card {
+        padding: 1rem !important;
     }
 }
