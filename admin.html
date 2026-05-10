@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Blog Editor — Abdulsamad</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+    <style>
+        :root {
+            --editor-bg: #fdfaf3;
+            --editor-border: #d4c5a0;
+            --editor-text: #2c1810;
+            --editor-muted: #8b7658;
+            --editor-accent: #8b2500;
+            --editor-input-bg: #fefdf9;
+        }
+        .dark {
+            --editor-bg: #1f1a12;
+            --editor-border: #3d3425;
+            --editor-text: #d4c5b2;
+            --editor-muted: #6b5d4e;
+            --editor-accent: #c7512e;
+            --editor-input-bg: #252016;
+        }
+        body { background: var(--bg-primary); }
+        .editor-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; }
+        .editor-panel {
+            background: var(--editor-bg);
+            border: 1px solid var(--editor-border);
+            border-radius: 4px;
+            padding: 1.5rem;
+            font-family: var(--font-typewriter);
+        }
+        .editor-panel h3 {
+            font-size: 0.6875rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--editor-muted);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px dashed var(--editor-border);
+        }
+        .editor-field { margin-bottom: 1rem; }
+        .editor-field label {
+            display: block;
+            font-size: 0.6875rem;
+            font-weight: 400;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--editor-muted);
+            margin-bottom: 0.3rem;
+        }
+        .editor-field input,
+        .editor-field textarea,
+        .editor-field select {
+            width: 100%;
+            padding: 0.6rem 0.75rem;
+            border: 1px solid var(--editor-border);
+            border-radius: 2px;
+            background: var(--editor-input-bg);
+            color: var(--editor-text);
+            font-family: var(--font-typewriter);
+            font-size: 0.875rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .editor-field input:focus,
+        .editor-field textarea:focus {
+            border-color: var(--editor-accent);
+            box-shadow: 0 0 0 3px rgba(139, 37, 0, 0.06);
+        }
+        .editor-field textarea {
+            min-height: 420px;
+            resize: vertical;
+            line-height: 1.7;
+            font-size: 0.875rem;
+        }
+        .editor-field textarea.markdown-source {
+            font-family: var(--font-typewriter);
+        }
+        .preview-pane {
+            min-height: 420px;
+            max-height: 80vh;
+            overflow-y: auto;
+            font-size: 0.9375rem;
+            line-height: 1.85;
+            color: var(--editor-text);
+        }
+        .preview-pane h1, .preview-pane h2, .preview-pane h3 {
+            font-family: var(--font-medieval);
+            font-weight: 400;
+        }
+        .preview-pane h1 { font-size: 1.75rem; border-bottom: 2px double var(--editor-border); padding-bottom: 0.5rem; margin-top: 1.5rem; }
+        .preview-pane h2 { font-size: 1.4rem; margin-top: 1.25rem; }
+        .preview-pane h3 { font-size: 1.15rem; }
+        .preview-pane code { background: rgba(139,119,90,0.1); padding: 0.1rem 0.3rem; border-radius: 2px; font-size: 0.85em; }
+        .preview-pane pre { background: rgba(139,119,90,0.06); padding: 1rem; border-radius: 2px; overflow-x: auto; border: 1px solid var(--editor-border); }
+        .preview-pane pre code { background: none; padding: 0; }
+        .preview-pane blockquote { border-left: 3px solid var(--editor-border); margin: 1rem 0; padding: 0.5rem 1rem; color: var(--editor-muted); font-style: italic; }
+        .preview-pane p { margin-bottom: 0.75rem; }
+        .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.75rem;
+            background: var(--paper-ink);
+            color: var(--paper-bg-card);
+            border: none;
+            border-radius: 2px;
+            font-family: var(--font-typewriter);
+            font-size: 0.875rem;
+            letter-spacing: 0.04em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-submit:hover { opacity: 0.85; }
+        .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.75rem;
+            background: transparent;
+            color: var(--editor-text);
+            border: 1px solid var(--editor-border);
+            border-radius: 2px;
+            font-family: var(--font-typewriter);
+            font-size: 0.875rem;
+            letter-spacing: 0.04em;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        .btn-outline:hover { border-color: var(--editor-accent); color: var(--editor-accent); }
+        .token-notice {
+            background: rgba(139,37,0,0.06);
+            border: 1px solid rgba(139,37,0,0.15);
+            border-radius: 4px;
+            padding: 1rem 1.25rem;
+            font-size: 0.8125rem;
+            color: var(--editor-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .token-notice strong { color: var(--editor-accent); }
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            border-radius: 4px;
+            font-family: var(--font-typewriter);
+            font-size: 0.8125rem;
+            z-index: 9999;
+            animation: slideUp 0.3s ease;
+            max-width: 380px;
+        }
+        .toast-success { background: #064e3b; color: #a7f3d0; border: 1px solid #065f46; }
+        .toast-error { background: #7f1d1d; color: #fecaca; border: 1px solid #991b1b; }
+        .existing-posts { max-height: 400px; overflow-y: auto; }
+        .existing-post-item {
+            padding: 0.6rem 0.75rem;
+            border-bottom: 1px solid var(--editor-border);
+            cursor: pointer;
+            transition: background 0.15s;
+            font-size: 0.8125rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .existing-post-item:hover { background: rgba(139,119,90,0.06); }
+        .existing-post-item .title { color: var(--editor-text); }
+        .existing-post-item .date { color: var(--editor-muted); font-size: 0.6875rem; }
+        .hidden { display: none !important; }
+        @media (max-width: 768px) {
+            .editor-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Preloader -->
+<div id="preloader" class="preloader">
+    <div class="brand-loader">
+        <span style="animation-delay: 0.1s">A</span><span style="animation-delay: 0.2s">b</span><span style="animation-delay: 0.3s">d</span><span style="animation-delay: 0.4s">u</span><span style="animation-delay: 0.5s">l</span><span style="animation-delay: 0.6s">s</span><span style="animation-delay: 0.7s">a</span><span style="animation-delay: 0.8s">m</span><span style="animation-delay: 0.9s">a</span><span style="animation-delay: 1.0s">d</span><span class="dot">.</span>
+    </div>
+</div>
+
+<!-- Theme Toggle -->
+<button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+    <svg id="theme-toggle-dark-icon" style="display:none" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+    <svg id="theme-toggle-light-icon" style="display:none" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM10 16a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM3.05 4.54a1 1 0 00-1.414 1.414l.707.707a1 1 0 001.414-1.414l-.707-.707zM17.464 4.54a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 111.414-1.414l.707.707z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+</button>
+
+<main class="container" style="padding-top: 5rem; padding-bottom: 3rem;">
+
+    <!-- Header -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+            <p style="font-size: 0.6875rem; font-family: var(--font-typewriter); letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);">Blog Editor</p>
+            <h1 style="font-family: var(--font-medieval); font-size: 2rem; font-weight: 400; color: var(--text-primary); margin-top: 0.25rem;">Write &amp; Publish</h1>
+            <p style="font-size: 0.8125rem; color: var(--text-muted); font-family: var(--font-typewriter); margin-top: 0.25rem;">Compose in Markdown — published directly to your GitHub repo.</p>
+        </div>
+        <div style="display: flex; gap: 0.75rem;">
+            <button id="btn-new-post" class="btn-outline">+ New Post</button>
+            <button id="btn-edit-post" class="btn-outline">Edit Existing</button>
+            <a href="blog.html" class="btn-outline">View Blog</a>
+            <a href="index.html" class="btn-outline">Portfolio</a>
+        </div>
+    </div>
+
+    <!-- Token Setup (shown when no token) -->
+    <div id="token-setup" class="hidden">
+        <div class="token-notice">
+            <strong>GitHub Token Required</strong><br>
+            To publish posts, you need a GitHub Personal Access Token with <strong>repo</strong> scope.<br>
+            Create one at <a href="https://github.com/settings/tokens" target="_blank" rel="noopener" style="color: var(--editor-accent); text-decoration: underline;">github.com/settings/tokens</a> → Generate new token (classic) → check "repo".<br>
+            Your token is stored only in your browser's localStorage — it never leaves your machine.
+        </div>
+        <div class="editor-field" style="max-width: 500px;">
+            <label for="github-token">Personal Access Token</label>
+            <input type="password" id="github-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+        </div>
+        <button id="btn-save-token" class="btn-submit">Save Token</button>
+    </div>
+
+    <!-- Editor (shown when token is set) -->
+    <div id="editor-area" class="hidden">
+
+        <!-- Existing Posts List -->
+        <div id="existing-posts-panel" class="editor-panel hidden" style="margin-bottom: 1.5rem;">
+            <h3>Your Posts (click to edit)</h3>
+            <div id="existing-posts-list" class="existing-posts"></div>
+        </div>
+
+        <!-- Meta Fields -->
+        <div class="editor-panel" style="margin-bottom: 1rem;">
+            <h3>Post Details</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="editor-field">
+                    <label for="post-title">Title</label>
+                    <input type="text" id="post-title" placeholder="Your Post Title">
+                </div>
+                <div class="editor-field">
+                    <label for="post-slug">Slug (URL)</label>
+                    <input type="text" id="post-slug" placeholder="your-post-slug">
+                </div>
+                <div class="editor-field">
+                    <label for="post-date">Date</label>
+                    <input type="date" id="post-date">
+                </div>
+                <div class="editor-field">
+                    <label for="post-tags-input">Tags (comma-separated)</label>
+                    <input type="text" id="post-tags-input" placeholder="cybersecurity, web, learning">
+                </div>
+            </div>
+            <div class="editor-field">
+                <label for="post-desc">Description</label>
+                <input type="text" id="post-desc" placeholder="A short summary of your post...">
+            </div>
+        </div>
+
+        <!-- Editor + Preview -->
+        <div class="editor-layout">
+            <div class="editor-panel">
+                <h3>Markdown</h3>
+                <div class="editor-field">
+                    <textarea id="post-content" class="markdown-source" placeholder="Start writing your blog post in Markdown...&#10;&#10;## Heading&#10;&#10;Your content here.&#10;&#10;> A blockquote&#10;&#10;```python&#10;print('hello')&#10;```"></textarea>
+                </div>
+            </div>
+            <div class="editor-panel">
+                <h3>Preview</h3>
+                <div id="preview-pane" class="preview-pane" style="min-height: 420px; color: var(--editor-text);">
+                    <p style="color: var(--editor-muted);">Start typing to see a live preview...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div style="display: flex; gap: 1rem; margin-top: 1.5rem; align-items: center; flex-wrap: wrap;">
+            <button id="btn-publish" class="btn-submit">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                Publish to GitHub
+            </button>
+            <button id="btn-preview-toggle" class="btn-outline">Toggle Preview</button>
+            <span id="publish-status" style="font-size: 0.8125rem; font-family: var(--font-typewriter); color: var(--editor-muted);"></span>
+        </div>
+    </div>
+
+</main>
+
+<script src="main.js"></script>
+<script>
+    const GITHUB_API = 'https://api.github.com';
+    const OWNER = 'th3samaritan';
+    const REPO = 'My-Portfolio';
+    const BLOG_PATH = 'blog-posts';
+    const INDEX_PATH = `${BLOG_PATH}/index.json`;
+
+    const showdownConverter = new showdown.Converter({
+        ghCompatibleHeaderId: true, parseImgDimensions: true,
+        simplifiedAutoLink: true, strikethrough: true,
+        tables: true, tasklists: true, emoji: true
+    });
+
+    const tokenSetup = document.getElementById('token-setup');
+    const editorArea = document.getElementById('editor-area');
+    const existingPostsPanel = document.getElementById('existing-posts-panel');
+    const existingPostsList = document.getElementById('existing-posts-list');
+    const btnNewPost = document.getElementById('btn-new-post');
+    const btnEditPost = document.getElementById('btn-edit-post');
+
+    function getToken() { return localStorage.getItem('gh_blog_token'); }
+    function setToken(t) { localStorage.setItem('gh_blog_token', t); }
+
+    function showToast(msg, type) {
+        const existing = document.querySelector('.toast');
+        if (existing) existing.remove();
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = msg;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 4000);
+    }
+
+    // Initialize
+    (function init() {
+        document.getElementById('post-date').value = new Date().toISOString().split('T')[0];
+
+        if (getToken()) {
+            tokenSetup.classList.add('hidden');
+            editorArea.classList.remove('hidden');
+        } else {
+            tokenSetup.classList.remove('hidden');
+            editorArea.classList.add('hidden');
+        }
+
+        document.getElementById('btn-save-token').addEventListener('click', () => {
+            const token = document.getElementById('github-token').value.trim();
+            if (!token) { showToast('Please enter a token.', 'error'); return; }
+            setToken(token);
+            tokenSetup.classList.add('hidden');
+            editorArea.classList.remove('hidden');
+            showToast('Token saved. You can now publish posts.', 'success');
+        });
+
+        btnNewPost.addEventListener('click', () => {
+            clearForm();
+            existingPostsPanel.classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        btnEditPost.addEventListener('click', async () => {
+            existingPostsPanel.classList.toggle('hidden');
+            if (!existingPostsPanel.classList.contains('hidden')) {
+                await loadExistingPosts();
+            }
+        });
+
+        document.getElementById('post-title').addEventListener('input', function() {
+            const slug = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+            document.getElementById('post-slug').value = slug;
+        });
+
+        document.getElementById('post-content').addEventListener('input', function() {
+            const preview = document.getElementById('preview-pane');
+            if (this.value.trim()) {
+                preview.innerHTML = showdownConverter.makeHtml(this.value);
+            } else {
+                preview.innerHTML = '<p style="color: var(--editor-muted);">Start typing to see a live preview...</p>';
+            }
+        });
+
+        document.getElementById('btn-preview-toggle').addEventListener('click', () => {
+            const editorCol = document.querySelector('.editor-layout');
+            if (editorCol.style.gridTemplateColumns === '1fr') {
+                editorCol.style.gridTemplateColumns = '1fr 1fr';
+            } else {
+                editorCol.style.gridTemplateColumns = '1fr';
+            }
+        });
+
+        document.getElementById('btn-publish').addEventListener('click', publishPost);
+    })();
+
+    function clearForm() {
+        document.getElementById('post-title').value = '';
+        document.getElementById('post-slug').value = '';
+        document.getElementById('post-date').value = new Date().toISOString().split('T')[0];
+        document.getElementById('post-tags-input').value = '';
+        document.getElementById('post-desc').value = '';
+        document.getElementById('post-content').value = '';
+        document.getElementById('preview-pane').innerHTML = '<p style="color: var(--editor-muted);">Start typing to see a live preview...</p>';
+        document.getElementById('publish-status').textContent = '';
+    }
+
+    function loadFormFromPost(post) {
+        document.getElementById('post-title').value = post.title || '';
+        document.getElementById('post-slug').value = post.slug || '';
+        document.getElementById('post-date').value = post.date || '';
+        document.getElementById('post-tags-input').value = (post.tags || []).join(', ');
+        document.getElementById('post-desc').value = post.description || '';
+    }
+
+    async function loadExistingPosts() {
+        existingPostsList.innerHTML = '<p style="color:var(--editor-muted);font-size:0.8125rem;padding:1rem;">Loading posts...</p>';
+        try {
+            const res = await fetch(`${GITHUB_API}/repos/${OWNER}/${REPO}/contents/${INDEX_PATH}`, {
+                headers: { Authorization: `Bearer ${getToken()}`, Accept: 'application/vnd.github.v3+json' }
+            });
+            if (!res.ok) throw new Error('Failed to load posts');
+            const data = await res.json();
+            const content = JSON.parse(atob(data.content));
+            existingPostsList.innerHTML = '';
+            content.forEach(post => {
+                const div = document.createElement('div');
+                div.className = 'existing-post-item';
+                div.innerHTML = `<span class="title">${post.title}</span><span class="date">${new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>`;
+                div.addEventListener('click', async () => {
+                    existingPostsPanel.classList.add('hidden');
+                    loadFormFromPost(post);
+                    // Fetch the actual markdown content
+                    try {
+                        const mdRes = await fetch(`${GITHUB_API}/repos/${OWNER}/${REPO}/contents/${BLOG_PATH}/${post.slug}.md`, {
+                            headers: { Authorization: `Bearer ${getToken()}`, Accept: 'application/vnd.github.v3+json' }
+                        });
+                        if (mdRes.ok) {
+                            const mdData = await mdRes.json();
+                            const rawMd = atob(mdData.content);
+                            // Strip frontmatter
+                            const bodyMatch = rawMd.match(/^---[\s\S]*?---\n([\s\S]*)$/);
+                            document.getElementById('post-content').value = bodyMatch ? bodyMatch[1].trim() : rawMd;
+                            document.getElementById('preview-pane').innerHTML = showdownConverter.makeHtml(bodyMatch ? bodyMatch[1].trim() : rawMd);
+                        }
+                    } catch (e) {
+                        console.error('Failed to load post content:', e);
+                    }
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                existingPostsList.appendChild(div);
+            });
+        } catch (e) {
+            existingPostsList.innerHTML = '<p style="color:var(--editor-accent);font-size:0.8125rem;padding:1rem;">Failed to load posts. Check your token.</p>';
+            console.error(e);
+        }
+    }
+
+    async function publishPost() {
+        const title = document.getElementById('post-title').value.trim();
+        const slug = document.getElementById('post-slug').value.trim();
+        const date = document.getElementById('post-date').value.trim();
+        const tagsRaw = document.getElementById('post-tags-input').value.trim();
+        const description = document.getElementById('post-desc').value.trim();
+        const contentBody = document.getElementById('post-content').value.trim();
+
+        if (!title || !slug || !contentBody) {
+            showToast('Title, slug, and content are required.', 'error');
+            return;
+        }
+
+        const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [];
+        const tagsYaml = tags.length ? `[${tags.join(', ')}]` : '[]';
+
+        const frontmatter = `---
+title: ${title}
+date: ${date || new Date().toISOString().split('T')[0]}
+description: ${description || ''}
+tags: ${tagsYaml}
+---
+
+${contentBody}
+`;
+
+        const btn = document.getElementById('btn-publish');
+        const status = document.getElementById('publish-status');
+        btn.disabled = true;
+        status.textContent = 'Publishing...';
+
+        try {
+            const filePath = `${BLOG_PATH}/${slug}.md`;
+            const contentB64 = btoa(unescape(encodeURIComponent(frontmatter)));
+
+            // Check if file exists (to get SHA for update)
+            let sha = null;
+            try {
+                const checkRes = await fetch(`${GITHUB_API}/repos/${OWNER}/${REPO}/contents/${filePath}`, {
+                    headers: { Authorization: `Bearer ${getToken()}`, Accept: 'application/vnd.github.v3+json' }
+                });
+                if (checkRes.ok) {
+                    const checkData = await checkRes.json();
+                    sha = checkData.sha;
+                }
+            } catch (e) { /* file doesn't exist, that's fine */ }
+
+            const body = {
+                message: sha ? `update: ${title}` : `publish: ${title}`,
+                content: contentB64,
+                branch: 'main'
+            };
+            if (sha) body.sha = sha;
+
+            const res = await fetch(`${GITHUB_API}/repos/${OWNER}/${REPO}/contents/${filePath}`, {
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${getToken()}`,
+                    Accept: 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                throw new Error(err.message || 'Failed to publish');
+            }
+
+            status.textContent = 'Published! The index will auto-update via GitHub Actions.';
+            showToast(`"${title}" published to GitHub.`, 'success');
+        } catch (e) {
+            status.textContent = '';
+            showToast('Error: ' + e.message, 'error');
+            console.error(e);
+        } finally {
+            btn.disabled = false;
+        }
+    }
+</script>
+</body>
+</html>
