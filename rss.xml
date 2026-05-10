@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Abdulsamad Muyideen's Blog</title>
+    <link>https://th3samaritan.github.io/My-Portfolio/blog.html</link>
+    <description>Thoughts on cybersecurity, software engineering, and materials science.</description>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 10 May 2026 19:56:37 GMT</lastBuildDate>
+    <atom:link href="https://th3samaritan.github.io/My-Portfolio/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title><![CDATA[Web Cache Vulnerability]]></title>
+      <link>https://th3samaritan.github.io/My-Portfolio/blog.html?post=web-cache-vulnerability</link>
+      <guid isPermaLink="true">https://th3samaritan.github.io/My-Portfolio/blog.html?post=web-cache-vulnerability</guid>
+      <pubDate>Fri, 23 May 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[Learnt, practiced and researched on web cache vulnerability on PortSwigger and Ethic41 requested that I should recreate it...]]></description>
+    <category>cybersecurity</category>
+    <category>web</category>
+    <category>research</category>
+    </item>
+    <item>
+      <title><![CDATA[Enlightened]]></title>
+      <link>https://th3samaritan.github.io/My-Portfolio/blog.html?post=enlightened</link>
+      <guid isPermaLink="true">https://th3samaritan.github.io/My-Portfolio/blog.html?post=enlightened</guid>
+      <pubDate>Tue, 29 Apr 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[Realizing something lately - the saying that 'the more you know the more you realize you don't know' is very much factual...]]></description>
+    <category>cybersecurity</category>
+    <category>learning</category>
+    <category>burpsuite</category>
+    </item>
+    <item>
+      <title><![CDATA[Grit on Cybersecurity]]></title>
+      <link>https://th3samaritan.github.io/My-Portfolio/blog.html?post=grit-on-cybersecurity</link>
+      <guid isPermaLink="true">https://th3samaritan.github.io/My-Portfolio/blog.html?post=grit-on-cybersecurity</guid>
+      <pubDate>Tue, 22 Apr 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[Been doing a lot of practicing on PortSwigger labs lately. Noticed I don't like client-side attacks that much - find myself loving server-side...]]></description>
+    <category>cybersecurity</category>
+    <category>burpsuite</category>
+    <category>learning</category>
+    </item>
+    <item>
+      <title><![CDATA[Don't Limit Yourself]]></title>
+      <link>https://th3samaritan.github.io/My-Portfolio/blog.html?post=dont-limit-yourself</link>
+      <guid isPermaLink="true">https://th3samaritan.github.io/My-Portfolio/blog.html?post=dont-limit-yourself</guid>
+      <pubDate>Mon, 14 Apr 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[For the past few weeks my mind has been chaotic. I successfully created a 3D filament using HDPE and I'm going to 3D print a model...]]></description>
+    <category>personal</category>
+    <category>3d-printing</category>
+    <category>materials</category>
+    <category>maker</category>
+    </item>
+    <item>
+      <title><![CDATA[Test of Grit]]></title>
+      <link>https://th3samaritan.github.io/My-Portfolio/blog.html?post=test-of-grit</link>
+      <guid isPermaLink="true">https://th3samaritan.github.io/My-Portfolio/blog.html?post=test-of-grit</guid>
+      <pubDate>Mon, 14 Apr 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[I have been trying to solve a particular PortSwigger lab for weeks. It's been crazily tricky - made me question myself and my sanity...]]></description>
+    <category>cybersecurity</category>
+    <category>perseverance</category>
+    <category>portswigger</category>
+    </item>
+    <item>
+      <title><![CDATA[Searching the Web with AI]]></title>
+      <link>https://th3samaritan.github.io/My-Portfolio/blog.html?post=searching-the-web-with-ai</link>
+      <guid isPermaLink="true">https://th3samaritan.github.io/My-Portfolio/blog.html?post=searching-the-web-with-ai</guid>
+      <pubDate>Tue, 11 Mar 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[Based on my experience, using AI to search for things might not always be right. AI gives answers based on what it feels are top-most answers...]]></description>
+    <category>ai</category>
+    <category>productivity</category>
+    <category>search</category>
+    </item>
+    <item>
+      <title><![CDATA[First of Many Alchemy]]></title>
+      <link>https://th3samaritan.github.io/My-Portfolio/blog.html?post=first-of-many-alchemy</link>
+      <guid isPermaLink="true">https://th3samaritan.github.io/My-Portfolio/blog.html?post=first-of-many-alchemy</guid>
+      <pubDate>Mon, 03 Mar 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[My first official blog. Note that I copied this strategy from a friend, such a great and amazing person lol ethic41, steal like an artist they say...]]></description>
+    <category>personal</category>
+    <category>blog</category>
+    </item>
+    <item>
+      <title><![CDATA[Gifting Back to the Community]]></title>
+      <link>https://th3samaritan.github.io/My-Portfolio/blog.html?post=gifting-back-to-the-community</link>
+      <guid isPermaLink="true">https://th3samaritan.github.io/My-Portfolio/blog.html?post=gifting-back-to-the-community</guid>
+      <pubDate>Mon, 03 Mar 2025 00:00:00 GMT</pubDate>
+      <description><![CDATA[For years I've been working on projects, volunteered for collaborations, but haven't really worked on personal open source projects...]]></description>
+    <category>open-source</category>
+    <category>community</category>
+    <category>goals</category>
+    </item>
+  </channel>
+</rss>

@@ -2,22 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://th3samaritan.github.io/My-Portfolio/</loc>
-    <lastmod>2026-03-14</lastmod>
+    <lastmod>2026-05-10</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://th3samaritan.github.io/My-Portfolio/blog.html</loc>
-    <lastmod>2026-03-14</lastmod>
+    <lastmod>2026-05-10</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://th3samaritan.github.io/My-Portfolio/gallery.html</loc>
-    <lastmod>2026-03-14</lastmod>
+    <lastmod>2026-05-10</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://th3samaritan.github.io/My-Portfolio/notebook.html</loc>
-    <lastmod>2026-03-14</lastmod>
+    <lastmod>2026-05-10</lastmod>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://th3samaritan.github.io/My-Portfolio/blog.html?post=web-cache-vulnerability</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://th3samaritan.github.io/My-Portfolio/blog.html?post=enlightened</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://th3samaritan.github.io/My-Portfolio/blog.html?post=grit-on-cybersecurity</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://th3samaritan.github.io/My-Portfolio/blog.html?post=dont-limit-yourself</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://th3samaritan.github.io/My-Portfolio/blog.html?post=test-of-grit</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://th3samaritan.github.io/My-Portfolio/blog.html?post=searching-the-web-with-ai</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://th3samaritan.github.io/My-Portfolio/blog.html?post=first-of-many-alchemy</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://th3samaritan.github.io/My-Portfolio/blog.html?post=gifting-back-to-the-community</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.6</priority>
   </url>
 </urlset>

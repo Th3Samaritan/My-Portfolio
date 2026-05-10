@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Sound Intelligence Model",
+    "status": "Completed",
+    "description": "Built an audio processing model to identify and classify unique sound signatures. Applications in predictive maintenance and security. Blog write-up coming soon.",
+    "collaborators": ["Audio Engineers", "ML Researchers", "Embedded Systems Devs"],
+    "link": "https://github.com/th3samaritan",
+    "linkText": "View on GitHub",
+    "linkExternal": true
+  },
+  {
+    "title": "AI Intrusion Detection",
+    "status": "Active",
+    "description": "Novel IDS using deep learning to detect anomalous network behavior and zero-day threats in real-time.",
+    "collaborators": ["ML Researchers", "Network Engineers", "DevSecOps"],
+    "link": "mailto:abdulsamadmuyideen@gmail.com",
+    "linkText": "Contact Me to Discuss",
+    "linkExternal": false
+  },
+  {
+    "title": "4D Printing of Metamaterials",
+    "status": "Research",
+    "description": "Exploring 4D-printed structures that can change shape or function in response to environmental stimuli.",
+    "collaborators": ["Materials Scientists", "Robotics Engineers", "3D Printing Specialists"],
+    "link": "mailto:abdulsamadmuyideen@gmail.com",
+    "linkText": "Contact Me to Discuss",
+    "linkExternal": false
+  },
+  {
+    "title": "AI-driven CFD & FEA",
+    "status": "Planning",
+    "description": "Integrating Physics-Informed ML with CFD and FEA solvers to accelerate simulation times.",
+    "collaborators": ["Simulation Engineers", "ML Researchers (Physics-Informed ML)", "HPC Specialists"],
+    "link": "mailto:abdulsamadmuyideen@gmail.com",
+    "linkText": "Contact Me to Discuss",
+    "linkExternal": false
+  }
+]

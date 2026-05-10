@@ -1,4 +1,4 @@
-const CACHE_NAME = 'abdulsamad-portfolio-v3';
+const CACHE_NAME = 'abdulsamad-portfolio-v4';
 const GITHUB_REPO_PATH = '/My-Portfolio';
 
 const URLS_TO_CACHE = [
@@ -27,16 +27,8 @@ const URLS_TO_CACHE = [
     `${GITHUB_REPO_PATH}/assets/materials-project.jpg`,
     `${GITHUB_REPO_PATH}/assets/my-cv.pdf`,
 
-    // Blog JSON and Markdown
+    // Blog JSON index (posts are cached dynamically at runtime)
     `${GITHUB_REPO_PATH}/blog-posts/index.json`,
-    `${GITHUB_REPO_PATH}/blog-posts/web-cache-vulnerability.md`,
-    `${GITHUB_REPO_PATH}/blog-posts/enlightened.md`,
-    `${GITHUB_REPO_PATH}/blog-posts/grit-on-cybersecurity.md`,
-    `${GITHUB_REPO_PATH}/blog-posts/test-of-grit.md`,
-    `${GITHUB_REPO_PATH}/blog-posts/dont-limit-yourself.md`,
-    `${GITHUB_REPO_PATH}/blog-posts/searching-the-web-with-ai.md`,
-    `${GITHUB_REPO_PATH}/blog-posts/gifting-back-to-the-community.md`,
-    `${GITHUB_REPO_PATH}/blog-posts/first-of-many-alchemy.md`,
 
     // Notebook JSON and Markdown
     `${GITHUB_REPO_PATH}/notebook-pages/index.json`,
@@ -96,6 +88,25 @@ self.addEventListener('activate', event => {
 
 // Fetch event (Network first for navigation, Cache first for assets)
 self.addEventListener('fetch', event => {
+    const url = new URL(event.request.url);
+
+    // Cache blog posts & notebook pages dynamically on first access
+    if (url.pathname.includes('/blog-posts/') || url.pathname.includes('/notebook-pages/')) {
+        event.respondWith(
+            caches.match(event.request).then(cached => {
+                const fetchPromise = fetch(event.request).then(response => {
+                    if (response && response.status === 200) {
+                        const clone = response.clone();
+                        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+                    }
+                    return response;
+                });
+                return cached || fetchPromise;
+            })
+        );
+        return;
+    }
+
     if (event.request.mode === 'navigate') {
         event.respondWith(
             fetch(event.request)

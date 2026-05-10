@@ -389,94 +389,29 @@
                 <p class="section-desc mx-auto">I'm actively working on these projects and welcome collaboration. If you're interested, let's connect.</p>
             </div>
 
-            <div class="grid grid-1 md\:grid-2 gap-8 reveal" style="max-width: 72rem; margin: 4rem auto 0;">
-
-                <!-- Research: Sound Intelligence -->
-                <div class="card" style="padding: 2rem; display: flex; flex-direction: column; justify-content: space-between;">
-                    <div>
-                        <div class="flex justify-between items-center" style="margin-bottom: 0.75rem;">
-                            <h3 style="font-size: 1.25rem; font-weight: 700;">Sound Intelligence Model</h3>
-                            <span class="tag" style="background: rgba(16,185,129,0.15); color: #10B981; font-weight: 600;">Completed</span>
-                        </div>
-                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">Built an audio processing model to identify and classify unique sound signatures. Applications in predictive maintenance and security. Blog write-up coming soon.</p>
-                        <h4 style="font-size: 0.8125rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Collaborators Welcome:</h4>
-                        <ul style="list-style: disc; padding-left: 1.25rem; font-size: 0.8125rem; color: var(--text-secondary);">
-                            <li>Audio Engineers</li>
-                            <li>ML Researchers</li>
-                            <li>Embedded Systems Devs</li>
-                        </ul>
-                    </div>
-                    <a href="https://github.com/th3samaritan" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="margin-top: 1.5rem; align-self: flex-start;">
-                        View on GitHub
-                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                    </a>
+            <div id="research-grid" class="grid grid-1 md\:grid-2 gap-8 reveal" style="max-width: 72rem; margin: 4rem auto 0;">
+                <div class="text-center" style="grid-column: 1 / -1; padding: 2rem;">
+                    <div class="preloader-spinner" style="margin: 0 auto;"></div>
+                    <p style="margin-top: 0.75rem; color: var(--text-muted);">Loading research...</p>
                 </div>
-
-                <!-- Research: AI IDS -->
-                <div class="card" style="padding: 2rem; display: flex; flex-direction: column; justify-content: space-between;">
-                    <div>
-                        <div class="flex justify-between items-center" style="margin-bottom: 0.75rem;">
-                            <h3 style="font-size: 1.25rem; font-weight: 700;">AI Intrusion Detection</h3>
-                            <span class="tag status-active">Active</span>
-                        </div>
-                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">Novel IDS using deep learning to detect anomalous network behavior and zero-day threats in real-time.</p>
-                        <h4 style="font-size: 0.8125rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Looking for Collaborators:</h4>
-                        <ul style="list-style: disc; padding-left: 1.25rem; font-size: 0.8125rem; color: var(--text-secondary);">
-                            <li>ML Researchers</li>
-                            <li>Network Engineers</li>
-                            <li>DevSecOps</li>
-                        </ul>
-                    </div>
-                    <a href="mailto:abdulsamadmuyideen@gmail.com" class="btn btn-secondary" style="margin-top: 1.5rem; align-self: flex-start;">Contact Me to Discuss</a>
-                </div>
-
-                <!-- Research: 4D Printing -->
-                <div class="card" style="padding: 2rem; display: flex; flex-direction: column; justify-content: space-between;">
-                    <div>
-                        <div class="flex justify-between items-center" style="margin-bottom: 0.75rem;">
-                            <h3 style="font-size: 1.25rem; font-weight: 700;">4D Printing of Metamaterials</h3>
-                            <span class="tag status-research">Research</span>
-                        </div>
-                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">Exploring 4D-printed structures that can change shape or function in response to environmental stimuli.</p>
-                        <h4 style="font-size: 0.8125rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Looking for Collaborators:</h4>
-                        <ul style="list-style: disc; padding-left: 1.25rem; font-size: 0.8125rem; color: var(--text-secondary);">
-                            <li>Materials Scientists</li>
-                            <li>Robotics Engineers</li>
-                            <li>3D Printing Specialists</li>
-                        </ul>
-                    </div>
-                    <a href="mailto:abdulsamadmuyideen@gmail.com" class="btn btn-secondary" style="margin-top: 1.5rem; align-self: flex-start;">Contact Me to Discuss</a>
-                </div>
-
-                <!-- Research: AI CFD/FEA -->
-                <div class="card" style="padding: 2rem; display: flex; flex-direction: column; justify-content: space-between;">
-                    <div>
-                        <div class="flex justify-between items-center" style="margin-bottom: 0.75rem;">
-                            <h3 style="font-size: 1.25rem; font-weight: 700;">AI-driven CFD & FEA</h3>
-                            <span class="tag status-planning">Planning</span>
-                        </div>
-                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">Integrating Physics-Informed ML with CFD and FEA solvers to accelerate simulation times.</p>
-                        <h4 style="font-size: 0.8125rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Looking for Collaborators:</h4>
-                        <ul style="list-style: disc; padding-left: 1.25rem; font-size: 0.8125rem; color: var(--text-secondary);">
-                            <li>Simulation Engineers</li>
-                            <li>ML Researchers (Physics-Informed ML)</li>
-                            <li>HPC Specialists</li>
-                        </ul>
-                    </div>
-                    <a href="mailto:abdulsamadmuyideen@gmail.com" class="btn btn-secondary" style="margin-top: 1.5rem; align-self: flex-start;">Contact Me to Discuss</a>
-                </div>
-
             </div>
         </section>
 
-        <!-- ===== Blog Link ===== -->
+        <!-- ===== Latest Blog Posts ===== -->
         <section class="section" style="padding: 3rem 0;">
             <div class="text-center reveal" style="max-width: var(--container-narrow); margin: 0 auto;">
                 <p class="section-label">My Thoughts</p>
-                <h2 class="section-title">Personal Blog</h2>
+                <h2 class="section-title">Latest Blog Posts</h2>
                 <p class="section-desc mx-auto">A place where I share my thoughts on technology, materials science, and security.</p>
-                <a href="blog.html" class="btn btn-primary" style="margin-top: 2rem;">
-                    Read My Blog
+            </div>
+            <div id="latest-posts" class="grid grid-1 md\:grid-3 gap-6 reveal" style="max-width: 58rem; margin: 2.5rem auto 0;">
+                <div class="text-center" style="grid-column: 1 / -1; padding: 1rem;">
+                    <div class="preloader-spinner" style="margin: 0 auto;"></div>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 2rem;">
+                <a href="blog.html" class="btn btn-primary">
+                    View All Posts
                     <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                 </a>
             </div>
@@ -752,6 +687,87 @@
             }
             event.stopPropagation();
         };
+
+        // === Load Research Data Dynamically ===
+        (async function loadResearch() {
+            const grid = document.getElementById('research-grid');
+            if (!grid) return;
+            try {
+                const res = await fetch('https://th3samaritan.github.io/My-Portfolio/data/research.json');
+                if (!res.ok) throw new Error('Failed to load research');
+                const items = await res.json();
+
+                const statusClassMap = {
+                    'Completed': 'tag',
+                    'Active': 'tag status-active',
+                    'Research': 'tag status-research',
+                    'Planning': 'tag status-planning'
+                };
+                const statusStyleMap = {
+                    'Completed': 'background: rgba(16,185,129,0.15); color: #10B981; font-weight: 600;',
+                    'Active': '',
+                    'Research': '',
+                    'Planning': ''
+                };
+
+                grid.innerHTML = items.map(item => `
+                    <div class="card" style="padding: 2rem; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div class="flex justify-between items-center" style="margin-bottom: 0.75rem;">
+                                <h3 style="font-size: 1.25rem; font-weight: 700;">${item.title}</h3>
+                                <span class="${statusClassMap[item.status] || 'tag'}" style="${statusStyleMap[item.status] || ''}">${item.status}</span>
+                            </div>
+                            <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">${item.description}</p>
+                            <h4 style="font-size: 0.8125rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Looking for Collaborators:</h4>
+                            <ul style="list-style: disc; padding-left: 1.25rem; font-size: 0.8125rem; color: var(--text-secondary);">
+                                ${item.collaborators.map(c => `<li>${c}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <a href="${item.link}" ${item.linkExternal ? 'target="_blank" rel="noopener noreferrer"' : ''} class="btn ${item.linkExternal ? 'btn-primary' : 'btn-secondary'}" style="margin-top: 1.5rem; align-self: flex-start; display: inline-flex; align-items: center; gap: 0.5rem;">
+                            ${item.linkText}
+                            ${item.linkExternal ? '<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>' : ''}
+                        </a>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.error('Failed to load research:', e);
+                grid.innerHTML = '<p class="text-center" style="color:var(--text-muted);grid-column:1/-1;">Failed to load research projects.</p>';
+            }
+        })();
+
+        // === Load Latest Blog Posts ===
+        (async function loadLatestPosts() {
+            const container = document.getElementById('latest-posts');
+            if (!container) return;
+            try {
+                const res = await fetch('https://th3samaritan.github.io/My-Portfolio/blog-posts/index.json');
+                if (!res.ok) throw new Error('Failed to load posts');
+                const posts = await res.json();
+                const latest = posts.slice(0, 3);
+
+                container.innerHTML = latest.map(post => {
+                    const d = new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                    const tagsHtml = (post.tags || []).slice(0, 2).map(t =>
+                        `<span class="blog-card-tag">${t}</span>`
+                    ).join('');
+                    return `
+                        <a href="blog.html?post=${post.slug}" class="card home-blog-card">
+                            <div class="card-meta">
+                                <span>${d}</span>
+                                <span class="blog-meta-sep">.</span>
+                                <span>${post.readingTime || '1 min read'}</span>
+                            </div>
+                            <h3>${post.title}</h3>
+                            <p>${post.description}</p>
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.375rem;">${tagsHtml}</div>
+                        </a>
+                    `;
+                }).join('');
+            } catch (e) {
+                console.error('Failed to load latest posts:', e);
+                container.innerHTML = '<p class="text-center" style="color:var(--text-muted);grid-column:1/-1;">Failed to load blog posts.</p>';
+            }
+        })();
     </script>
 
 </body>

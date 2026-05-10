@@ -92,38 +92,96 @@
         </div>
     </header>
 
-    <main class="container">
+    <main class="blog-page-bg" style="min-height: calc(100vh - 200px);">
         <section class="section" style="padding-top: 3rem;">
-            <div id="blog-container" style="max-width: var(--container-narrow); margin: 0 auto;">
+            <div id="blog-container" class="blog-page-content">
 
-                <!-- Blog List View -->
+                <!-- ===== Blog List View ===== -->
                 <div id="blog-list-view">
                     <div class="text-center">
                         <p class="section-label">My Thoughts</p>
                         <h1 class="section-title">Personal Blog</h1>
                         <p class="section-desc mx-auto">Thoughts on technology, materials science, and security. Written in Markdown, stored on GitHub.</p>
                     </div>
-                    <div id="blog-posts-list" style="margin-top: 3rem; display: flex; flex-direction: column; gap: 2rem;">
+
+                    <!-- Search and Tag Filters -->
+                    <div id="blog-controls" style="margin-top: 2rem;">
+                        <div class="blog-search-wrap">
+                            <svg class="blog-search-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            <input type="text" id="blog-search" class="blog-search-input" placeholder="Search posts..." autocomplete="off">
+                        </div>
+                        <div id="blog-tag-filters" class="blog-tag-filters" style="margin-top: 1rem;"></div>
+                    </div>
+
+                    <!-- Post List -->
+                    <div id="blog-posts-list" style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1.5rem;">
                         <div class="text-center" style="padding: 3rem 0;">
                             <div class="preloader-spinner" style="margin: 0 auto;"></div>
                             <p style="margin-top: 1rem; color: var(--text-muted);">Loading posts...</p>
                         </div>
                     </div>
+
+                    <!-- No Results -->
+                    <div id="blog-no-results" class="hidden text-center" style="padding: 3rem 0;">
+                        <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--text-muted); margin: 0 auto; opacity: 0.5;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9375rem;">No posts match your search.</p>
+                        <button id="blog-clear-filters" class="btn btn-secondary" style="margin-top: 1rem; font-size: 0.8125rem;">Clear Filters</button>
+                    </div>
+
+                    <!-- RSS Link -->
+                    <div class="text-center" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+                        <p style="font-size: 0.8125rem; color: var(--text-muted);">
+                            Subscribe via <a href="rss.xml" style="font-weight: 600; color: var(--text-secondary);">RSS Feed</a> to never miss a post.
+                        </p>
+                    </div>
                 </div>
 
-                <!-- Single Post View -->
+                <!-- ===== Single Post View ===== -->
                 <div id="blog-post-view" class="hidden">
-                    <a href="/My-Portfolio/blog.html" style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 500; color: var(--text-muted); margin-bottom: 2rem; text-decoration: none;">
+                    <a href="/My-Portfolio/blog.html" class="blog-back-link">
                         <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                         Back to All Posts
                     </a>
-                    <article class="card" style="padding: 2rem 2.5rem;">
-                        <h1 id="post-title" style="font-size: 2rem; font-weight: 800; letter-spacing: -0.02em;"></h1>
-                        <p id="post-date" style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.75rem; margin-bottom: 2rem;"></p>
+
+                    <article class="blog-post-sheet">
+                        <!-- Post Header -->
+                        <div class="blog-post-header">
+                            <div id="post-tags" class="blog-post-tags"></div>
+                            <h1 id="post-title" class="blog-post-title"></h1>
+                            <div class="blog-post-meta">
+                                <span id="post-date"></span>
+                                <span class="blog-meta-sep">·</span>
+                                <span id="post-reading-time"></span>
+                            </div>
+                        </div>
+
+                        <!-- Table of Contents -->
+                        <nav id="post-toc" class="blog-toc hidden">
+                            <h4 class="blog-toc-title">Table of Contents</h4>
+                            <ul id="post-toc-list"></ul>
+                        </nav>
+
+                        <!-- Post Content -->
                         <div id="post-content" class="prose">
                             <div class="text-center" style="padding: 3rem 0;">
                                 <div class="preloader-spinner" style="margin: 0 auto;"></div>
                                 <p style="margin-top: 1rem; color: var(--text-muted);">Loading post...</p>
+                            </div>
+                        </div>
+
+                        <!-- Share -->
+                        <div class="blog-share" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+                            <span style="font-size: 0.8125rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Share this post</span>
+                            <div style="display: flex; gap: 0.75rem; margin-top: 0.75rem;">
+                                <a id="share-twitter" class="blog-share-btn" target="_blank" rel="noopener" aria-label="Share on Twitter">
+                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.586-5.515 5.749 0 .44.048.87.14 1.28-4.576-.23-8.636-2.424-11.35-5.75-.474.81-.746 1.73-.746 2.72 0 1.99.99 3.75 2.5 4.78-.91-.03-1.77-.28-2.52-.69v.07c0 2.78 1.94 5.1 4.5 5.6-.47.13-.97.2-1.49.2-.36 0-.71-.04-1.05-.1 0 .73.69 1.48 1.7 1.48-1.93 1.51-4.36 2.41-6.99 2.41-.45 0-.9-.03-1.34-.08 2.5 1.6 5.5 2.5 8.7 2.5 10.5 0 16.2-8.7 16.2-16.2 0-.25-.01-.49-.02-.73.98-.7 1.83-1.58 2.51-2.6z"/></svg>
+                                </a>
+                                <a id="share-linkedin" class="blog-share-btn" target="_blank" rel="noopener" aria-label="Share on LinkedIn">
+                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                                </a>
+                                <a id="share-url" class="blog-share-btn" aria-label="Copy link" title="Copy link">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                                </a>
                             </div>
                         </div>
                     </article>
@@ -132,6 +190,11 @@
             </div>
         </section>
     </main>
+
+    <!-- Scroll to Top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Scroll to top">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
 
     <footer class="footer">
         <div class="container">
@@ -148,15 +211,151 @@
         const blogListView = document.getElementById('blog-list-view');
         const blogPostView = document.getElementById('blog-post-view');
         const blogPostsList = document.getElementById('blog-posts-list');
+        const blogNoResults = document.getElementById('blog-no-results');
+        const blogControls = document.getElementById('blog-controls');
+        const blogSearch = document.getElementById('blog-search');
+        const blogTagFilters = document.getElementById('blog-tag-filters');
+        const blogClearFilters = document.getElementById('blog-clear-filters');
         const postTitle = document.getElementById('post-title');
         const postDate = document.getElementById('post-date');
+        const postTags = document.getElementById('post-tags');
+        const postReadingTime = document.getElementById('post-reading-time');
         const postContent = document.getElementById('post-content');
+        const postToc = document.getElementById('post-toc');
+        const postTocList = document.getElementById('post-toc-list');
 
         const showdownConverter = new showdown.Converter({
             ghCompatibleHeaderId: true, parseImgDimensions: true,
             simplifiedAutoLink: true, strikethrough: true,
             tables: true, tasklists: true, emoji: true
         });
+
+        let allPosts = [];
+        let activeTag = null;
+
+        function getAllUniqueTags(posts) {
+            const tagSet = new Set();
+            posts.forEach(p => (p.tags || []).forEach(t => tagSet.add(t)));
+            return Array.from(tagSet).sort();
+        }
+
+        function renderTagFilters(posts) {
+            const tags = getAllUniqueTags(posts);
+            blogTagFilters.innerHTML = '';
+            tags.forEach(tag => {
+                const btn = document.createElement('button');
+                btn.className = 'blog-tag-btn';
+                btn.textContent = tag;
+                btn.addEventListener('click', () => {
+                    if (activeTag === tag) {
+                        activeTag = null;
+                        blogTagFilters.querySelectorAll('.blog-tag-btn').forEach(b => b.classList.remove('active'));
+                    } else {
+                        activeTag = tag;
+                        blogTagFilters.querySelectorAll('.blog-tag-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                    }
+                    filterAndRenderPosts();
+                });
+                blogTagFilters.appendChild(btn);
+            });
+        }
+
+        function filterAndRenderPosts() {
+            const query = (blogSearch.value || '').toLowerCase().trim();
+            const filtered = allPosts.filter(post => {
+                const matchesSearch = !query ||
+                    post.title.toLowerCase().includes(query) ||
+                    post.description.toLowerCase().includes(query) ||
+                    (post.tags || []).some(t => t.toLowerCase().includes(query));
+                const matchesTag = !activeTag || (post.tags || []).includes(activeTag);
+                return matchesSearch && matchesTag;
+            });
+
+            if (filtered.length === 0) {
+                blogPostsList.innerHTML = '';
+                blogNoResults.classList.remove('hidden');
+            } else {
+                blogNoResults.classList.add('hidden');
+                renderPostCards(filtered);
+            }
+        }
+
+        function renderPostCards(posts) {
+            blogPostsList.innerHTML = '';
+            posts.forEach((post, idx) => {
+                const el = document.createElement('div');
+                el.className = 'card blog-card';
+                el.style.animationDelay = `${idx * 50}ms`;
+                const d = new Date(post.date).toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+                const tagsHtml = (post.tags || []).map(t =>
+                    `<span class="blog-card-tag">${t}</span>`
+                ).join('');
+                el.innerHTML = `
+                    <div class="blog-card-body">
+                        <div class="blog-card-meta">
+                            <span>${d}</span>
+                            <span class="blog-meta-sep">·</span>
+                            <span>${post.readingTime || '1 min read'}</span>
+                        </div>
+                        <h2 class="blog-card-title">
+                            <a href="?post=${post.slug}">${post.title}</a>
+                        </h2>
+                        <p class="blog-card-desc">${post.description}</p>
+                        <div class="blog-card-tags">${tagsHtml}</div>
+                    </div>
+                    <a href="?post=${post.slug}" class="blog-card-arrow" aria-label="Read ${post.title}">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    </a>
+                `;
+                blogPostsList.appendChild(el);
+            });
+        }
+
+        function buildTOC(html) {
+            const temp = document.createElement('div');
+            temp.innerHTML = html;
+            const headings = temp.querySelectorAll('h1, h2, h3');
+            if (headings.length < 3) {
+                postToc.classList.add('hidden');
+                return;
+            }
+            postToc.classList.remove('hidden');
+            postTocList.innerHTML = '';
+            headings.forEach(h => {
+                const li = document.createElement('li');
+                li.className = `blog-toc-item blog-toc-${h.tagName.toLowerCase()}`;
+                const a = document.createElement('a');
+                a.href = `#${h.id}`;
+                a.textContent = h.textContent;
+                a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = document.getElementById(h.id);
+                    if (target) {
+                        const offset = target.getBoundingClientRect().top + window.pageYOffset - 90;
+                        window.scrollTo({ top: offset, behavior: 'smooth' });
+                    }
+                });
+                li.appendChild(a);
+                postTocList.appendChild(li);
+            });
+        }
+
+        function initShareButtons(title, slug) {
+            const url = encodeURIComponent(`https://th3samaritan.github.io/My-Portfolio/blog.html?post=${slug}`);
+            const text = encodeURIComponent(title);
+            document.getElementById('share-twitter').href = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+            document.getElementById('share-linkedin').href = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+            document.getElementById('share-url').addEventListener('click', () => {
+                navigator.clipboard.writeText(`https://th3samaritan.github.io/My-Portfolio/blog.html?post=${slug}`).then(() => {
+                    const btn = document.getElementById('share-url');
+                    btn.style.color = '#10B981';
+                    setTimeout(() => { btn.style.color = ''; }, 2000);
+                });
+            }, { once: true });
+        }
 
         async function initBlog() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -170,7 +369,7 @@
             } catch (error) {
                 console.error('Failed to init blog:', error);
                 const container = postSlug ? blogPostView : blogListView;
-                container.innerHTML = '<p class="text-center" style="color:red;">' + error.message + '.</p><a href="/My-Portfolio/blog.html" style="display:block;text-align:center;margin-top:1rem;color:var(--text-muted);">← Back to All Posts</a>';
+                container.innerHTML = '<p class="text-center" style="color:red;">' + error.message + '.</p><a href="/My-Portfolio/blog.html" style="display:block;text-align:center;margin-top:1rem;color:var(--text-muted);">Back to All Posts</a>';
                 container.classList.remove('hidden');
                 (postSlug ? blogListView : blogPostView).classList.add('hidden');
             }
@@ -179,44 +378,44 @@
         async function fetchAndRenderList() {
             const response = await fetch(blogIndexUrl);
             if (!response.ok) throw new Error('Could not load blog index');
-            const posts = await response.json();
+            allPosts = await response.json();
 
-            blogPostsList.innerHTML = '';
             blogListView.classList.remove('hidden');
             blogPostView.classList.add('hidden');
+            blogControls.classList.remove('hidden');
+            blogNoResults.classList.add('hidden');
 
-            if (posts.length === 0) {
+            if (allPosts.length === 0) {
                 blogPostsList.innerHTML = '<p style="text-align:center;color:var(--text-muted);">No blog posts found.</p>';
+                blogControls.classList.add('hidden');
                 return;
             }
 
-            posts.forEach(post => {
-                const el = document.createElement('div');
-                el.className = 'card';
-                el.style.padding = '2rem';
-                const d = new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-                el.innerHTML = `
-                    <h2 style="font-size:1.375rem;font-weight:700;margin-bottom:0.25rem;">
-                        <a href="?post=${post.slug}" style="transition:opacity var(--transition-fast);" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">${post.title}</a>
-                    </h2>
-                    <p style="font-size:0.8125rem;color:var(--text-muted);margin-bottom:0.75rem;">${d}</p>
-                    <p style="color:var(--text-secondary);margin-bottom:1rem;">${post.description}</p>
-                    <a href="?post=${post.slug}" style="font-size:0.8125rem;font-weight:600;color:var(--text-muted);">Read More →</a>
-                `;
-                blogPostsList.appendChild(el);
+            renderTagFilters(allPosts);
+            renderPostCards(allPosts);
+
+            blogSearch.addEventListener('input', filterAndRenderPosts);
+            blogClearFilters.addEventListener('click', () => {
+                blogSearch.value = '';
+                activeTag = null;
+                blogTagFilters.querySelectorAll('.blog-tag-btn').forEach(b => b.classList.remove('active'));
+                filterAndRenderPosts();
             });
         }
 
         async function fetchAndRenderPost(slug) {
             const contentUrl = blogContentUrlBase + slug + '.md';
-            let title = 'Post', date = '';
+            let title = slug, date = '', tags = [], readingTime = '';
+
             try {
                 const indexRes = await fetch(blogIndexUrl);
-                const posts = await indexRes.json();
-                const postData = posts.find(p => p.slug === slug);
+                allPosts = await indexRes.json();
+                const postData = allPosts.find(p => p.slug === slug);
                 if (postData) {
                     title = postData.title;
                     date = new Date(postData.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                    tags = postData.tags || [];
+                    readingTime = postData.readingTime || '';
                 }
             } catch (e) { /* proceed without metadata */ }
 
@@ -227,11 +426,18 @@
 
             blogListView.classList.add('hidden');
             blogPostView.classList.remove('hidden');
+            blogControls.classList.add('hidden');
             postTitle.innerText = title;
             postDate.innerText = date;
-            postContent.innerHTML = html;
+            postReadingTime.innerText = readingTime;
             document.title = title + ' — My Blog';
             window.scrollTo(0, 0);
+
+            postTags.innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join('');
+
+            postContent.innerHTML = html;
+            buildTOC(html);
+            initShareButtons(title, slug);
         }
 
         document.addEventListener('DOMContentLoaded', initBlog);
