@@ -23,9 +23,16 @@ I operate at the intersection of three domains. Like physics' three-body problem
 
 ---
 
-## Tech Stack
+<p align="center">
+  <i>Three gravitational bodies. Each domain pulls its weight.<br>Below — the technologies that orbit them.</i>
+</p>
 
-**Software & ML**  
+<table>
+<tr>
+<td width="33%" valign="top">
+
+### 💻 CODE
+
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
 ![Rust](https://img.shields.io/badge/Rust-000000?style=flat-square&logo=rust&logoColor=white)
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
@@ -39,27 +46,50 @@ I operate at the intersection of three domains. Like physics' three-body problem
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white)
 ![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=three.js&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=flat-square&logo=php&logoColor=white)
 
-**Materials & Simulation**  
+> *From web apps to ML pipelines.*
+
+</td>
+<td width="33%" valign="top">
+
+### 🔬 MATTER
+
 ![ANSYS](https://img.shields.io/badge/ANSYS-FFCC00?style=flat-square&logo=ansys&logoColor=black)
 ![SolidWorks](https://img.shields.io/badge/SolidWorks-CC0000?style=flat-square&logo=dassault-systemes&logoColor=white)
 ![MATLAB](https://img.shields.io/badge/MATLAB-0076A8?style=flat-square&logo=mathworks&logoColor=white)
 ![Python](https://img.shields.io/badge/Computational_Modeling-3776AB?style=flat-square&logo=python&logoColor=white)
+![FEA](https://img.shields.io/badge/FEA-3C3C3C?style=flat-square)
+![CAD](https://img.shields.io/badge/3D_CAD-FF6600?style=flat-square&logo=autodesk&logoColor=white)
+![CFD](https://img.shields.io/badge/CFD-1B3A5C?style=flat-square)
+![SEM/TEM](https://img.shields.io/badge/Materials_Analysis-6C3483?style=flat-square)
+![NDT](https://img.shields.io/badge/NDT-2C2C2C?style=flat-square)
+![PWA](https://img.shields.io/badge/3D_Web-000000?style=flat-square&logo=three.js&logoColor=white)
 
-**Cybersecurity**  
+> *From the atomic lattice to macroscopic simulation.*
+
+</td>
+<td width="33%" valign="top">
+
+### 🔐 SECURITY
+
 ![Burp Suite](https://img.shields.io/badge/Burp_Suite-FF6633?style=flat-square&logo=burp-suite&logoColor=white)
 ![Nessus](https://img.shields.io/badge/Nessus-00B140?style=flat-square&logo=tenable&logoColor=white)
 ![Wazuh](https://img.shields.io/badge/Wazuh-0066CC?style=flat-square&logo=wazuh&logoColor=white)
 ![Splunk](https://img.shields.io/badge/Splunk-000000?style=flat-square&logo=splunk&logoColor=white)
 ![Suricata](https://img.shields.io/badge/Suricata-EF4E2A?style=flat-square&logo=suricata&logoColor=white)
+![OSSEC](https://img.shields.io/badge/OSSEC-006600?style=flat-square)
 ![Kali Linux](https://img.shields.io/badge/Kali_Linux-557C94?style=flat-square&logo=kalilinux&logoColor=white)
-![Bash](https://img.shields.io/badge/Bash_Scripting-4EAA25?style=flat-square&logo=gnu-bash&logoColor=white)
+![Bash](https://img.shields.io/badge/Pentest_Automation-4EAA25?style=flat-square&logo=gnu-bash&logoColor=white)
+![Python](https://img.shields.io/badge/Security_Scripting-3776AB?style=flat-square&logo=python&logoColor=white)
 
-**Design & Web**  
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
-![PWA](https://img.shields.io/badge/PWA-5A0FC8?style=flat-square&logo=pwa&logoColor=white)
+> *Every system has a surface. I map it.*
+
+</td>
+</tr>
+</table>
 
 ---
 
@@ -71,19 +101,6 @@ I operate at the intersection of three domains. Like physics' three-body problem
 | **4D Printing of Metamaterials** — Shape-changing structures responding to environmental stimuli | Research |
 | **AI-Driven CFD & FEA** — Physics-Informed ML accelerating simulation solvers | Planning |
 | **Sound Intelligence Model** — Audio classification for predictive maintenance & security | Completed |
-
----
-
-## GitHub Stats
-
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=Th3Samaritan&show_icons=true&theme=github_dark&hide_border=true&count_private=true&include_all_commits=true" height="165" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Th3Samaritan&layout=compact&theme=github_dark&hide_border=true" height="165" />
-</p>
-
-<p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=Th3Samaritan&theme=github-dark-blue&hide_border=true" />
-</p>
 
 ---
 
