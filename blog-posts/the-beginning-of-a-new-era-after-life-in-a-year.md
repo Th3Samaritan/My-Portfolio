@@ -2,7 +2,7 @@
 title: The Beginning of a New Era after life in a year
 date: 2026-05-23
 description: This is going to entail the story of a new milestone
-tags: []
+tags: [PERSONAL, BLOG]
 ---
 
 ## POST LIFE IN A YEAR
