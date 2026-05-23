@@ -24,7 +24,7 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/th3samaritan/th3samaritan/main/assets/divider.svg" width="100%" alt="---" />
+  ═══════════════════════════════════
 </p>
 
 <table align="center"><tr>
@@ -121,12 +121,7 @@
 ## 📊 GitHub Stats
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=th3samaritan&show_icons=true&theme=github_dark&hide_border=true&count_private=true&include_all_commits=true" height="165" alt="GitHub Stats" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=th3samaritan&layout=compact&theme=github_dark&hide_border=true" height="165" alt="Top Languages" />
-</p>
-
-<p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=th3samaritan&theme=github-dark-blue&hide_border=true" alt="GitHub Streak" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=Th3Samaritan&theme=github-dark-blue&hide_border=true" alt="GitHub Streak" />
 </p>
 
 ---
@@ -169,5 +164,5 @@
 <br>
 
 <p align="center">
-  <img src="https://komarev.com/ghpvc/?username=th3samaritan&style=flat-square&color=blue" alt="Profile views" />
+  <img src="https://komarev.com/ghpvc/?username=Th3Samaritan&style=flat-square&color=blue" alt="Profile views" />
 </p>
