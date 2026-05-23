@@ -4,34 +4,89 @@
 
 ---
 
-### Solving the 3-Body Problem of Modern Engineering
-
-I operate at the intersection of three domains. Like physics' three-body problem — three gravitational bodies locked in chaotic orbit — my work spans **code**, **matter**, and **security**, where breakthroughs happen in the unpredictable space between them.
-
-<table>
-<tr>
-<td width="33%" align="center"><strong>Software & AI</strong></td>
-<td width="33%" align="center"><strong>Materials & Simulation</strong></td>
-<td width="33%" align="center"><strong>Cybersecurity</strong></td>
-</tr>
-<tr>
-<td align="center">Machine Learning<br>Web & Systems<br>React · Spring · Rust · Python</td>
-<td align="center">FEA · CFD · CAD<br>Additive Manufacturing<br>ANSYS · SolidWorks · MATLAB</td>
-<td align="center">Penetration Testing<br>Red & Blue Team Ops<br>Burp Suite · Wazuh · Splunk</td>
-</tr>
-</table>
-
----
-
 <p align="center">
-  <i>Three gravitational bodies. Each domain pulls its weight.<br>Below — the technologies that orbit them.</i>
+  <i>Like the famed three-body problem of physics — three gravitational bodies<br>
+  locked in chaotic orbit. No closed-form solution. Just relentless curiosity.</i>
 </p>
 
+<div align="center">
+
+<svg width="520" height="280" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="gCode" cx="30%" cy="30%"><stop offset="0%" stop-color="#61DAFB"/><stop offset="100%" stop-color="#1A3A5C"/></radialGradient>
+    <radialGradient id="gMatter" cx="30%" cy="30%"><stop offset="0%" stop-color="#FF9933"/><stop offset="100%" stop-color="#5C2A0A"/></radialGradient>
+    <radialGradient id="gSecurity" cx="30%" cy="30%"><stop offset="0%" stop-color="#FF4444"/><stop offset="100%" stop-color="#5C0A0A"/></radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+
+  <!-- Background noise -->
+  <circle cx="45" cy="35" r="0.8" fill="#666" opacity="0.4"/><circle cx="475" cy="50" r="0.6" fill="#666" opacity="0.3"/>
+  <circle cx="120" cy="15" r="0.7" fill="#666" opacity="0.5"/><circle cx="380" cy="25" r="0.6" fill="#666" opacity="0.4"/>
+  <circle cx="510" cy="150" r="0.7" fill="#666" opacity="0.3"/><circle cx="15" cy="170" r="0.6" fill="#666" opacity="0.4"/>
+  <circle cx="260" cy="5" r="0.7" fill="#666" opacity="0.5"/><circle cx="430" cy="230" r="0.5" fill="#666" opacity="0.3"/>
+
+  <!-- Inter-body gravitational curves -->
+  <path d="M 150 220 C 100 120, 200 50, 260 96" fill="none" stroke="#61DAFB" stroke-width="0.7" opacity="0.25" stroke-dasharray="5 8"/>
+  <path d="M 370 220 C 420 120, 320 50, 260 96" fill="none" stroke="#FF9933" stroke-width="0.7" opacity="0.25" stroke-dasharray="5 8"/>
+  <path d="M 150 220 C 200 270, 320 270, 370 220" fill="none" stroke="#FF4444" stroke-width="0.7" opacity="0.25" stroke-dasharray="5 8"/>
+  
+  <!-- Chaotic trajectory arcs -->
+  <path d="M 135 180 C 180 120, 240 120, 260 96" fill="none" stroke="#FFF" stroke-width="0.4" opacity="0.08"/>
+  <path d="M 385 180 C 340 120, 280 120, 260 96" fill="none" stroke="#FFF" stroke-width="0.4" opacity="0.08"/>
+  <path d="M 170 215 C 200 260, 320 260, 350 215" fill="none" stroke="#FFF" stroke-width="0.4" opacity="0.08"/>
+
+  <!-- BODY: CODE -->
+  <circle cx="140" cy="210" r="38" fill="url(#gCode)" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="140" cy="210" r="38" fill="none" stroke="#61DAFB" stroke-width="0.8" opacity="0.25"/>
+  <!-- Orbital ring + satellites -->
+  <circle cx="140" cy="210" r="56" fill="none" stroke="#61DAFB" stroke-width="0.4" opacity="0.18" stroke-dasharray="3 5"/>
+  <circle cx="140" cy="154" r="2.5" fill="#61DAFB" opacity="0.7"/>
+  <circle cx="140" cy="266" r="1.8" fill="#61DAFB" opacity="0.5"/>
+  <circle cx="84" cy="210" r="1.8" fill="#61DAFB" opacity="0.55"/>
+  <circle cx="196" cy="210" r="2" fill="#61DAFB" opacity="0.45"/>
+  <circle cx="100" cy="170" r="1.5" fill="#61DAFB" opacity="0.4"/>
+  <circle cx="180" cy="250" r="1.5" fill="#61DAFB" opacity="0.4"/>
+  <text x="140" y="215" text-anchor="middle" fill="#FFF" font-family="monospace" font-size="20" font-weight="bold">&lt;/&gt;</text>
+
+  <!-- BODY: MATTER -->
+  <circle cx="380" cy="210" r="38" fill="url(#gMatter)" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="380" cy="210" r="38" fill="none" stroke="#FF9933" stroke-width="0.8" opacity="0.25"/>
+  <!-- Orbital ring + satellites -->
+  <circle cx="380" cy="210" r="56" fill="none" stroke="#FF9933" stroke-width="0.4" opacity="0.18" stroke-dasharray="3 5"/>
+  <circle cx="380" cy="154" r="2.5" fill="#FF9933" opacity="0.7"/>
+  <circle cx="380" cy="266" r="1.8" fill="#FF9933" opacity="0.5"/>
+  <circle cx="324" cy="210" r="1.8" fill="#FF9933" opacity="0.55"/>
+  <circle cx="436" cy="210" r="2" fill="#FF9933" opacity="0.45"/>
+  <circle cx="340" cy="170" r="1.5" fill="#FF9933" opacity="0.4"/>
+  <circle cx="420" cy="250" r="1.5" fill="#FF9933" opacity="0.4"/>
+  <text x="380" y="215" text-anchor="middle" fill="#FFF" font-family="monospace" font-size="20" font-weight="bold">&#9632;</text>
+
+  <!-- BODY: SECURITY -->
+  <circle cx="260" cy="60" r="38" fill="url(#gSecurity)" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="260" cy="60" r="38" fill="none" stroke="#FF4444" stroke-width="0.8" opacity="0.25"/>
+  <!-- Orbital ring + satellites -->
+  <circle cx="260" cy="60" r="56" fill="none" stroke="#FF4444" stroke-width="0.4" opacity="0.18" stroke-dasharray="3 5"/>
+  <circle cx="260" cy="4" r="2.5" fill="#FF4444" opacity="0.7"/>
+  <circle cx="260" cy="116" r="1.8" fill="#FF4444" opacity="0.5"/>
+  <circle cx="204" cy="60" r="1.8" fill="#FF4444" opacity="0.55"/>
+  <circle cx="316" cy="60" r="2" fill="#FF4444" opacity="0.45"/>
+  <circle cx="220" cy="20" r="1.5" fill="#FF4444" opacity="0.4"/>
+  <circle cx="300" cy="100" r="1.5" fill="#FF4444" opacity="0.4"/>
+  <text x="260" y="65" text-anchor="middle" fill="#FFF" font-family="monospace" font-size="18">&#128272;</text>
+
+  <!-- Labels -->
+  <text x="140" y="268" text-anchor="middle" fill="#61DAFB" font-family="monospace" font-size="11" font-weight="bold" letter-spacing="2">CODE</text>
+  <text x="380" y="268" text-anchor="middle" fill="#FF9933" font-family="monospace" font-size="11" font-weight="bold" letter-spacing="2">MATTER</text>
+  <text x="260" y="118" text-anchor="middle" fill="#FF4444" font-family="monospace" font-size="11" font-weight="bold" letter-spacing="2">SECURITY</text>
+</svg>
+
+</div>
+
+<br>
+
 <table>
 <tr>
-<td width="33%" valign="top">
-
-### 💻 CODE
+<td width="33%" valign="top" align="center">
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
 ![Rust](https://img.shields.io/badge/Rust-000000?style=flat-square&logo=rust&logoColor=white)
@@ -50,12 +105,8 @@ I operate at the intersection of three domains. Like physics' three-body problem
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=flat-square&logo=php&logoColor=white)
 
-> *From web apps to ML pipelines.*
-
 </td>
-<td width="33%" valign="top">
-
-### 🔬 MATTER
+<td width="33%" valign="top" align="center">
 
 ![ANSYS](https://img.shields.io/badge/ANSYS-FFCC00?style=flat-square&logo=ansys&logoColor=black)
 ![SolidWorks](https://img.shields.io/badge/SolidWorks-CC0000?style=flat-square&logo=dassault-systemes&logoColor=white)
@@ -66,14 +117,10 @@ I operate at the intersection of three domains. Like physics' three-body problem
 ![CFD](https://img.shields.io/badge/CFD-1B3A5C?style=flat-square)
 ![SEM/TEM](https://img.shields.io/badge/Materials_Analysis-6C3483?style=flat-square)
 ![NDT](https://img.shields.io/badge/NDT-2C2C2C?style=flat-square)
-![PWA](https://img.shields.io/badge/3D_Web-000000?style=flat-square&logo=three.js&logoColor=white)
-
-> *From the atomic lattice to macroscopic simulation.*
+![3D Web](https://img.shields.io/badge/3D_Web-000000?style=flat-square&logo=three.js&logoColor=white)
 
 </td>
-<td width="33%" valign="top">
-
-### 🔐 SECURITY
+<td width="33%" valign="top" align="center">
 
 ![Burp Suite](https://img.shields.io/badge/Burp_Suite-FF6633?style=flat-square&logo=burp-suite&logoColor=white)
 ![Nessus](https://img.shields.io/badge/Nessus-00B140?style=flat-square&logo=tenable&logoColor=white)
@@ -84,8 +131,6 @@ I operate at the intersection of three domains. Like physics' three-body problem
 ![Kali Linux](https://img.shields.io/badge/Kali_Linux-557C94?style=flat-square&logo=kalilinux&logoColor=white)
 ![Bash](https://img.shields.io/badge/Pentest_Automation-4EAA25?style=flat-square&logo=gnu-bash&logoColor=white)
 ![Python](https://img.shields.io/badge/Security_Scripting-3776AB?style=flat-square&logo=python&logoColor=white)
-
-> *Every system has a surface. I map it.*
 
 </td>
 </tr>
