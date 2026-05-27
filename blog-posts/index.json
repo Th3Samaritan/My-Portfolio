@@ -1,5 +1,18 @@
 [
   {
+    "slug": "bugbounty-ep",
+    "title": "BugBounty EP",
+    "date": "2026-05-27",
+    "description": "So long into the Bugbounty",
+    "tags": [
+      "cybersecurity",
+      "learning"
+    ],
+    "readingTime": "3 min read",
+    "wordCount": 535,
+    "url": "https://th3samaritan.github.io/My-Portfolio/blog-posts/bugbounty-ep"
+  },
+  {
     "slug": "the-beginning-of-a-new-era-after-life-in-a-year",
     "title": "The Beginning of a New Era after life in a year",
     "date": "2026-05-23",
