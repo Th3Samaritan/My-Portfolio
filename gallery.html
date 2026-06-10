@@ -125,7 +125,7 @@
                 <div id="gallery-detail-view" class="hidden">
 
                     <!-- Back link -->
-                    <a href="/My-Portfolio/gallery.html" id="back-link" style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 500; color: var(--text-muted); margin-bottom: 2rem; text-decoration: none;">
+                    <a href="gallery.html" id="back-link" style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 500; color: var(--text-muted); margin-bottom: 2rem; text-decoration: none;">
                         <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                         Back to Gallery
                     </a>
@@ -223,7 +223,8 @@
         import { OrbitControls } from 'three/controls/OrbitControls';
         import { DRACOLoader } from 'three/loaders/DRACOLoader';
 
-        const portfolioBaseUrl = 'https://th3samaritan.github.io/My-Portfolio';
+        const isLocal = ['localhost', '127.0.0.1'].includes(location.hostname);
+        const portfolioBaseUrl = isLocal ? '' : 'https://th3samaritan.github.io/My-Portfolio';
         const modelIndexUrl = portfolioBaseUrl + '/models-data/index.json';
 
         let scene, camera, renderer, controls, model, animationFrameId;
@@ -237,6 +238,15 @@
         dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
         const gltfLoader = new GLTFLoader();
         gltfLoader.setDRACOLoader(dracoLoader);
+
+        // Keep the 3D viewer background in sync with the theme toggle
+        const themeObserver = new MutationObserver(() => {
+            if (scene) {
+                const isDark = document.documentElement.classList.contains('dark');
+                scene.background = new THREE.Color(isDark ? 0x141414 : 0xf5f5f5);
+            }
+        });
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
         /* ====== SVG Icons ====== */
         const cubeIcon = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2 1m0 0l-2-1m2 1v2.5M3 15l2 1m0 0l2-1m-2 1v2.5M3 12l2 1m0 0l2-1m-2 1v2.5M3 9l2 1m0 0l2-1m-2 1v2.5"></path></svg>`;
@@ -265,7 +275,7 @@
             } catch (error) {
                 console.error('Gallery init error:', error);
                 const container = modelSlug ? detailView : gridView;
-                container.innerHTML = `<p class="text-center" style="color:red;">${error.message}</p><a href="/My-Portfolio/gallery.html" style="display:block;text-align:center;margin-top:1rem;color:var(--text-muted);">← Back to Gallery</a>`;
+                container.innerHTML = `<p class="text-center" style="color:red;">${error.message}</p><a href="gallery.html" style="display:block;text-align:center;margin-top:1rem;color:var(--text-muted);">← Back to Gallery</a>`;
                 container.classList.remove('hidden');
                 (modelSlug ? gridView : detailView).classList.add('hidden');
             }
@@ -284,7 +294,7 @@
 
             models.forEach(m => {
                 const card = document.createElement('a');
-                card.href = '/My-Portfolio/gallery.html?model=' + m.slug;
+                card.href = 'gallery.html?model=' + m.slug;
                 card.className = 'card gallery-card';
 
                 // Thumbnail or placeholder
@@ -309,6 +319,8 @@
                     mediaLabel = `<span style="font-size:0.6875rem;color:var(--text-muted);margin-left:auto;">${parts.join(' · ')}</span>`;
                 }
 
+                const ctaLabel = m.url ? 'Explore Model →' : 'View Project →';
+
                 card.innerHTML = `
                     ${thumbHtml}
                     <div class="gallery-card-body">
@@ -316,7 +328,7 @@
                         <p>${m.description}</p>
                         ${tagsHtml ? `<div class="gallery-card-tags">${tagsHtml}</div>` : ''}
                         <div style="display:flex;align-items:center;">
-                            <span class="gallery-card-cta">Explore Model →</span>
+                            <span class="gallery-card-cta">${ctaLabel}</span>
                             ${mediaLabel}
                         </div>
                     </div>
@@ -389,16 +401,32 @@
                 sims.forEach(s => {
                     const item = document.createElement('div');
                     item.className = 'media-item';
-                    item.onclick = () => openLightbox(portfolioBaseUrl + s.src, s.caption);
-                    item.setAttribute('role', 'button');
-                    item.setAttribute('tabindex', '0');
-                    item.onkeydown = (e) => { if (e.key === 'Enter') openLightbox(portfolioBaseUrl + s.src, s.caption); };
-                    item.innerHTML = `
-                        ${s.type ? `<span class="media-item-badge">${s.type}</span>` : ''}
-                        <div class="media-item-zoom">${zoomIcon}</div>
-                        <img src="${portfolioBaseUrl}${s.src}" alt="${s.caption}" loading="lazy" onerror="this.style.background='var(--bg-tertiary)';this.alt='Image not found'">
-                        <div class="media-item-caption">${s.caption}</div>
-                    `;
+                    const isVideo = /\.(mp4|webm)$/i.test(s.src);
+
+                    if (isVideo) {
+                        // Videos play inline — no lightbox needed
+                        item.innerHTML = `
+                            ${s.type ? `<span class="media-item-badge">${s.type}</span>` : ''}
+                            <video controls preload="metadata" loop muted playsinline
+                                   style="width:100%;display:block;background:var(--bg-tertiary);"
+                                   ${s.poster ? `poster="${portfolioBaseUrl}${s.poster}"` : ''}>
+                                <source src="${portfolioBaseUrl}${s.src}" type="video/mp4">
+                                Your browser does not support video playback.
+                            </video>
+                            <div class="media-item-caption">${s.caption}</div>
+                        `;
+                    } else {
+                        item.onclick = () => openLightbox(portfolioBaseUrl + s.src, s.caption);
+                        item.setAttribute('role', 'button');
+                        item.setAttribute('tabindex', '0');
+                        item.onkeydown = (e) => { if (e.key === 'Enter') openLightbox(portfolioBaseUrl + s.src, s.caption); };
+                        item.innerHTML = `
+                            ${s.type ? `<span class="media-item-badge">${s.type}</span>` : ''}
+                            <div class="media-item-zoom">${zoomIcon}</div>
+                            <img src="${portfolioBaseUrl}${s.src}" alt="${s.caption}" loading="lazy" onerror="this.style.background='var(--bg-tertiary)';this.alt='Image not found'">
+                            <div class="media-item-caption">${s.caption}</div>
+                        `;
+                    }
                     simsGrid.appendChild(item);
                 });
             } else {
@@ -406,10 +434,16 @@
                 simsGrid.innerHTML = '<div class="empty-media">No simulation results yet. Add images/GIFs to <code>models-data/simulations/</code> and update <code>index.json</code>.</div>';
             }
 
-            // Load 3D model
-            modelLoader.classList.remove('hidden');
-            const modelUrl = portfolioBaseUrl + modelData.url;
-            init3DScene(modelUrl);
+            // Load 3D model (skip viewer entirely for image-only projects)
+            const viewerContainer = document.getElementById('3d-viewer-container');
+            if (modelData.url) {
+                viewerContainer.style.display = '';
+                modelLoader.classList.remove('hidden');
+                const modelUrl = portfolioBaseUrl + modelData.url;
+                init3DScene(modelUrl);
+            } else {
+                viewerContainer.style.display = 'none';
+            }
             window.scrollTo(0, 0);
         }
 

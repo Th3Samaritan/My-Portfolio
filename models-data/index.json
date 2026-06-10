@@ -3,7 +3,7 @@
     "slug": "uav-airframe-demo",
     "name": "UAV Airframe (Demo)",
     "url": "/models-data/drone_g-es-313-01.glb",
-    "thumbnail": "/models-data/images/uav-airframe-thumb.jpg",
+    "thumbnail": "/models-data/images/drone.JPG",
     "description": "This is the primary airframe for the custom UAV project. Designed in SolidWorks and optimized for a balance of low weight and high structural rigidity. The design focuses on aerodynamic efficiency simulation full design is classified.",
     "specs": {
       "Software": "SolidWorks 2023",
@@ -13,56 +13,50 @@
     },
     "renders": [
       {
-        "src": "/models-data/images/uav-render-front.jpg",
-        "caption": "Front isometric view"
-      },
-      {
-        "src": "/models-data/images/uav-render-side.jpg",
-        "caption": "Side profile view"
-      },
-      {
-        "src": "/models-data/images/uav-render-exploded.jpg",
-        "caption": "Exploded assembly view"
+        "src": "/models-data/images/drone.JPG",
+        "caption": "Quadcopter UAV concept render"
       }
     ],
     "simulations": [
       {
-        "src": "/models-data/simulations/uav-cfd-airflow.gif",
-        "caption": "CFD airflow analysis",
+        "src": "/models-data/simulations/wing-cfd-simulation.mp4",
+        "poster": "/models-data/simulations/wing-cfd-poster.jpg",
+        "caption": "CFD flow trajectory analysis over wing section — velocity field (SolidWorks Flow Simulation)",
         "type": "CFD"
-      },
-      {
-        "src": "/models-data/simulations/uav-fea-stress.jpg",
-        "caption": "FEA stress distribution under flight load",
-        "type": "FEA"
       }
     ]
   },
   {
-    "slug": "spring-design-model",
-    "name": "Spring Design Model",
-    "url": "/models-data/spring.glb",
-    "thumbnail": "/models-data/images/spring-thumb.jpg",
-    "description": "A Prototype Design of a Spring, Designed using SolidWorks.",
+    "slug": "turbocharger-flow-simulation",
+    "name": "Turbocharger Flow Simulation",
+    "thumbnail": "/models-data/simulations/turbocharger-poster.jpg",
+    "description": "CFD study of a turbocharger assembly using SolidWorks Flow Simulation. The animation traces flow trajectories through the compressor and turbine stages, visualizing velocity distribution across the rotating assembly.",
     "specs": {
-      "Software": "SolidWorks",
-      "Material": "Stainless Steel",
-      "Process": "CNC Machining",
+      "Software": "SolidWorks Flow Simulation",
+      "Analysis": "CFD — Flow Trajectories",
+      "Domain": "Turbomachinery",
       "Status": "Completed"
     },
     "renders": [
       {
-        "src": "/models-data/images/spring-render-1.jpg",
-        "caption": "Full spring assembly"
+        "src": "/models-data/simulations/TurboCharger.png",
+        "caption": "Flow vector preview"
       }
     ],
-    "simulations": []
+    "simulations": [
+      {
+        "src": "/models-data/simulations/turbocharger-animation.mp4",
+        "poster": "/models-data/simulations/turbocharger-poster.jpg",
+        "caption": "Turbocharger flow trajectory animation (SolidWorks Flow Simulation)",
+        "type": "CFD"
+      }
+    ]
   },
   {
     "slug": "automatic-solar-powered-boom-sprayer",
     "name": "Automatic Solar Powered Boom Sprayer",
     "url": "/models-data/aspbs.glb",
-    "thumbnail": "/models-data/images/aspbs-thumb.jpg",
+    "thumbnail": "/models-data/images/solar powered agric boom sprayer.JPG",
     "description": "A Pioneer Machine Design for Automatic Solar Boom Sprayer to increase Efficiency of Agricultural Farm Process sponsored by Technical Division of Institute of Agricultural Research (IAR), Ahmadu Bello University (ABU).",
     "specs": {
       "Software": "SolidWorks",
@@ -72,38 +66,20 @@
     },
     "renders": [
       {
-        "src": "/models-data/images/aspbs-render-1.jpg",
-        "caption": "Full system assembly"
+        "src": "/models-data/images/solar powered agric boom sprayer.JPG",
+        "caption": "Full system assembly — solar panel, tank and boom nozzle array"
       },
       {
-        "src": "/models-data/images/aspbs-render-2.jpg",
-        "caption": "Boom mechanism detail"
-      }
-    ],
-    "simulations": [
+        "src": "/models-data/images/automated solar powered sprayer.JPG",
+        "caption": "Pump and tank configuration with folded boom"
+      },
       {
-        "src": "/models-data/simulations/aspbs-stress.jpg",
-        "caption": "Stress analysis on boom arm",
-        "type": "FEA"
-      }
-    ]
-  },
-  {
-    "slug": "servo-cover",
-    "name": "3D Printed Servo Cover",
-    "url": "/models-data/servo_cover.glb",
-    "thumbnail": "/models-data/images/servo-cover-thumb.jpg",
-    "description": "A 3D Printed Servo Cover made up of PLA and was used as mould to make the carbon fiber prototype, Designed using SolidWorks.",
-    "specs": {
-      "Software": "SolidWorks",
-      "Material": "PLA → Carbon Fiber",
-      "Process": "FDM 3D Printing + Mould",
-      "Status": "Completed"
-    },
-    "renders": [
+        "src": "/models-data/images/solar  powered agric boom.JPG",
+        "caption": "Rear view — boom nozzle array and battery placement"
+      },
       {
-        "src": "/models-data/images/servo-cover-render-1.jpg",
-        "caption": "Printed PLA mould"
+        "src": "/models-data/images/drawings/solar-powered-agriculture-boom-sprayer.png",
+        "caption": "Engineering drawing — full assembly (extracted from PDF)"
       }
     ],
     "simulations": []
@@ -112,7 +88,7 @@
     "slug": "sugarcane-grinding-machine",
     "name": "Sugarcane Grinding Machine",
     "url": "/models-data/sugarcane_grinder.glb",
-    "thumbnail": "/models-data/images/sugarcane-grinder-thumb.jpg",
+    "thumbnail": "/models-data/images/SugarCane Grinder finale.JPG",
     "description": "A Prototype Machine Design for Sugarcane Grinder made with stainless steel, Aluminum, and some other metals.",
     "specs": {
       "Software": "SolidWorks",
@@ -122,16 +98,178 @@
     },
     "renders": [
       {
-        "src": "/models-data/images/sugarcane-render-1.jpg",
-        "caption": "Grinding mechanism detail"
+        "src": "/models-data/images/SugarCane Grinder finale.JPG",
+        "caption": "Final assembly — crusher rollers, chain drive and crank handle"
+      },
+      {
+        "src": "/models-data/images/drawings/chain-gear.png",
+        "caption": "Chain gear engineering drawing (extracted from PDF)"
+      },
+      {
+        "src": "/models-data/images/drawings/rollers-gear.png",
+        "caption": "Roller gear engineering drawing (extracted from PDF)"
+      },
+      {
+        "src": "/models-data/images/drawings/semi-handle.png",
+        "caption": "Crank handle engineering drawing (extracted from PDF)"
       }
     ],
-    "simulations": [
+    "simulations": []
+  },
+  {
+    "slug": "servo-cover",
+    "name": "3D Printed Servo Cover",
+    "url": "/models-data/servo_cover.glb",
+    "thumbnail": "/models-data/images/DSCN7761.JPG",
+    "description": "A 3D Printed Servo Cover made up of PLA and was used as mould to make the carbon fiber prototype, Designed using SolidWorks.",
+    "specs": {
+      "Software": "SolidWorks",
+      "Material": "PLA → Carbon Fiber",
+      "Process": "FDM 3D Printing + Mould",
+      "Status": "Completed"
+    },
+    "renders": [
       {
-        "src": "/models-data/simulations/sugarcane-fea.jpg",
-        "caption": "Structural analysis of grinder frame",
-        "type": "FEA"
+        "src": "/models-data/images/DSCN7761.JPG",
+        "caption": "Printed PLA servo covers — finished parts"
       }
-    ]
+    ],
+    "simulations": []
+  },
+  {
+    "slug": "spring-design-model",
+    "name": "Spring Design Model",
+    "url": "/models-data/spring.glb",
+    "description": "A Prototype Design of a Spring, Designed using SolidWorks.",
+    "specs": {
+      "Software": "SolidWorks",
+      "Material": "Stainless Steel",
+      "Process": "CNC Machining",
+      "Status": "Completed"
+    },
+    "renders": [],
+    "simulations": []
+  },
+  {
+    "slug": "bench-vice",
+    "name": "Bench Vice",
+    "thumbnail": "/models-data/images/bench vice.JPG",
+    "description": "A machine vice assembly modeled in SolidWorks — fixed and movable jaws, lead screw and tommy-bar handle, rendered in stainless finish.",
+    "specs": {
+      "Software": "SolidWorks",
+      "Material": "Cast Steel",
+      "Type": "Assembly Design",
+      "Status": "Completed"
+    },
+    "renders": [
+      {
+        "src": "/models-data/images/bench vice.JPG",
+        "caption": "Bench vice assembly render"
+      }
+    ],
+    "simulations": []
+  },
+  {
+    "slug": "exhaust-fan-enclosure",
+    "name": "Electronics Enclosure with Exhaust Fan",
+    "thumbnail": "/models-data/images/electronic component.JPG",
+    "description": "A ventilated electronics enclosure design featuring an exhaust fan assembly for active cooling, with transparent housing visualization to show internal component layout.",
+    "specs": {
+      "Software": "SolidWorks",
+      "Type": "Enclosure / Thermal Design",
+      "Cooling": "Active — Exhaust Fan",
+      "Status": "Completed"
+    },
+    "renders": [
+      {
+        "src": "/models-data/images/electronic component.JPG",
+        "caption": "Transparent enclosure render showing exhaust fan and internal cylinder"
+      },
+      {
+        "src": "/models-data/images/drawings/exhaust-fan-assembly.png",
+        "caption": "Exhaust fan assembly engineering drawing (extracted from PDF)"
+      }
+    ],
+    "simulations": []
+  },
+  {
+    "slug": "exploded-pcb-assembly",
+    "name": "PCB Assembly — Exploded View",
+    "thumbnail": "/models-data/images/exploded pcb.png",
+    "description": "Exploded-view visualization of a multi-board PCB assembly, showing the stack-up of the carrier board, daughter board, connectors and shielded module.",
+    "specs": {
+      "Software": "SolidWorks",
+      "Type": "PCB / Electronics CAD",
+      "View": "Exploded Assembly",
+      "Status": "Completed"
+    },
+    "renders": [
+      {
+        "src": "/models-data/images/exploded pcb.png",
+        "caption": "Exploded view of the PCB assembly"
+      }
+    ],
+    "simulations": []
+  },
+  {
+    "slug": "flat-head-screw",
+    "name": "Flat Head Screw",
+    "thumbnail": "/models-data/images/flat head screw.PNG",
+    "description": "Detailed thread modeling exercise — a slotted flat head wood screw modeled with full helical thread geometry, accompanied by a dimensioned engineering drawing.",
+    "specs": {
+      "Software": "SolidWorks",
+      "Feature": "Helical Thread Sweep",
+      "Type": "Part Design",
+      "Status": "Completed"
+    },
+    "renders": [
+      {
+        "src": "/models-data/images/flat head screw.PNG",
+        "caption": "Slotted flat head screw render"
+      },
+      {
+        "src": "/models-data/images/drawings/screw-drawing.png",
+        "caption": "Dimensioned engineering drawing (extracted from PDF)"
+      }
+    ],
+    "simulations": []
+  },
+  {
+    "slug": "proposed-mifi",
+    "name": "Proposed MiFi Device — Concept",
+    "thumbnail": "/models-data/images/proposed mifi 1.1.JPG",
+    "description": "Industrial design concept for a slim portable MiFi (mobile Wi-Fi hotspot) device — glossy low-profile housing with embossed branding, modeled and rendered in SolidWorks.",
+    "specs": {
+      "Software": "SolidWorks",
+      "Type": "Industrial / Product Design",
+      "Stage": "Concept v1.1",
+      "Status": "Proposal"
+    },
+    "renders": [
+      {
+        "src": "/models-data/images/proposed mifi 1.1.JPG",
+        "caption": "MiFi concept render — top face with embossed logo"
+      }
+    ],
+    "simulations": []
+  },
+  {
+    "slug": "faida-dispenser",
+    "name": "Faida — Wooden Dispenser Unit",
+    "thumbnail": "/models-data/images/faida.JPG",
+    "description": "Product design concept for the Faida unit — a wooden cabinet-style dispenser machine with an internal funnel chute and front collection tray, rendered with photorealistic wood materials.",
+    "specs": {
+      "Software": "SolidWorks",
+      "Material": "Plywood / Hardwood",
+      "Type": "Product Design",
+      "Status": "Concept"
+    },
+    "renders": [
+      {
+        "src": "/models-data/images/faida.JPG",
+        "caption": "Faida dispenser unit — front isometric render"
+      }
+    ],
+    "simulations": []
   }
 ]
