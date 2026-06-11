@@ -2,7 +2,7 @@
 title: The Design Engineer Ep
 date: 2026-06-11
 description: All about the Dron Design, Material Selection, Molding, assembly, and Flight Test
-tags: [#Blog, #SolidWorks, #CAD, #Modelling, #FEA, #Simulation, #Materials, #Engineer]
+tags: [Blog, SolidWorks, CAD, Modelling, FEA Simulation, Materials Engineer]
 ---
 
 # The Team
