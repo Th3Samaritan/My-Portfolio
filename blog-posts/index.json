@@ -1,5 +1,20 @@
 [
   {
+    "slug": "3d-printing",
+    "title": "3D printing",
+    "date": "2026-06-11",
+    "description": "Just a short section on 3d printed part",
+    "tags": [
+      "Blog",
+      "3d printing",
+      "CAD",
+      "Additive Manufactuing"
+    ],
+    "readingTime": "1 min read",
+    "wordCount": 109,
+    "url": "https://th3samaritan.github.io/My-Portfolio/blog-posts/3d-printing"
+  },
+  {
     "slug": "the-design-engineer-ep",
     "title": "The Design Engineer Ep",
     "date": "2026-06-11",
