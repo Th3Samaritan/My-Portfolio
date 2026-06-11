@@ -1,5 +1,24 @@
 [
   {
+    "slug": "the-design-engineer-ep",
+    "title": "The Design Engineer Ep",
+    "date": "2026-06-11",
+    "description": "All about the Dron Design, Material Selection, Molding, assembly, and Flight Test",
+    "tags": [
+      "#Blog",
+      "#SolidWorks",
+      "#CAD",
+      "#Modelling",
+      "#FEA",
+      "#Simulation",
+      "#Materials",
+      "#Engineer"
+    ],
+    "readingTime": "6 min read",
+    "wordCount": 1071,
+    "url": "https://th3samaritan.github.io/My-Portfolio/blog-posts/the-design-engineer-ep"
+  },
+  {
     "slug": "bugbounty-ep",
     "title": "BugBounty EP",
     "date": "2026-05-27",

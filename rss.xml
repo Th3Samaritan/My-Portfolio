@@ -5,8 +5,23 @@
     <link>https://th3samaritan.github.io/My-Portfolio/blog.html</link>
     <description>Thoughts on cybersecurity, software engineering, and materials science.</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 27 May 2026 21:54:53 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2026 07:40:06 GMT</lastBuildDate>
     <atom:link href="https://th3samaritan.github.io/My-Portfolio/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title><![CDATA[The Design Engineer Ep]]></title>
+      <link>https://th3samaritan.github.io/My-Portfolio/blog.html?post=the-design-engineer-ep</link>
+      <guid isPermaLink="true">https://th3samaritan.github.io/My-Portfolio/blog.html?post=the-design-engineer-ep</guid>
+      <pubDate>Thu, 11 Jun 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[All about the Dron Design, Material Selection, Molding, assembly, and Flight Test]]></description>
+    <category>#Blog</category>
+    <category>#SolidWorks</category>
+    <category>#CAD</category>
+    <category>#Modelling</category>
+    <category>#FEA</category>
+    <category>#Simulation</category>
+    <category>#Materials</category>
+    <category>#Engineer</category>
+    </item>
     <item>
       <title><![CDATA[BugBounty EP]]></title>
       <link>https://th3samaritan.github.io/My-Portfolio/blog.html?post=bugbounty-ep</link>
