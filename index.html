@@ -388,7 +388,7 @@
             <div class="text-center reveal" style="max-width: var(--container-narrow); margin: 0 auto;">
                 <p class="section-label">Join Me</p>
                 <h2 class="section-title">Current Development & Research</h2>
-                <p class="section-desc mx-auto">I'm actively working on these projects and welcome collaboration. If you're interested, let's connect.</p>
+                <p class="section-desc mx-auto">Independent research and development I'm actively working on. Contributions are welcome — if you'd like to get involved, let's connect.</p>
             </div>
 
             <div id="research-grid" class="grid grid-1 md\:grid-2 gap-8 reveal" style="max-width: 72rem; margin: 4rem auto 0;">
@@ -695,7 +695,7 @@
             const grid = document.getElementById('research-grid');
             if (!grid) return;
             try {
-                const res = await fetch('https://th3samaritan.github.io/My-Portfolio/data/research.json');
+                const res = await fetch('data/research.json');
                 if (!res.ok) throw new Error('Failed to load research');
                 const items = await res.json();
 
@@ -720,10 +720,11 @@
                                 <span class="${statusClassMap[item.status] || 'tag'}" style="${statusStyleMap[item.status] || ''}">${item.status}</span>
                             </div>
                             <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">${item.description}</p>
-                            <h4 style="font-size: 0.8125rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Looking for Collaborators:</h4>
+                            ${item.collaborators && item.collaborators.length ? `
+                            <h4 style="font-size: 0.8125rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Independent work — contributions welcome from:</h4>
                             <ul style="list-style: disc; padding-left: 1.25rem; font-size: 0.8125rem; color: var(--text-secondary);">
                                 ${item.collaborators.map(c => `<li>${c}</li>`).join('')}
-                            </ul>
+                            </ul>` : ''}
                         </div>
                         <a href="${item.link}" ${item.linkExternal ? 'target="_blank" rel="noopener noreferrer"' : ''} class="btn ${item.linkExternal ? 'btn-primary' : 'btn-secondary'}" style="margin-top: 1.5rem; align-self: flex-start; display: inline-flex; align-items: center; gap: 0.5rem;">
                             ${item.linkText}
@@ -742,7 +743,7 @@
             const container = document.getElementById('latest-posts');
             if (!container) return;
             try {
-                const res = await fetch('https://th3samaritan.github.io/My-Portfolio/blog-posts/index.json');
+                const res = await fetch('blog-posts/index.json');
                 if (!res.ok) throw new Error('Failed to load posts');
                 const posts = await res.json();
                 const latest = posts.slice(0, 3);

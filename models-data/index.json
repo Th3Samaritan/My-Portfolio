@@ -1,20 +1,32 @@
 [
   {
-    "slug": "uav-airframe-demo",
-    "name": "UAV Airframe (Demo)",
+    "slug": "vtol-uav",
+    "name": "VTOL Fixed-Wing UAV",
     "url": "/models-data/drone_g-es-313-01.glb",
-    "thumbnail": "/models-data/images/drone.JPG",
-    "description": "This is the primary airframe for the custom UAV project. Designed in SolidWorks and optimized for a balance of low weight and high structural rigidity. The design focuses on aerodynamic efficiency simulation full design is classified.",
+    "thumbnail": "/models-data/images/UAV DronVTOL.jpg",
+    "description": "The primary airframe for the custom UAV project — a hybrid VTOL fixed-wing design with quad lift rotors on twin booms for vertical take-off and efficient forward flight. Designed in SolidWorks, optimized for low weight and high structural rigidity, validated with CFD flow simulation and built as a flying prototype with a carbon-fiber airframe variant. Full design is classified.",
     "specs": {
-      "Software": "SolidWorks 2023",
+      "Software": "SolidWorks + Flow Simulation",
       "Material": "Carbon Fiber Composite",
-      "Process": "3D Printed + Layup",
-      "Status": "Active Prototype"
+      "Config": "Quad-lift + Fixed Wing (VTOL)",
+      "Status": "Flight Prototype"
     },
     "renders": [
       {
-        "src": "/models-data/images/drone.JPG",
-        "caption": "Quadcopter UAV concept render"
+        "src": "/models-data/images/UAV DronVTOL.jpg",
+        "caption": "Completed UAV prototype in the field"
+      },
+      {
+        "src": "/models-data/images/VTOL UAV Model.jpg",
+        "caption": "VTOL configuration — quad lift rotors and inverted V-tail"
+      },
+      {
+        "src": "/models-data/images/VTOL UAV Model 2.jpg",
+        "caption": "Lift rotor placement on twin booms"
+      },
+      {
+        "src": "/models-data/images/VTOL UAV.JPG",
+        "caption": "Carbon fiber airframe render"
       }
     ],
     "simulations": [
@@ -23,8 +35,39 @@
         "poster": "/models-data/simulations/wing-cfd-poster.jpg",
         "caption": "CFD flow trajectory analysis over wing section — velocity field (SolidWorks Flow Simulation)",
         "type": "CFD"
+      },
+      {
+        "src": "/models-data/simulations/drone-pressure-cfd.mp4",
+        "poster": "/models-data/simulations/drone-pressure-poster.jpg",
+        "caption": "CFD pressure field with flow trajectories over the airframe (SolidWorks Flow Simulation)",
+        "type": "CFD"
+      },
+      {
+        "src": "/models-data/simulations/drone-velocity-cfd.mp4",
+        "poster": "/models-data/simulations/drone-velocity-poster.jpg",
+        "caption": "CFD velocity flow trajectories over the carbon-fiber airframe (SolidWorks Flow Simulation)",
+        "type": "CFD"
       }
     ]
+  },
+  {
+    "slug": "quadcopter-uav",
+    "name": "Quadcopter UAV",
+    "thumbnail": "/models-data/images/drone.JPG",
+    "description": "Concept design for a quadcopter UAV — four-rotor configuration with camera gimbal mount, modeled and rendered in SolidWorks.",
+    "specs": {
+      "Software": "SolidWorks 2023",
+      "Config": "Quadcopter — 4 Rotors",
+      "Type": "Concept Design",
+      "Status": "Rendered Concept"
+    },
+    "renders": [
+      {
+        "src": "/models-data/images/drone.JPG",
+        "caption": "Quadcopter UAV concept render"
+      }
+    ],
+    "simulations": []
   },
   {
     "slug": "turbocharger-flow-simulation",
@@ -120,7 +163,7 @@
     "slug": "servo-cover",
     "name": "3D Printed Servo Cover",
     "url": "/models-data/servo_cover.glb",
-    "thumbnail": "/models-data/images/DSCN7761.JPG",
+    "thumbnail": "/models-data/images/servo cover.JPG",
     "description": "A 3D Printed Servo Cover made up of PLA and was used as mould to make the carbon fiber prototype, Designed using SolidWorks.",
     "specs": {
       "Software": "SolidWorks",
@@ -130,8 +173,106 @@
     },
     "renders": [
       {
-        "src": "/models-data/images/DSCN7761.JPG",
-        "caption": "Printed PLA servo covers — finished parts"
+        "src": "/models-data/images/servo cover.JPG",
+        "caption": "Printed PLA servo covers — finished black parts"
+      },
+      {
+        "src": "/models-data/images/3d printed servo cover.jpg",
+        "caption": "White PLA print batch — aerodynamic fin profile"
+      },
+      {
+        "src": "/models-data/images/servo-covers-white-print.jpg",
+        "caption": "Finished white prints — side profile"
+      }
+    ],
+    "simulations": []
+  },
+  {
+    "slug": "car-frame-chassis",
+    "name": "Tubular Car Frame Chassis",
+    "thumbnail": "/models-data/images/car frame.png",
+    "description": "A lightweight tubular space-frame chassis for a small utility vehicle — designed in SolidWorks with chain-driven spoked wheels, then fabricated from square steel tubing in the workshop.",
+    "specs": {
+      "Software": "SolidWorks",
+      "Material": "Mild Steel Tube",
+      "Process": "Cutting + Arc Welding",
+      "Status": "Fabricated"
+    },
+    "renders": [
+      {
+        "src": "/models-data/images/car frame.png",
+        "caption": "Space-frame chassis CAD render"
+      },
+      {
+        "src": "/models-data/images/car-frame-cad-2.png",
+        "caption": "CAD render — front quarter view"
+      },
+      {
+        "src": "/models-data/images/car-frame-cad-grey.jpg",
+        "caption": "Side profile — frame geometry and wheel placement"
+      },
+      {
+        "src": "/models-data/images/car frame actual image.jpg",
+        "caption": "Fabricated chassis — welded steel frame with wheels and chain drive"
+      }
+    ],
+    "simulations": []
+  },
+  {
+    "slug": "barrage-boom-machine",
+    "name": "A-Frame Barrage Machine",
+    "thumbnail": "/models-data/images/a frame for barraging.JPG",
+    "description": "A wheel-mounted A-frame barrage rig — twin-wheel carrier chassis with a pedal-crank chain drive and long boom rails. Designed in SolidWorks and fabricated from square steel tube; the photo series documents the full workshop fabrication.",
+    "specs": {
+      "Software": "SolidWorks",
+      "Material": "Square Steel Tube",
+      "Drive": "Pedal Crank + Chain",
+      "Status": "Fabricated"
+    },
+    "renders": [
+      {
+        "src": "/models-data/images/a frame for barraging.JPG",
+        "caption": "CAD — A-frame boom rig with wheeled carrier"
+      },
+      {
+        "src": "/models-data/images/barrage-frame-cad.png",
+        "caption": "CAD — boom and carrier frame, side view"
+      },
+      {
+        "src": "/models-data/images/Barrage image.jpg",
+        "caption": "Fabricated rig — A-frame boom mounted on the carrier"
+      },
+      {
+        "src": "/models-data/images/barrage-carrier-fabrication.jpg",
+        "caption": "Carrier chassis fabrication — wheels and mounting posts"
+      },
+      {
+        "src": "/models-data/images/barrage-carrier-top-view.jpg",
+        "caption": "Carrier chassis — top view during welding"
+      },
+      {
+        "src": "/models-data/images/barrage-boom-frames-fabrication.jpg",
+        "caption": "Boom frames and wheel carriers in the workshop"
+      },
+      {
+        "src": "/models-data/images/barrage-frames-workshop.jpg",
+        "caption": "Boom rails staged in the workshop"
+      },
+      {
+        "src": "/models-data/images/barrage-boom-rails.jpg",
+        "caption": "Welded boom rails with clamp fittings"
+      },
+      {
+        "src": "/models-data/images/barrage-crank-assembly.jpg",
+        "caption": "Pedal-crank and chain drive assembly"
+      },
+      {
+        "src": "/models-data/images/barrage-chain-drive.jpg",
+        "caption": "Chain drive close-up — sprocket and wheel"
+      },
+      {
+        "src": "/models-data/images/barrage-chassis-chain-drive.jpg",
+        "caption": "Carrier chassis with twin chain drives"
       }
     ],
     "simulations": []
@@ -254,10 +395,10 @@
     "simulations": []
   },
   {
-    "slug": "faida-dispenser",
-    "name": "Faida — Wooden Dispenser Unit",
+    "slug": "automatic-pet-feeder",
+    "name": "Automatic Pet Feeder",
     "thumbnail": "/models-data/images/faida.JPG",
-    "description": "Product design concept for the Faida unit — a wooden cabinet-style dispenser machine with an internal funnel chute and front collection tray, rendered with photorealistic wood materials.",
+    "description": "Product design for an automatic pet feeder — a wooden cabinet-style unit with an internal funnel chute that dispenses feed into the front tray on schedule, rendered with photorealistic wood materials.",
     "specs": {
       "Software": "SolidWorks",
       "Material": "Plywood / Hardwood",
@@ -267,7 +408,7 @@
     "renders": [
       {
         "src": "/models-data/images/faida.JPG",
-        "caption": "Faida dispenser unit — front isometric render"
+        "caption": "Automatic pet feeder — front isometric render"
       }
     ],
     "simulations": []

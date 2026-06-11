@@ -28,11 +28,29 @@
   },
   {
     "title": "AI-driven CFD & FEA",
-    "status": "Planning",
-    "description": "Integrating Physics-Informed ML with CFD and FEA solvers to accelerate simulation times.",
+    "status": "Active",
+    "description": "Integrating Physics-Informed ML with CFD and FEA solvers to accelerate simulation times — parametric ANSYS Fluent sweeps (PyFluent) feeding neural surrogate models that predict full flow fields in milliseconds.",
     "collaborators": ["Simulation Engineers", "ML Researchers (Physics-Informed ML)", "HPC Specialists"],
     "link": "mailto:abdulsamadmuyideen@gmail.com",
     "linkText": "Contact Me to Discuss",
     "linkExternal": false
+  },
+  {
+    "title": "Galvanic Corrosion Prediction — PINN",
+    "status": "Active",
+    "description": "A Physics-Informed Neural Network (graph-based, PyTorch Geometric) that predicts galvanic corrosion in multi-material assemblies. Kirchhoff's Current Law and thermodynamic consistency are enforced directly in the loss, predicting galvanic current density and material compatibility — served through an interactive Streamlit dashboard.",
+    "collaborators": ["Corrosion Engineers", "Materials Scientists", "ML Researchers"],
+    "link": "https://github.com/th3samaritan",
+    "linkText": "View on GitHub",
+    "linkExternal": true
+  },
+  {
+    "title": "Materials Inverse Design — Reinforcement Learning",
+    "status": "Active",
+    "description": "Inverse design of steel heat treatments using policy-gradient reinforcement learning (PPO) over a feed-forward MLP ensemble forward model, benchmarked against a KNN baseline. Input a composition and target mechanical properties — get ranked heat-treatment schedules (austenitize, quench, temper) with uncertainty estimates.",
+    "collaborators": ["Metallurgists", "Process Engineers", "ML Researchers"],
+    "link": "https://github.com/th3samaritan",
+    "linkText": "View on GitHub",
+    "linkExternal": true
   }
 ]
