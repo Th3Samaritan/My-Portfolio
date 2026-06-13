@@ -52,8 +52,9 @@
     "problem": "Iterative design needs hundreds of CFD evaluations, but each high-fidelity COMSOL / ANSYS Fluent run is computationally expensive, making design sweeps painfully slow.",
     "solution": "Built an automated pipeline that runs parametric CFD sweeps (PyFluent), harvests and structures the simulation outputs, and trains a neural surrogate mapping geometry + boundary conditions to steady-state flow fields in milliseconds.",
     "impact": "~10x faster than running the physics solver, enabling rapid design iteration and demonstrating that ML can stand in for expensive physics runs inside materials/engineering design loops.",
-    "tech": "Python, TensorFlow, ANSYS Fluent (PyFluent), COMSOL, NumPy",
+    "tech": "Python, scikit-learn, ANSYS Fluent (PyFluent), POD + Gaussian Process, NumPy",
     "role": "Digital Twin / Surrogate Developer",
+    "code": "https://github.com/Th3Samaritan/CFD-ML",
     "accent": "#10B981"
   },
   {

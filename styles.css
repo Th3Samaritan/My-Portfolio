@@ -1212,6 +1212,7 @@ a {
 }
 
 @media (min-width: 1024px) {
+    .lg\:grid-2 { grid-template-columns: repeat(2, 1fr); }
     .lg\:grid-3 { grid-template-columns: repeat(3, 1fr); }
     .lg\:grid-5-col { grid-template-columns: 3fr 2fr; }
     .lg\:pt-0 { padding-top: 0; }

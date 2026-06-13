@@ -107,9 +107,11 @@
                     <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-left:0.35rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
                 <div class="cv-dropdown-menu" id="cv-dropdown-menu" role="menu">
-                    <p class="cv-dropdown-label">Choose a version</p>
-                    <a href="assets/cv-research-ai.pdf" target="_blank" download role="menuitem"><strong>Research Engineer / AI Materials</strong><span>ML · MLOps · materials discovery</span></a>
+                    <p class="cv-dropdown-label">Pick the version for your role</p>
+                    <a href="assets/cv-software-engineer.pdf" target="_blank" download role="menuitem"><strong>Software Engineer</strong><span>Backend · Full-Stack · DevOps</span></a>
+                    <a href="assets/cv-research-ai.pdf" target="_blank" download role="menuitem"><strong>AI / ML Engineer</strong><span>AI for science · MLOps · materials</span></a>
                     <a href="assets/cv-ai-researcher.pdf" target="_blank" download role="menuitem"><strong>AI Researcher</strong><span>AI for scientific discovery</span></a>
+                    <a href="assets/cv-cybersecurity.pdf" target="_blank" download role="menuitem"><strong>Security Engineer</strong><span>Pentest · Blue Team · Bug Bounty</span></a>
                     <a href="assets/cv-design-engineer.pdf" target="_blank" download role="menuitem"><strong>CAD &amp; Design Engineer</strong><span>SolidWorks · ANSYS · COMSOL</span></a>
                 </div>
             </div>
@@ -131,8 +133,10 @@
             <a href="#contact">Contact</a>
             <a href="admin.html" style="font-family: var(--font-typewriter); opacity: 0.7;">Write a Post</a>
             <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0.5rem 0 0.25rem;">Download CV</p>
-            <a href="assets/cv-research-ai.pdf" target="_blank" download style="color: var(--text-inverse); background: var(--accent); text-align: center; font-weight: 600;">Research / AI Materials</a>
+            <a href="assets/cv-software-engineer.pdf" target="_blank" download style="color: var(--text-inverse); background: var(--accent); text-align: center; font-weight: 600;">Software Engineer</a>
+            <a href="assets/cv-research-ai.pdf" target="_blank" download style="text-align: center;">AI / ML Engineer</a>
             <a href="assets/cv-ai-researcher.pdf" target="_blank" download style="text-align: center;">AI Researcher</a>
+            <a href="assets/cv-cybersecurity.pdf" target="_blank" download style="text-align: center;">Security Engineer</a>
             <a href="assets/cv-design-engineer.pdf" target="_blank" download style="text-align: center;">CAD &amp; Design Engineer</a>
         </div>
     </header>
@@ -142,7 +146,7 @@
         <section id="home" class="hero-section" style="min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; justify-content: center; padding-top: 5rem; position: relative;">
 
             <div class="container relative z-10 w-full">
-                <div class="grid lg\:grid-5-col gap-8 items-center w-full">
+                <div class="grid lg:grid-5-col gap-8 items-center w-full">
 
                     <!-- Left: Text Content -->
                     <div class="reveal" style="display:flex; flex-direction:column; gap:1.75rem;">
@@ -213,14 +217,16 @@
 
         <!-- ===== About & Counters (Side-by-Side Premium Layout) ===== -->
         <section id="about" class="section container">
-            <div class="grid lg\:grid-2 gap-8 items-center w-full">
+            <div class="grid lg:grid-2 gap-8 items-center w-full">
                 <!-- Left: Text -->
                 <div class="reveal">
                     <p class="section-label" style="text-align: left;">About Me</p>
-                    <h2 class="section-title" style="text-align: left;">Bridging Physical & Digital</h2>
+                    <h2 class="section-title" style="text-align: left;">I Build Software &amp; AI for the Physical World</h2>
                     <p class="section-desc" style="text-align: left; margin-top: 1.5rem; max-width: 100%;">
-                        I'm an innovative professional with a strong background in CAE, FEA, metallurgical engineering, security engineering, and software architecture. 
-                        By combining deep materials analysis with advanced computational modeling and secure software development, I bring a unique blend of technical expertise to solve complex, multidisciplinary problems.
+                        I'm a <strong>software and security engineer</strong> with 7+ years shipping production systems — and an <strong>AI researcher</strong> applying machine learning to real scientific problems. I was building in tech long before I formally studied engineering; my B.Eng. in <strong>Metallurgical &amp; Materials Engineering</strong> didn't replace that — it gave it a scientific foundation most engineers don't have.
+                    </p>
+                    <p class="section-desc" style="text-align: left; margin-top: 1rem; max-width: 100%;">
+                        That mix is rare and deliberate. I've deployed Kubernetes microservices and on-device mobile AI used by real users, built ML systems that predict material properties and inverse-design alloys, and run the CFD and FEA simulations those models learn from. Backend, security, machine learning, and materials science aren't separate lines on a résumé — they're one toolkit I use to take a problem from <em>raw physics to a deployed, secure product</em>.
                     </p>
                     <p style="margin-top: 1rem; color: var(--text-secondary);">
                         <a href="notebook.html" style="font-weight: 600; text-decoration: underline; text-underline-offset: 4px; color: var(--text-primary); transition: color 0.2s;">Explore my Digital Notebook →</a> <br>
@@ -229,7 +235,7 @@
                 </div>
 
                 <!-- Right: Counters Grid -->
-                <div id="counters" class="grid sm\:grid-2 gap-4 reveal" style="transition-delay: 200ms;">
+                <div id="counters" class="grid sm:grid-2 gap-4 reveal" style="transition-delay: 200ms;">
                     
                     <div class="card text-center glass-panel" style="padding: 1.5rem; transition: transform 0.3s ease; cursor: default;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
                         <h3 style="font-size: 0.8125rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">Cybersecurity</h3>
@@ -271,7 +277,7 @@
                 <p class="section-desc mx-auto">Here's a snapshot of the tools and technologies I use to bridge the physical and digital worlds.</p>
             </div>
 
-            <div class="grid grid-1 md\:grid-3 gap-8 reveal" style="max-width: 72rem; margin: 4rem auto 0;">
+            <div class="grid grid-1 md:grid-3 gap-8 reveal" style="max-width: 72rem; margin: 4rem auto 0;">
                 <!-- Materials -->
                 <div class="card" style="padding: 2rem;">
                     <div class="icon-circle" style="margin-bottom: 1rem;">
@@ -340,7 +346,7 @@
             </div>
 
             <!-- Project Grid (populated dynamically from data/projects.json) -->
-            <div id="projectGrid" class="grid grid-1 md\:grid-2 lg\:grid-3 gap-8 reveal" style="max-width: 72rem; margin: 0 auto;">
+            <div id="projectGrid" class="grid grid-1 md:grid-2 lg:grid-3 gap-8 reveal" style="max-width: 72rem; margin: 0 auto;">
                 <div class="text-center" style="grid-column: 1 / -1; padding: 2rem;">
                     <div class="preloader-spinner" style="margin: 0 auto;"></div>
                     <p style="margin-top: 0.75rem; color: var(--text-muted);">Loading projects...</p>
@@ -356,7 +362,7 @@
                 <p class="section-desc mx-auto">Independent research and development I'm actively working on. Contributions are welcome — if you'd like to get involved, let's connect.</p>
             </div>
 
-            <div id="research-grid" class="grid grid-1 md\:grid-2 gap-8 reveal" style="max-width: 72rem; margin: 4rem auto 0;">
+            <div id="research-grid" class="grid grid-1 md:grid-2 gap-8 reveal" style="max-width: 72rem; margin: 4rem auto 0;">
                 <div class="text-center" style="grid-column: 1 / -1; padding: 2rem;">
                     <div class="preloader-spinner" style="margin: 0 auto;"></div>
                     <p style="margin-top: 0.75rem; color: var(--text-muted);">Loading research...</p>
@@ -371,7 +377,7 @@
                 <h2 class="section-title">Latest Blog Posts</h2>
                 <p class="section-desc mx-auto">A place where I share my thoughts on technology, materials science, and security.</p>
             </div>
-            <div id="latest-posts" class="grid grid-1 md\:grid-3 gap-6 reveal" style="max-width: 58rem; margin: 2.5rem auto 0;">
+            <div id="latest-posts" class="grid grid-1 md:grid-3 gap-6 reveal" style="max-width: 58rem; margin: 2.5rem auto 0;">
                 <div class="text-center" style="grid-column: 1 / -1; padding: 1rem;">
                     <div class="preloader-spinner" style="margin: 0 auto;"></div>
                 </div>
@@ -392,11 +398,11 @@
                 <p class="section-desc mx-auto">Have a project in mind, a question, or just want to connect? Feel free to send me a message.</p>
             </div>
 
-            <div class="grid grid-1 md\:grid-2 gap-8 reveal" style="max-width: 72rem; margin: 4rem auto 0;">
+            <div class="grid grid-1 md:grid-2 gap-8 reveal" style="max-width: 72rem; margin: 4rem auto 0;">
 
                 <!-- Contact Form -->
                 <form action="https://formspree.io/f/mwpvgrja" method="POST" style="display: flex; flex-direction: column; gap: 1.5rem;">
-                    <div class="grid sm\:grid-2 gap-6">
+                    <div class="grid sm:grid-2 gap-6">
                         <div>
                             <label for="name" class="form-label">Your Name</label>
                             <input type="text" name="name" id="name" required class="form-input">
