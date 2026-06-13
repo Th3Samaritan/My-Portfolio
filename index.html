@@ -101,7 +101,18 @@
                 <a href="#contact" class="nav-link">Contact</a>
                 <a href="admin.html" class="nav-link" style="font-family: var(--font-typewriter); font-size: 0.8125rem; opacity: 0.5;" title="Blog Editor">Write</a>
             </div>
-            <a href="assets/my-cv.pdf" target="_blank" class="btn btn-nav-cv" download>Download CV</a>
+            <div class="cv-dropdown">
+                <button class="btn btn-nav-cv" id="cv-dropdown-btn" aria-haspopup="true" aria-expanded="false">
+                    Download CV
+                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-left:0.35rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="cv-dropdown-menu" id="cv-dropdown-menu" role="menu">
+                    <p class="cv-dropdown-label">Choose a version</p>
+                    <a href="assets/cv-research-ai.pdf" target="_blank" download role="menuitem"><strong>Research Engineer / AI Materials</strong><span>ML · MLOps · materials discovery</span></a>
+                    <a href="assets/cv-ai-researcher.pdf" target="_blank" download role="menuitem"><strong>AI Researcher</strong><span>AI for scientific discovery</span></a>
+                    <a href="assets/cv-design-engineer.pdf" target="_blank" download role="menuitem"><strong>CAD &amp; Design Engineer</strong><span>SolidWorks · ANSYS · COMSOL</span></a>
+                </div>
+            </div>
 
             <button id="mobile-menu-button" class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
                 <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -119,7 +130,10 @@
             <a href="notebook.html">Notebook</a>
             <a href="#contact">Contact</a>
             <a href="admin.html" style="font-family: var(--font-typewriter); opacity: 0.7;">Write a Post</a>
-            <a href="assets/my-cv.pdf" target="_blank" download style="color: var(--text-inverse); background: var(--accent); text-align: center; font-weight: 600;">Download CV</a>
+            <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0.5rem 0 0.25rem;">Download CV</p>
+            <a href="assets/cv-research-ai.pdf" target="_blank" download style="color: var(--text-inverse); background: var(--accent); text-align: center; font-weight: 600;">Research / AI Materials</a>
+            <a href="assets/cv-ai-researcher.pdf" target="_blank" download style="text-align: center;">AI Researcher</a>
+            <a href="assets/cv-design-engineer.pdf" target="_blank" download style="text-align: center;">CAD &amp; Design Engineer</a>
         </div>
     </header>
 
@@ -325,61 +339,12 @@
                 <button class="filter-btn" onclick="filterProjects(event, 'cybersecurity')">Cybersecurity</button>
             </div>
 
-            <!-- Project Grid -->
+            <!-- Project Grid (populated dynamically from data/projects.json) -->
             <div id="projectGrid" class="grid grid-1 md\:grid-2 lg\:grid-3 gap-8 reveal" style="max-width: 72rem; margin: 0 auto;">
-
-                <!-- Project Card: Cybersecurity -->
-                <div class="card card-clickable" data-category="cybersecurity" onclick="showProjectModal('cybersecurity')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')showProjectModal('cybersecurity')">
-                    <div class="relative">
-                        <img src="assets/cybersecurity-project.jpg" alt="Cybersecurity Project" class="project-img" loading="lazy">
-                        <span class="project-card-tag">Cybersecurity</span>
-                    </div>
-                    <div style="padding: 1.5rem;">
-                        <h3 style="font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem;">Advanced Pentesting & Automation</h3>
-                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">API security assessments and custom automation scripts to enhance pentesting efficiency.</p>
-                        <span style="font-size: 0.8125rem; font-weight: 500; color: var(--text-muted);">View Details →</span>
-                    </div>
+                <div class="text-center" style="grid-column: 1 / -1; padding: 2rem;">
+                    <div class="preloader-spinner" style="margin: 0 auto;"></div>
+                    <p style="margin-top: 0.75rem; color: var(--text-muted);">Loading projects...</p>
                 </div>
-
-                <!-- Project Card: Software -->
-                <div class="card card-clickable" data-category="software" onclick="showProjectModal('software')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')showProjectModal('software')">
-                    <div class="relative">
-                        <img src="assets/software-project.jpg" alt="Software Project" class="project-img" loading="lazy">
-                        <span class="project-card-tag">Software</span>
-                    </div>
-                    <div style="padding: 1.5rem;">
-                        <h3 style="font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem;">Scalable Microservices Platform</h3>
-                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">A robust microservices architecture for a high-availability fintech application.</p>
-                        <span style="font-size: 0.8125rem; font-weight: 500; color: var(--text-muted);">View Details →</span>
-                    </div>
-                </div>
-
-                <!-- Project Card: ML -->
-                <div class="card card-clickable" data-category="software" onclick="showProjectModal('ml')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')showProjectModal('ml')">
-                    <div class="relative">
-                        <img src="assets/ml-project.jpg" alt="ML Project" class="project-img" loading="lazy">
-                        <span class="project-card-tag">Software & ML</span>
-                    </div>
-                    <div style="padding: 1.5rem;">
-                        <h3 style="font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem;">Predictive AI Models (CV & NLP)</h3>
-                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">Deployed CV models for industry and NLP models for academic research analysis.</p>
-                        <span style="font-size: 0.8125rem; font-weight: 500; color: var(--text-muted);">View Details →</span>
-                    </div>
-                </div>
-
-                <!-- Project Card: Materials -->
-                <div class="card card-clickable" data-category="materials" onclick="showProjectModal('materials')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')showProjectModal('materials')">
-                    <div class="relative">
-                        <img src="assets/materials-project.jpg" alt="Materials Project" class="project-img" loading="lazy">
-                        <span class="project-card-tag">Materials</span>
-                    </div>
-                    <div style="padding: 1.5rem;">
-                        <h3 style="font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem;">UAV Design & Composite Simulation</h3>
-                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">Design, fabrication, and aerodynamic/failure analysis of carbon-fiber UAVs.</p>
-                        <span style="font-size: 0.8125rem; font-weight: 500; color: var(--text-muted);">View Details →</span>
-                    </div>
-                </div>
-
             </div>
         </section>
 
@@ -567,7 +532,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <img id="modalImage" src="" alt="Project Image" class="modal-img">
+                <img id="modalImage" src="" alt="Project Image" class="modal-img" style="display:none;">
+                <div id="modalBanner" class="modal-img" style="display:none; align-items:center; justify-content:center;"></div>
 
                 <div class="flex flex-wrap" style="gap: 0.5rem;">
                     <span class="tag flex items-center" style="gap: 0.25rem;">Role: <strong id="modalRole"></strong></span>
@@ -587,9 +553,7 @@
                     <p id="modalImpact" style="color: var(--text-secondary);"></p>
                 </div>
 
-                <div id="gallery-link-container" class="hidden" style="padding-top: 1rem; border-top: 1px solid var(--border);">
-                    <a href="gallery.html" class="btn btn-primary w-full">View 3D Model Gallery →</a>
-                </div>
+                <div id="modalLinks" class="flex flex-wrap" style="gap: 0.75rem; padding-top: 1rem; border-top: 1px solid var(--border);"></div>
             </div>
         </div>
     </div>
@@ -599,84 +563,133 @@
 
     <!-- ===== Page-Specific JS ===== -->
     <script>
-        const projectDetails = {
-            cybersecurity: {
-                title: 'Advanced Pentesting & Automation',
-                problem: 'Routine penetration tests were time-consuming and prone to missing complex, chained vulnerabilities. Standard tools lacked context for specific API business logic.',
-                desc: 'Developed a suite of custom automation scripts (Bash, Python) to streamline reconnaissance and vulnerability scanning, increasing test coverage. Conducted deep-dive API security assessments, identifying and exploiting business logic flaws.',
-                impact: 'Reduced manual testing time by 40%. Discovered several critical API vulnerabilities (e.g., IDOR, improper access control) that automated scanners missed, preventing potential data breaches.',
-                tech: 'Python, Bash, Burp Suite, Postman, API Security',
-                role: 'Penetration Tester / Security Engineer',
-                img: 'assets/cybersecurity-project.jpg',
-                is3D: false
-            },
-            software: {
-                title: 'Scalable Microservices Platform',
-                problem: 'A monolithic fintech application was struggling with scaling bottlenecks during peak-hour traffic.',
-                desc: 'Led the design and migration to a microservices architecture. Decomposed the monolith into independent, containerized services communicating via APIs and a message queue.',
-                impact: 'Improved system scalability by 200%, handling 10x peak user loads. Reduced API latency by 40% and enabled independent, zero-downtime deployments.',
-                tech: 'Node.js, Docker, Kubernetes, AWS, Java',
-                role: 'Lead Software Engineer',
-                img: 'assets/software-project.jpg',
-                is3D: false
-            },
-            ml: {
-                title: 'Predictive AI Models (CV & NLP)',
-                problem: 'Clients in fashion/food needed automated classification. Researchers were struggling to manually sift through thousands of papers.',
-                desc: 'Built and deployed multiple TensorFlow models. For industry: A CV model to classify clothing and food items. For academia: An NLP model for semantic analysis and entity extraction.',
-                impact: 'CV model automated product tagging with 92% accuracy. NLP tool accelerated literature review tasks by 80%.',
-                tech: 'Python, TensorFlow, Keras, CV, NLP, Scikit-learn',
-                role: 'ML Engineer',
-                img: 'assets/ml-project.jpg',
-                is3D: false
-            },
-            materials: {
-                title: 'UAV Design & Composite Simulation',
-                problem: 'Standard UAV frames were too heavy and failed under high-stress, long-endurance flight profiles.',
-                desc: 'Designed a custom UAV airframe in SolidWorks and fabricated it using lightweight carbon-fiber composites. Performed extensive FEA in Ansys and CFD analysis to optimize aerodynamics.',
-                impact: 'Final design was 30% lighter with 2.5x increase in structural integrity under simulated flight loads.',
-                tech: 'SolidWorks, Ansys (FEA, CFD), Carbon Fiber, 3D Printing',
-                role: 'Materials & Design Engineer',
-                img: 'assets/materials-project.jpg',
-                is3D: true
-            }
-        };
+        // === CV dropdown ===
+        (function initCvDropdown() {
+            const btn = document.getElementById('cv-dropdown-btn');
+            const menu = document.getElementById('cv-dropdown-menu');
+            if (!btn || !menu) return;
+            const close = () => { menu.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); };
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const open = menu.classList.toggle('open');
+                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            });
+            document.addEventListener('click', (e) => { if (!menu.contains(e.target) && e.target !== btn) close(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+            menu.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+        })();
 
         const modal = document.getElementById('projectModal');
-        const galleryLinkContainer = document.getElementById('gallery-link-container');
+        let projectsData = [];
 
-        window.filterProjects = function(event, category) {
-            const cards = document.querySelectorAll('#projectGrid .card');
-            const buttons = document.querySelectorAll('.filter-btn');
-
-            buttons.forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            cards.forEach(card => {
-                const cat = card.getAttribute('data-category');
-                card.style.display = (category === 'all' || cat === category) ? 'block' : 'none';
-            });
+        // Category metadata: filter key -> display label + icon path
+        const categoryMeta = {
+            materials:     { label: 'Materials & Simulation', icon: 'M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2 1m0 0l-2-1m2 1v2.5M3 15l2 1m0 0l2-1m-2 1v2.5M3 12l2 1m0 0l2-1m-2 1v2.5M3 9l2 1m0 0l2-1m-2 1v2.5' },
+            software:      { label: 'Software & ML',          icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4' },
+            cybersecurity: { label: 'Cybersecurity',          icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z' }
         };
 
-        window.showProjectModal = function(category) {
-            const d = projectDetails[category];
+        const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+        const linkIcons = {
+            demo: '<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>',
+            code: '<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>',
+            gallery: '<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>'
+        };
+
+        function primaryCategory(catStr) {
+            const first = (catStr || '').split(/\s+/)[0];
+            return categoryMeta[first] ? first : 'software';
+        }
+
+        // Gradient placeholder thumbnail keyed on the project accent colour
+        function thumbHtml(p) {
+            const cat = primaryCategory(p.category);
+            const accent = p.accent || '#525252';
+            return `
+                <div class="project-thumb" style="background:
+                    radial-gradient(120% 120% at 15% 10%, ${accent}33 0%, transparent 55%),
+                    radial-gradient(120% 120% at 90% 90%, ${accent}26 0%, transparent 50%),
+                    var(--bg-secondary);">
+                    <svg class="project-thumb-icon" style="color:${accent};" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="${categoryMeta[cat].icon}"></path></svg>
+                </div>`;
+        }
+
+        function liveBadge(p) {
+            return p.demo ? `<span class="project-live-badge"><span class="project-live-dot"></span>Live</span>` : '';
+        }
+
+        function renderProjects(list) {
+            const grid = document.getElementById('projectGrid');
+            grid.classList.add('visible'); // ensure the dynamically-filled grid is never left hidden by the reveal observer
+            if (!list.length) {
+                grid.innerHTML = '<p class="text-center" style="color:var(--text-muted);grid-column:1/-1;">No projects found.</p>';
+                return;
+            }
+            grid.innerHTML = list.map(p => {
+                const cat = primaryCategory(p.category);
+                const tags = (p.tags || []).slice(0, 3).map(t => `<span class="project-mini-tag">${esc(t)}</span>`).join('');
+                return `
+                <div class="card card-clickable" data-category="${esc(p.category)}" onclick="showProjectModal('${esc(p.slug)}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')showProjectModal('${esc(p.slug)}')">
+                    <div class="relative">
+                        ${thumbHtml(p)}
+                        <span class="project-card-tag">${esc(categoryMeta[cat].label)}</span>
+                        ${liveBadge(p)}
+                    </div>
+                    <div style="padding: 1.5rem; display:flex; flex-direction:column; height:calc(100% - 11rem);">
+                        <h3 style="font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem;">${esc(p.title)}</h3>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem; flex:1;">${esc(p.blurb)}</p>
+                        <div class="flex flex-wrap" style="gap:0.375rem; margin-bottom:1rem;">${tags}</div>
+                        <span style="font-size: 0.8125rem; font-weight: 600; color: var(--text-primary);">View Details →</span>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        window.filterProjects = function(event, category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            const filtered = category === 'all'
+                ? projectsData
+                : projectsData.filter(p => (p.category || '').split(/\s+/).includes(category));
+            renderProjects(filtered);
+        };
+
+        window.showProjectModal = function(slug) {
+            const d = projectsData.find(p => p.slug === slug);
             if (!d) return;
 
             document.getElementById('modalTitle').innerText = d.title;
-            document.getElementById('modalRole').innerText = d.role;
-            document.getElementById('modalTech').innerText = d.tech;
-            document.getElementById('modalProblem').innerText = d.problem;
-            document.getElementById('modalDesc').innerText = d.desc;
-            document.getElementById('modalImpact').innerText = d.impact;
-            document.getElementById('modalImage').src = d.img;
+            document.getElementById('modalRole').innerText = d.role || '—';
+            document.getElementById('modalTech').innerText = d.tech || '—';
+            document.getElementById('modalProblem').innerText = d.problem || '';
+            document.getElementById('modalDesc').innerText = d.solution || d.desc || '';
+            document.getElementById('modalImpact').innerText = d.impact || '';
 
-            if (d.is3D) {
-                galleryLinkContainer.classList.remove('hidden');
+            // Hero: real image if present, else gradient banner
+            const img = document.getElementById('modalImage');
+            const banner = document.getElementById('modalBanner');
+            if (d.img) {
+                img.src = d.img; img.style.display = 'block';
+                if (banner) banner.style.display = 'none';
             } else {
-                galleryLinkContainer.classList.add('hidden');
+                img.style.display = 'none';
+                if (banner) {
+                    const accent = d.accent || '#525252';
+                    banner.style.display = 'flex';
+                    banner.style.background = `radial-gradient(120% 120% at 15% 10%, ${accent}40 0%, transparent 55%), radial-gradient(120% 120% at 90% 90%, ${accent}2e 0%, transparent 50%), var(--bg-secondary)`;
+                    banner.innerHTML = `<svg style="width:3.5rem;height:3.5rem;color:${accent};" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="${categoryMeta[primaryCategory(d.category)].icon}"></path></svg>`;
+                }
             }
+
+            // Links: Live Demo / Code / Gallery
+            const links = [];
+            if (d.demo) links.push(`<a href="${esc(d.demo)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">${linkIcons.demo} Live Demo</a>`);
+            if (d.code) links.push(`<a href="${esc(d.code)}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">${linkIcons.code} View Code</a>`);
+            if (d.gallery) links.push(`<a href="${esc(d.gallery)}" class="btn btn-secondary">${linkIcons.gallery} 3D Gallery</a>`);
+            const linksEl = document.getElementById('modalLinks');
+            linksEl.innerHTML = links.join('');
+            linksEl.style.display = links.length ? 'flex' : 'none';
 
             modal.classList.add('open');
             document.body.style.overflow = 'hidden';
@@ -689,6 +702,19 @@
             }
             event.stopPropagation();
         };
+
+        // === Load Projects Dynamically ===
+        (async function loadProjects() {
+            try {
+                const res = await fetch('data/projects.json');
+                if (!res.ok) throw new Error('Failed to load projects');
+                projectsData = await res.json();
+                renderProjects(projectsData);
+            } catch (e) {
+                console.error('Failed to load projects:', e);
+                document.getElementById('projectGrid').innerHTML = '<p class="text-center" style="color:var(--text-muted);grid-column:1/-1;">Failed to load projects.</p>';
+            }
+        })();
 
         // === Load Research Data Dynamically ===
         (async function loadResearch() {
