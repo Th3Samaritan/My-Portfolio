@@ -44,6 +44,19 @@
     "accent": "#F97316"
   },
   {
+    "slug": "qwen-editor",
+    "title": "Qwen Editor — AI IDE in Rust",
+    "category": "software",
+    "tags": ["Rust", "llama.cpp", "Local LLM", "Tree-sitter"],
+    "blurb": "A from-scratch code editor/IDE written in Rust with a fully local AI assistant — inline completion and chat powered by an LLM I distilled myself, running offline on your own machine.",
+    "problem": "Cloud AI coding assistants send your source to third-party servers, bill per token, and stop working offline. I wanted a real editor with a capable AI built in that runs entirely on local hardware, privately and for free.",
+    "solution": "Built a Rust editor with a ratatui TUI plus a Monaco-based desktop GUI: tree-sitter syntax highlighting for 15+ languages, an LSP client, git integration, a Jupyter viewer, and a compiler/runner. The AI layer talks to a local llama.cpp server exposing an OpenAI-compatible API for inline completion and chat. To fit a strong model on consumer hardware, I knowledge-distilled Qwen3.5 from 27B down to a 9B variant and quantised it to GGUF.",
+    "impact": "A private, offline, zero-cost AI coding assistant where no code ever leaves the machine — demonstrating Rust systems programming, real IDE architecture, and the full local-LLM stack from model distillation and quantisation through to editor integration.",
+    "tech": "Rust, ratatui, tree-sitter, tokio, llama.cpp, GGUF, Monaco, OpenAI-compatible API",
+    "role": "Creator / Systems & ML Engineer",
+    "accent": "#D97706"
+  },
+  {
     "slug": "cfd-ml-surrogate",
     "title": "CFD-ML — Simulation Surrogate / Digital Twin",
     "category": "materials software",
