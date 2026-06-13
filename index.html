@@ -573,16 +573,21 @@
         (function initCvDropdown() {
             const btn = document.getElementById('cv-dropdown-btn');
             const menu = document.getElementById('cv-dropdown-menu');
-            if (!btn || !menu) return;
-            const close = () => { menu.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); };
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const open = menu.classList.toggle('open');
+            const wrap = btn && btn.closest('.cv-dropdown');
+            if (!btn || !menu || !wrap) return;
+            const setOpen = (open) => {
+                menu.classList.toggle('open', open);
                 btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            };
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                setOpen(!menu.classList.contains('open'));
             });
-            document.addEventListener('click', (e) => { if (!menu.contains(e.target) && e.target !== btn) close(); });
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
-            menu.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+            // Close on any click outside the dropdown wrapper (button + menu)
+            document.addEventListener('click', (e) => { if (!wrap.contains(e.target)) setOpen(false); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+            menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+            window.addEventListener('scroll', () => setOpen(false), { passive: true });
         })();
 
         const modal = document.getElementById('projectModal');
