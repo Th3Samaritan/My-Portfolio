@@ -54,7 +54,22 @@
     "impact": "A private, offline, zero-cost AI coding assistant where no code ever leaves the machine — demonstrating Rust systems programming, real IDE architecture, and the full local-LLM stack from model distillation and quantisation through to editor integration.",
     "tech": "Rust, ratatui, tree-sitter, tokio, llama.cpp, GGUF, Monaco, OpenAI-compatible API",
     "role": "Creator / Systems & ML Engineer",
+    "code": "https://github.com/Th3Samaritan/qwen-editor",
     "accent": "#D97706"
+  },
+  {
+    "slug": "samaritanx",
+    "title": "SamaritanX — Agentic Bug-Bounty Framework",
+    "category": "cybersecurity software",
+    "tags": ["Python", "Async Agents", "Playwright", "Offensive Security"],
+    "blurb": "An async, multi-agent bug-bounty framework I built from scratch: recon → crawl → 12-category vulnerability scanning → logic abuse → exploit-chain synthesis → auto-generated Markdown/PDF reports.",
+    "problem": "Bug-bounty work is a sprawl of disconnected tools run by hand — coverage is inconsistent, scope is easy to violate, and turning raw findings into proven, chained exploits is slow and manual.",
+    "solution": "Built a framework where every stage (recon, discovery, crawl, vuln, logic, exploit, reporting) is an asynchronous agent that communicates only through a shared priority task queue, with shared services — a stealth HTTP client, payload engine, memory layer, and live dashboard — injected via context. Scope is enforced at the HTTP boundary so out-of-scope requests never leave; blind bugs are proven with an interactsh OOB collaborator; findings compile into MD + PDF reports with reproduction walkthroughs. Adding a scanner or agent is a drop-in.",
+    "impact": "An authorization-gated pipeline covering 12+ vulnerability classes — SQLi, reflected & real-browser DOM XSS, SSRF (cloud-metadata + OOB), IDOR/BOLA with second-session testing, HTTP request smuggling, SSTI/RCE, the API Top-10, LLM prompt injection, and 25-service subdomain-takeover — plus 8 exploit-chaining rules (e.g. SSRF→IMDS, upload→RCE).",
+    "tech": "Python (asyncio), Playwright, interactsh (OOB), nuclei, tree-sitter, ReportLab",
+    "role": "Creator / Security Engineer",
+    "code": "https://github.com/Th3Samaritan/SamaritanX",
+    "accent": "#BE123C"
   },
   {
     "slug": "cfd-ml-surrogate",
