@@ -1,5 +1,20 @@
 [
   {
+    "slug": "ai4science-continuous-learning",
+    "title": "AI4Science — Verification Over Memorization",
+    "category": "materials software",
+    "tags": ["Reinforcement Learning", "Continuous Learning", "PyTorch", "RAG"],
+    "blurb": "A research exploration proving that AI can master physics via continuous learning, RAG, and RL rather than static dataset memorization.",
+    "problem": "Current Big Data AI relies on memorization, leading to catastrophic forgetting in non-stationary environments where the rules of the universe change.",
+    "solution": "Built unbiased, non-stationary physics environments and tested four continuous learning architectures: EWC, Episodic Experience Replay, OGD, and Progressive Neural Networks (PNN). Empirically proved that RAG/RL alone fail without dynamic structural expansion.",
+    "impact": "Provides a rigorous, mathematically sound proof that true zero-interference continuous learning requires Dynamic Structural Expansion rather than just software routing. Detailed in a peer-review-quality thesis blog.",
+    "tech": "Python, PyTorch, Reinforcement Learning, RAG, Progressive Neural Networks",
+    "role": "AI Researcher / Engineer",
+    "demo": "https://Th3Samaritan.github.io/AI-Research/",
+    "code": "https://github.com/Th3Samaritan/AI-Research",
+    "accent": "#E11D48"
+  },
+  {
     "slug": "mast-inverse-design",
     "title": "MAST — Materials Inverse Design (RL)",
     "category": "materials software",
