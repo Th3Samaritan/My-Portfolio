@@ -1,68 +1,14 @@
 [
   {
-    "slug": "ai4science-continuous-learning",
-    "title": "AI4Science — Verification Over Memorization",
-    "category": "materials software",
-    "tags": ["Reinforcement Learning", "Continuous Learning", "PyTorch", "RAG"],
-    "blurb": "A research exploration proving that AI can master physics via continuous learning, RAG, and RL rather than static dataset memorization.",
-    "problem": "Current Big Data AI relies on memorization, leading to catastrophic forgetting in non-stationary environments where the rules of the universe change.",
-    "solution": "Built unbiased, non-stationary physics environments and tested four continuous learning architectures: EWC, Episodic Experience Replay, OGD, and Progressive Neural Networks (PNN). Empirically proved that RAG/RL alone fail without dynamic structural expansion.",
-    "impact": "Provides a rigorous, mathematically sound proof that true zero-interference continuous learning requires Dynamic Structural Expansion rather than just software routing. Detailed in a peer-review-quality thesis blog.",
-    "tech": "Python, PyTorch, Reinforcement Learning, RAG, Progressive Neural Networks",
-    "role": "AI Researcher / Engineer",
-    "demo": "https://Th3Samaritan.github.io/AI-Research/",
-    "code": "https://github.com/Th3Samaritan/AI-Research",
-    "accent": "#E11D48"
-  },
-  {
-    "slug": "mast-inverse-design",
-    "title": "MAST — Materials Inverse Design (RL)",
-    "category": "materials software",
-    "tags": ["Reinforcement Learning", "PyTorch", "Streamlit", "Materials Informatics"],
-    "blurb": "An inverse-design engine: enter the mechanical properties you want, and a reinforcement-learning agent proposes the steel composition and heat-treatment route to achieve them.",
-    "problem": "Designing a steel to hit a target set of mechanical properties is normally trial-and-error across a huge composition + heat-treatment space — slow, expensive, and dependent on metallurgist intuition.",
-    "solution": "Built a policy-gradient RL agent (PPO) that searches over composition and heat-treatment actions, rewarded by a feed-forward MLP ensemble 'forward model' that predicts resulting properties with uncertainty. Benchmarked against a KNN baseline and served through an interactive Streamlit app.",
-    "impact": "Turns property targets directly into ranked, actionable process recipes (austenitize → quench → temper) with uncertainty estimates — the core loop of autonomous experiment planning. Deployed and publicly usable.",
-    "tech": "Python, PyTorch, PPO / Policy Gradients, Scikit-learn, Streamlit",
-    "role": "ML Researcher / Engineer",
-    "demo": "https://mast-rl.streamlit.app",
-    "accent": "#6366F1"
-  },
-  {
-    "slug": "mast-steel-prediction",
-    "title": "MAST — Steel Property Prediction",
-    "category": "materials software",
-    "tags": ["XGBoost", "SHAP", "Streamlit", "B.Eng. Thesis"],
-    "blurb": "A composition-to-property prediction pipeline that estimates the mechanical properties of steel from its chemistry and processing — the basis of my B.Eng. thesis (90%+ accuracy).",
-    "problem": "Measuring mechanical properties (tensile, hardness, fatigue) experimentally for every candidate steel is costly and slow, bottlenecking materials screening.",
-    "solution": "End-to-end ML pipeline from raw iron-carbon phase-diagram and composition data through feature engineering, model training (XGBoost), and SHAP explainability — exposing which features drive each prediction. Deployed as a live Streamlit tool.",
-    "impact": "Achieved 90%+ prediction accuracy on held-out data and made the model interpretable via SHAP, so predictions are trustworthy rather than black-box. Awarded the 2024 Computational Materials Engineer Class Award.",
-    "tech": "Python, XGBoost, Scikit-learn, SHAP, Pandas, Streamlit",
-    "role": "Researcher (Thesis)",
-    "demo": "https://mast-steel.streamlit.app",
-    "code": "https://github.com/Th3Samaritan/MAST-FYP",
-    "accent": "#0EA5E9"
-  },
-  {
-    "slug": "mast-corrosion-pinn",
-    "title": "MAST — Galvanic Corrosion PINN",
-    "category": "materials software",
-    "tags": ["Physics-Informed NN", "PyTorch Geometric", "Graph NN", "Streamlit"],
-    "blurb": "A physics-informed graph neural network that predicts galvanic corrosion behaviour in multi-material assemblies, with the electrochemistry enforced inside the loss function.",
-    "problem": "Galvanic corrosion between dissimilar metals is hard to predict from data alone — purely statistical models can produce physically impossible results on unseen material pairs.",
-    "solution": "Built a graph PINN (PyTorch Geometric) treating materials as nodes and joints as edges, with Kirchhoff's Current Law and thermodynamic-consistency penalties baked into the loss. Predicts galvanic current density and material compatibility, served via a Streamlit dashboard with a full galvanic-series reference.",
-    "impact": "Produces physically plausible corrosion predictions even for material pairs never seen in training — useful for real engineering material-selection decisions. Deployed and publicly usable.",
-    "tech": "Python, PyTorch, PyTorch Geometric, NNConv / Graph NN, Streamlit",
-    "role": "ML Researcher / Engineer",
-    "demo": "https://mast-corrosion.streamlit.app",
-    "code": "https://github.com/Th3Samaritan/MAST-Corrosion",
-    "accent": "#F97316"
-  },
-  {
     "slug": "qwen-editor",
     "title": "Qwen Editor — AI IDE in Rust",
     "category": "software",
-    "tags": ["Rust", "llama.cpp", "Local LLM", "Tree-sitter"],
+    "tags": [
+      "Rust",
+      "llama.cpp",
+      "Local LLM",
+      "Tree-sitter"
+    ],
     "blurb": "A from-scratch code editor/IDE written in Rust with a fully local AI assistant — inline completion and chat powered by an LLM I distilled myself, running offline on your own machine.",
     "problem": "Cloud AI coding assistants send your source to third-party servers, bill per token, and stop working offline. I wanted a real editor with a capable AI built in that runs entirely on local hardware, privately and for free.",
     "solution": "Built a Rust editor with a ratatui TUI plus a Monaco-based desktop GUI: tree-sitter syntax highlighting for 15+ languages, an LSP client, git integration, a Jupyter viewer, and a compiler/runner. The AI layer talks to a local llama.cpp server exposing an OpenAI-compatible API for inline completion and chat. To fit a strong model on consumer hardware, I knowledge-distilled Qwen3.5 from 27B down to a 9B variant and quantised it to GGUF.",
@@ -76,7 +22,12 @@
     "slug": "samaritanx",
     "title": "SamaritanX — Agentic Bug-Bounty Framework",
     "category": "cybersecurity software",
-    "tags": ["Python", "Async Agents", "Playwright", "Offensive Security"],
+    "tags": [
+      "Python",
+      "Async Agents",
+      "Playwright",
+      "Offensive Security"
+    ],
     "blurb": "An async, multi-agent bug-bounty framework I built from scratch: recon → crawl → 12-category vulnerability scanning → logic abuse → exploit-chain synthesis → auto-generated Markdown/PDF reports.",
     "problem": "Bug-bounty work is a sprawl of disconnected tools run by hand — coverage is inconsistent, scope is easy to violate, and turning raw findings into proven, chained exploits is slow and manual.",
     "solution": "Built a framework where every stage (recon, discovery, crawl, vuln, logic, exploit, reporting) is an asynchronous agent that communicates only through a shared priority task queue, with shared services — a stealth HTTP client, payload engine, memory layer, and live dashboard — injected via context. Scope is enforced at the HTTP boundary so out-of-scope requests never leave; blind bugs are proven with an interactsh OOB collaborator; findings compile into MD + PDF reports with reproduction walkthroughs. Adding a scanner or agent is a drop-in.",
@@ -87,24 +38,74 @@
     "accent": "#BE123C"
   },
   {
-    "slug": "cfd-ml-surrogate",
-    "title": "CFD-ML — Simulation Surrogate / Digital Twin",
+    "slug": "ai4science-continuous-learning",
+    "title": "AI4Science — Verification Over Memorization",
+    "category": "software",
+    "tags": [
+      "Reinforcement Learning",
+      "Continuous Learning",
+      "PyTorch",
+      "RAG"
+    ],
+    "blurb": "A research exploration proving that AI can master physics via continuous learning, RAG, and RL rather than static dataset memorization.",
+    "problem": "Current Big Data AI relies on memorization, leading to catastrophic forgetting in non-stationary environments where the rules of the universe change.",
+    "solution": "Built unbiased, non-stationary physics environments and tested four continuous learning architectures: EWC, Episodic Experience Replay, OGD, and Progressive Neural Networks (PNN). Empirically proved that RAG/RL alone fail without dynamic structural expansion.",
+    "impact": "Provides a rigorous, mathematically sound proof that true zero-interference continuous learning requires Dynamic Structural Expansion rather than just software routing. Detailed in a peer-review-quality thesis blog.",
+    "tech": "Python, PyTorch, Reinforcement Learning, RAG, Progressive Neural Networks",
+    "role": "AI Researcher / Engineer",
+    "demo": "https://Th3Samaritan.github.io/AI-Research/",
+    "code": "https://github.com/Th3Samaritan/AI-Research",
+    "accent": "#E11D48"
+  },
+  {
+    "slug": "enterprise-management-system",
+    "title": "Enterprise Management System",
+    "category": "software",
+    "tags": [
+      "FastAPI",
+      "React.js",
+      "Kubernetes",
+      "MLOps"
+    ],
+    "blurb": "A cloud-native enterprise management platform with automated ML-powered data pipelines, deployed on Kubernetes and serving 100+ users.",
+    "problem": "An organisation needed a scalable internal platform that combined day-to-day management with automated, ML-driven data processing — without fragile manual workflows.",
+    "solution": "Architected and deployed a FastAPI + React.js system on Kubernetes with containerised ML microservices, CI/CD, monitoring, and REST inference endpoints — a full MLOps lifecycle from experiment to production.",
+    "impact": "Production cloud-native infrastructure serving 100+ users with automated ML pipelines, zero-downtime deployments, and observability built in.",
+    "tech": "FastAPI, React.js, Docker, Kubernetes, MongoDB, CI/CD, Nginx",
+    "role": "Lead Software / Platform Engineer",
+    "accent": "#3B82F6"
+  },
+  {
+    "slug": "mast-steel-prediction",
+    "title": "MAST — Steel Property Prediction",
     "category": "materials software",
-    "tags": ["Surrogate Model", "Digital Twin", "TensorFlow", "ANSYS / COMSOL"],
-    "blurb": "A neural-network surrogate that replaces expensive CFD solver runs — a working digital twin achieving roughly 10x speedup while keeping engineering-grade accuracy.",
-    "problem": "Iterative design needs hundreds of CFD evaluations, but each high-fidelity COMSOL / ANSYS Fluent run is computationally expensive, making design sweeps painfully slow.",
-    "solution": "Built an automated pipeline that runs parametric CFD sweeps (PyFluent), harvests and structures the simulation outputs, and trains a neural surrogate mapping geometry + boundary conditions to steady-state flow fields in milliseconds.",
-    "impact": "~10x faster than running the physics solver, enabling rapid design iteration and demonstrating that ML can stand in for expensive physics runs inside materials/engineering design loops.",
-    "tech": "Python, scikit-learn, ANSYS Fluent (PyFluent), POD + Gaussian Process, NumPy",
-    "role": "Digital Twin / Surrogate Developer",
-    "code": "https://github.com/Th3Samaritan/CFD-ML",
-    "accent": "#10B981"
+    "tags": [
+      "XGBoost",
+      "SHAP",
+      "Streamlit",
+      "B.Eng. Thesis"
+    ],
+    "blurb": "A composition-to-property prediction pipeline that estimates the mechanical properties of steel from its chemistry and processing — the basis of my B.Eng. thesis (90%+ accuracy).",
+    "problem": "Measuring mechanical properties (tensile, hardness, fatigue) experimentally for every candidate steel is costly and slow, bottlenecking materials screening.",
+    "solution": "End-to-end ML pipeline from raw iron-carbon phase-diagram and composition data through feature engineering, model training (XGBoost), and SHAP explainability — exposing which features drive each prediction. Deployed as a live Streamlit tool.",
+    "impact": "Achieved 90%+ prediction accuracy on held-out data and made the model interpretable via SHAP, so predictions are trustworthy rather than black-box. Awarded the 2024 Computational Materials Engineer Class Award.",
+    "tech": "Python, XGBoost, Scikit-learn, SHAP, Pandas, Streamlit",
+    "role": "Researcher (Thesis)",
+    "demo": "https://mast-steel.streamlit.app",
+    "coldStart": true,
+    "code": "https://github.com/Th3Samaritan/MAST-FYP",
+    "accent": "#0EA5E9"
   },
   {
     "slug": "opsonic-acoustic-security",
     "title": "OPsonic — Acoustic Threat Detection",
     "category": "cybersecurity software",
-    "tags": ["Audio AI", "Transformer (AST)", "CNN+LSTM", "Production API"],
+    "tags": [
+      "Audio AI",
+      "Transformer (AST)",
+      "CNN+LSTM",
+      "Production API"
+    ],
     "blurb": "An audio-security intelligence system that classifies threat sounds — gunshots, glass breaking, sirens — from raw audio, built for DataVessel Lab.",
     "problem": "Physical-security monitoring needs to recognise dangerous acoustic events in real time, reliably, across noisy real-world environments.",
     "solution": "Designed a full ML pipeline (data → spectrogram features → model → REST microservice). Trained an Audio Spectrogram Transformer on UrbanSound8K + ESC-50 security subsets with fold-based validation to prevent leakage, containerised with Docker and deployed as a production inference API.",
@@ -114,10 +115,36 @@
     "accent": "#EF4444"
   },
   {
+    "slug": "mast-corrosion-pinn",
+    "title": "MAST — Galvanic Corrosion PINN",
+    "category": "materials software",
+    "tags": [
+      "Physics-Informed NN",
+      "PyTorch Geometric",
+      "Graph NN",
+      "Streamlit"
+    ],
+    "blurb": "A physics-informed graph neural network that predicts galvanic corrosion behaviour in multi-material assemblies, with the electrochemistry enforced inside the loss function.",
+    "problem": "Galvanic corrosion between dissimilar metals is hard to predict from data alone — purely statistical models can produce physically impossible results on unseen material pairs.",
+    "solution": "Built a graph PINN (PyTorch Geometric) treating materials as nodes and joints as edges, with Kirchhoff's Current Law and thermodynamic-consistency penalties baked into the loss. Predicts galvanic current density and material compatibility, served via a Streamlit dashboard with a full galvanic-series reference.",
+    "impact": "Produces physically plausible corrosion predictions even for material pairs never seen in training — useful for real engineering material-selection decisions. Deployed and publicly usable.",
+    "tech": "Python, PyTorch, PyTorch Geometric, NNConv / Graph NN, Streamlit",
+    "role": "ML Researcher / Engineer",
+    "demo": "https://mast-corrosion.streamlit.app",
+    "coldStart": true,
+    "code": "https://github.com/Th3Samaritan/MAST-Corrosion",
+    "accent": "#F97316"
+  },
+  {
     "slug": "fajrguard",
     "title": "FajrGuard — On-Device AI Prayer Guardian",
     "category": "software",
-    "tags": ["React Native", "On-Device CNN", "TensorFlow Lite", "Mobile"],
+    "tags": [
+      "React Native",
+      "On-Device CNN",
+      "TensorFlow Lite",
+      "Mobile"
+    ],
     "blurb": "A mobile app whose escalating alarm can only be dismissed by performing wudu, verified on-device by a custom computer-vision model in under 100ms.",
     "problem": "Standard alarms are trivially snoozed. The goal was an alarm that genuinely gets a user up and to prayer — requiring a real-world action it can verify, fully offline and privately.",
     "solution": "Built a React Native (Expo) app with a custom CNN trained from scratch in PyTorch, quantised and bundled for on-device TFLite inference — detecting face moisture (wudu) plus identity verification, with critical-alert alarms and background tasks.",
@@ -128,37 +155,54 @@
     "accent": "#14B8A6"
   },
   {
-    "slug": "iqra-books",
-    "title": "Iqra-Books — E-Book Reader (PWA + Mobile)",
-    "category": "software",
-    "tags": ["React", "Vite", "Capacitor", "PWA"],
-    "blurb": "An Apple Books-inspired e-reader delivered as an installable PWA and as native iOS/Android apps from a single codebase.",
-    "problem": "Readers want a clean, fast, offline-capable reading experience across web and mobile without maintaining three separate apps.",
-    "solution": "Built a React + Vite reader with a serverless backend (Netlify Functions) for search and content proxying, wrapped with Capacitor to ship native iOS/Android builds, and made fully installable/offline as a PWA.",
-    "impact": "One codebase → web, installable PWA, and native mobile apps; a clean, polished reading UX with offline support.",
-    "tech": "React, Vite, Capacitor, Netlify Functions, Service Workers (PWA)",
-    "role": "Full-Stack Engineer",
-    "code": "https://github.com/Th3Samaritan/Iqra-Books",
-    "accent": "#8B5CF6"
+    "slug": "mast-inverse-design",
+    "title": "MAST — Materials Inverse Design (RL)",
+    "category": "materials software",
+    "tags": [
+      "Reinforcement Learning",
+      "PyTorch",
+      "Streamlit",
+      "Materials Informatics"
+    ],
+    "blurb": "An inverse-design engine: enter the mechanical properties you want, and a reinforcement-learning agent proposes the steel composition and heat-treatment route to achieve them.",
+    "problem": "Designing a steel to hit a target set of mechanical properties is normally trial-and-error across a huge composition + heat-treatment space — slow, expensive, and dependent on metallurgist intuition.",
+    "solution": "Built a policy-gradient RL agent (PPO) that searches over composition and heat-treatment actions, rewarded by a feed-forward MLP ensemble 'forward model' that predicts resulting properties with uncertainty. Benchmarked against a KNN baseline and served through an interactive Streamlit app.",
+    "impact": "Turns property targets directly into ranked, actionable process recipes (austenitize → quench → temper) with uncertainty estimates — the core loop of autonomous experiment planning. Deployed and publicly usable.",
+    "tech": "Python, PyTorch, PPO / Policy Gradients, Scikit-learn, Streamlit",
+    "role": "ML Researcher / Engineer",
+    "demo": "https://mast-rl.streamlit.app",
+    "coldStart": true,
+    "accent": "#6366F1"
   },
   {
-    "slug": "enterprise-management-system",
-    "title": "Enterprise Management System",
-    "category": "software",
-    "tags": ["FastAPI", "React.js", "Kubernetes", "MLOps"],
-    "blurb": "A cloud-native enterprise management platform with automated ML-powered data pipelines, deployed on Kubernetes and serving 100+ users.",
-    "problem": "An organisation needed a scalable internal platform that combined day-to-day management with automated, ML-driven data processing — without fragile manual workflows.",
-    "solution": "Architected and deployed a FastAPI + React.js system on Kubernetes with containerised ML microservices, CI/CD, monitoring, and REST inference endpoints — a full MLOps lifecycle from experiment to production.",
-    "impact": "Production cloud-native infrastructure serving 100+ users with automated ML pipelines, zero-downtime deployments, and observability built in.",
-    "tech": "FastAPI, React.js, Docker, Kubernetes, MongoDB, CI/CD, Nginx",
-    "role": "Lead Software / Platform Engineer",
-    "accent": "#3B82F6"
+    "slug": "cfd-ml-surrogate",
+    "title": "CFD-ML — Simulation Surrogate / Digital Twin",
+    "category": "materials software",
+    "tags": [
+      "Surrogate Model",
+      "Digital Twin",
+      "TensorFlow",
+      "ANSYS / COMSOL"
+    ],
+    "blurb": "A neural-network surrogate that replaces expensive CFD solver runs — a working digital twin achieving roughly 10x speedup while keeping engineering-grade accuracy.",
+    "problem": "Iterative design needs hundreds of CFD evaluations, but each high-fidelity COMSOL / ANSYS Fluent run is computationally expensive, making design sweeps painfully slow.",
+    "solution": "Built an automated pipeline that runs parametric CFD sweeps (PyFluent), harvests and structures the simulation outputs, and trains a neural surrogate mapping geometry + boundary conditions to steady-state flow fields in milliseconds.",
+    "impact": "~10x faster than running the physics solver, enabling rapid design iteration and demonstrating that ML can stand in for expensive physics runs inside materials/engineering design loops.",
+    "tech": "Python, scikit-learn, ANSYS Fluent (PyFluent), POD + Gaussian Process, NumPy",
+    "role": "Digital Twin / Surrogate Developer",
+    "code": "https://github.com/Th3Samaritan/CFD-ML",
+    "accent": "#10B981"
   },
   {
     "slug": "pentesting-automation",
     "title": "Advanced Pentesting & Automation",
     "category": "cybersecurity",
-    "tags": ["Python", "Bash", "Burp Suite", "API Security"],
+    "tags": [
+      "Python",
+      "Bash",
+      "Burp Suite",
+      "API Security"
+    ],
     "blurb": "Custom automation tooling and deep-dive API security assessments that find the business-logic flaws automated scanners miss.",
     "problem": "Routine penetration tests are time-consuming and prone to missing complex, chained vulnerabilities; standard tools lack context for specific API business logic.",
     "solution": "Developed a suite of custom recon and scanning automation (Python, Bash) to widen coverage, and ran deep manual API assessments to identify and exploit business-logic flaws (IDOR, broken access control).",
@@ -168,10 +212,33 @@
     "accent": "#DC2626"
   },
   {
+    "slug": "iqra-books",
+    "title": "Iqra-Books — E-Book Reader (PWA + Mobile)",
+    "category": "software",
+    "tags": [
+      "React",
+      "Vite",
+      "Capacitor",
+      "PWA"
+    ],
+    "blurb": "An Apple Books-inspired e-reader delivered as an installable PWA and as native iOS/Android apps from a single codebase.",
+    "problem": "Readers want a clean, fast, offline-capable reading experience across web and mobile without maintaining three separate apps.",
+    "solution": "Built a React + Vite reader with a serverless backend (Netlify Functions) for search and content proxying, wrapped with Capacitor to ship native iOS/Android builds, and made fully installable/offline as a PWA.",
+    "impact": "One codebase → web, installable PWA, and native mobile apps; a clean, polished reading UX with offline support.",
+    "tech": "React, Vite, Capacitor, Netlify Functions, Service Workers (PWA)",
+    "role": "Full-Stack Engineer",
+    "accent": "#8B5CF6"
+  },
+  {
     "slug": "uav-composite-design",
     "title": "VTOL UAV — Design & Composite Simulation",
     "category": "materials",
-    "tags": ["SolidWorks", "ANSYS FEA/CFD", "Carbon Fiber", "VTOL"],
+    "tags": [
+      "SolidWorks",
+      "ANSYS FEA/CFD",
+      "Carbon Fiber",
+      "VTOL"
+    ],
     "blurb": "A custom hybrid VTOL fixed-wing UAV designed in SolidWorks, fabricated in carbon-fiber composite, and validated with FEA and CFD — flown as a real prototype.",
     "problem": "Standard UAV frames were too heavy and failed under high-stress, long-endurance flight profiles, and needed VTOL capability without sacrificing forward-flight efficiency.",
     "solution": "Designed a quad-lift + fixed-wing airframe in SolidWorks, ran FEA (ANSYS) and CFD flow simulation to optimise aerodynamics and structure, and fabricated it from lightweight carbon-fiber composite. Explore the 3D models and CFD animations in the gallery.",
@@ -185,7 +252,11 @@
     "slug": "composite-armour-fea",
     "title": "SiC-Lead Composite Armour — Ballistic FEA",
     "category": "materials",
-    "tags": ["ANSYS Explicit Dynamics", "Impact Simulation", "Composites"],
+    "tags": [
+      "ANSYS Explicit Dynamics",
+      "Impact Simulation",
+      "Composites"
+    ],
     "blurb": "High-velocity impact simulation of a silicon-carbide / lead composite armour, characterising stress-wave propagation across a parameter sweep.",
     "problem": "Armour design needs to understand how a ballistic impact's stress waves propagate and dissipate through layered composite materials before committing to physical testing.",
     "solution": "Set up and ran ANSYS Explicit Dynamics simulations of SiC-lead composite armour under high-velocity impact, sweeping parameters and analysing stress-wave propagation across configurations.",
@@ -198,7 +269,11 @@
     "slug": "bio-neuron-chip",
     "title": "Bio-Neuron Chip — Microelectrode Array (UC San Diego)",
     "category": "materials software",
-    "tags": ["Microfabrication", "Microfluidics", "MEA Design"],
+    "tags": [
+      "Microfabrication",
+      "Microfluidics",
+      "MEA Design"
+    ],
     "blurb": "Microelectrode-array and microfluidic-channel design for a bio-neuron chip, in collaboration with a UC San Diego Bioengineering doctoral researcher.",
     "problem": "Interfacing with living neurons on-chip requires electrode arrays and fluidic channels designed within strict nanoscale fabrication constraints.",
     "solution": "Designed microelectrode arrays and microfluidic channels informed by nanoscale fabrication limits, integrating domain science (bioengineering) with manufacturable engineering design.",

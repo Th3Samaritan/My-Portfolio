@@ -933,6 +933,29 @@ a {
 
 .dark .project-live-badge { color: #34D399; }
 
+/* Demos hosted on a free tier that sleeps when idle: honest amber badge, no "live" claim */
+.project-live-badge.is-cold {
+    background: rgba(245, 158, 11, 0.15);
+    color: #B45309;
+    border-color: rgba(245, 158, 11, 0.35);
+}
+
+.dark .project-live-badge.is-cold { color: #FBBF24; }
+
+.project-live-badge.is-cold .project-live-dot {
+    background-color: #F59E0B;
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.9);
+    animation: none;
+}
+
+/* Cold-start hint under the demo button in the project modal */
+.demo-cold-note {
+    width: 100%;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}
+
 .project-live-dot {
     width: 7px;
     height: 7px;

@@ -108,11 +108,11 @@
                 </button>
                 <div class="cv-dropdown-menu" id="cv-dropdown-menu" role="menu">
                     <p class="cv-dropdown-label">Pick the version for your role</p>
-                    <a href="assets/cv-software-engineer.pdf" target="_blank" download role="menuitem"><strong>Software Engineer</strong><span>Backend · Full-Stack · DevOps</span></a>
-                    <a href="assets/cv-research-ai.pdf" target="_blank" download role="menuitem"><strong>AI / ML Engineer</strong><span>AI for science · MLOps · materials</span></a>
-                    <a href="assets/cv-ai-researcher.pdf" target="_blank" download role="menuitem"><strong>AI Researcher</strong><span>AI for scientific discovery</span></a>
-                    <a href="assets/cv-cybersecurity.pdf" target="_blank" download role="menuitem"><strong>Security Engineer</strong><span>Pentest · Blue Team · Bug Bounty</span></a>
-                    <a href="assets/cv-design-engineer.pdf" target="_blank" download role="menuitem"><strong>CAD &amp; Design Engineer</strong><span>SolidWorks · ANSYS · COMSOL</span></a>
+                    <a href="assets/cv-software-engineer.pdf" target="_blank" download="Abdulsamad-Muyideen-Software-Engineer.pdf" role="menuitem"><strong>Software Engineer</strong><span>Backend · Full-Stack · DevOps</span></a>
+                    <a href="assets/cv-research-ai.pdf" target="_blank" download="Abdulsamad-Muyideen-AI-ML-Engineer.pdf" role="menuitem"><strong>AI / ML Engineer</strong><span>AI for science · MLOps · materials</span></a>
+                    <a href="assets/cv-ai-researcher.pdf" target="_blank" download="Abdulsamad-Muyideen-AI-Researcher.pdf" role="menuitem"><strong>AI Researcher</strong><span>AI for scientific discovery</span></a>
+                    <a href="assets/cv-cybersecurity.pdf" target="_blank" download="Abdulsamad-Muyideen-Security-Engineer.pdf" role="menuitem"><strong>Security Engineer</strong><span>Pentest · Blue Team · Bug Bounty</span></a>
+                    <a href="assets/cv-design-engineer.pdf" target="_blank" download="Abdulsamad-Muyideen-Design-Engineer.pdf" role="menuitem"><strong>CAD &amp; Design Engineer</strong><span>SolidWorks · ANSYS · COMSOL</span></a>
                 </div>
             </div>
 
@@ -133,11 +133,11 @@
             <a href="#contact">Contact</a>
             <a href="admin.html" style="font-family: var(--font-typewriter); opacity: 0.7;">Write a Post</a>
             <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin: 0.5rem 0 0.25rem;">Download CV</p>
-            <a href="assets/cv-software-engineer.pdf" target="_blank" download style="color: var(--text-inverse); background: var(--accent); text-align: center; font-weight: 600;">Software Engineer</a>
-            <a href="assets/cv-research-ai.pdf" target="_blank" download style="text-align: center;">AI / ML Engineer</a>
-            <a href="assets/cv-ai-researcher.pdf" target="_blank" download style="text-align: center;">AI Researcher</a>
-            <a href="assets/cv-cybersecurity.pdf" target="_blank" download style="text-align: center;">Security Engineer</a>
-            <a href="assets/cv-design-engineer.pdf" target="_blank" download style="text-align: center;">CAD &amp; Design Engineer</a>
+            <a href="assets/cv-software-engineer.pdf" target="_blank" download="Abdulsamad-Muyideen-Software-Engineer.pdf" style="color: var(--text-inverse); background: var(--accent); text-align: center; font-weight: 600;">Software Engineer</a>
+            <a href="assets/cv-research-ai.pdf" target="_blank" download="Abdulsamad-Muyideen-AI-ML-Engineer.pdf" style="text-align: center;">AI / ML Engineer</a>
+            <a href="assets/cv-ai-researcher.pdf" target="_blank" download="Abdulsamad-Muyideen-AI-Researcher.pdf" style="text-align: center;">AI Researcher</a>
+            <a href="assets/cv-cybersecurity.pdf" target="_blank" download="Abdulsamad-Muyideen-Security-Engineer.pdf" style="text-align: center;">Security Engineer</a>
+            <a href="assets/cv-design-engineer.pdf" target="_blank" download="Abdulsamad-Muyideen-Design-Engineer.pdf" style="text-align: center;">CAD &amp; Design Engineer</a>
         </div>
     </header>
 
@@ -626,8 +626,13 @@
                 </div>`;
         }
 
+        // Only claim "Live" for demos that answer instantly. Free-tier hosts that sleep
+        // when idle get an amber "Demo" badge instead, so the card never over-promises.
         function liveBadge(p) {
-            return p.demo ? `<span class="project-live-badge"><span class="project-live-dot"></span>Live</span>` : '';
+            if (!p.demo) return '';
+            return p.coldStart
+                ? `<span class="project-live-badge is-cold"><span class="project-live-dot"></span>Demo</span>`
+                : `<span class="project-live-badge"><span class="project-live-dot"></span>Live</span>`;
         }
 
         function renderProjects(list) {
@@ -695,9 +700,10 @@
 
             // Links: Live Demo / Code / Gallery
             const links = [];
-            if (d.demo) links.push(`<a href="${esc(d.demo)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">${linkIcons.demo} Live Demo</a>`);
+            if (d.demo) links.push(`<a href="${esc(d.demo)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">${linkIcons.demo} ${d.coldStart ? 'Launch Demo' : 'Live Demo'}</a>`);
             if (d.code) links.push(`<a href="${esc(d.code)}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">${linkIcons.code} View Code</a>`);
             if (d.gallery) links.push(`<a href="${esc(d.gallery)}" class="btn btn-secondary">${linkIcons.gallery} 3D Gallery</a>`);
+            if (d.demo && d.coldStart) links.push(`<p class="demo-cold-note">Hosted on a free tier that sleeps when idle — the first load may take ~30s to wake.</p>`);
             const linksEl = document.getElementById('modalLinks');
             linksEl.innerHTML = links.join('');
             linksEl.style.display = links.length ? 'flex' : 'none';
