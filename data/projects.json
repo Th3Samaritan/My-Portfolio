@@ -3,6 +3,7 @@
     "slug": "qwen-editor",
     "title": "Qwen Editor — AI IDE in Rust",
     "category": "software",
+    "featured": true,
     "tags": [
       "Rust",
       "llama.cpp",
@@ -22,6 +23,7 @@
     "slug": "samaritanx",
     "title": "SamaritanX — Agentic Bug-Bounty Framework",
     "category": "cybersecurity software",
+    "featured": true,
     "tags": [
       "Python",
       "Async Agents",
@@ -41,6 +43,7 @@
     "slug": "ai4science-continuous-learning",
     "title": "AI4Science — Verification Over Memorization",
     "category": "software",
+    "featured": true,
     "tags": [
       "Reinforcement Learning",
       "Continuous Learning",
@@ -61,6 +64,7 @@
     "slug": "enterprise-management-system",
     "title": "Enterprise Management System",
     "category": "software",
+    "featured": true,
     "tags": [
       "FastAPI",
       "React.js",
@@ -79,6 +83,7 @@
     "slug": "mast-steel-prediction",
     "title": "MAST — Steel Property Prediction",
     "category": "materials software",
+    "featured": true,
     "tags": [
       "XGBoost",
       "SHAP",
@@ -100,6 +105,7 @@
     "slug": "opsonic-acoustic-security",
     "title": "OPsonic — Acoustic Threat Detection",
     "category": "cybersecurity software",
+    "featured": true,
     "tags": [
       "Audio AI",
       "Transformer (AST)",

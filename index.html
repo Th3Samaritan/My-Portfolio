@@ -352,6 +352,11 @@
                     <p style="margin-top: 0.75rem; color: var(--text-muted);">Loading projects...</p>
                 </div>
             </div>
+
+            <!-- Reveals the non-featured projects; hidden while a category filter is active -->
+            <div id="projectToggleWrap" class="text-center" style="margin-top: 2.5rem; display: none;">
+                <button id="projectToggle" class="btn btn-secondary" onclick="toggleAllProjects()" aria-expanded="false" aria-controls="projectGrid"></button>
+            </div>
         </section>
 
         <!-- ===== Current Research ===== -->
@@ -662,13 +667,52 @@
             }).join('');
         }
 
+        // The default view shows only the featured tier — 15 equally-weighted cards read as
+        // an undifferentiated wall, so the strongest work gets lost. Picking a category is a
+        // deliberate narrowing, so that always shows everything in that category.
+        let currentCategory = 'all';
+        let showAllProjects = false;
+
+        function visibleProjects() {
+            if (currentCategory !== 'all') {
+                return projectsData.filter(p => (p.category || '').split(/\s+/).includes(currentCategory));
+            }
+            return showAllProjects ? projectsData : projectsData.filter(p => p.featured);
+        }
+
+        function syncProjectToggle() {
+            const wrap = document.getElementById('projectToggleWrap');
+            const btn = document.getElementById('projectToggle');
+            const hidden = projectsData.filter(p => !p.featured).length;
+            if (currentCategory !== 'all' || !hidden) {
+                wrap.style.display = 'none';
+                return;
+            }
+            wrap.style.display = '';
+            btn.textContent = showAllProjects
+                ? 'Show featured only'
+                : `Show all ${projectsData.length} projects`;
+            btn.setAttribute('aria-expanded', String(showAllProjects));
+        }
+
+        function refreshProjects() {
+            renderProjects(visibleProjects());
+            syncProjectToggle();
+        }
+
+        window.toggleAllProjects = function() {
+            showAllProjects = !showAllProjects;
+            refreshProjects();
+            if (!showAllProjects) {
+                document.getElementById('work').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        };
+
         window.filterProjects = function(event, category) {
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            const filtered = category === 'all'
-                ? projectsData
-                : projectsData.filter(p => (p.category || '').split(/\s+/).includes(category));
-            renderProjects(filtered);
+            currentCategory = category;
+            refreshProjects();
         };
 
         window.showProjectModal = function(slug) {
@@ -726,7 +770,10 @@
                 const res = await fetch('data/projects.json');
                 if (!res.ok) throw new Error('Failed to load projects');
                 projectsData = await res.json();
-                renderProjects(projectsData);
+                // If nothing is flagged featured, fall back to showing everything rather
+                // than rendering an empty grid.
+                if (!projectsData.some(p => p.featured)) showAllProjects = true;
+                refreshProjects();
             } catch (e) {
                 console.error('Failed to load projects:', e);
                 document.getElementById('projectGrid').innerHTML = '<p class="text-center" style="color:var(--text-muted);grid-column:1/-1;">Failed to load projects.</p>';

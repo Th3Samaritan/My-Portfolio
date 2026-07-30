@@ -273,6 +273,14 @@ a {
 }
 
 .hero-social {
+    /* Icon is 24px; the box is padded out to the 44px touch-target minimum.
+       Negative margin keeps the row optically aligned with the text above it. */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-left: -0.625rem;
     color: var(--text-secondary);
     transition: color var(--transition-fast);
 }
@@ -307,6 +315,11 @@ a {
     bottom: 2rem;
     left: 50%;
     transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
     color: var(--text-muted);
     animation: bounce 2s infinite;
 }
@@ -502,8 +515,8 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.75rem;
+    height: 2.75rem;
     border: none;
     background: none;
     cursor: pointer;
@@ -551,6 +564,8 @@ a {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    /* 44px floor so buttons clear the touch-target minimum on mobile */
+    min-height: 2.75rem;
     padding: 0.75rem 1.75rem;
     font-family: var(--font-sans);
     font-size: 0.875rem;
@@ -709,6 +724,7 @@ a {
 .form-input,
 .form-textarea {
     width: 100%;
+    min-height: 2.75rem;
     padding: 0.75rem 1rem;
     font-family: var(--font-sans);
     font-size: 0.875rem;
@@ -778,6 +794,15 @@ a {
     transition: color var(--transition-fast);
 }
 
+/* Footer link columns are stacked text links. A full 44px box would double the
+   footer's height, so these get a 36px hit area — comfortably past the 24px
+   WCAG AA floor — while the column keeps its compact proportions. */
+.footer-grid a:not(.nav-logo) {
+    display: flex;
+    align-items: center;
+    min-height: 2.25rem;
+}
+
 .footer a:hover {
     color: var(--text-primary);
 }
@@ -843,6 +868,8 @@ a {
 
 /* ---------- Project Filter Buttons ---------- */
 .filter-btn {
+    /* min-height keeps the control at the 44px touch-target minimum */
+    min-height: 2.75rem;
     padding: 0.5rem 1.25rem;
     font-family: var(--font-sans);
     font-size: 0.8125rem;
@@ -877,7 +904,7 @@ a {
     position: absolute;
     top: 1rem;
     left: 1rem;
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -972,9 +999,9 @@ a {
 
 /* Small tech tags on project cards */
 .project-mini-tag {
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     font-weight: 500;
-    padding: 0.15rem 0.5rem;
+    padding: 0.2rem 0.55rem;
     border-radius: var(--radius-sm);
     background: var(--tag-bg);
     color: var(--tag-text);
@@ -1663,7 +1690,7 @@ a {
 }
 
 .cv-dropdown-label {
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -1898,8 +1925,8 @@ a {
 
 .blog-card-tag {
     display: inline-block;
-    padding: 0.1rem 0.5rem;
-    font-size: 0.625rem;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.75rem;
     font-family: var(--font-typewriter);
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -2499,7 +2526,7 @@ a {
         padding: 1rem !important;
     }
     .project-card-tag {
-        font-size: 0.625rem;
+        font-size: 0.75rem;
         padding: 0.2rem 0.5rem;
     }
 
