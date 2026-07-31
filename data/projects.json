@@ -101,6 +101,25 @@
     "accent": "#3B82F6"
   },
   {
+    "slug": "opsonic-acoustic-security",
+    "title": "OPsonic — Acoustic Threat Detection",
+    "category": "cybersecurity software",
+    "featured": true,
+    "tags": [
+      "Audio AI",
+      "Transformer (AST)",
+      "CNN+LSTM",
+      "Production API"
+    ],
+    "blurb": "An audio-security intelligence system that classifies threat sounds — gunshots, glass breaking, sirens — from raw audio, built for DataVessel Lab.",
+    "problem": "Physical-security monitoring needs to recognise dangerous acoustic events in real time, reliably, across noisy real-world environments.",
+    "solution": "Designed a full ML pipeline (data → spectrogram features → model → REST microservice). Trained an Audio Spectrogram Transformer on UrbanSound8K + ESC-50 security subsets with fold-based validation to prevent leakage, containerised with Docker and deployed as a production inference API.",
+    "impact": "~99% top-1 (99.9% top-3) accuracy with near-perfect recall on critical classes like gunshot and glass-breaking; remaining errors are intuitive acoustic confusions. Shipped as a deployable microservice.",
+    "tech": "Python, PyTorch, Audio Spectrogram Transformer, CNN+LSTM, Docker, REST API",
+    "role": "ML Engineer",
+    "accent": "#EF4444"
+  },
+  {
     "slug": "mast-steel-prediction",
     "title": "MAST — Steel Property Prediction",
     "category": "materials software",
@@ -119,24 +138,6 @@
     "role": "Researcher (Thesis)",
     "demo": "https://mast-steel.streamlit.app",
     "accent": "#0EA5E9"
-  },
-  {
-    "slug": "opsonic-acoustic-security",
-    "title": "OPsonic — Acoustic Threat Detection",
-    "category": "cybersecurity software",
-    "tags": [
-      "Audio AI",
-      "Transformer (AST)",
-      "CNN+LSTM",
-      "Production API"
-    ],
-    "blurb": "An audio-security intelligence system that classifies threat sounds — gunshots, glass breaking, sirens — from raw audio, built for DataVessel Lab.",
-    "problem": "Physical-security monitoring needs to recognise dangerous acoustic events in real time, reliably, across noisy real-world environments.",
-    "solution": "Designed a full ML pipeline (data → spectrogram features → model → REST microservice). Trained an Audio Spectrogram Transformer on UrbanSound8K + ESC-50 security subsets with fold-based validation to prevent leakage, containerised with Docker and deployed as a production inference API.",
-    "impact": "~99% top-1 (99.9% top-3) accuracy with near-perfect recall on critical classes like gunshot and glass-breaking; remaining errors are intuitive acoustic confusions. Shipped as a deployable microservice.",
-    "tech": "Python, PyTorch, Audio Spectrogram Transformer, CNN+LSTM, Docker, REST API",
-    "role": "ML Engineer",
-    "accent": "#EF4444"
   },
   {
     "slug": "mast-corrosion-pinn",
