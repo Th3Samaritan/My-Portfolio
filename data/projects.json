@@ -40,6 +40,27 @@
     "accent": "#BE123C"
   },
   {
+    "slug": "paper-with-code",
+    "title": "Paper, with Code — Animated DL Papers",
+    "category": "software",
+    "featured": true,
+    "tags": [
+      "Interactive Viz",
+      "Transformers",
+      "From Scratch",
+      "Canvas"
+    ],
+    "blurb": "Fourteen deep-learning papers reimplemented from scratch, each with an interactive in-browser visualiser that computes every matrix and gradient cell by cell.",
+    "problem": "Reading a paper is not the same as understanding it. The equations hide what actually happens to the numbers, and most explanations either stay at the diagram level or drop you into a training script you cannot watch run.",
+    "solution": "For each paper I re-implement the idea from scratch and build a visualiser that animates the computation in the browser — the forward pass filling in cell by cell, gradients flowing back through every node, attention scores forming. Plain JavaScript and canvas, no frameworks. Fourteen so far: Karpathy's micrograd and the makemore series, then Attention (Vaswani 2017), Scaling Laws (Kaplan 2020), BERT (Devlin 2018), Chinchilla (Hoffmann 2022), RoPE (Su 2021), LLaMA (Touvron 2023) and BPE tokenisation, plus an eight-lesson DFT course with a self-graded exam.",
+    "impact": "A public, growing body of work that shows the internals rather than asserting familiarity. Backprop Ninja checks all 26 hand-derived gradients live against PyTorch autograd; the tokeniser trains real BPE merges in the browser, merge by merge. It doubles as how I learn — the visualiser is the proof I understood it.",
+    "tech": "JavaScript, Canvas, PyTorch (reference implementations), GitHub Pages",
+    "role": "Creator / Author",
+    "demo": "https://th3samaritan.github.io/AI-Research/",
+    "code": "https://github.com/Th3Samaritan/AI-Research",
+    "accent": "#14B8A6"
+  },
+  {
     "slug": "ai4science-continuous-learning",
     "title": "AI4Science — Verification Over Memorization",
     "category": "software",
@@ -56,7 +77,7 @@
     "impact": "Provides a rigorous, mathematically sound proof that true zero-interference continuous learning requires Dynamic Structural Expansion rather than just software routing. Detailed in a peer-review-quality thesis blog.",
     "tech": "Python, PyTorch, Reinforcement Learning, RAG, Progressive Neural Networks",
     "role": "AI Researcher / Engineer",
-    "demo": "https://Th3Samaritan.github.io/AI-Research/",
+    "demo": "https://th3samaritan.github.io/AI-Research/AI4science/blog/",
     "code": "https://github.com/Th3Samaritan/AI-Research",
     "accent": "#E11D48"
   },
@@ -103,7 +124,6 @@
     "slug": "opsonic-acoustic-security",
     "title": "OPsonic — Acoustic Threat Detection",
     "category": "cybersecurity software",
-    "featured": true,
     "tags": [
       "Audio AI",
       "Transformer (AST)",
