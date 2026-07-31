@@ -644,6 +644,45 @@ a {
     max-width: var(--container-narrow);
 }
 
+/* Every section used to open with the same centred label/title/description
+   stack, so the page had one pace from top to bottom and "centred" carried no
+   meaning. Supporting sections (skills, research, blog) now use this quieter
+   left-aligned header, leaving the full centred treatment to the two moments
+   that earn it: the work showcase and the closing call to action. */
+/* No bottom margin: each section's grid already carries its own top margin,
+   tuned for the previous centred header. Adding one here would double it. */
+.section-head-inline {
+    text-align: left;
+    max-width: 46rem;
+    margin: 0;
+}
+
+.section-head-inline .section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+/* Short rule leading into the label — anchors the left edge so the quieter
+   header still reads as deliberate rather than merely unstyled. */
+.section-head-inline .section-label::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: var(--border-hover);
+    flex-shrink: 0;
+}
+
+.section-head-inline .section-title {
+    margin-top: 0.625rem;
+}
+
+.section-head-inline .section-desc {
+    margin-top: 0.75rem;
+    margin-left: 0;
+    max-width: 42rem;
+}
+
 /* ---------- Tags / Badges ---------- */
 .tag {
     display: inline-flex;
