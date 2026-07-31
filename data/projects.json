@@ -97,7 +97,6 @@
     "tech": "Python, XGBoost, Scikit-learn, SHAP, Pandas, Streamlit",
     "role": "Researcher (Thesis)",
     "demo": "https://mast-steel.streamlit.app",
-    "coldStart": true,
     "accent": "#0EA5E9"
   },
   {
@@ -136,7 +135,6 @@
     "tech": "Python, PyTorch, PyTorch Geometric, NNConv / Graph NN, Streamlit",
     "role": "ML Researcher / Engineer",
     "demo": "https://mast-corrosion.streamlit.app",
-    "coldStart": true,
     "code": "https://github.com/Th3Samaritan/MAST-Corrosion",
     "accent": "#F97316"
   },
@@ -176,7 +174,6 @@
     "tech": "Python, PyTorch, PPO / Policy Gradients, Scikit-learn, Streamlit",
     "role": "ML Researcher / Engineer",
     "demo": "https://mast-rl.streamlit.app",
-    "coldStart": true,
     "accent": "#6366F1"
   },
   {
