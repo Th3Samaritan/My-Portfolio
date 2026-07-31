@@ -2393,61 +2393,72 @@ a {
 }
 
 /* ===== Latest Blog Posts on Homepage (paper style) ===== */
+/* Homepage blog cards use the site's own card language (Inter, neutral surface,
+   16px radius) rather than the --paper-* typewriter system. That aesthetic is a
+   deliberate full-page choice on blog.html and notebook.html, but three sepia
+   cards dropped between Work and Contact read as a broken component, not a
+   change of voice. Inheriting .card also drops the !important arms race. */
 .home-blog-card {
-    padding: 1.5rem !important;
-    text-decoration: none !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 0.75rem !important;
-    border: 1px solid var(--paper-border) !important;
-    border-radius: 2px !important;
-    background-color: var(--paper-bg-card) !important;
-    color: var(--paper-ink) !important;
-    font-family: var(--font-typewriter) !important;
-    box-shadow: 0 1px 3px var(--paper-shadow), inset 0 0 40px rgba(139, 119, 90, 0.02) !important;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.home-blog-card:hover {
-    transform: translateY(-4px) rotate(-0.5deg);
-    box-shadow: 0 3px 10px var(--paper-shadow-lg), 0 8px 24px rgba(44, 24, 16, 0.1), inset 0 0 50px rgba(139, 119, 90, 0.03) !important;
+    padding: 1.5rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    color: var(--text-secondary);
 }
 
 .home-blog-card:hover h3 {
-    color: var(--paper-accent) !important;
-    opacity: 1 !important;
+    color: var(--accent);
+}
+
+/* Title leads in the DOM, so no CSS reordering is needed here. */
+.home-blog-card h3 {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.4;
+    transition: color var(--transition-fast);
 }
 
 .home-blog-card .card-meta {
-    font-size: 0.6875rem;
-    color: var(--paper-ink-muted);
+    font-size: 0.75rem;
+    color: var(--text-muted);
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: var(--font-typewriter);
-    letter-spacing: 0.03em;
+    font-family: var(--font-sans);
+    letter-spacing: 0.02em;
 }
 
-.home-blog-card h3 {
-    font-size: 1.0625rem;
-    font-weight: 400;
-    font-family: var(--font-medieval) !important;
-    color: var(--paper-ink-heading) !important;
-    line-height: 1.4;
-    transition: color 0.2s;
+/* The paper system colours this separator --paper-border, which lands at
+   1.37:1 against the card and reads as an unexplained gap. */
+.home-blog-card .blog-meta-sep {
+    color: var(--text-muted);
 }
 
 .home-blog-card p {
-    font-size: 0.8125rem;
-    color: var(--paper-ink) !important;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
     line-height: 1.6;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    font-family: var(--font-typewriter);
+    font-family: var(--font-sans);
+    flex: 1;
+}
+
+/* Tags on the homepage cards follow the project-card tag styling, not the
+   paper system's typewriter tags. */
+.home-blog-card .blog-card-tag {
+    font-family: var(--font-sans);
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border: none;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.01em;
+    text-transform: none;
 }
 
 /* ===== Blog Page Background ===== */
