@@ -277,53 +277,52 @@
                 <p class="section-desc mx-auto">Here's a snapshot of the tools and technologies I use to bridge the physical and digital worlds.</p>
             </div>
 
-            <div class="grid grid-1 md:grid-3 gap-8 reveal" style="max-width: 72rem; margin: 4rem auto 0;">
+            <div class="grid grid-1 md:grid-3 gap-8 reveal" style="max-width: 72rem; margin: 3rem auto 0;">
                 <!-- Materials -->
-                <div class="card" style="padding: 2rem;">
+                <div class="card" style="padding: 1.75rem;">
                     <div class="icon-circle" style="margin-bottom: 1rem;">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2 1m0 0l-2-1m2 1v2.5M3 15l2 1m0 0l2-1m-2 1v2.5M3 12l2 1m0 0l2-1m-2 1v2.5M3 9l2 1m0 0l2-1m-2 1v2.5"></path></svg>
                     </div>
                     <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">Materials & Simulation</h3>
                     <ul class="check-list">
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Finite Element Analysis (FEA)</li>
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>3D CAD Modelling (SolidWorks)</li>
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Materials Analysis (SEM, TEM, XRD)</li>
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Non-Destructive Testing (NDT)</li>
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Computational Modeling</li>
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>ANSYS &amp; MATLAB</li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">Finite Element Analysis (FEA)</span><button type="button" class="skill-proof" onclick="showProjectModal('composite-armour-fea')" aria-label="See Ballistic FEA, the project demonstrating Finite Element Analysis (FEA)">Ballistic FEA</button></li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">3D CAD Modelling (SolidWorks)</span><button type="button" class="skill-proof" onclick="showProjectModal('uav-composite-design')" aria-label="See VTOL UAV, the project demonstrating 3D CAD Modelling (SolidWorks)">VTOL UAV</button></li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">ANSYS &amp; MATLAB</span><button type="button" class="skill-proof" onclick="showProjectModal('cfd-ml-surrogate')" aria-label="See CFD-ML Surrogate, the project demonstrating ANSYS &amp; MATLAB">CFD-ML Surrogate</button></li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">Physics-Informed Modelling</span><button type="button" class="skill-proof" onclick="showProjectModal('mast-corrosion-pinn')" aria-label="See Corrosion PINN, the project demonstrating Physics-Informed Modelling">Corrosion PINN</button></li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">Materials Analysis (SEM, TEM, XRD)</span></li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">Non-Destructive Testing (NDT)</span></li>
                     </ul>
                 </div>
 
                 <!-- Software -->
-                <div class="card" style="padding: 2rem;">
+                <div class="card" style="padding: 1.75rem;">
                     <div class="icon-circle" style="margin-bottom: 1rem;">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                     </div>
                     <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">Software & ML</h3>
                     <ul class="check-list">
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Python (Scikit-learn, TensorFlow)</li>
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Java (Spring, JavaFX)</li>
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Rust (Systems Programming)</li>
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Web Dev (React, PHP, HTML/CSS)</li>
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Databases (MongoDB, MySQL)</li>
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>NLP, CV &amp; Time Series Models</li>
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Project Management (Asana, Kanban)</li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">Rust (Systems Programming)</span><button type="button" class="skill-proof" onclick="showProjectModal('qwen-editor')" aria-label="See Qwen Editor, the project demonstrating Rust (Systems Programming)">Qwen Editor</button></li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">Python (Scikit-learn, XGBoost)</span><button type="button" class="skill-proof" onclick="showProjectModal('mast-steel-prediction')" aria-label="See Steel Prediction, the project demonstrating Python (Scikit-learn, XGBoost)">Steel Prediction</button></li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">Deep Learning (CV, Audio, Time Series)</span><button type="button" class="skill-proof" onclick="showProjectModal('opsonic-acoustic-security')" aria-label="See OPsonic, the project demonstrating Deep Learning (CV, Audio, Time Series)">OPsonic</button></li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">Web Dev (React, Vite, PWA)</span><button type="button" class="skill-proof" onclick="showProjectModal('iqra-books')" aria-label="See Iqra-Books, the project demonstrating Web Dev (React, Vite, PWA)">Iqra-Books</button></li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">Cloud &amp; Databases (K8s, MongoDB)</span><button type="button" class="skill-proof" onclick="showProjectModal('enterprise-management-system')" aria-label="See Enterprise Platform, the project demonstrating Cloud &amp; Databases (K8s, MongoDB)">Enterprise Platform</button></li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">Java (Spring, JavaFX)</span></li>
                     </ul>
                 </div>
 
                 <!-- Cybersecurity -->
-                <div class="card" style="padding: 2rem;">
+                <div class="card" style="padding: 1.75rem;">
                     <div class="icon-circle" style="margin-bottom: 1rem;">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                     </div>
                     <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">Cybersecurity</h3>
                     <ul class="check-list">
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Penetration Testing (Web, API)</li>
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Pentest Automation Scripting</li>
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Red Team Operations</li>
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Blue Team (Suricata, Wazuh, Splunk)</li>
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Vulnerability Analysis</li>
-                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Burp Suite, Nessus, OSSEC</li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">Pentest Automation Scripting</span><button type="button" class="skill-proof" onclick="showProjectModal('samaritanx')" aria-label="See SamaritanX, the project demonstrating Pentest Automation Scripting">SamaritanX</button></li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">Vulnerability Analysis</span><button type="button" class="skill-proof" onclick="showProjectModal('samaritanx')" aria-label="See SamaritanX, the project demonstrating Vulnerability Analysis">SamaritanX</button></li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">Penetration Testing (Web, API)</span><button type="button" class="skill-proof" onclick="showProjectModal('pentesting-automation')" aria-label="See Pentest Automation, the project demonstrating Penetration Testing (Web, API)">Pentest Automation</button></li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">Burp Suite, Nessus, OSSEC</span><button type="button" class="skill-proof" onclick="showProjectModal('pentesting-automation')" aria-label="See Pentest Automation, the project demonstrating Burp Suite, Nessus, OSSEC">Pentest Automation</button></li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">Red Team Operations</span></li>
+                        <li><svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="skill-name">Blue Team (Suricata, Wazuh, Splunk)</span></li>
                     </ul>
                 </div>
             </div>

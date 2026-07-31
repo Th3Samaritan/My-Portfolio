@@ -694,14 +694,52 @@ a {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
 }
 
 .check-list li {
     display: flex;
     align-items: flex-start;
-    gap: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.5rem;
     color: var(--text-secondary);
+}
+
+.skill-name {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* A checklist of tools is an unverifiable claim — every candidate has one.
+   Where a project demonstrates the skill, this opens that project's case
+   study, turning the claim into something the reader can check. */
+.skill-proof {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-height: 1.75rem;
+    padding: 0.15rem 0.6rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--accent);
+    background: var(--tag-bg);
+    border: 1px solid transparent;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.skill-proof::after {
+    content: "\2192";
+}
+
+.skill-proof:hover,
+.skill-proof:focus-visible {
+    border-color: var(--accent);
+    background: var(--bg-secondary);
 }
 
 .check-icon {
