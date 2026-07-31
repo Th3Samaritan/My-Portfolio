@@ -16,6 +16,12 @@ on:
     # so a single skipped run still leaves margin.
     - cron: '0 9 * * 1,4'
   workflow_dispatch:
+  # Self-test: editing this file runs it, so a change to the ping logic is
+  # validated against the live apps immediately rather than waiting for the
+  # next scheduled fire.
+  push:
+    paths:
+      - '.github/workflows/keep-demos-awake.yml'
 
 permissions:
   contents: read
