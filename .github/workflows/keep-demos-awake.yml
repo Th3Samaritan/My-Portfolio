@@ -1,0 +1,74 @@
+name: Keep demos awake
+
+# Streamlit Community Cloud puts an app to sleep after roughly 7 days without
+# a visitor, and serves everyone a "this app has gone to sleep" screen until
+# someone clicks through to wake it. The portfolio links these three apps as
+# demos, so a recruiter following one would land on that screen rather than the
+# app. Visiting them twice a week keeps them in front of the idle timer.
+#
+# This prevents sleep; it cannot wake an app that has already gone under (that
+# needs the "Yes, get this app back up!" button). If a run reports ASLEEP, open
+# the URL once by hand and the schedule will hold it from there.
+
+on:
+  schedule:
+    # 09:00 UTC, Mondays and Thursdays — a 3-4 day gap against a ~7 day timer,
+    # so a single skipped run still leaves margin.
+    - cron: '0 9 * * 1,4'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Streamlit demos
+        run: |
+          set -u
+          APPS="
+          https://mast-steel.streamlit.app
+          https://mast-rl.streamlit.app
+          https://mast-corrosion.streamlit.app
+          "
+
+          asleep=0
+          unreachable=0
+
+          for url in $APPS; do
+            jar="$(mktemp)"
+            body="$(mktemp)"
+
+            # Streamlit answers the first request with a 303 into an auth-cookie
+            # handshake and then redirects back, so the jar and -L are required
+            # to land on the real page.
+            code="$(curl -sS -L --max-time 60 \
+                      -c "$jar" -b "$jar" \
+                      -A 'portfolio-keepalive (github actions)' \
+                      -o "$body" -w '%{http_code}' "$url" || echo 000)"
+
+            if grep -qi 'gone to sleep' "$body"; then
+              echo "::warning title=Demo asleep::$url has already gone to sleep - open it once by hand to wake it"
+              state='ASLEEP'
+              asleep=$((asleep + 1))
+            elif [ "$code" = "200" ]; then
+              state='awake'
+            else
+              state='UNREACHABLE'
+              unreachable=$((unreachable + 1))
+            fi
+
+            printf '%-4s  %-11s  %s\n' "$code" "$state" "$url"
+            rm -f "$jar" "$body"
+          done
+
+          echo "---"
+          echo "asleep: $asleep   unreachable: $unreachable"
+
+          # Fail only on an app we could not reach at all. A sleeping app is
+          # reported as a warning, since the workflow cannot fix that itself.
+          if [ "$unreachable" -gt 0 ]; then
+            echo "::error::$unreachable demo(s) did not respond"
+            exit 1
+          fi

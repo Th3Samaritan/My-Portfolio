@@ -1,0 +1,23 @@
+# Secrets — this repo is published to GitHub Pages, so anything committed here
+# becomes publicly readable at th3samaritan.github.io/My-Portfolio/<path>.
+.env
+.env.*
+*.env
+*.env.txt
+secrets.json
+*.key
+*.pem
+
+# OS / editor cruft
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
