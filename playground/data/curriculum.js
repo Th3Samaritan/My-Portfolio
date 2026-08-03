@@ -9,6 +9,7 @@ import { webTiers, webChallenges } from './track-web.js';
 
 import { pythonLessonTopics, pythonLessons } from './lessons-python.js';
 import { rustLessonTopics, rustLessons } from './lessons-rust.js';
+import { rustExtraLessons } from './lessons-rust-extra.js';
 import { javaLessonTopics, javaLessons } from './lessons-java.js';
 import { webLessonTopics, webLessons } from './lessons-web.js';
 
@@ -41,7 +42,7 @@ export const TRACKS = [
     tiers: rustTiers,
     challenges: rustChallenges,
     lessonTopics: rustLessonTopics,
-    lessons: rustLessons,
+    lessons: [...rustLessons, ...rustExtraLessons],
   },
   {
     id: 'java',

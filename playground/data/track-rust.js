@@ -524,4 +524,84 @@ The subtlety: the receiver only stops when **all** senders are dropped. Clone th
       { id: 'no-join-inside', label: 'Threads run concurrently, not joined inside the spawn loop', weight: 100, re: /spawn\s*\([\s\S]{0,200}\)\s*\.join\s*\(/, negative: true },
     ],
   },
+
+  {
+    id: 'rs-t3',
+    title: 'Generic Stack',
+    tier: 'traits',
+    difficulty: 3,
+    xp: 90,
+    concepts: ['generics', 'traits', 'vec', 'collections'],
+    brief: `Implement a generic \`Stack<T>\` with \`new()\`, \`push(value: T)\`, \`pop() -> Option<T>\`, \`peek() -> Option<&T>\` and \`len() -> usize\`.
+
+Then implement the \`Display\` trait for \`Stack<T> where T: Display\` — it should print elements top-to-bottom, one per line.
+
+Finally write \`merge(a: Stack<i32>, b: Stack<i32>) -> Stack<i32>\` that pops from whichever stack has the larger top (or from a if equal, or takes the rest when one is empty) — this is the "merge" step from patience sorting.`,
+    starter: `use std::fmt;\n\nstruct Stack<T> {\n    items: Vec<T>,\n}\n\n// TODO: impl<T> Stack<T> — new, push, pop, peek, len\n\n// TODO: impl<T: fmt::Display> fmt::Display for Stack<T>\n\n// TODO: fn merge(a: Stack<i32>, b: Stack<i32>) -> Stack<i32>\n`,
+    solution: `use std::fmt;\n\nstruct Stack<T> {\n    items: Vec<T>,\n}\n\nimpl<T> Stack<T> {\n    fn new() -> Self { Stack { items: Vec::new() } }\n    fn push(&mut self, value: T) { self.items.push(value); }\n    fn pop(&mut self) -> Option<T> { self.items.pop() }\n    fn peek(&self) -> Option<&T> { self.items.last() }\n    fn len(&self) -> usize { self.items.len() }\n}\n\nimpl<T: fmt::Display> fmt::Display for Stack<T> {\n    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {\n        for item in self.items.iter().rev() {\n            writeln!(f, "{}", item)?;\n        }\n        Ok(())\n    }\n}\n\nfn merge(mut a: Stack<i32>, mut b: Stack<i32>) -> Stack<i32> {\n    let mut result = Stack::new();\n    loop {\n        match (a.peek(), b.peek()) {\n            (Some(a_top), Some(b_top)) if a_top > b_top => result.push(a.pop().unwrap()),\n            (Some(_), Some(_)) => result.push(b.pop().unwrap()),\n            (Some(_), None) => result.push(a.pop().unwrap()),\n            (None, Some(_)) => result.push(b.pop().unwrap()),\n            (None, None) => break,\n        }\n    }\n    result\n}\n`,
+    hints: [
+      'Stack stores items in a Vec<T>. push appends, pop removes from the end.',
+      'peek() returns an option reference to the top — use .last() on the Vec.',
+      'For Display, iterate self.items.iter().rev() to print from top to bottom.',
+      'merge: loop, peek both stacks, pop from whichever has the larger top.',
+    ],
+    cases: [
+      { name: 'push and pop', call: '{ let mut s: Stack<i32> = Stack::new(); s.push(1); s.push(2); (s.pop(), s.pop(), s.pop()) }', expect: '(Some(2), Some(1), None)' },
+      { name: 'peek does not remove', call: '{ let mut s = Stack::new(); s.push(42); (s.peek().copied(), s.peek().copied(), s.len()) }', expect: '(Some(42), Some(42), 1)' },
+      { name: 'merge interleaves', call: '{ let mut a = Stack::new(); a.push(1); a.push(3); a.push(5); let mut b = Stack::new(); b.push(2); b.push(4); b.push(6); let m = merge(a, b); let mut v = Vec::new(); let mut s = m; while let Some(x) = s.pop() { v.push(x); } v }', expect: 'vec![5, 6, 4, 3, 2, 1]' },
+      { name: 'merge with empty', call: '{ let a = Stack::new(); let mut b = Stack::new(); b.push(10); let m = merge(a, b); m.peek().copied() }', expect: 'Some(10)' },
+      { name: 'Display format', call: '{ let mut s = Stack::new(); s.push(1); s.push(2); s.push(3); format!("{}", s) }', expect: '"3\n2\n1\n"' },
+    ],
+    budgetMs: 60,
+    refLines: 32,
+    quality: [
+      { id: 'generic-struct', label: 'Stack is generic over T', weight: 30, re: /struct\s+Stack\s*<\s*T\s*>/ },
+      { id: 'impl-display', label: 'Implements Display trait', weight: 25, re: /impl\s*<\s*T\s*:\s*fmt::Display\s*>\s*fmt::Display\s+for\s+Stack/ },
+      { id: 'option-methods', label: 'Methods return Option, not panic', weight: 25, re: /->\s*Option/ },
+      { id: 'match-merge', label: 'merge uses match with guards', weight: 20, re: /match.*peek/ },
+    ],
+    efficiency: [
+      { id: 'single-examine', label: 'merge peeks (no double-lookup)', weight: 100, re: /\.peek\s*\(\s*\)[\s\S]*\.pop\s*\(\s*\)/, negative: false },
+    ],
+  },
+
+  {
+    id: 'rs-x3',
+    title: 'Parallel Word Count',
+    tier: 'concurrency',
+    difficulty: 4,
+    xp: 110,
+    concepts: ['concurrency', 'threads', 'channels', 'hashmap', 'mpsc'],
+    brief: `\`parallel_word_count(lines: Vec<String>, num_threads: usize) -> HashMap<String, usize>\`
+
+Split the lines across threads. Each thread counts word frequencies in its chunk and sends the result through a channel. The main thread merges all partial HashMaps into one.
+
+Use \`mpsc::channel\`, clone the sender per thread, send \`HashMap<String, usize>\` through the channel, and merge with the entry().or_insert() pattern.`,
+    starter: `use std::collections::HashMap;\nuse std::sync::mpsc;\nuse std::thread;\n\nfn parallel_word_count(lines: Vec<String>, num_threads: usize) -> HashMap<String, usize> {\n    todo!()\n}\n`,
+    solution: `use std::collections::HashMap;\nuse std::sync::mpsc;\nuse std::thread;\n\nfn parallel_word_count(lines: Vec<String>, num_threads: usize) -> HashMap<String, usize> {\n    if lines.is_empty() { return HashMap::new(); }\n    let chunk_size = (lines.len() + num_threads - 1) / num_threads;\n    let (tx, rx) = mpsc::channel();\n\n    for chunk in lines.chunks(chunk_size) {\n        let tx = tx.clone();\n        let owned: Vec<String> = chunk.to_vec();\n        thread::spawn(move || {\n            let mut counts = HashMap::new();\n            for line in &owned {\n                for word in line.split_whitespace() {\n                    *counts.entry(word.to_string()).or_insert(0) += 1;\n                }\n            }\n            let _ = tx.send(counts);\n        });\n    }\n    drop(tx);\n\n    let mut result = HashMap::new();\n    for partial in rx {\n        for (word, count) in partial {\n            *result.entry(word).or_insert(0) += count;\n        }\n    }\n    result\n}\n`,
+    hints: [
+      'Compute chunk_size = (lines.len() + num_threads - 1) / num_threads.',
+      'Clone sender per thread. Each thread takes ownership of its chunk via to_vec().',
+      'Merge results: for partial in rx { for (word, count) in partial { *result.entry(word).or_insert(0) += count; } }',
+      'drop(tx) before draining the receiver so rx.iter() terminates.',
+    ],
+    cases: [
+      { name: 'single thread', call: 'parallel_word_count(vec!["hello world".into(), "hello rust".into()], 1).get("hello").copied().unwrap_or(0)', expect: '2' },
+      { name: 'two threads', call: 'parallel_word_count(vec!["a b".into(), "b c".into(), "c d".into()], 2).get("b").copied().unwrap_or(0)', expect: '2' },
+      { name: 'empty input', call: 'parallel_word_count(vec![], 4).len()', expect: '0' },
+      { name: 'word count correct', call: '{ let m = parallel_word_count(vec!["x y z".into(), "y z w".into()], 2); (m.get("x").copied().unwrap_or(0), m.get("y").copied().unwrap_or(0), m.get("z").copied().unwrap_or(0), m.get("w").copied().unwrap_or(0)) }', expect: '(1, 2, 2, 1)' },
+      { name: 'more threads than items', call: 'parallel_word_count(vec!["only".into()], 10).get("only").copied().unwrap_or(0)', expect: '1', hidden: true },
+    ],
+    budgetMs: 2000,
+    refLines: 28,
+    quality: [
+      { id: 'channel', label: 'Uses mpsc channel to collect results', weight: 35, re: /mpsc::channel/ },
+      { id: 'drop-tx', label: 'Drops original sender for termination', weight: 20, re: /drop\s*\(\s*tx\s*\)/ },
+      { id: 'entry-merge', label: 'Merges HashMaps with entry().or_insert()', weight: 25, re: /entry\s*\(/ },
+      { id: 'chunk-to-vec', label: 'Threads take ownership via to_vec()', weight: 20, re: /to_vec\s*\(\s*\)/ },
+    ],
+    efficiency: [
+      { id: 'parallel-spawn', label: 'Threads are spawned before any joins — concurrent execution', weight: 100, re: /spawn\s*\([\s\S]{0,100}\)\s*\.join\s*\(/, negative: true },
+    ],
+  },
 ];
