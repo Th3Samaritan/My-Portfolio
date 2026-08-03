@@ -467,4 +467,94 @@ That second one is the whole lesson in miniature: two threads hammering one coun
       { id: 'submit-then-get', label: 'Submits all tasks before collecting results', weight: 100, re: /submit\s*\([\s\S]{0,300}\)\s*\.get\s*\(\s*\)/, negative: true },
     ],
   },
+
+  {
+    id: 'jv-s2',
+    title: 'Stream Collectors',
+    tier: 'streams',
+    difficulty: 3,
+    xp: 95,
+    concepts: ['streams', 'collectors', 'grouping', 'collect'],
+    brief: `\`static Map<String, List<String>> groupByFirstLetter(List<String> words)\`
+
+Group words by their first letter using \`Collectors.groupingBy\`. Return a sorted \`TreeMap\` so the output is deterministic.
+
+\`static String joinWithCommas(List<String> items)\`
+
+Join the list with \`, \` (comma + space) using \`Collectors.joining\`.
+
+\`static Map<Boolean, List<Integer>> partitionEvenOdd(List<Integer> numbers)\`
+
+Use \`Collectors.partitioningBy\` to split numbers into even/odd groups.`,
+    starter: `static Map<String, List<String>> groupByFirstLetter(List<String> words) {\n    return null;\n}\n\nstatic String joinWithCommas(List<String> items) {\n    return null;\n}\n\nstatic Map<Boolean, List<Integer>> partitionEvenOdd(List<Integer> numbers) {\n    return null;\n}\n`,
+    solution: `static Map<String, List<String>> groupByFirstLetter(List<String> words) {\n    return words.stream()\n        .collect(Collectors.groupingBy(\n            w -> w.substring(0, 1).toLowerCase(),\n            TreeMap::new,\n            Collectors.toList()\n        ));\n}\n\nstatic String joinWithCommas(List<String> items) {\n    return items.stream().collect(Collectors.joining(", "));\n}\n\nstatic Map<Boolean, List<Integer>> partitionEvenOdd(List<Integer> numbers) {\n    return numbers.stream().collect(Collectors.partitioningBy(n -> n % 2 == 0));\n}\n`,
+    hints: [
+      'Collectors.groupingBy takes a classifier function and optionally a map supplier and downstream collector.',
+      'Collectors.joining(", ") glues strings with the given delimiter.',
+      'Collectors.partitioningBy splits into two groups based on a predicate.',
+    ],
+    cases: [
+      { name: 'group by first letter', call: 'groupByFirstLetter(Arrays.asList("apple", "ant", "banana", "bat"))', expect: 'Stream.of(new String[][]{{"a", "[apple, ant]"}, {"b", "[banana, bat]"}}).collect(Collectors.toMap(e -> e[0], e -> e[1]))' },
+      { name: 'empty words', call: 'groupByFirstLetter(new ArrayList<String>())', expect: 'new TreeMap<String, List<String>>()' },
+      { name: 'join with commas', call: 'joinWithCommas(Arrays.asList("a", "b", "c"))', expect: '"a, b, c"' },
+      { name: 'single item', call: 'joinWithCommas(Arrays.asList("only"))', expect: '"only"' },
+      { name: 'partition evens', call: 'partitionEvenOdd(Arrays.asList(1, 2, 3, 4, 5, 6))', expect: 'Stream.of(new Object[][]{{false, "[1, 3, 5]"}, {true, "[2, 4, 6]"}}).collect(Collectors.toMap(e -> (Boolean) e[0], e -> e[1]))', hidden: true },
+      { name: 'all even', call: 'partitionEvenOdd(Arrays.asList(2, 4))', expect: 'Stream.of(new Object[][]{{true, "[2, 4]"}, {false, "[]"}}).collect(Collectors.toMap(e -> (Boolean) e[0], e -> e[1]))', hidden: true },
+    ],
+    budgetMs: 60,
+    refLines: 18,
+    quality: [
+      { id: 'stream-api', label: 'Uses stream() pipeline', weight: 30, re: /\.stream\s*\(\s*\)/ },
+      { id: 'groupingBy', label: 'Uses Collectors.groupingBy', weight: 25, re: /Collectors\.groupingBy/ },
+      { id: 'joining', label: 'Uses Collectors.joining', weight: 20, re: /Collectors\.joining/ },
+      { id: 'partitioningBy', label: 'Uses Collectors.partitioningBy', weight: 25, re: /Collectors\.partitioningBy/ },
+    ],
+    efficiency: [
+      { id: 'no-chain', label: 'No collect-then-stream chains (each fn single-pass)', weight: 100, re: /\)\s*\.collect\s*\([\s\S]{0,100}\)\s*\.stream\s*\(\s*\)/, negative: true },
+    ],
+  },
+
+  {
+    id: 'jv-x2',
+    title: 'Producer-Consumer Queue',
+    tier: 'concurrency',
+    difficulty: 4,
+    xp: 115,
+    concepts: ['concurrency', 'blocking-queue', 'threads', 'producer-consumer'],
+    brief: `\`static int producerConsumer(int numItems, int consumers) throws InterruptedException\`
+
+Create a \`LinkedBlockingQueue<Integer>\`. Spawn \`consumers\` consumer threads — each polls from the queue until it receives -1 (poison pill), summing what it pulled. The main thread is the producer: it puts values 1 through \`numItems\` then puts \`consumers\` poison pills (-1). Join all consumers and return the total sum.
+
+\`static List<String> parallelFetch(List<String> urls)\`
+
+Given a list of URL strings, submit fetch tasks to a cached thread pool. Each task returns \`"OK: <url>"\` (you don't actually fetch — just simulate with a tiny sleep). Collect results via \`Future.get()\` and return them in order. Shut the pool down after.`,
+    starter: `static int producerConsumer(int numItems, int consumers) throws InterruptedException {\n    return 0;\n}\n\nstatic List<String> parallelFetch(List<String> urls) {\n    return null;\n}\n`,
+    solution: `static int producerConsumer(int numItems, int consumers) throws InterruptedException {\n    LinkedBlockingQueue<Integer> queue = new LinkedBlockingQueue<>();\n\n    List<Thread> threads = new ArrayList<>();\n    AtomicInteger total = new AtomicInteger();\n\n    for (int i = 0; i < consumers; i++) {\n        Thread t = new Thread(() -> {\n            int sum = 0;\n            try {\n                while (true) {\n                    Integer value = queue.take();\n                    if (value == -1) break;\n                    sum += value;\n                }\n            } catch (InterruptedException e) {\n                Thread.currentThread().interrupt();\n            }\n            total.addAndGet(sum);\n        });\n        t.start();\n        threads.add(t);\n    }\n\n    for (int i = 1; i <= numItems; i++) queue.put(i);\n    for (int i = 0; i < consumers; i++) queue.put(-1);\n\n    for (Thread t : threads) t.join();\n    return total.get();\n}\n\nstatic List<String> parallelFetch(List<String> urls) {\n    ExecutorService pool = Executors.newCachedThreadPool();\n    try {\n        List<Future<String>> futures = new ArrayList<>();\n        for (String url : urls) {\n            futures.add(pool.submit(() -> {\n                Thread.sleep(1);\n                return "OK: " + url;\n            }));\n        }\n        List<String> results = new ArrayList<>();\n        for (Future<String> f : futures) results.add(f.get());\n        return results;\n    } catch (Exception e) {\n        throw new RuntimeException(e);\n    } finally {\n        pool.shutdown();\n    }\n}\n`,
+    hints: [
+      'For producer-consumer: LinkedBlockingQueue with take() blocks consumers until data arrives.',
+      'Use AtomicInteger for the shared total — consumers write to it, main thread reads it.',
+      'Put poison pills (-1) last — one per consumer — so every consumer eventually exits.',
+      'For parallelFetch: submit all tasks first, then get() the futures in a separate loop.',
+    ],
+    cases: [
+      { name: '10 items, 2 consumers', call: 'producerConsumer(10, 2)', expect: '55' },
+      { name: 'single consumer', call: 'producerConsumer(5, 1)', expect: '15' },
+      { name: 'no items', call: 'producerConsumer(0, 3)', expect: '0' },
+      { name: 'parallel fetch 3 urls', call: 'parallelFetch(Arrays.asList("a.com", "b.com", "c.com"))', expect: 'Arrays.asList("OK: a.com", "OK: b.com", "OK: c.com")' },
+      { name: 'empty url list', call: 'parallelFetch(new ArrayList<String>())', expect: 'new ArrayList<String>()' },
+      { name: '50 items, 4 consumers', call: 'producerConsumer(50, 4)', expect: '1275', hidden: true },
+    ],
+    budgetMs: 3000,
+    refLines: 48,
+    quality: [
+      { id: 'blocking-queue', label: 'Uses LinkedBlockingQueue', weight: 25, re: /LinkedBlockingQueue/ },
+      { id: 'poison-pill', label: 'Uses poison pill pattern (-1 sentinel)', weight: 20, re: /==\s*-1\s*\)/ },
+      { id: 'thread-join', label: 'Joins every consumer thread', weight: 15, re: /\.join\s*\(\s*\)/ },
+      { id: 'executor', label: 'Uses ExecutorService for fetch', weight: 20, re: /ExecutorService|Executors\.new/ },
+      { id: 'shutdown', label: 'Shuts pool down', weight: 20, re: /\.shutdown\s*\(\s*\)/ },
+    ],
+    efficiency: [
+      { id: 'parallel-submit', label: 'Submits all tasks before collecting', weight: 100, re: /submit\s*\([\s\S]{0,300}\)\s*\.get\s*\(\s*\)/, negative: true },
+    ],
+  },
 ];

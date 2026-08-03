@@ -151,4 +151,52 @@ export const rustExtraLessons = [
       },
     ],
   },
+
+  /* ==================================================== 16 */
+  {
+    id: 'rs-l16',
+    topic: 'concurrency',
+    difficulty: 'advanced',
+    title: 'Async Rust and Futures',
+    minutes: 15,
+    summary: 'The async/await model, Futures, and how Rust achieves zero-cost asynchronous programming without a runtime built into the language.',
+    objectives: ['Write an async function with async/await syntax', 'Understand that async fn returns a Future, not a value', 'Use tokio::join! to run futures concurrently'],
+    blocks: [
+      { t: 'text', md: "Rust's async story is different from most languages. There is **no built-in runtime** — `async` and `await` are language keywords that produce state machines, but you bring your own executor (Tokio, async-std, smol).\n\n```rust\nasync fn fetch_data() -> String {\n    // This compiles but does nothing until .await-ed on a runtime\n    \"data\".to_string()\n}\n```\n\nAn `async fn` returns a `Future` — a value that represents work **not yet done**. Nothing happens until the future is polled by an executor. This is why you need a runtime like Tokio to actually run async code." },
+      { t: 'code', run: true, lang: 'rust', code: "// Async functions return Futures, not values.\n// They must be .await-ed inside another async context.\n\nasync fn double(x: i32) -> i32 {\n    x * 2\n}\n\nasync fn compute() -> i32 {\n    let a = double(10).await;\n    let b = double(20).await;\n    a + b  // 20 + 40 = 60\n}\n\n// Without a runtime, we demonstrate the idea with a sync wrapper.\n// In real code, you'd use #[tokio::main] or similar.\nfn main() {\n    // This only works for illustration — a real async program needs an executor.\n    // The concept: Futures compose, .await yields control, and the executor orchestrates.\n    println!(\"Async functions produce Futures. An executor polls them to completion.\");\n}" },
+      { t: 'text', md: "## Concurrent execution with join!\n\n`.await` runs futures **sequentially** — each one completes before the next starts. To run futures **concurrently**, use `tokio::join!` (or `futures::join!`):\n\n```rust\ntokio::join!(future_a, future_b, future_c);\n```\n\nAll three start together. `join!` returns when all are done. This is the async equivalent of spawning threads — but without the overhead of OS threads." },
+      {
+        t: 'case',
+        title: 'Case study \u2014 concurrent HTTP requests',
+        md: "Fetching three URLs sequentially takes N*latency. Fetching them concurrently with join! takes max(latency). This is the core value proposition of async — doing other work while waiting for I/O. The syntax mirrors sequential code but the runtime interleaves execution.",
+        run: true,
+        lang: 'rust',
+        code: "use std::time::{Duration, Instant};\n\n// Simulated async I/O — in real code this would be reqwest::get()\nasync fn fetch(id: u32, delay_ms: u64) -> String {\n    // std::thread::sleep is blocking — this is just for illustration.\n    // Real async code would use tokio::time::sleep.\n    format!(\"result from {id}\")\n}\n\n// Pattern: define work as Futures, join them for concurrency\nfn main() {\n    let start = Instant::now();\n\n    // In real async code with tokio:\n    // let (r1, r2, r3) = tokio::join!(fetch(1), fetch(2), fetch(3));\n\n    println!(\"Three futures, one join! call — all run concurrently\");\n    println!(\"Elapsed: {:?}\", start.elapsed());\n}" },
+      { t: 'text', md: "## The async ecosystem\n\n| Crate | Purpose |\n|---|---|\n| `tokio` | The dominant async runtime — executor, I/O, timers, channels |\n| `async-std` | stdlib-like API, lighter weight |\n| `futures` | Combinators and utilities (join!, select!, Stream) |\n| `reqwest` | Async HTTP client built on tokio |\n| `sqlx` | Async SQL database driver |\n\nMost production Rust async code uses Tokio. Add it to Cargo.toml with `cargo add tokio --features full`." },
+      {
+        t: 'try',
+        prompt: "Write an async function add_async(a: i32, b: i32) -> i32 that returns the sum. Then write an async function compute_sum() -> i32 that calls add_async(5, 10).await and add_async(15, 20).await, then returns the total (5+10+15+20 = 50).\n\nNote: in the harness these are called synchronously — focus on writing correct async/await syntax.",
+        lang: 'rust',
+        starter: "async fn add_async(a: i32, b: i32) -> i32 {\n    todo!()\n}\n\nasync fn compute_sum() -> i32 {\n    todo!()\n}\n",
+        solution: "async fn add_async(a: i32, b: i32) -> i32 {\n    a + b\n}\n\nasync fn compute_sum() -> i32 {\n    let x = add_async(5, 10).await;\n    let y = add_async(15, 20).await;\n    x + y\n}\n",
+        hints: ['async fn returns impl Future — write the body as normal code.', '.await yields control until the future completes.', 'compute_sum: await each call, add the results.'],
+        cases: [
+          { name: 'add async', call: 'add_async(3, 4)', expect: '7' },
+          { name: 'compute sum', call: 'compute_sum()', expect: '50' },
+        ],
+      },
+      { t: 'quiz', q: 'Why does Rust need an external runtime for async (like Tokio) when languages like JavaScript and Python have built-in event loops?', options: ['Rust is incomplete', 'Rust has no built-in runtime by design — this keeps the language small, lets you choose the executor, and allows async in embedded/no_std contexts where an event loop would be wasteful', 'Tokio is built into Rust but hidden', 'Async Rust is experimental'], answer: 1, why: "Rust targets everything from microcontrollers to servers. Baking in an event loop would make it unsuitable for environments that don't want one. Instead, async is a language feature that compiles to efficient state machines, and you pick the executor (or none) that fits." },
+      {
+        t: 'try',
+        prompt: "Write compute_all() that demonstrates the concurrent pattern. It should call add_async(1, 2), add_async(3, 4), and add_async(5, 6) — each returning 3, 7, and 11 respectively. Then return their sum (21).\n\nCall them sequentially with .await — the point is writing the pattern, even though these particular futures are not I/O-bound.",
+        lang: 'rust',
+        starter: "async fn compute_all() -> i32 {\n    todo!()\n}\n",
+        solution: "async fn compute_all() -> i32 {\n    let a = add_async(1, 2).await;\n    let b = add_async(3, 4).await;\n    let c = add_async(5, 6).await;\n    a + b + c\n}\n",
+        hints: ['Await each call and add the results.', 'No special syntax needed — just .await each one.', 'Return the sum.'],
+        cases: [
+          { name: 'compute all', call: 'compute_all()', expect: '21' },
+        ],
+      },
+    ],
+  },
 ];
