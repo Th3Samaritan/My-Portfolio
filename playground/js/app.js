@@ -413,6 +413,19 @@ function boot() {
 
   // First visit: offer a profile. Skippable, and never asked twice per session.
   ensureProfile().then(() => refreshShellStats());
+
+  // Notify the SW about all data files so they're cached before the user visits them.
+  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+    const dataFiles = [
+      '/playground/data/curriculum.js',
+      '/playground/data/assessments.js',
+      ...TRACKS.flatMap((t) => [
+        `/playground/data/lessons-${t.id}.js`,
+        t.kind === 'code' ? `/playground/data/track-${t.id}.js` : null,
+      ]).filter(Boolean),
+    ];
+    navigator.serviceWorker.controller.postMessage({ type: 'precache', urls: dataFiles });
+  }
 }
 
 if (document.readyState === 'loading') {

@@ -59,6 +59,26 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
+/* ---- message: allow the app to request pre-caching of new files ---- */
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'precache' && Array.isArray(event.data.urls)) {
+    event.waitUntil(
+      caches.open(CACHE).then((cache) =>
+        Promise.allSettled(
+          event.data.urls.map((url) =>
+            cache.match(url).then((cached) => {
+              if (cached) return;
+              return fetch(url, { credentials: 'same-origin' }).then((response) => {
+                if (response.ok) cache.put(url, response);
+              });
+            }).catch(() => {})
+          )
+        )
+      )
+    );
+  }
+});
+
 /* ---- fetch: cache-first, then network ---- */
 self.addEventListener('fetch', (event) => {
   // Only handle GET requests to our own origin

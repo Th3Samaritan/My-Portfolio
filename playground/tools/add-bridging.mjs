@@ -43,25 +43,41 @@ function addBridging(content, bridgingMap) {
   let result = content;
   
   for (const [lessonId, bridging] of Object.entries(bridgingMap)) {
-    const introBlock = `\n      { t:'text', md:\`**Previously:** ${bridging.prev}\n\n${bridging.why}\` },\n      `;
-    const outroBlock = `\n      { t:'text', md:\`${bridging.next}\` },\n`;
+    const introText = `**Previously:** ${bridging.prev}
+
+${bridging.why}`;
+    const outroText = bridging.next;
     
     const lessonStart = new RegExp(
       `(id:\\s*'${lessonId}'[\\s\\S]*?blocks:\\s*\\[)`,
       'm'
     );
-    result = result.replace(lessonStart, (match) => match + introBlock);
     
-    // Insert outro before the blocks array closing: find the lesson's
-    // `\n    ],\n  },` pattern and insert outro text before it
-    const outroRegex = new RegExp(
-      `(id:\\s*'${lessonId}'[\\s\\S]*?)(\\r?\\n    \\],\\r?\\n  \\},)`,
+    // Only insert intro if it's not already present
+    const existingIntro = new RegExp(
+      `id:\\s*'${lessonId}'[\\s\\S]*?blocks:\\s*\\[[\\s\\S]*?\\{ t:'text',\\s*md:\`\\*\\*Previously:\\*\\*\\s*${bridging.prev.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`,
       'm'
     );
+    if (!existingIntro.test(result)) {
+      const introBlock = `\n      { t:'text', md:\`${introText}\` },\n      `;
+      result = result.replace(lessonStart, (match) => match + introBlock);
+    }
     
-    result = result.replace(outroRegex, (match, before, after) => {
-      return before + outroBlock + after;
-    });
+    // Only insert outro if it's not already present
+    const existingOutro = new RegExp(
+      `md:\`${outroText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\``,
+      'm'
+    );
+    if (!existingOutro.test(result)) {
+      const outroRegex = new RegExp(
+        `(id:\\s*'${lessonId}'[\\s\\S]*?)(\\r?\\n    \\],\\r?\\n  \\},)`,
+        'm'
+      );
+      const outroBlock = `\n      { t:'text', md:\`${outroText}\` },\n`;
+      result = result.replace(outroRegex, (match, before, after) => {
+        return before + outroBlock + after;
+      });
+    }
   }
   
   return result;

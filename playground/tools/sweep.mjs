@@ -3,24 +3,25 @@
 
      node tools/sweep.mjs rust
      node tools/sweep.mjs java
+     node tools/sweep.mjs python
 
    Uses the same harness builder the app uses, so it catches
    broken templates, bad `expect` values and type mismatches
    before you ever see them in the UI.
 
-   Python and Web cannot run under Node (Pyodide and the DOM
-   sandbox both need a browser). Sweep those from the app's
-   console at /playground/ with:
+   Python uses the Compiler Explorer (godbolt.org) API — the same
+   remote backend the app falls back to when Pyodide is unavailable.
+
+   Web challenges need a real browser DOM and cannot run here.
+   Sweep those from the app's console at /playground/ with:
 
      const v = '?b=' + Date.now();
      const { TRACKS } = await import('./data/curriculum.js' + v);
      const runner = await import('./js/runner.js' + v);
-     for (const id of ['python', 'web']) {
+     for (const id of ['web']) {
        const track = TRACKS.find(t => t.id === id);
        for (const ch of track.challenges) {
-         const r = id === 'web'
-           ? await runner.runWebChallenge(ch, ch.solution, {})
-           : await runner.runCodeChallenge(track, ch, ch.solution, {});
+         const r = await runner.runWebChallenge(ch, ch.solution, {});
          const pass = r.results.filter(x => x.passed).length;
          console.log(ch.id, pass + '/' + r.results.length,
            r.results.filter(x => !x.passed).map(x => x.name).join('; '));
@@ -55,13 +56,13 @@ async function newestCompiler(lang) {
 
 const wanted = process.argv[2];
 if (!wanted) {
-  console.error('usage: node tools/sweep.mjs <rust|java>');
+  console.error('usage: node tools/sweep.mjs <rust|java|python>');
   process.exit(2);
 }
 
 const track = TRACKS.find((t) => t.id === wanted);
-if (!track || track.kind !== 'code') {
-  console.error(`"${wanted}" is not a compiled track. Sweep python/web from the browser — see the header.`);
+if (!track || (track.kind !== 'code' && wanted !== 'python')) {
+  console.error(`"${wanted}" is not a supported track. Sweep web challenges from the browser — see the header.`);
   process.exit(2);
 }
 
