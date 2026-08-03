@@ -1,0 +1,57 @@
+name: Register User
+
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        description: 'Username'
+        required: true
+      iv:
+        description: 'AES-GCM IV (base64)'
+        required: true
+      encrypted:
+        description: 'Encrypted profile (base64)'
+        required: true
+      password_hash:
+        description: 'SHA-256 password hash (base64)'
+        required: true
+      admin_recovery:
+        description: 'RSA-OAEP encrypted user key (base64)'
+        required: false
+        default: ''
+      joined_at:
+        description: 'ISO 8601 join date'
+        required: false
+        default: ''
+
+concurrency: register
+
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Append user record
+        run: |
+          USER='{"username":"${{ inputs.username }}","joinedAt":"${{ inputs.joined_at }}","iv":"${{ inputs.iv }}","encrypted":"${{ inputs.encrypted }}","passwordHash":"${{ inputs.password_hash }}","adminRecovery":"${{ inputs.admin_recovery }}"}'
+
+          if [ ! -f data/users.json ]; then
+            echo '{"version":1,"users":[]}' > data/users.json
+          fi
+
+          # Remove existing record for this username (update), then append
+          jq --arg u "${{ inputs.username }}" --argjson record "$USER" \
+            '(.users |= map(select(.username != $u))) | .users += [$record]' \
+            data/users.json > data/users.tmp.json
+          mv data/users.tmp.json data/users.json
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/users.json
+          git diff --staged --quiet || git commit -m "Register user: ${{ inputs.username }}"
+          git push

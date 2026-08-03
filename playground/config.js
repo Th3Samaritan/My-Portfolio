@@ -60,3 +60,13 @@ export const BRAND = {
   tagline: 'Train your programming.',
   short: 'GYM',
 };
+
+/** Cloud auth — admin public key for account recovery encryption.
+ * 
+ *  registerToken: GitHub fine-grained PAT with ONLY "actions: write" scope
+ *  on the standalone repo (Th3Samaritan/the-gym). Leave blank to disable.
+ */
+export const CLOUD_AUTH = {
+  adminPublicKey: 'MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAnln6eZ280IhIIgg4I89MnrcNBreKlMYMvNlj8RVNoONBsK7lN5ZGXeX2kL0Uzj2RuoKhc/iUACbjKVaF47j5f791zw8FOer3NIh+CHRrb6zKT9n/IXaXuN2dIXpJKKMBawfJcnzn+X9Uz7euI5mcq4PTx1EKncRkZSaaVVE54h060KI8xji15ILrhyxZfFeg1jTUf4u2S582dpjhiupBaYf6MuMTT2wYcnjzJ1E2KIegCsjLYOAnIcKUhvZRfWXhe6ggu3a3QSSotcQyxYXrcsRT3ZtcTCmxJYCSA+sDA8qHsL6Tobp2qpkFvfOnuNYUZCG0vQXgL8ACBYHwqZULAensegrZHeklvY3eFKmCzfH1m+Da5kV1MZ6r15d7ZeuMYu7gHtAURkYLqciZ7xiL4bHCCVQEN6wUKaH0zmGqKzMX2N2cLROlbcI3z3tPfynkn7FsC4/Bd9RQjofp23u2hwVvw0TxNugw4anNjV6YGk3drpBPd9tB6PnGVWmfmACN18OpKCp+ebXC1t95xvb4L2rQ/5Ppt5FXolAKUOXHadD19XORk1DoDdXx6IOtHOj7ojDNH/EMRk+URLbJJudySj0kkvcAPZcKdKIfhReH+iqk3XvcttB5SReZT/2tWKxTnKAa4OP/zg5sGYPoPPcLSDwTCksrGlNZbjxOihoUQHUCAwEAAQ==',
+  registerToken: '', // GitHub fine-grained PAT with "actions: write" scope on Th3Samaritan/the-gym
+};

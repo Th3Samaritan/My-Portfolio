@@ -40,6 +40,7 @@ const SHELL = [
   '/playground/data/track-rust.js',
   '/playground/data/track-java.js',
   '/playground/data/track-web.js',
+  '/playground/data/users.json',
 ];
 
 /* ---- install: pre-cache the app shell ---- */

@@ -12,7 +12,7 @@ const EMPTY = {
   version: 2,
   xp: 0,
   // Who you are. No password — this is a training log, not a bank.
-  profile: { username: '', name: '', courses: [], joinedAt: null },
+  profile: { username: '', name: '', email: '', courses: [], joinedAt: null },
   attempts: {},     // challengeId -> { attempts, bestScore, awardedXp, cleared, lastAt, history[] }
   lessons: {},      // lessonId  -> { exercises:{}, quizzes:{}, done, completedAt }
   drafts: {},       // challengeId -> string | { html, css, js }
@@ -287,17 +287,25 @@ export function hasProfile() {
   return Boolean(load().profile.username);
 }
 
-export function saveProfile({ username, name, courses }) {
+export function saveProfile({ username, name, email, courses }) {
   load();
   state.profile = {
     ...state.profile,
     username: String(username || '').trim(),
     name: String(name || '').trim(),
+    email: String(email || state.profile.email || '').trim(),
     courses: Array.isArray(courses) ? courses : state.profile.courses,
     joinedAt: state.profile.joinedAt || Date.now(),
   };
   save();
   return state.profile;
+}
+
+export function setState(newState) {
+  const current = load();
+  Object.assign(state, newState);
+  save();
+  return state;
 }
 
 export function setCourses(courses) {
