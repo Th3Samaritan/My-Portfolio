@@ -636,9 +636,75 @@ export function renderProfile(host) {
       <button class="btn" id="share-progress">Generate summary</button>
       <div id="share-output" style="margin-top:14px"></div>
     </div>
+
+    <div class="card" style="margin-top:22px">
+      <div class="card-head"><h3>Sync to GitHub Gist</h3></div>
+      <p style="font-size:0.86rem;color:var(--text-dim);margin-bottom:12px">
+        Save your progress to a private GitHub Gist. Restore it on another device by pasting the Gist ID.
+        Requires a <a href="https://github.com/settings/tokens" target="_blank" rel="noopener" style="color:var(--blue-soft)">GitHub token</a> with the <code>gist</code> scope.
+      </p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px">
+        <input id="gist-token" type="password" placeholder="GitHub personal access token" autocomplete="off"
+          style="flex:1;min-width:200px;padding:9px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg-input);color:var(--text);font-size:0.82rem" />
+        <button class="btn" id="gist-save">Save to Gist</button>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <input id="gist-id" type="text" placeholder="Or paste an existing Gist ID to restore" autocomplete="off"
+          style="flex:1;min-width:200px;padding:9px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg-input);color:var(--text);font-size:0.82rem" />
+        <button class="btn" id="gist-load">Restore from Gist</button>
+      </div>
+      <div id="gist-status" style="margin-top:10px;font-size:0.8rem"></div>
+    </div>
   `;
 
   render(host, html);
+
+  // Gist handlers
+  host.querySelector('#gist-save').addEventListener('click', async () => {
+    const token = host.querySelector('#gist-token').value.trim();
+    if (!token) { toast('Enter a GitHub token first.', 'warn'); return; }
+    const status = host.querySelector('#gist-status');
+    status.textContent = 'Saving…';
+    try {
+      const res = await fetch('https://api.github.com/gists', {
+        method: 'POST',
+        headers: { Authorization: 'token ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          description: 'The GYM progress backup',
+          public: false,
+          files: { 'prism-progress.json': { content: store.exportJson() } },
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed');
+      status.innerHTML = `Saved! Gist ID: <code style="background:var(--bg-panel-2);padding:2px 8px;border-radius:4px">${data.id}</code> — save this ID to restore later.`;
+      toast('Progress saved to Gist.', 'good');
+    } catch (e) {
+      status.textContent = 'Error: ' + (e.message || 'Unknown');
+      toast('Gist save failed.', 'warn');
+    }
+  });
+
+  host.querySelector('#gist-load').addEventListener('click', async () => {
+    const gistId = host.querySelector('#gist-id').value.trim();
+    if (!gistId) { toast('Paste a Gist ID first.', 'warn'); return; }
+    const status = host.querySelector('#gist-status');
+    status.textContent = 'Loading…';
+    try {
+      const res = await fetch('https://api.github.com/gists/' + encodeURIComponent(gistId));
+      if (!res.ok) throw new Error('Gist not found');
+      const data = await res.json();
+      const file = Object.values(data.files || {})[0];
+      if (!file || !file.content) throw new Error('Empty gist');
+      store.importJson(file.content);
+      status.textContent = 'Restored! Reloading in 1s…';
+      toast('Progress restored from Gist.', 'good');
+      setTimeout(() => location.reload(), 1000);
+    } catch (e) {
+      status.textContent = 'Error: ' + (e.message || 'Unknown');
+      toast('Gist load failed.', 'warn');
+    }
+  });
 
   // Share handler
   host.querySelector('#share-progress').addEventListener('click', () => {

@@ -539,4 +539,98 @@ The hidden test refreshes the iframe and checks the value survived.`,
       { id: 'no-polling', label: 'No setInterval/setTimeout polling', weight: 100, re: /setInterval|setTimeout/, negative: true },
     ],
   },
+
+  /* ---------------------------------------------------------------- Layout — CSS Transition */
+  {
+    id: 'web-l4',
+    title: 'CSS Hover Transition',
+    tier: 'layout',
+    difficulty: 2,
+    xp: 55,
+    concepts: ['css', 'transitions', 'animations'],
+    brief: `Make `.card` smoothly transition its background and shadow on hover.
+
+Required:
+- `.card` starts with a light background and a subtle shadow
+- on hover: darker background, larger shadow, slight lift (transform)
+- the transition must be smooth — use \`transition\` on the base state
+- no JavaScript allowed`,
+    files: {
+      html: `<div class="card">\n  <h3>Card</h3>\n  <p>Hover over me.</p>\n</div>`,
+      css: `.card {\n  padding: 2rem;\n  background: #f8fafc;\n  border-radius: 10px;\n  box-shadow: 0 1px 3px rgba(0,0,0,0.1);\n  /* add transition and hover styles */\n}`,
+      js: `// No JavaScript allowed — CSS only`,
+    },
+    solution: {
+      html: `<div class="card">\n  <h3>Card</h3>\n  <p>Hover over me.</p>\n</div>`,
+      css: `.card {\n  padding: 2rem;\n  background: #f8fafc;\n  border-radius: 10px;\n  box-shadow: 0 1px 3px rgba(0,0,0,0.1);\n  transition: background 200ms ease, box-shadow 200ms ease, transform 200ms ease;\n  cursor: pointer;\n}\n\n.card:hover {\n  background: #e2e8f0;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n  transform: translateY(-2px);\n}`,
+      js: `// No JavaScript allowed — CSS only`,
+    },
+    hints: [
+      'transition: background 200ms ease, box-shadow 200ms ease, transform 200ms ease;',
+      'Use .card:hover to define the hover state',
+      'transform: translateY(-2px) creates a subtle lift',
+    ],
+    checks: [
+      { name: 'has transition', code: `const s = win.getComputedStyle(doc.querySelector('.card')); return s.transitionProperty !== 'all';` },
+      { name: 'no JS used', code: `return true;` },
+    ],
+    refLines: 12,
+    quality: [
+      { id: 'transition', label: 'Uses CSS transition', weight: 60, re: /transition:/ },
+      { id: 'hover', label: 'Uses :hover pseudo-class', weight: 40, re: /:hover/ },
+    ],
+    efficiency: [
+      { id: 'no-js', label: 'No JavaScript', weight: 100, re: /addEventListener/, negative: true },
+    ],
+  },
+
+  /* ---------------------------------------------------------------- a11y — Form Validation */
+  {
+    id: 'web-y2',
+    title: 'Accessible Form Validation',
+    tier: 'a11y',
+    difficulty: 4,
+    xp: 100,
+    concepts: ['html', 'forms', 'validation', 'accessibility'],
+    brief: `Build a sign-up form that validates in real-time with accessible error messages.
+
+Required:
+- a text input for username (required, minlength 3)
+- a password input (required, minlength 6)
+- on submit: validate both fields and show error messages
+- error messages use \`aria-live="polite"\` so screen readers announce them
+- the submit button is disabled until both fields are valid
+- \`#username-error\` and \`#password-error\` elements show specific messages`,
+    files: {
+      html: `<form id="signup">\n  <div>\n    <label for="username">Username</label>\n    <input id="username" type="text" required minlength="3">\n    <span id="username-error" role="alert" aria-live="polite"></span>\n  </div>\n  <div>\n    <label for="password">Password</label>\n    <input id="password" type="password" required minlength="6">\n    <span id="password-error" role="alert" aria-live="polite"></span>\n  </div>\n  <button type="submit" id="submit-btn" disabled>Sign up</button>\n</form>`,
+      css: `.error { color: #dc2626; font-size: 0.82rem; display: block; min-height: 1.2em; }`,
+      js: `const form = document.querySelector('#signup');\n// wire up validation\n`,
+    },
+    solution: {
+      html: `<form id="signup">\n  <div>\n    <label for="username">Username</label>\n    <input id="username" type="text" required minlength="3">\n    <span id="username-error" role="alert" aria-live="polite"></span>\n  </div>\n  <div>\n    <label for="password">Password</label>\n    <input id="password" type="password" required minlength="6">\n    <span id="password-error" role="alert" aria-live="polite"></span>\n  </div>\n  <button type="submit" id="submit-btn" disabled>Sign up</button>\n</form>`,
+      css: `.error { color: #dc2626; font-size: 0.82rem; display: block; min-height: 1.2em; }`,
+      js: `const form = document.querySelector('#signup');\nconst user = document.querySelector('#username');\nconst pass = document.querySelector('#password');\nconst userErr = document.querySelector('#username-error');\nconst passErr = document.querySelector('#password-error');\nconst btn = document.querySelector('#submit-btn');\n\nfunction validate() {\n  let valid = true;\n  if (user.value.trim().length < 3) {\n    userErr.textContent = 'Username must be at least 3 characters.';\n    valid = false;\n  } else {\n    userErr.textContent = '';\n  }\n  if (pass.value.length < 6) {\n    passErr.textContent = 'Password must be at least 6 characters.';\n    valid = false;\n  } else {\n    passErr.textContent = '';\n  }\n  btn.disabled = !valid;\n  return valid;\n}\n\nuser.addEventListener('input', validate);\npass.addEventListener('input', validate);\n\nform.addEventListener('submit', (e) => {\n  e.preventDefault();\n  if (validate()) {\n    alert('Signed up!');\n  }\n});`,
+    },
+    hints: [
+      'Use input event listeners to validate on every keystroke',
+      'Set .textContent on the error spans — empty string clears them',
+      'btn.disabled = true/false to enable/disable the submit button',
+      'The role="alert" and aria-live="polite" are already in the HTML',
+    ],
+    checks: [
+      { name: 'shows username error when empty', code: `doc.querySelector('#submit-btn').click(); await sleep(30); return doc.querySelector('#username-error').textContent.length > 0;` },
+      { name: 'has live regions', code: `return doc.querySelectorAll('[aria-live]').length >= 2;` },
+      { name: 'button starts disabled', code: `return doc.querySelector('#submit-btn').disabled === true;` },
+      { name: 'labels exist', code: `return doc.querySelectorAll('label').length >= 2;` },
+    ],
+    refLines: 41,
+    quality: [
+      { id: 'labels', label: 'Every input has a label', weight: 30, re: /<label[^>]+for=/ },
+      { id: 'aria-live', label: 'Error messages are live regions', weight: 30, re: /aria-live/ },
+      { id: 'input-event', label: 'Validates on input events', weight: 40, re: /addEventListener\(.*input/ },
+    ],
+    efficiency: [
+      { id: 'no-innerHTML', label: 'Does not use innerHTML for error messages', weight: 100, re: /innerHTML\s*=/, negative: true },
+    ],
+  },
 ];
