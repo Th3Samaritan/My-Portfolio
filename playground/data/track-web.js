@@ -633,4 +633,200 @@ Required:
       { id: 'no-innerHTML', label: 'Does not use innerHTML for error messages', weight: 100, re: /innerHTML\s*=/, negative: true },
     ],
   },
+
+  /* ---------------------------------------------------------------- Layout — Responsive Images */
+  {
+    id: 'web-l5',
+    title: 'Responsive Images',
+    tier: 'layout',
+    difficulty: 2,
+    xp: 55,
+    concepts: ['html', 'responsive', 'images'],
+    brief: `Make the image responsive using \`srcset\` and \`sizes\`.
+
+Required:
+- \`<img>\` with a \`srcset\` that provides at least 2 resolution variants (\`1x\`, \`2x\`)
+- a \`sizes\` attribute so the browser picks the right resolution
+- an \`alt\` attribute describing the image`,
+    files: {
+      html: `<img src="https://placehold.co/600x400" alt="">`,
+      css: `img { max-width: 100%; height: auto; }`,
+      js: ``,
+    },
+    solution: {
+      html: `<img\n  srcset="https://placehold.co/400x267 400w, https://placehold.co/800x533 800w"\n  sizes="(max-width: 600px) 400px, 800px"\n  src="https://placehold.co/800x533"\n  alt="A responsive placeholder image">`,
+      css: `img { max-width: 100%; height: auto; }`,
+      js: ``,
+    },
+    hints: ['srcset provides resolution variants', 'sizes tells the browser how wide the image will be at different viewport widths', 'alt is required for accessibility'],
+    checks: [
+      { name: 'has srcset', code: `return doc.querySelector('img').hasAttribute('srcset');` },
+      { name: 'has alt', code: `return doc.querySelector('img').getAttribute('alt').length > 0;` },
+      { name: 'has sizes', code: `return doc.querySelector('img').hasAttribute('sizes');` },
+    ],
+    refLines: 6,
+    quality: [
+      { id: 'srcset', label: 'Uses srcset attribute', weight: 50, re: /srcset/ },
+      { id: 'sizes', label: 'Uses sizes attribute', weight: 30, re: /sizes/ },
+      { id: 'alt', label: 'Has meaningful alt text', weight: 20, re: /alt="[^"]+"/ },
+    ],
+  },
+
+  /* ---------------------------------------------------------------- DOM — Tabbed Interface */
+  {
+    id: 'web-d4',
+    title: 'Keyboard Tab Panel',
+    tier: 'dom',
+    difficulty: 3,
+    xp: 80,
+    concepts: ['dom', 'events', 'accessibility', 'keyboard'],
+    brief: `Build a tabbed interface that works with keyboard navigation.
+
+Required:
+- three tab buttons (\`.tab-btn\`) at the top
+- three content panels (\`.tab-panel\`) below
+- clicking a tab shows its panel and hides the others
+- pressing Left/Right arrow keys moves focus between tabs
+- the active tab has \`aria-selected="true"\`, inactive have \`"false"\`
+- only one panel visible at a time (\`.hidden\` class)`,
+    files: {
+      html: `<div class="tabs">\n  <div class="tab-list" role="tablist">\n    <button class="tab-btn" role="tab" aria-selected="true">Tab 1</button>\n    <button class="tab-btn" role="tab" aria-selected="false">Tab 2</button>\n    <button class="tab-btn" role="tab" aria-selected="false">Tab 3</button>\n  </div>\n  <div class="tab-panel" role="tabpanel">Panel 1 content</div>\n  <div class="tab-panel hidden" role="tabpanel">Panel 2 content</div>\n  <div class="tab-panel hidden" role="tabpanel">Panel 3 content</div>\n</div>`,
+      css: `.hidden { display: none; }\n.tab-list { display: flex; gap: 0; }\n.tab-btn { padding: 8px 16px; border: 1px solid #ccc; background: #f8f8f8; cursor: pointer; }\n.tab-btn[aria-selected="true"] { background: #fff; border-bottom-color: #fff; }`,
+      js: `// wire up tab switching and keyboard navigation\n`,
+    },
+    solution: {
+      html: `<div class="tabs">\n  <div class="tab-list" role="tablist">\n    <button class="tab-btn" role="tab" aria-selected="true">Tab 1</button>\n    <button class="tab-btn" role="tab" aria-selected="false">Tab 2</button>\n    <button class="tab-btn" role="tab" aria-selected="false">Tab 3</button>\n  </div>\n  <div class="tab-panel" role="tabpanel">Panel 1 content</div>\n  <div class="tab-panel hidden" role="tabpanel">Panel 2 content</div>\n  <div class="tab-panel hidden" role="tabpanel">Panel 3 content</div>\n</div>`,
+      css: `.hidden { display: none; }\n.tab-list { display: flex; gap: 0; }\n.tab-btn { padding: 8px 16px; border: 1px solid #ccc; background: #f8f8f8; cursor: pointer; }\n.tab-btn[aria-selected="true"] { background: #fff; border-bottom-color: #fff; }`,
+      js: `const tabs = document.querySelectorAll('.tab-btn');\nconst panels = document.querySelectorAll('.tab-panel');\n\nfunction activate(index) {\n  tabs.forEach((t, i) => {\n    t.setAttribute('aria-selected', i === index);\n    panels[i].classList.toggle('hidden', i !== index);\n  });\n}\n\ntabs.forEach((btn, i) => {\n  btn.addEventListener('click', () => activate(i));\n  btn.addEventListener('keydown', (e) => {\n    if (e.key === 'ArrowRight') { e.preventDefault(); tabs[(i + 1) % tabs.length].focus(); }\n    if (e.key === 'ArrowLeft') { e.preventDefault(); tabs[(i - 1 + tabs.length) % tabs.length].focus(); }\n  });\n});`,
+    },
+    hints: ['Use .classList.toggle("hidden", condition) to show/hide panels', 'ArrowRight/ArrowLeft events with modulo arithmetic for wrapping', 'aria-selected must update on both click and keyboard navigation'],
+    checks: [
+      { name: 'clicking shows panel', code: `doc.querySelectorAll('.tab-btn')[1].click(); await sleep(30); return !doc.querySelectorAll('.tab-panel')[1].classList.contains('hidden');` },
+      { name: 'aria-selected updates', code: `doc.querySelectorAll('.tab-btn')[1].click(); await sleep(20); return doc.querySelectorAll('.tab-btn')[1].getAttribute('aria-selected') === 'true';` },
+      { name: 'only one panel visible', code: `return [...doc.querySelectorAll('.tab-panel')].filter(p => !p.classList.contains('hidden')).length === 1;` },
+    ],
+    refLines: 25,
+    quality: [
+      { id: 'aria', label: 'Uses aria-selected attribute', weight: 40, re: /aria-selected/ },
+      { id: 'keyboard', label: 'Handles ArrowLeft/ArrowRight', weight: 35, re: /Arrow(Left|Right)/ },
+      { id: 'role', label: 'Has role attributes', weight: 25, re: /role=/ },
+    ],
+  },
+
+  /* ---------------------------------------------------------------- Async — Infinite Scroll */
+  {
+    id: 'web-a3',
+    title: 'Infinite Scroll Observer',
+    tier: 'async',
+    difficulty: 4,
+    xp: 105,
+    concepts: ['dom', 'async', 'intersection-observer'],
+    brief: `Build an infinite scroll list using \`IntersectionObserver\`.
+
+Required:
+- a \`<ul id="list">\` that starts with 5 items
+- a sentinel \`<div id="sentinel">\` at the bottom of the list
+- when the sentinel enters the viewport, append 5 more items
+- each item shows its index: \`Item 1\`, \`Item 2\`, etc.
+- stop loading when 30 items are reached`,
+    files: {
+      html: `<ul id="list">\n  <li>Item 0</li>\n  <li>Item 1</li>\n  <li>Item 2</li>\n  <li>Item 3</li>\n  <li>Item 4</li>\n</ul>\n<div id="sentinel"></div>`,
+      css: `#sentinel { height: 10px; }`,
+      js: `let count = 5;\nconst MAX = 30;\n\n// set up IntersectionObserver on #sentinel\n`,
+    },
+    solution: {
+      html: `<ul id="list">\n  <li>Item 0</li>\n  <li>Item 1</li>\n  <li>Item 2</li>\n  <li>Item 3</li>\n  <li>Item 4</li>\n</ul>\n<div id="sentinel"></div>`,
+      css: `#sentinel { height: 10px; }`,
+      js: `const list = document.querySelector('#list');\nconst sentinel = document.querySelector('#sentinel');\nlet count = 5;\nconst MAX = 30;\n\nconst observer = new IntersectionObserver((entries) => {\n  if (entries[0].isIntersecting && count < MAX) {\n    for (let i = 0; i < 5 && count < MAX; i++, count++) {\n      const li = document.createElement('li');\n      li.textContent = 'Item ' + count;\n      list.appendChild(li);\n    }\n    if (count >= MAX) sentinel.remove();\n  }\n});\nobserver.observe(sentinel);`,
+    },
+    hints: ['new IntersectionObserver(callback).observe(element)', 'entries[0].isIntersecting is true when visible', 'createElement + appendChild to add items', 'remove the sentinel when MAX is reached'],
+    checks: [
+      { name: 'starts with 5 items', code: `return doc.querySelectorAll('#list li').length >= 5;` },
+      { name: 'uses IntersectionObserver', code: `return true;` },
+    ],
+    refLines: 22,
+    quality: [
+      { id: 'observer', label: 'Uses IntersectionObserver', weight: 50, re: /IntersectionObserver/ },
+      { id: 'createElement', label: 'Uses createElement', weight: 30, re: /createElement/ },
+      { id: 'MAX', label: 'Has a maximum limit', weight: 20, re: /MAX/ },
+    ],
+  },
+
+  /* ---------------------------------------------------------------- a11y — Skip Link */
+  {
+    id: 'web-y3',
+    title: 'Skip to Content Link',
+    tier: 'a11y',
+    difficulty: 3,
+    xp: 75,
+    concepts: ['html', 'accessibility', 'css'],
+    brief: `Add a "Skip to main content" link at the very top of the page.
+
+Required:
+- a link that is visually hidden but becomes visible when focused (Tab key)
+- the link jumps to \`#main-content\` on the page
+- use \`position: absolute\` to hide it off-screen, \`:focus\` to bring it into view
+- no JavaScript — pure HTML and CSS`,
+    files: {
+      html: `<a href="#main-content" class="skip-link">Skip to main content</a>\n<header>Site header with nav</header>\n<main id="main-content"><h1>Main content starts here</h1></main>`,
+      css: `/* style the skip-link — hidden by default, visible on focus */\n.skip-link {\n  /* your styles */\n}`,
+      js: ``,
+    },
+    solution: {
+      html: `<a href="#main-content" class="skip-link">Skip to main content</a>\n<header>Site header with nav</header>\n<main id="main-content"><h1>Main content starts here</h1></main>`,
+      css: `.skip-link {\n  position: absolute;\n  top: -100px;\n  left: 8px;\n  background: #111;\n  color: #fff;\n  padding: 8px 16px;\n  z-index: 1000;\n  border-radius: 4px;\n  text-decoration: none;\n  font-weight: 600;\n  transition: top 150ms;\n}\n\n.skip-link:focus {\n  top: 8px;\n}`,
+      js: ``,
+    },
+    hints: ['position: absolute with a negative top value hides it', ':focus brings it back with top: 0 or top: 8px', 'The href must match the id of the target element'],
+    checks: [
+      { name: 'has skip link', code: `return !!doc.querySelector('.skip-link');` },
+      { name: 'link targets main-content', code: `return doc.querySelector('.skip-link').getAttribute('href') === '#main-content';` },
+      { name: 'no JavaScript', code: `return true;` },
+    ],
+    refLines: 18,
+    quality: [
+      { id: 'skip-link', label: 'Has skip link class', weight: 40, re: /skip-link/ },
+      { id: 'focus', label: 'Uses :focus pseudo-class', weight: 30, re: /:focus/ },
+      { id: 'position', label: 'Uses position absolute', weight: 30, re: /position:\s*absolute/ },
+    ],
+  },
+
+  /* ---------------------------------------------------------------- DOM — Dark Mode Toggle */
+  {
+    id: 'web-d5',
+    title: 'Dark Mode Toggle',
+    tier: 'dom',
+    difficulty: 3,
+    xp: 85,
+    concepts: ['dom', 'css', 'localstorage', 'state'],
+    brief: `Build a dark mode toggle that uses CSS custom properties.
+
+Required:
+- a \`<button id="toggle">\` that switches between light and dark
+- define \`--bg\` and \`--text\` on \`:root\`
+- on toggle click: swap the values (light ↔ dark)
+- persist the choice in \`localStorage\` under key \`theme\`
+- on page load: read the saved theme and apply it`,
+    files: {
+      html: `<button id="toggle">Toggle theme</button>\n<div class="content">Dark mode toggle works</div>`,
+      css: `:root {\n  --bg: #ffffff;\n  --text: #111827;\n}\n\nbody { background: var(--bg); color: var(--text); font-family: system-ui; padding: 2rem; transition: background 200ms; }\n.content { margin-top: 1rem; }`,
+      js: `const toggle = document.querySelector('#toggle');\n// read saved theme and wire up toggle\n`,
+    },
+    solution: {
+      html: `<button id="toggle">Toggle theme</button>\n<div class="content">Dark mode toggle works</div>`,
+      css: `:root {\n  --bg: #ffffff;\n  --text: #111827;\n}\n\nbody { background: var(--bg); color: var(--text); font-family: system-ui; padding: 2rem; transition: background 200ms; }\n.content { margin-top: 1rem; }`,
+      js: `const root = document.documentElement;\nconst toggle = document.querySelector('#toggle');\n\nfunction setTheme(isDark) {\n  if (isDark) {\n    root.style.setProperty('--bg', '#111827');\n    root.style.setProperty('--text', '#f9fafb');\n  } else {\n    root.style.setProperty('--bg', '#ffffff');\n    root.style.setProperty('--text', '#111827');\n  }\n  toggle.textContent = isDark ? 'Light mode' : 'Dark mode';\n  localStorage.setItem('theme', isDark ? 'dark' : 'light');\n}\n\nconst saved = localStorage.getItem('theme');\nlet isDark = saved === 'dark';\nsetTheme(isDark);\n\ntoggle.addEventListener('click', () => { isDark = !isDark; setTheme(isDark); });`,
+    },
+    hints: ['root.style.setProperty("--bg", value) changes CSS custom properties at runtime', 'localStorage.getItem("theme") reads the saved preference', 'Update the button text to reflect the current state'],
+    checks: [
+      { name: 'button exists', code: `return !!doc.querySelector('#toggle');` },
+      { name: 'uses localStorage', code: `return typeof localStorage !== 'undefined';` },
+    ],
+    refLines: 28,
+    quality: [
+      { id: 'setproperty', label: 'Uses style.setProperty', weight: 40, re: /setProperty/ },
+      { id: 'localstorage', label: 'Uses localStorage', weight: 30, re: /localStorage/ },
+      { id: 'toggle', label: 'Toggles on click', weight: 30, re: /addEventListener/ },
+    ],
+  },
 ];

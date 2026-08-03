@@ -20,6 +20,7 @@ const EMPTY = {
   activity: {},     // 'YYYY-MM-DD' -> attempts that day
   streak: { current: 0, longest: 0, lastDay: null },
   clearStreak: { current: 0, longest: 0, lastClearedAt: null },
+  diffTune: {},      // challengeId -> adjusted difficulty (0 = no change)
   assessments: [],  // finished exam runs
   quoteState: { lastShown: 0 },  // throttle for coach quotes (ms timestamp)
   // runnerUrl: optional self-hosted Piston endpoint; blank uses Compiler Explorer.
@@ -462,4 +463,56 @@ export function markQuoteShown() {
   load();
   state.quoteState.lastShown = Date.now();
   save();
+}
+
+/* ------------------------------------------------------ difficulty auto-tune */
+
+/**
+ * Adjust a challenge's displayed difficulty based on local pass rates.
+ * After 5+ attempts, if the first-try clear rate is consistently high
+ * (>60%) or low (<20%), nudge the difficulty up or down by 1.
+ * Returns the adjusted difficulty (1-5), or 0 if unchanged.
+ */
+const TUNE_THRESHOLD = 5;   // minimum attempts before tuning
+const TUNE_HIGH = 0.60;     // >60% first-try clears → too easy, bump up
+const TUNE_LOW = 0.20;      // <20% first-try clears → too hard, bump down
+
+export function autoTuneDifficulty(challengeId, difficulty) {
+  load();
+  const record = state.attempts[challengeId];
+  if (!record || record.attempts < TUNE_THRESHOLD) return difficulty;
+
+  // First-attempt clear rate
+  const firstClears = (record.history || []).filter(h => h.at === record.history[0]?.at || !record.history.some(e => e.at < h.at)).length;
+  // Simpler: check if first attempt in history has the cleared flag
+  // We approximate by checking the earliest history entry's score
+  const earliest = (record.history || [])[0];
+  const firstCleared = earliest && earliest.score >= 100;
+
+  // Count how many first-attempt clears (first entry is a clear)
+  // For simplicity: if record.history[0]?.score is 100, first attempt cleared
+  const firstTryClear = record.history.length > 0 && record.history[0].score >= 100;
+  const clearRate = firstTryClear ? 1 : 
+    (record.history.length >= TUNE_THRESHOLD ? 
+      record.history.filter(h => h.score >= 100).length / record.history.length : 0);
+
+  if (clearRate > TUNE_HIGH && difficulty < 5) {
+    state.diffTune[challengeId] = 1;
+    save();
+    return difficulty + 1;
+  }
+  if (clearRate < TUNE_LOW && difficulty > 1 && record.attempts >= TUNE_THRESHOLD) {
+    state.diffTune[challengeId] = -1;
+    save();
+    return difficulty - 1;
+  }
+
+  return difficulty;
+}
+
+/** Get the effective difficulty for a challenge (original ± auto-tune). */
+export function effectiveDifficulty(challengeId, baseDifficulty) {
+  load();
+  const tune = state.diffTune[challengeId] || 0;
+  return Math.max(1, Math.min(5, baseDifficulty + tune));
 }

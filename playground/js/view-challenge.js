@@ -458,6 +458,9 @@ export async function mountWorkspace(host, { challenge, track, examMode = false,
         const outcome = store.recordAttempt(challenge, scorecard, earned);
         scorecard.xpAwarded = earned;
 
+        // Auto-tune difficulty based on pass rates
+        store.autoTuneDifficulty(challenge.id, challenge.difficulty);
+
         const meta = { streak: store.liveStreak(), clearStreak: store.clearStreakCount(), attempts: outcome ? record.attempts + 1 : 1 };
 
         if (outcome.firstClear) {
