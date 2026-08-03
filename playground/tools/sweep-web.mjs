@@ -9,7 +9,7 @@
    ============================================================ */
 
 import { createServer } from 'http';
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync, existsSync, statSync } from 'fs';
 import { resolve, extname } from 'path';
 import { chromium } from 'playwright';
 
@@ -27,9 +27,15 @@ const MIME = {
 };
 
 const server = createServer((req, res) => {
-  let filePath = resolve(BASE, '.' + new URL(req.url, 'http://x').pathname);
-  if (existsSync(filePath) && !existsSync(resolve(filePath))) { /* directory? serve index */ }
-  if (!existsSync(filePath) || !filePath.startsWith(BASE)) {
+  let filePath = new URL(req.url, 'http://x').pathname;
+  if (filePath === '/') filePath = '/index.html';
+  filePath = resolve(BASE, '.' + filePath);
+  if (!filePath.startsWith(BASE)) {
+    res.writeHead(403);
+    res.end('Forbidden');
+    return;
+  }
+  if (!existsSync(filePath) || statSync(filePath).isDirectory()) {
     res.writeHead(404);
     res.end('Not found');
     return;

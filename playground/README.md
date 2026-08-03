@@ -3,7 +3,7 @@
 **Train your programming.** A free, open-source gym for learning to code — from
 "I have never written a line" to graded, timed assessments.
 
-Four courses (Python, Rust, Java, Web), **99 from-scratch lessons**, **56 graded
+Four courses (Python, Rust, Java, Web), **103 from-scratch lessons**, **183 exercises**, **60 graded
 challenges** and **9 timed assessments**. Everything runs in your browser.
 
 No account required. No server to deploy. No build step. Plain ES modules served
@@ -21,7 +21,7 @@ Live at `/playground/`.
 
 | Layer | What it is | How it is marked |
 |---|---|---|
-| **Learn** | 99 lessons with explanations, analogies, live runnable examples, worked case studies | 108 exercises + 103 quizzes, pass/fail, hints and answers always available |
+| **Learn** | 99 lessons with explanations, analogies, live runnable examples, worked case studies | 182 exercises + 106 quizzes, pass/fail, hints and answers always available |
 | **Challenges** | 56 graded problems across 6 tiers per language | A four-part rubric, scored 0–100 |
 | **Assessments** | 9 timed, multi-problem exams | Rubric scorecard with a radar profile |
 | **Hall of Fame** | A leaderboard | Ranked by XP, then challenges cleared, then streak |

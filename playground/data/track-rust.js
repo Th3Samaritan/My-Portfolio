@@ -550,7 +550,7 @@ Finally write \`merge(a: Stack<i32>, b: Stack<i32>) -> Stack<i32>\` that pops fr
       { name: 'peek does not remove', call: '{ let mut s = Stack::new(); s.push(42); (s.peek().copied(), s.peek().copied(), s.len()) }', expect: '(Some(42), Some(42), 1)' },
       { name: 'merge interleaves', call: '{ let mut a = Stack::new(); a.push(1); a.push(3); a.push(5); let mut b = Stack::new(); b.push(2); b.push(4); b.push(6); let m = merge(a, b); let mut v = Vec::new(); let mut s = m; while let Some(x) = s.pop() { v.push(x); } v }', expect: 'vec![5, 6, 4, 3, 2, 1]' },
       { name: 'merge with empty', call: '{ let a = Stack::new(); let mut b = Stack::new(); b.push(10); let m = merge(a, b); m.peek().copied() }', expect: 'Some(10)' },
-      { name: 'Display format', call: '{ let mut s = Stack::new(); s.push(1); s.push(2); s.push(3); format!("{}", s) }', expect: '"3\n2\n1\n"' },
+      { name: 'Display format', call: '{ let mut s = Stack::new(); s.push(1); s.push(2); s.push(3); format!("{}", s) }', expect: 'String::from("3\n2\n1\n")' },
     ],
     budgetMs: 60,
     refLines: 32,

@@ -494,12 +494,14 @@ Use \`Collectors.partitioningBy\` to split numbers into even/odd groups.`,
       'Collectors.partitioningBy splits into two groups based on a predicate.',
     ],
     cases: [
-      { name: 'group by first letter', call: 'groupByFirstLetter(Arrays.asList("apple", "ant", "banana", "bat"))', expect: 'Stream.of(new String[][]{{"a", "[apple, ant]"}, {"b", "[banana, bat]"}}).collect(Collectors.toMap(e -> e[0], e -> e[1]))' },
-      { name: 'empty words', call: 'groupByFirstLetter(new ArrayList<String>())', expect: 'new TreeMap<String, List<String>>()' },
+      { name: 'group by first letter', call: 'groupByFirstLetter(Arrays.asList("apple", "ant", "banana", "bat")).get("a")', expect: 'Arrays.asList("apple", "ant")' },
+      { name: 'group by b', call: 'groupByFirstLetter(Arrays.asList("apple", "ant", "banana", "bat")).get("b")', expect: 'Arrays.asList("banana", "bat")' },
+      { name: 'empty words', call: 'groupByFirstLetter(new ArrayList<String>()).size()', expect: '0' },
       { name: 'join with commas', call: 'joinWithCommas(Arrays.asList("a", "b", "c"))', expect: '"a, b, c"' },
       { name: 'single item', call: 'joinWithCommas(Arrays.asList("only"))', expect: '"only"' },
-      { name: 'partition evens', call: 'partitionEvenOdd(Arrays.asList(1, 2, 3, 4, 5, 6))', expect: 'Stream.of(new Object[][]{{false, "[1, 3, 5]"}, {true, "[2, 4, 6]"}}).collect(Collectors.toMap(e -> (Boolean) e[0], e -> e[1]))', hidden: true },
-      { name: 'all even', call: 'partitionEvenOdd(Arrays.asList(2, 4))', expect: 'Stream.of(new Object[][]{{true, "[2, 4]"}, {false, "[]"}}).collect(Collectors.toMap(e -> (Boolean) e[0], e -> e[1]))', hidden: true },
+      { name: 'partition evens', call: 'partitionEvenOdd(Arrays.asList(1, 2, 3, 4, 5, 6)).get(true)', expect: 'Arrays.asList(2, 4, 6)', hidden: true },
+      { name: 'partition odds', call: 'partitionEvenOdd(Arrays.asList(1, 2, 3, 4, 5, 6)).get(false)', expect: 'Arrays.asList(1, 3, 5)', hidden: true },
+      { name: 'all even', call: 'partitionEvenOdd(Arrays.asList(2, 4)).get(false).size()', expect: '0', hidden: true },
     ],
     budgetMs: 60,
     refLines: 18,
@@ -521,40 +523,45 @@ Use \`Collectors.partitioningBy\` to split numbers into even/odd groups.`,
     difficulty: 4,
     xp: 115,
     concepts: ['concurrency', 'blocking-queue', 'threads', 'producer-consumer'],
-    brief: `\`static int producerConsumer(int numItems, int consumers) throws InterruptedException\`
+    brief: `\`static long parallelProduct(List<Integer> numbers, int threads)\`
 
-Create a \`LinkedBlockingQueue<Integer>\`. Spawn \`consumers\` consumer threads — each polls from the queue until it receives -1 (poison pill), summing what it pulled. The main thread is the producer: it puts values 1 through \`numItems\` then puts \`consumers\` poison pills (-1). Join all consumers and return the total sum.
+Split the list across threads. Each thread computes the product of its chunk (multiply all numbers). Collect \`Future<Long>\` partial products and multiply them together. If the list is empty, return 1 (the multiplicative identity).
 
-\`static List<String> parallelFetch(List<String> urls)\`
+\`static int contendedCounter(int perThread)\`
 
-Given a list of URL strings, submit fetch tasks to a cached thread pool. Each task returns \`"OK: <url>"\` (you don't actually fetch — just simulate with a tiny sleep). Collect results via \`Future.get()\` and return them in order. Shut the pool down after.`,
-    starter: `static int producerConsumer(int numItems, int consumers) throws InterruptedException {\n    return 0;\n}\n\nstatic List<String> parallelFetch(List<String> urls) {\n    return null;\n}\n`,
-    solution: `static int producerConsumer(int numItems, int consumers) throws InterruptedException {\n    LinkedBlockingQueue<Integer> queue = new LinkedBlockingQueue<>();\n\n    List<Thread> threads = new ArrayList<>();\n    AtomicInteger total = new AtomicInteger();\n\n    for (int i = 0; i < consumers; i++) {\n        Thread t = new Thread(() -> {\n            int sum = 0;\n            try {\n                while (true) {\n                    Integer value = queue.take();\n                    if (value == -1) break;\n                    sum += value;\n                }\n            } catch (InterruptedException e) {\n                Thread.currentThread().interrupt();\n            }\n            total.addAndGet(sum);\n        });\n        t.start();\n        threads.add(t);\n    }\n\n    for (int i = 1; i <= numItems; i++) queue.put(i);\n    for (int i = 0; i < consumers; i++) queue.put(-1);\n\n    for (Thread t : threads) t.join();\n    return total.get();\n}\n\nstatic List<String> parallelFetch(List<String> urls) {\n    ExecutorService pool = Executors.newCachedThreadPool();\n    try {\n        List<Future<String>> futures = new ArrayList<>();\n        for (String url : urls) {\n            futures.add(pool.submit(() -> {\n                Thread.sleep(1);\n                return "OK: " + url;\n            }));\n        }\n        List<String> results = new ArrayList<>();\n        for (Future<String> f : futures) results.add(f.get());\n        return results;\n    } catch (Exception e) {\n        throw new RuntimeException(e);\n    } finally {\n        pool.shutdown();\n    }\n}\n`,
+One **worker thread** and the **main thread** each increment a shared \`AtomicInteger\` \`perThread\` times. Join the worker, then return the total \u2014 which must always be exactly \`2 * perThread\`. Use \`AtomicInteger.incrementAndGet()\` on every increment.
+
+\`static List<Integer> parallelMap(List<Integer> numbers, int threads)\`
+
+Submit chunks to a fixed thread pool. Each task squares every number in its chunk and returns the squared list. Assemble all results in order and return a single flat list.`,
+    starter: `static long parallelProduct(List<Integer> numbers, int threads) {\n    return 0;\n}\n\nstatic int contendedCounter(int perThread) {\n    return 0;\n}\n\nstatic List<Integer> parallelMap(List<Integer> numbers, int threads) {\n    return null;\n}\n`,
+    solution: `static long parallelProduct(List<Integer> numbers, int threads) {\n    if (numbers.isEmpty()) {\n        return 1L;\n    }\n    int chunkSize = (numbers.size() + threads - 1) / threads;\n    ExecutorService pool = Executors.newFixedThreadPool(Math.max(1, threads));\n    try {\n        List<Future<Long>> futures = new ArrayList<>();\n        for (int i = 0; i < numbers.size(); i += chunkSize) {\n            int end = Math.min(i + chunkSize, numbers.size());\n            List<Integer> chunk = numbers.subList(i, end);\n            futures.add(pool.submit(() -> {\n                long prod = 1L;\n                for (int n : chunk) prod *= n;\n                return prod;\n            }));\n        }\n        long result = 1L;\n        for (Future<Long> f : futures) result *= f.get();\n        return result;\n    } catch (Exception e) {\n        throw new RuntimeException(e);\n    } finally {\n        pool.shutdown();\n    }\n}\n\nstatic int contendedCounter(int perThread) {\n    AtomicInteger counter = new AtomicInteger();\n\n    Thread worker = new Thread(() -> {\n        for (int i = 0; i < perThread; i++) {\n            counter.incrementAndGet();\n        }\n    });\n    worker.start();\n\n    for (int i = 0; i < perThread; i++) {\n        counter.incrementAndGet();\n    }\n\n    try {\n        worker.join();\n    } catch (InterruptedException e) {\n        Thread.currentThread().interrupt();\n    }\n    return counter.get();\n}\n\nstatic List<Integer> parallelMap(List<Integer> numbers, int threads) {\n    if (numbers.isEmpty()) {\n        return new ArrayList<>();\n    }\n    int chunkSize = (numbers.size() + threads - 1) / threads;\n    ExecutorService pool = Executors.newFixedThreadPool(Math.max(1, threads));\n    try {\n        List<Future<List<Integer>>> futures = new ArrayList<>();\n        for (int i = 0; i < numbers.size(); i += chunkSize) {\n            int end = Math.min(i + chunkSize, numbers.size());\n            List<Integer> chunk = numbers.subList(i, end);\n            futures.add(pool.submit(() -> {\n                List<Integer> result = new ArrayList<>();\n                for (int n : chunk) result.add(n * n);\n                return result;\n            }));\n        }\n        List<Integer> result = new ArrayList<>();\n        for (Future<List<Integer>> f : futures) result.addAll(f.get());\n        return result;\n    } catch (Exception e) {\n        throw new RuntimeException(e);\n    } finally {\n        pool.shutdown();\n    }\n}\n`,
     hints: [
-      'For producer-consumer: LinkedBlockingQueue with take() blocks consumers until data arrives.',
-      'Use AtomicInteger for the shared total — consumers write to it, main thread reads it.',
-      'Put poison pills (-1) last — one per consumer — so every consumer eventually exits.',
-      'For parallelFetch: submit all tasks first, then get() the futures in a separate loop.',
+      'Use subList to split without copying. Each task iterates its chunk.',
+      'Submit all tasks first before calling get() \u2014 that way they run in parallel.',
+      'pool.shutdown() belongs in a finally block.',
+      'For parallelMap: use addAll to merge the chunk results in order.',
     ],
     cases: [
-      { name: '10 items, 2 consumers', call: 'producerConsumer(10, 2)', expect: '55' },
-      { name: 'single consumer', call: 'producerConsumer(5, 1)', expect: '15' },
-      { name: 'no items', call: 'producerConsumer(0, 3)', expect: '0' },
-      { name: 'parallel fetch 3 urls', call: 'parallelFetch(Arrays.asList("a.com", "b.com", "c.com"))', expect: 'Arrays.asList("OK: a.com", "OK: b.com", "OK: c.com")' },
-      { name: 'empty url list', call: 'parallelFetch(new ArrayList<String>())', expect: 'new ArrayList<String>()' },
-      { name: '50 items, 4 consumers', call: 'producerConsumer(50, 4)', expect: '1275', hidden: true },
+      { name: 'product of 1..5, 2 threads', call: 'parallelProduct(Arrays.asList(1, 2, 3, 4, 5), 2)', expect: '120L' },
+      { name: 'product empty', call: 'parallelProduct(new ArrayList<Integer>(), 3)', expect: '1L' },
+      { name: 'contended counter', call: 'contendedCounter(1000)', expect: '2000' },
+      { name: 'parallel map squares', call: 'parallelMap(Arrays.asList(1, 2, 3, 4, 5, 6), 2)', expect: 'Arrays.asList(1, 4, 9, 16, 25, 36)' },
+      { name: 'parallel map empty', call: 'parallelMap(new ArrayList<Integer>(), 1)', expect: 'new ArrayList<Integer>()' },
+      { name: 'no lost updates at 50k iterations', call: 'contendedCounter(50000)', expect: '100000', hidden: true },
+      { name: 'thread count exceeds items', call: 'parallelProduct(Arrays.asList(7), 10)', expect: '7L', hidden: true },
     ],
     budgetMs: 3000,
-    refLines: 48,
+    refLines: 58,
     quality: [
-      { id: 'blocking-queue', label: 'Uses LinkedBlockingQueue', weight: 25, re: /LinkedBlockingQueue/ },
-      { id: 'poison-pill', label: 'Uses poison pill pattern (-1 sentinel)', weight: 20, re: /==\s*-1\s*\)/ },
-      { id: 'thread-join', label: 'Joins every consumer thread', weight: 15, re: /\.join\s*\(\s*\)/ },
-      { id: 'executor', label: 'Uses ExecutorService for fetch', weight: 20, re: /ExecutorService|Executors\.new/ },
+      { id: 'executor', label: 'Uses ExecutorService with fixed pool', weight: 25, re: /ExecutorService|Executors\.newFixedThreadPool/ },
       { id: 'shutdown', label: 'Shuts pool down', weight: 20, re: /\.shutdown\s*\(\s*\)/ },
+      { id: 'atomic', label: 'Uses AtomicInteger for contended counter', weight: 20, re: /AtomicInteger/ },
+      { id: 'subList', label: 'Uses subList for zero-copy chunking', weight: 15, re: /subList/ },
+      { id: 'finally', label: 'Shutdown guarded by finally', weight: 20, re: /finally\s*\{/ },
     ],
     efficiency: [
-      { id: 'parallel-submit', label: 'Submits all tasks before collecting', weight: 100, re: /submit\s*\([\s\S]{0,300}\)\s*\.get\s*\(\s*\)/, negative: true },
+      { id: 'submit-before-get', label: 'Submits all tasks before collecting', weight: 100, re: /submit\s*\([\s\S]{0,300}\)\s*\.get\s*\(\s*\)/, negative: true },
     ],
   },
 ];
