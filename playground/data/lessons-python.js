@@ -837,6 +837,18 @@ Watch the order of your branches.`,
       },
 
       { t:'text', md:`Decisions are one half of control flow. Next: loops — doing things repeatedly.` },
+      {
+        t: 'try',
+        prompt: 'Review: combining arithmetic (lesson 3) with conditions.\n\nWrite `is_teenager(age)` returning `True` for ages 13 through 19 inclusive.',
+        starter: `def is_teenager(age):\n    pass\n`,
+        solution: `def is_teenager(age):\n    return age >= 13 and age <= 19\n`,
+        hints: ['Use `age >= 13 and age <= 19`.', 'Return the boolean expression directly.'],
+        cases: [
+          { name: 'teen', call: 'is_teenager(15)', expect: 'True' },
+          { name: 'too young', call: 'is_teenager(10)', expect: 'False' },
+          { name: 'boundary', call: 'is_teenager(13)', expect: 'True' },
+        ],
+      },
 
     ],
   },
@@ -1319,6 +1331,17 @@ Use exactly the pattern from the case study above.`,
       },
 
       { t:'text', md:`You can store and retrieve data. Next: functions — packaging work so you never write the same logic twice.` },
+      {
+        t: 'try',
+        prompt: 'Review: combining lists (lesson 7) with dictionaries (lesson 8).\n\nWrite `pluck(records, key)` returning a list of values for one key from a list of dicts.\n\n`pluck([{"name":"Ada","score":88},{"name":"Grace","score":95}], "name")` → `["Ada", "Grace"]`',
+        starter: `def pluck(records, key):\n    pass\n`,
+        solution: `def pluck(records, key):\n    result = []\n    for record in records:\n        result.append(record[key])\n    return result\n`,
+        hints: ['Loop over records with for record in records.', 'record[key] gets the value for that key.', 'Append to a result list and return it.'],
+        cases: [
+          { name: 'names', call: 'pluck([{"name":"Ada","score":88},{"name":"Grace","score":95}], "name")', expect: '["Ada", "Grace"]' },
+          { name: 'scores', call: 'pluck([{"name":"Ada","score":88}], "score")', expect: '[88]' },
+        ],
+      },
 
     ],
   },
@@ -1693,6 +1716,22 @@ Dividing a string will raise \`TypeError\`; dividing by zero raises \`ZeroDivisi
       },
 
       { t:'text', md:`You have all the building blocks. Next: assembling them into a real program.` },
+      {
+        t: 'try',
+        prompt: 'Review: combining functions (lesson 9) with error handling (lesson 10).\n\nWrite `safe_max(items)` returning the largest number in the list, or `None` if the list is empty. Skip any items that are not numbers (ignore them silently).\n\n`safe_max([5, "hello", 3, 9])` → `9`',
+        starter: `def safe_max(items):\n    pass\n`,
+        solution: `def safe_max(items):\n    best = None\n    for item in items:\n        try:\n            value = float(item)\n            if best is None or value > best:\n                best = value\n        except (ValueError, TypeError):\n            pass\n    return best\n`,
+        hints: [
+          'Start best = None. Loop over items.',
+          'Try float(item) inside try/except — skip on failure.',
+          'Update best when you find a larger number.',
+        ],
+        cases: [
+          { name: 'mixed', call: 'safe_max([5, "hello", 3, 9])', expect: '9.0' },
+          { name: 'all valid', call: 'safe_max([1, 2, 3])', expect: '3.0' },
+          { name: 'empty', call: 'safe_max([])', expect: 'None' },
+        ],
+      },
 
     ],
   },
@@ -2409,6 +2448,14 @@ Use \`any()\` with a generator: \`any(letter.lower() in "aeiou" for letter in wo
     summary: 'Python 3.10+ match/case — destructuring data, guard clauses, and replacing long if/elif chains.',
     objectives: ['Write match/case statements', 'Destructure lists and dicts in patterns', 'Add guard clauses with if'],
     blocks: [
+      {
+        t: 'note',
+        tone: 'why',
+        title: 'Why match/case exists',
+        md: `Python already has \`if/elif\`. Why add \`match\`?
+
+\`if/elif\` compares values. \`match\` compares **shapes**. When you have a list that could be \`["quit"]\` or \`["greet", name]\` or \`["add", x, y]\`, an \`if/elif\` chain needs index checks and length guards on every branch. \`match\` handles that in one line per case and tells you if you forgot a possibility.`,
+      },
       {
         t: 'text',
         md: `Python 3.10 introduced \`match\` / \`case\` — structural pattern matching. It is not a C-style switch. It **destructures** values and matches against their shape.
