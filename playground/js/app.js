@@ -5,7 +5,7 @@
 import { TRACKS } from '../data/curriculum.js';
 import { BRAND } from '../config.js';
 import * as store from './store.js';
-import { escapeHtml, toast } from './ui.js';
+import { escapeHtml, toast, modal } from './ui.js';
 import { renderDashboard, renderTrack, renderRubric, renderScratch, renderProfile, renderStart } from './views-core.js';
 import { renderChallenge, disposeChallenge } from './view-challenge.js';
 import { renderAssessmentList, renderExam, renderReport, disposeAssessment } from './view-assessment.js';
@@ -110,7 +110,8 @@ function topbarHtml() {
       <span class="level-orb"><span>1</span></span>
       <span class="value">Initiate</span>
     </button>
-    <button class="icon-btn" id="theme-toggle" aria-label="Toggle colour theme">◐</button>`;
+    <button class="icon-btn" id="theme-toggle" aria-label="Toggle colour theme">◐</button>
+    <button class="icon-btn" id="search-btn" aria-label="Search lessons and challenges" title="Search (/)">⌕</button>`;
 }
 
 /* -------------------------------------------------------------- shell state */
@@ -149,6 +150,47 @@ function setActiveNav(route) {
     const target = item.dataset.route;
     const active = target === '/' ? route === '/' : route.startsWith(target);
     item.classList.toggle('active', active);
+  });
+}
+
+/* ---------------------------------------------------------------- search */
+
+function openSearch() {
+  const items = [];
+  for (const track of TRACKS) {
+    for (const l of (track.lessons || [])) {
+      items.push({ kind: 'lesson', track: track.name, title: l.title, id: l.id, route: '#/lesson/' + l.id, accent: track.accent });
+    }
+    for (const c of (track.challenges || [])) {
+      items.push({ kind: 'challenge', track: track.name, title: c.title, id: c.id, route: '#/challenge/' + c.id, accent: track.accent, concepts: c.concepts || [] });
+    }
+  }
+
+  let query = '';
+
+  const renderResults = () => {
+    const q = query.toLowerCase().trim();
+    const filtered = q ? items.filter(i => i.title.toLowerCase().includes(q) || i.id.includes(q) || (i.concepts || []).some(c => c.includes(q))) : [];
+    const list = filtered.slice(0, 10).map(i => `
+      <a class="search-result" href="${i.route}" data-close style="display:flex;align-items:center;gap:10px;padding:10px 14px;text-decoration:none;color:var(--text);border-radius:var(--radius-sm);font-size:0.88rem">
+        <span style="background:${i.accent};color:#fff;font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:4px;min-width:24px;text-align:center">${i.kind === 'lesson' ? 'L' : 'C'}</span>
+        <span style="flex:1">${escapeHtml(i.title)}</span>
+        <span style="font-size:0.72rem;color:var(--text-faint)">${escapeHtml(i.track)}</span>
+      </a>`).join('');
+    document.getElementById('search-results').innerHTML = list || (q ? '<div style="padding:20px;text-align:center;color:var(--text-faint)">Nothing found</div>' : '<div style="padding:20px;text-align:center;color:var(--text-faint)">Type to search lessons &amp; challenges</div>');
+  };
+
+  modal(`
+    <h2 style="margin-top:0">Search</h2>
+    <input id="search-input" type="text" placeholder="Search lessons and challenges..." autofocus autocomplete="off"
+      style="width:100%;padding:12px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg-input);color:var(--text);font-size:0.95rem;margin-bottom:12px" />
+    <div id="search-results" style="max-height:50vh;overflow-y:auto"></div>
+  `, {
+    onMount: (node) => {
+      const input = node.querySelector('#search-input');
+      input.addEventListener('input', () => { query = input.value; renderResults(); });
+      setTimeout(() => input.focus(), 80);
+    },
   });
 }
 
@@ -292,6 +334,17 @@ function boot() {
 
   document.getElementById('menu-toggle').addEventListener('click', () => {
     document.querySelector('.sidebar').classList.toggle('open');
+  });
+
+  document.getElementById('search-btn').addEventListener('click', openSearch);
+  document.addEventListener('keydown', (e) => {
+    if ((e.key === '/' || e.key === 'k') && (e.ctrlKey || e.metaKey || e.key === '/')) {
+      const tag = (e.target.tagName || '').toLowerCase();
+      if (tag !== 'input' && tag !== 'textarea' && !e.target.isContentEditable) {
+        e.preventDefault();
+        openSearch();
+      }
+    }
   });
 
   document.getElementById('level-chip').addEventListener('click', async () => {

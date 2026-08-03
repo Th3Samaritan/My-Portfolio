@@ -602,7 +602,7 @@ code, pre, kbd { font-family: var(--font-mono); }
   white-space: pre-wrap; word-break: break-word;
   max-height: 220px; overflow-y: auto;
 }
-.console-out.error { color: #fca5a5; }
+.console-out.error { color: var(--red); }
 
 /* scorecard */
 
@@ -786,7 +786,7 @@ code, pre, kbd { font-family: var(--font-mono); }
   font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.6;
   white-space: pre-wrap; word-break: break-word; max-height: 260px; overflow-y: auto;
 }
-.code-out.error { color: #fca5a5; }
+.code-out.error { color: var(--red); }
 
 .code-static {
   background: var(--bg-input); border: 1px solid var(--border);

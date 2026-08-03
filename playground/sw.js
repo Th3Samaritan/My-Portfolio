@@ -6,7 +6,7 @@
    works offline from the first visit.
    ============================================================ */
 
-const CACHE = 'the-gym-v2';
+const CACHE = 'the-gym-v3';
 const SHELL = [
   '/playground/',
   '/playground/index.html',
@@ -20,6 +20,8 @@ const SHELL = [
   '/playground/js/grader.js',
   '/playground/js/editor.js',
   '/playground/js/ui.js',
+  '/playground/js/coach.js',
+  '/playground/js/roadmap.js',
   '/playground/js/identity.js',
   '/playground/js/leaderboard.js',
   '/playground/js/view-learn.js',
@@ -67,12 +69,18 @@ self.addEventListener('fetch', (event) => {
       if (cached) return cached;
 
       return fetch(event.request).then((response) => {
-        // Cache successful responses
         if (response.ok) {
           const clone = response.clone();
           caches.open(CACHE).then((cache) => cache.put(event.request, clone));
         }
         return response;
+      }).catch(() => {
+        // Offline: for navigation requests, return the cached shell
+        if (event.request.mode === 'navigate') {
+          return caches.match('/playground/');
+        }
+        // For other requests, just fail — cached resources already handled above
+        return new Response('Offline — this resource is not cached.', { status: 503 });
       });
     })
   );
