@@ -618,7 +618,7 @@ Required:
       'The role="alert" and aria-live="polite" are already in the HTML',
     ],
     checks: [
-      { name: 'shows username error when empty', code: `doc.querySelector('#submit-btn').click(); await sleep(30); return doc.querySelector('#username-error').textContent.length > 0;` },
+      { name: 'shows username error when empty', code: `doc.querySelector('#password').value = 'abcdef'; doc.querySelector('#password').dispatchEvent(new Event('input')); await sleep(30); doc.querySelector('#submit-btn').click(); await sleep(30); return doc.querySelector('#username-error').textContent.length > 0;` },
       { name: 'has live regions', code: `return doc.querySelectorAll('[aria-live]').length >= 2;` },
       { name: 'button starts disabled', code: `return doc.querySelector('#submit-btn').disabled === true;` },
       { name: 'labels exist', code: `return doc.querySelectorAll('label').length >= 2;` },

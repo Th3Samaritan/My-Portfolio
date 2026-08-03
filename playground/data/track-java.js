@@ -518,50 +518,35 @@ Use \`Collectors.partitioningBy\` to split numbers into even/odd groups.`,
 
   {
     id: 'jv-x2',
-    title: 'Producer-Consumer Queue',
+    title: 'Atomics & Coordination',
     tier: 'concurrency',
-    difficulty: 4,
-    xp: 115,
-    concepts: ['concurrency', 'blocking-queue', 'threads', 'producer-consumer'],
-    brief: `\`static long parallelProduct(List<Integer> numbers, int threads)\`
+    difficulty: 3,
+    xp: 95,
+    concepts: ['concurrency', 'atomics', 'threads', 'coordination'],
+    brief: `\`static int contendedCounter(int perThread)\`
 
-Split the list across threads. Each thread computes the product of its chunk (multiply all numbers). Collect \`Future<Long>\` partial products and multiply them together. If the list is empty, return 1 (the multiplicative identity).
-
-\`static int contendedCounter(int perThread)\`
-
-One **worker thread** and the **main thread** each increment a shared \`AtomicInteger\` \`perThread\` times. Join the worker, then return the total \u2014 which must always be exactly \`2 * perThread\`. Use \`AtomicInteger.incrementAndGet()\` on every increment.
-
-\`static List<Integer> parallelMap(List<Integer> numbers, int threads)\`
-
-Submit chunks to a fixed thread pool. Each task squares every number in its chunk and returns the squared list. Assemble all results in order and return a single flat list.`,
-    starter: `static long parallelProduct(List<Integer> numbers, int threads) {\n    return 0;\n}\n\nstatic int contendedCounter(int perThread) {\n    return 0;\n}\n\nstatic List<Integer> parallelMap(List<Integer> numbers, int threads) {\n    return null;\n}\n`,
-    solution: `static long parallelProduct(List<Integer> numbers, int threads) {\n    if (numbers.isEmpty()) {\n        return 1L;\n    }\n    int chunkSize = (numbers.size() + threads - 1) / threads;\n    ExecutorService pool = Executors.newFixedThreadPool(Math.max(1, threads));\n    try {\n        List<Future<Long>> futures = new ArrayList<>();\n        for (int i = 0; i < numbers.size(); i += chunkSize) {\n            int end = Math.min(i + chunkSize, numbers.size());\n            List<Integer> chunk = numbers.subList(i, end);\n            futures.add(pool.submit(() -> {\n                long prod = 1L;\n                for (int n : chunk) prod *= n;\n                return prod;\n            }));\n        }\n        long result = 1L;\n        for (Future<Long> f : futures) result *= f.get();\n        return result;\n    } catch (Exception e) {\n        throw new RuntimeException(e);\n    } finally {\n        pool.shutdown();\n    }\n}\n\nstatic int contendedCounter(int perThread) {\n    AtomicInteger counter = new AtomicInteger();\n\n    Thread worker = new Thread(() -> {\n        for (int i = 0; i < perThread; i++) {\n            counter.incrementAndGet();\n        }\n    });\n    worker.start();\n\n    for (int i = 0; i < perThread; i++) {\n        counter.incrementAndGet();\n    }\n\n    try {\n        worker.join();\n    } catch (InterruptedException e) {\n        Thread.currentThread().interrupt();\n    }\n    return counter.get();\n}\n\nstatic List<Integer> parallelMap(List<Integer> numbers, int threads) {\n    if (numbers.isEmpty()) {\n        return new ArrayList<>();\n    }\n    int chunkSize = (numbers.size() + threads - 1) / threads;\n    ExecutorService pool = Executors.newFixedThreadPool(Math.max(1, threads));\n    try {\n        List<Future<List<Integer>>> futures = new ArrayList<>();\n        for (int i = 0; i < numbers.size(); i += chunkSize) {\n            int end = Math.min(i + chunkSize, numbers.size());\n            List<Integer> chunk = numbers.subList(i, end);\n            futures.add(pool.submit(() -> {\n                List<Integer> result = new ArrayList<>();\n                for (int n : chunk) result.add(n * n);\n                return result;\n            }));\n        }\n        List<Integer> result = new ArrayList<>();\n        for (Future<List<Integer>> f : futures) result.addAll(f.get());\n        return result;\n    } catch (Exception e) {\n        throw new RuntimeException(e);\n    } finally {\n        pool.shutdown();\n    }\n}\n`,
+One worker thread and the main thread each increment a shared \`AtomicInteger\` \`perThread\` times using \`incrementAndGet()\`. Start the worker, do the main share while it runs, join, return the total \u2014 which must be \`2 * perThread\` exactly.`,
+    starter: `static int contendedCounter(int perThread) {\n    return 0;\n}\n`,
+    solution: `static int contendedCounter(int perThread) {\n    AtomicInteger counter = new AtomicInteger();\n\n    Thread worker = new Thread(() -> {\n        for (int i = 0; i < perThread; i++) {\n            counter.incrementAndGet();\n        }\n    });\n    worker.start();\n\n    for (int i = 0; i < perThread; i++) {\n        counter.incrementAndGet();\n    }\n\n    try {\n        worker.join();\n    } catch (InterruptedException e) {\n        Thread.currentThread().interrupt();\n    }\n    return counter.get();\n}\n`,
     hints: [
-      'Use subList to split without copying. Each task iterates its chunk.',
-      'Submit all tasks first before calling get() \u2014 that way they run in parallel.',
-      'pool.shutdown() belongs in a finally block.',
-      'For parallelMap: use addAll to merge the chunk results in order.',
+      'AtomicInteger.incrementAndGet() atomically adds 1 and returns the new value.',
+      'Start the worker thread, do your share on main, then join — that gives true concurrency.',
+      'Joining ensures both threads have finished before you read the final count.',
     ],
     cases: [
-      { name: 'product of 1..5, 2 threads', call: 'parallelProduct(Arrays.asList(1, 2, 3, 4, 5), 2)', expect: '120L' },
-      { name: 'product empty', call: 'parallelProduct(new ArrayList<Integer>(), 3)', expect: '1L' },
-      { name: 'contended counter', call: 'contendedCounter(1000)', expect: '2000' },
-      { name: 'parallel map squares', call: 'parallelMap(Arrays.asList(1, 2, 3, 4, 5, 6), 2)', expect: 'Arrays.asList(1, 4, 9, 16, 25, 36)' },
-      { name: 'parallel map empty', call: 'parallelMap(new ArrayList<Integer>(), 1)', expect: 'new ArrayList<Integer>()' },
-      { name: 'no lost updates at 50k iterations', call: 'contendedCounter(50000)', expect: '100000', hidden: true },
-      { name: 'thread count exceeds items', call: 'parallelProduct(Arrays.asList(7), 10)', expect: '7L', hidden: true },
+      { name: 'counter 1000', call: 'contendedCounter(1000)', expect: '2000' },
+      { name: 'counter zero', call: 'contendedCounter(0)', expect: '0' },
+      { name: 'counter 50k', call: 'contendedCounter(50000)', expect: '100000', hidden: true },
     ],
-    budgetMs: 3000,
-    refLines: 58,
+    budgetMs: 2000,
+    refLines: 24,
     quality: [
-      { id: 'executor', label: 'Uses ExecutorService with fixed pool', weight: 25, re: /ExecutorService|Executors\.newFixedThreadPool/ },
-      { id: 'shutdown', label: 'Shuts pool down', weight: 20, re: /\.shutdown\s*\(\s*\)/ },
-      { id: 'atomic', label: 'Uses AtomicInteger for contended counter', weight: 20, re: /AtomicInteger/ },
-      { id: 'subList', label: 'Uses subList for zero-copy chunking', weight: 15, re: /subList/ },
-      { id: 'finally', label: 'Shutdown guarded by finally', weight: 20, re: /finally\s*\{/ },
+      { id: 'atomic', label: 'Uses AtomicInteger', weight: 40, re: /AtomicInteger/ },
+      { id: 'increment-and-get', label: 'Uses incrementAndGet', weight: 30, re: /incrementAndGet/ },
+      { id: 'start-join', label: 'Starts worker thread, then joins', weight: 30, re: /\.start\s*\([\s\S]*\.join\s*\(/ },
     ],
     efficiency: [
-      { id: 'submit-before-get', label: 'Submits all tasks before collecting', weight: 100, re: /submit\s*\([\s\S]{0,300}\)\s*\.get\s*\(\s*\)/, negative: true },
+      { id: 'concurrent-work', label: 'Main thread works while worker runs (join after loop)', weight: 100, re: /\.start\s*\(\s*\)\s*;[\s\S]*for\s*\([\s\S]*\.join\s*\(\s*\)/, negative: false },
     ],
   },
 ];
