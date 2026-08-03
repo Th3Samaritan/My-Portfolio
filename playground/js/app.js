@@ -6,7 +6,7 @@ import { TRACKS } from '../data/curriculum.js';
 import { BRAND } from '../config.js';
 import * as store from './store.js';
 import { escapeHtml, toast } from './ui.js';
-import { renderDashboard, renderTrack, renderRubric, renderScratch, renderProfile } from './views-core.js';
+import { renderDashboard, renderTrack, renderRubric, renderScratch, renderProfile, renderStart } from './views-core.js';
 import { renderChallenge, disposeChallenge } from './view-challenge.js';
 import { renderAssessmentList, renderExam, renderReport, disposeAssessment } from './view-assessment.js';
 import { renderLearnHome, renderCourse, renderLesson, disposeLearn } from './view-learn.js';
@@ -48,6 +48,9 @@ function sidebarHtml() {
 
     <a class="nav-item" data-route="/" href="#/">
       <span class="nav-glyph">◆</span> Dashboard
+    </a>
+    <a class="nav-item" data-route="/start" href="#/start">
+      <span class="nav-glyph">▶</span> Choose your path
     </a>
     <a class="nav-item" data-route="/learn" href="#/learn">
       <span class="nav-glyph">✦</span> Learn
@@ -203,6 +206,9 @@ async function route() {
     if (parts.length === 0) {
       setTitle('Dashboard');
       renderDashboard(host);
+    } else if (parts[0] === 'start') {
+      setTitle('Choose your path');
+      renderStart(host);
     } else if (parts[0] === 'learn') {
       setTitle('Learn');
       renderLearnHome(host);

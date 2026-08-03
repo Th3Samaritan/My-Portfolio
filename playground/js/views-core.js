@@ -663,6 +663,141 @@ export function renderProfile(host) {
           });
         },
       }
-    );
+        );
   });
+}
+
+/* ------------------------------------------------------------- track intro */
+
+const trackDetails = {
+  python: {
+    what: 'Python is the most readable general-purpose language. Its syntax is close to English, and its design philosophy values clarity over cleverness. It ships with a massive standard library ("batteries included").',
+    why: 'Python is the best first language. It removes ceremony — no type declarations, no boilerplate class wrappers, no compile step. You focus on the idea, not the punctuation. It is also the duct tape of programming: you can glue together data pipelines, automate workflows, prototype a machine learning model, or build a web backend — all in the same afternoon.',
+    where: 'Data science, machine learning, backend web services (Django, FastAPI), automation, scientific computing, education, fintech, DevOps scripting.',
+    build: 'A command-line expense tracker, a web scraper, a Discord bot, a REST API, a data analysis notebook, an async task runner.',
+    pick: 'you have never coded before, or you want the most versatile first language that opens doors to data, web, and automation.',
+    curve: 'Gentle start — you will be writing useful programs by lesson 3. Advanced concepts (async, meta-programming) come later.',
+  },
+  web: {
+    what: 'Web development is three technologies working together: HTML for structure, CSS for appearance, and JavaScript for behaviour. This track teaches all three, plus modern layout, APIs, accessibility, and offline-first design.',
+    why: 'The web is the most accessible platform. Anything you build here runs on every device with a browser — no install, no app store. The feedback loop is instant: change a line, see the result. It is the most visual and immediately rewarding way to learn.',
+    where: 'Frontend engineering, full-stack development, UI/UX design implementation, browser extensions, Progressive Web Apps, email templates, documentation sites.',
+    build: 'A portfolio page, a to-do app with local storage, a GitHub user search, a responsive dashboard, an accessible form with real-time validation, a PWA that works offline.',
+    pick: 'you are visual, you want to see results immediately, or you are aiming for frontend/UI roles.',
+    curve: 'Very gentle start — you will build a real page in lesson 1. Ramps up when JavaScript, async, and the DOM join forces around lesson 6.',
+  },
+  java: {
+    what: "Java is statically typed, compiled, and object-oriented. It runs on the JVM (Java Virtual Machine), which means the same compiled code works on any operating system. It powers most of the world's large-scale business software.",
+    why: 'Choosing Java is choosing structure. The compiler catches type mismatches, null pointer risks, and interface violations before your code ever runs — catching whole bug categories that dynamic languages let through. This strictness scales to teams of hundreds working on million-line codebases.',
+    where: 'Enterprise backend systems, Android apps, financial services, big data (Apache Spark, Hadoop), cloud infrastructure, Minecraft mods, university CS curricula.',
+    build: 'A banking account class with immutable transactions, a multi-key sorted leaderboard, a generic data cache, a concurrent order processor.',
+    pick: 'you like structure and explicit types, or you are targeting enterprise/Android roles.',
+    curve: "Moderate start — Java's verbosity means more typing up front. But once you internalise the boilerplate (about lesson 3), the pace picks up.",
+  },
+  rust: {
+    what: 'Rust is a systems language that guarantees memory safety and thread safety without a garbage collector. It catches use-after-free, data races, and null pointer dereferences at compile time — bugs that in C++ survive into production.',
+    why: 'Rust solves a real, expensive problem. Memory bugs account for ~70% of security vulnerabilities in large C/C++ codebases. Rust proves your code is safe before it ever runs — and does it without the runtime overhead of a garbage collector. The result: C++ speed with Python-level safety guarantees.',
+    where: "Systems programming, embedded devices, WebAssembly, blockchain, CLI tools, game engines, networking infrastructure, anywhere performance and correctness are non-negotiable.",
+    build: 'A fast CLI tool, a concurrent web server, a WebAssembly module for the browser, an embedded device driver, a text search engine.',
+    pick: 'you care about performance, you want to understand how memory actually works, or you are drawn to systems-level programming.',
+    curve: "Steepest start. The borrow checker will fight you for the first 2–3 weeks. Every experienced Rust developer went through this — and every one says it was worth it.",
+  },
+};
+
+export function renderStart(host) {
+  const html = `
+    <div class="page-head">
+      <span class="eyebrow">Getting started</span>
+      <h1>Which path is yours?</h1>
+      <p>
+        Every track on this platform starts from zero — no experience assumed.
+        Pick the one that matches what you want to build and where you want to go.
+        You can switch at any time, and all tracks share the same XP and streak system.
+      </p>
+    </div>
+
+    ${TRACKS.map((track) => {
+      const d = trackDetails[track.id] || {};
+      return `
+        <section class="card" style="margin-bottom:24px;--accent:${track.accent}">
+          <div class="card-head">
+            <h2>
+              <span class="nav-glyph" style="background:${track.accent};color:#fff;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;font-weight:700;font-size:0.85rem;margin-right:10px;vertical-align:middle">${track.glyph}</span>
+              ${escapeHtml(track.name)}
+            </h2>
+            <span class="hint">${escapeHtml(track.tagline)}</span>
+          </div>
+
+          <div class="grid cols-2" style="margin-top:16px;gap:14px">
+            <div>
+              <h4 style="margin:0 0 4px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">What is it?</h4>
+              <p style="margin:0 0 16px;font-size:0.93rem">${escapeHtml(d.what)}</p>
+
+              <h4 style="margin:0 0 4px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">Why learn it?</h4>
+              <p style="margin:0 0 16px;font-size:0.93rem">${escapeHtml(d.why)}</p>
+            </div>
+            <div>
+              <h4 style="margin:0 0 4px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">Where is it used?</h4>
+              <p style="margin:0 0 16px;font-size:0.93rem">${escapeHtml(d.where)}</p>
+
+              <h4 style="margin:0 0 4px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">What will you build?</h4>
+              <p style="margin:0 0 16px;font-size:0.93rem">${escapeHtml(d.build)}</p>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:24px;margin-top:8px;padding-top:14px;border-top:1px solid var(--border)">
+            <div style="flex:1">
+              <h4 style="margin:0 0 4px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">Pick this if</h4>
+              <p style="margin:0;font-size:0.93rem">${escapeHtml(d.pick)}.</p>
+            </div>
+            <div style="flex:1">
+              <h4 style="margin:0 0 4px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">Learning curve</h4>
+              <p style="margin:0;font-size:0.93rem">${escapeHtml(d.curve)}</p>
+            </div>
+          </div>
+
+          <div style="margin-top:16px;display:flex;gap:10px">
+            <a class="btn primary sm" href="#/course/${track.id}" style="background:${track.accent};border-color:transparent">
+              ${track.id === 'python' ? 'Start learning' : 'View course'} &rarr;
+            </a>
+            ${track.forBeginners ? `<span style="font-size:0.82rem;color:var(--text-dim);align-self:center">${escapeHtml(track.forBeginners)}</span>` : ''}
+          </div>
+        </section>`;
+    }).join('')}
+
+    <section class="card">
+      <div class="card-head">
+        <h2>Still unsure? Let your goals decide.</h2>
+      </div>
+      <div class="grid cols-2" style="gap:14px;font-size:0.93rem">
+        <div>
+          <h4 style="margin:0 0 6px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">I want to learn to code from zero</h4>
+          <p style="margin:0 0 14px"><strong>Start with Python.</strong> It was designed to be readable. The course assumes nothing — lesson 1 is literally "what is a program?"</p>
+
+          <h4 style="margin:0 0 6px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">I want to build websites and apps people can see</h4>
+          <p style="margin:0 0 14px"><strong>Start with Web Dev.</strong> Every lesson produces a live page. You will have a working portfolio by the end of the HTML section.</p>
+
+          <h4 style="margin:0 0 6px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">I want a job in a large company</h4>
+          <p style="margin:0 0 14px"><strong>Start with Java.</strong> It runs banking, insurance, and enterprise systems worldwide. Knowing Java opens doors at companies with the most engineering roles.</p>
+        </div>
+        <div>
+          <h4 style="margin:0 0 6px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">I want to understand how computers really work</h4>
+          <p style="margin:0 0 14px"><strong>Start with Rust.</strong> You will learn about stack vs heap, ownership, and why memory bugs happen — because the compiler forces you to. Rust is the hardest path but the deepest education.</p>
+
+          <h4 style="margin:0 0 6px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">I want to do data science or AI</h4>
+          <p style="margin:0 0 14px"><strong>Start with Python.</strong> The entire data ecosystem — NumPy, pandas, PyTorch, Jupyter — is built on Python. Learn the language first, then the libraries are accessible.</p>
+
+          <h4 style="margin:0 0 6px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">I already code and want to add another language</h4>
+          <p style="margin:0"><strong>Pick any track.</strong> Skip the lessons you already know and jump straight to the graded challenges. The platform adapts — it never forces you through material you have mastered.</p>
+        </div>
+      </div>
+    </section>
+
+    <p style="text-align:center;color:var(--text-dim);margin-top:20px;font-size:0.85rem">
+      All tracks assume zero prior knowledge. All tracks give XP. All tracks have practical, graded challenges.
+      <br>You are not choosing forever — you can learn all four, and many people do.
+    </p>
+  `;
+
+  render(host, html);
 }
