@@ -272,6 +272,49 @@ The point is the **bounds**: state the minimum you need, no more.`,
 
   /* --------------------------------------------------------- Error Handling */
   {
+    id: 'rs-e2',
+    title: 'Option Combinators',
+    tier: 'errors',
+    difficulty: 2,
+    xp: 70,
+    concepts: ['option', 'combinators', 'error-handling'],
+    brief: `Chain \`Option\` without a single \`match\`:
+
+- \`first_even(xs: &[i32]) -> Option<i32>\`
+- \`double_if_positive(x: Option<i32>) -> Option<i32>\` — \`Some(2x)\` when x > 0, else \`None\`
+- \`name_length(names: &[&str], index: usize) -> Option<usize>\` — length of the name at \`index\`, \`None\` if out of range
+
+The rubric rewards \`map\`, \`and_then\`, \`filter\`, \`copied\`, \`get\` over explicit matching.`,
+    starter: `fn first_even(xs: &[i32]) -> Option<i32> {\n    todo!()\n}\n\nfn double_if_positive(x: Option<i32>) -> Option<i32> {\n    todo!()\n}\n\nfn name_length(names: &[&str], index: usize) -> Option<usize> {\n    todo!()\n}\n`,
+    solution: `fn first_even(xs: &[i32]) -> Option<i32> {\n    xs.iter().find(|x| *x % 2 == 0).copied()\n}\n\nfn double_if_positive(x: Option<i32>) -> Option<i32> {\n    x.filter(|v| *v > 0).map(|v| v * 2)\n}\n\nfn name_length(names: &[&str], index: usize) -> Option<usize> {\n    names.get(index).map(|name| name.len())\n}\n`,
+    hints: [
+      '`slice::get(i)` is the non-panicking index — it hands you an Option.',
+      '`filter` on an Option keeps `Some` only when the predicate holds.',
+      '`.copied()` turns `Option<&i32>` into `Option<i32>`.',
+    ],
+    cases: [
+      { name: 'first even', call: 'first_even(&[1, 3, 6, 8])', expect: 'Some(6)' },
+      { name: 'no evens', call: 'first_even(&[1, 3])', expect: 'None' },
+      { name: 'doubles positive', call: 'double_if_positive(Some(5))', expect: 'Some(10)' },
+      { name: 'rejects negative', call: 'double_if_positive(Some(-1))', expect: 'None' },
+      { name: 'None passes through', call: 'double_if_positive(None)', expect: 'None' },
+      { name: 'name length', call: 'name_length(&["ada", "hopper"], 1)', expect: 'Some(6)' },
+      { name: 'index out of range', call: 'name_length(&["ada"], 9)', expect: 'None', hidden: true },
+      { name: 'zero is not positive', call: 'double_if_positive(Some(0))', expect: 'None', hidden: true },
+    ],
+    budgetMs: 40,
+    refLines: 9,
+    quality: [
+      { id: 'combinators', label: 'Uses Option combinators', weight: 50, re: /\.map\s*\(|\.and_then\s*\(|\.filter\s*\(/ },
+      { id: 'no-match', label: 'No explicit match on Option', weight: 30, re: /match\s+[\s\S]{0,40}Some\s*\(/, negative: true },
+      { id: 'safe-index', label: 'Uses .get() instead of indexing', weight: 20, re: /\.get\s*\(/ },
+    ],
+    efficiency: [
+      { id: 'no-panic', label: 'No unwrap that could panic', weight: 100, re: /\.unwrap\s*\(\s*\)/, negative: true },
+    ],
+  },
+
+  {
     id: 'rs-e1',
     title: 'Result, ? and a Custom Error',
     tier: 'errors',
@@ -318,49 +361,6 @@ Then \`parse_all(lines: &[&str]) -> Result<Vec<(String, i32)>, ConfigError>\` �
     ],
     efficiency: [
       { id: 'collect-result', label: 'parse_all collects into Result, no manual loop+push', weight: 100, re: /\.collect\s*\(\s*\)/ },
-    ],
-  },
-
-  {
-    id: 'rs-e2',
-    title: 'Option Combinators',
-    tier: 'errors',
-    difficulty: 2,
-    xp: 70,
-    concepts: ['option', 'combinators', 'error-handling'],
-    brief: `Chain \`Option\` without a single \`match\`:
-
-- \`first_even(xs: &[i32]) -> Option<i32>\`
-- \`double_if_positive(x: Option<i32>) -> Option<i32>\` — \`Some(2x)\` when x > 0, else \`None\`
-- \`name_length(names: &[&str], index: usize) -> Option<usize>\` — length of the name at \`index\`, \`None\` if out of range
-
-The rubric rewards \`map\`, \`and_then\`, \`filter\`, \`copied\`, \`get\` over explicit matching.`,
-    starter: `fn first_even(xs: &[i32]) -> Option<i32> {\n    todo!()\n}\n\nfn double_if_positive(x: Option<i32>) -> Option<i32> {\n    todo!()\n}\n\nfn name_length(names: &[&str], index: usize) -> Option<usize> {\n    todo!()\n}\n`,
-    solution: `fn first_even(xs: &[i32]) -> Option<i32> {\n    xs.iter().find(|x| *x % 2 == 0).copied()\n}\n\nfn double_if_positive(x: Option<i32>) -> Option<i32> {\n    x.filter(|v| *v > 0).map(|v| v * 2)\n}\n\nfn name_length(names: &[&str], index: usize) -> Option<usize> {\n    names.get(index).map(|name| name.len())\n}\n`,
-    hints: [
-      '`slice::get(i)` is the non-panicking index — it hands you an Option.',
-      '`filter` on an Option keeps `Some` only when the predicate holds.',
-      '`.copied()` turns `Option<&i32>` into `Option<i32>`.',
-    ],
-    cases: [
-      { name: 'first even', call: 'first_even(&[1, 3, 6, 8])', expect: 'Some(6)' },
-      { name: 'no evens', call: 'first_even(&[1, 3])', expect: 'None' },
-      { name: 'doubles positive', call: 'double_if_positive(Some(5))', expect: 'Some(10)' },
-      { name: 'rejects negative', call: 'double_if_positive(Some(-1))', expect: 'None' },
-      { name: 'None passes through', call: 'double_if_positive(None)', expect: 'None' },
-      { name: 'name length', call: 'name_length(&["ada", "hopper"], 1)', expect: 'Some(6)' },
-      { name: 'index out of range', call: 'name_length(&["ada"], 9)', expect: 'None', hidden: true },
-      { name: 'zero is not positive', call: 'double_if_positive(Some(0))', expect: 'None', hidden: true },
-    ],
-    budgetMs: 40,
-    refLines: 9,
-    quality: [
-      { id: 'combinators', label: 'Uses Option combinators', weight: 50, re: /\.map\s*\(|\.and_then\s*\(|\.filter\s*\(/ },
-      { id: 'no-match', label: 'No explicit match on Option', weight: 30, re: /match\s+[\s\S]{0,40}Some\s*\(/, negative: true },
-      { id: 'safe-index', label: 'Uses .get() instead of indexing', weight: 20, re: /\.get\s*\(/ },
-    ],
-    efficiency: [
-      { id: 'no-panic', label: 'No unwrap that could panic', weight: 100, re: /\.unwrap\s*\(\s*\)/, negative: true },
     ],
   },
 
