@@ -241,9 +241,97 @@ export function renderDashboard(host) {
     </div>
 
     ${renderRecentAssessments()}
+
+    ${(() => {
+      // Analytics section
+      const mastery = store.masteryTable();
+      const weakest = [...mastery].reverse().slice(0, 5).filter(c => c.score < 70);
+      const achievements = store.allAchievements();
+      const unlocked = achievements.filter(a => a.unlocked);
+      const stale = store.staleConcepts(14);
+
+      // Challenge stats by difficulty
+      const diffStats = { 1: { total: 0, cleared: 0 }, 2: { total: 0, cleared: 0 }, 3: { total: 0, cleared: 0 }, 4: { total: 0, cleared: 0 }, 5: { total: 0, cleared: 0 } };
+      for (const track of TRACKS) {
+        for (const c of (track.challenges || [])) {
+          const rec = state.attempts[c.id];
+          diffStats[c.difficulty].total++;
+          if (rec && rec.cleared) diffStats[c.difficulty].cleared++;
+        }
+      }
+
+      return `
+        <div class="grid cols-2" style="margin-top:22px">
+          ${weakest.length ? `
+          <div class="card">
+            <div class="card-head"><h3>Weakest concepts</h3><span class="hint">focus here next</span></div>
+            ${weakest.map(c => `
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+                <span style="font-size:0.82rem;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escapeHtml(c.concept)}</span>
+                <div class="progress-track" style="width:80px;flex-shrink:0"><div class="progress-fill" style="width:${c.score}%;background:${c.score < 40 ? 'var(--red)' : 'var(--amber)'}"></div></div>
+                <span style="font-size:0.74rem;color:var(--text-faint);width:28px;text-align:right">${Math.round(c.score)}</span>
+              </div>
+            `).join('')}
+          </div>
+          ` : ''}
+
+          <div class="card">
+            <div class="card-head"><h3>Difficulty progress</h3></div>
+            ${[1,2,3,4,5].map(d => {
+              const label = ['','Warm-up','Easy','Moderate','Hard','Brutal'][d];
+              const pct = diffStats[d].total ? Math.round(diffStats[d].cleared / diffStats[d].total * 100) : 0;
+              return diffStats[d].total ? `
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:0.82rem">
+                  <span style="width:70px;color:var(--text-dim)">${label}</span>
+                  <div class="progress-track" style="flex:1"><div class="progress-fill" style="width:${pct}%;background:${d <= 2 ? 'var(--green)' : d === 3 ? 'var(--amber)' : 'var(--orange)'}"></div></div>
+                  <span style="color:var(--text-faint);width:60px;text-align:right">${diffStats[d].cleared}/${diffStats[d].total}</span>
+                </div>
+              ` : '';
+            }).join('')}
+          </div>
+        </div>
+
+        ${unlocked.length ? `
+        <div class="card" style="margin-top:16px">
+          <div class="card-head"><h3>Achievements</h3><span class="hint">${unlocked.length} unlocked</span></div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            ${achievements.map(a => `
+              <div style="padding:8px 12px;border-radius:var(--radius-sm);background:${a.unlocked ? 'var(--bg-panel-2)' : 'var(--bg)'};border:1px solid ${a.unlocked ? 'var(--gold)' : 'var(--border)'};font-size:0.8rem;opacity:${a.unlocked ? 1 : 0.4};text-align:center;min-width:90px">
+                <div style="font-size:1.2rem">${a.unlocked ? a.icon : '🔒'}</div>
+                <div style="font-weight:600;margin-top:2px">${escapeHtml(a.title)}</div>
+                <div style="font-size:0.68rem;color:var(--text-faint)">${escapeHtml(a.desc)}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        ` : ''}
+
+        ${stale.length ? `
+        <div class="card" style="margin-top:16px;border-color:var(--amber)">
+          <div class="card-head"><h3>Due for review</h3><span class="hint">not practised in 14+ days</span></div>
+          ${stale.slice(0, 4).map(c => `
+            <div style="display:flex;align-items:center;gap:10px;padding:6px 0;font-size:0.84rem">
+              <span style="color:var(--amber)">⏳</span>
+              <span style="flex:1">${escapeHtml(c.concept)}</span>
+              <span style="font-size:0.74rem;color:var(--text-faint)">${c.score}% · ${c.daysAgo}d ago</span>
+            </div>
+          `).join('')}
+        </div>
+        ` : ''}
+      `;
+    })()}
   `;
 
   render(host, html);
+
+  // Check and show new achievements
+  const newBadges = store.checkAchievements();
+  if (newBadges.length) {
+    setTimeout(() => {
+      toast('Achievement unlocked: ' + newBadges.map(b => b.icon + ' ' + b.title).join(', '), 'good');
+    }, 800);
+  }
+
   setTimeout(() => showCoach('idle'), 1000);
 }
 

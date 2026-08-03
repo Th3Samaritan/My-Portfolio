@@ -21,6 +21,8 @@ const EMPTY = {
   streak: { current: 0, longest: 0, lastDay: null },
   clearStreak: { current: 0, longest: 0, lastClearedAt: null },
   diffTune: {},      // challengeId -> adjusted difficulty (0 = no change)
+  achievements: {},  // achievementId -> unlockedAt timestamp
+  conceptTimestamps: {}, // concept -> last-practised timestamp
   assessments: [],  // finished exam runs
   quoteState: { lastShown: 0 },  // throttle for coach quotes (ms timestamp)
   // runnerUrl: optional self-hosted Piston endpoint; blank uses Compiler Explorer.
@@ -267,6 +269,7 @@ export function recordAttempt(challenge, scorecard, xpEarned) {
   state.xp += xpEarned;
 
   updateMastery(challenge.concepts, scorecard.total);
+  touchConcept(challenge.concepts);
   touchActivity();
   if (firstClear) bumpClearStreak();
   save();
@@ -515,4 +518,105 @@ export function effectiveDifficulty(challengeId, baseDifficulty) {
   load();
   const tune = state.diffTune[challengeId] || 0;
   return Math.max(1, Math.min(5, baseDifficulty + tune));
+}
+
+/* ------------------------------------------------------------- achievements */
+
+const ACHIEVEMENTS = {
+  first_lesson:    { title: 'First Steps',       desc: 'Complete your first lesson',           icon: '1️⃣' },
+  first_challenge: { title: 'Getting Going',     desc: 'Clear your first challenge',            icon: '⭐' },
+  streak_7:        { title: 'On Fire',           desc: 'Maintain a 7-day practice streak',      icon: '🔥' },
+  streak_30:       { title: 'Dedicated',         desc: 'Maintain a 30-day practice streak',     icon: '💪' },
+  polyglot:        { title: 'Renaissance',       desc: 'Practise in all 4 tracks',              icon: '🌐' },
+  challenger_10:   { title: 'Challenger',        desc: 'Clear 10 challenges',                   icon: '⚔️' },
+  challenger_25:   { title: 'Veteran',           desc: 'Clear 25 challenges',                   icon: '🛡️' },
+  level_5:         { title: 'Initiate',          desc: 'Reach level 5',                         icon: '📈' },
+  level_10:        { title: 'Journeyman',        desc: 'Reach level 10',                        icon: '🎯' },
+  level_20:        { title: 'Master',            desc: 'Reach level 20',                        icon: '👑' },
+};
+
+export function checkAchievements() {
+  load();
+  const newUnlocks = [];
+  const state_ = getState();
+  const streak = liveStreak();
+  const level = levelInfo(state_.xp).level;
+
+  const check = (id, condition) => {
+    if (!state.achievements[id] && condition) {
+      state.achievements[id] = Date.now();
+      newUnlocks.push(ACHIEVEMENTS[id]);
+    }
+  };
+
+  // Lesson completed
+  const lessonsDone = Object.values(state.lessons).filter(l => l.done).length;
+  check('first_lesson', lessonsDone >= 1);
+
+  // Challenges cleared
+  let totalCleared = 0;
+  const tracksTouched = new Set();
+  for (const [id, rec] of Object.entries(state.attempts)) {
+    if (rec.cleared) totalCleared++;
+    // Approximate track detection from challenge id prefix
+    if (id.startsWith('py')) tracksTouched.add('python');
+    if (id.startsWith('rs')) tracksTouched.add('rust');
+    if (id.startsWith('jv')) tracksTouched.add('java');
+    if (id.startsWith('web')) tracksTouched.add('web');
+  }
+  check('first_challenge', totalCleared >= 1);
+  check('challenger_10', totalCleared >= 10);
+  check('challenger_25', totalCleared >= 25);
+
+  // Streaks
+  check('streak_7', streak >= 7);
+  check('streak_30', streak >= 30);
+
+  // Polyglot
+  check('polyglot', tracksTouched.size >= 4);
+
+  // Level milestones
+  check('level_5', level >= 5);
+  check('level_10', level >= 10);
+  check('level_20', level >= 20);
+
+  if (newUnlocks.length) save();
+  return newUnlocks;
+}
+
+export function allAchievements() {
+  load();
+  return Object.entries(ACHIEVEMENTS).map(([id, def]) => ({
+    id,
+    ...def,
+    unlocked: !!state.achievements[id],
+    unlockedAt: state.achievements[id] || null,
+  }));
+}
+
+/* ------------------------------------------------------ spaced repetition */
+
+export function touchConcept(concepts) {
+  load();
+  const now = Date.now();
+  for (const c of (concepts || [])) {
+    state.conceptTimestamps[c] = now;
+  }
+  save();
+}
+
+export function staleConcepts(daysThreshold = 14) {
+  load();
+  const now = Date.now();
+  const threshold = daysThreshold * 24 * 60 * 60 * 1000;
+  const stale = [];
+  const mastery = state.mastery || {};
+  for (const [concept, score] of Object.entries(mastery)) {
+    const lastTouch = state.conceptTimestamps[concept] || 0;
+    if (now - lastTouch > threshold && score < 70) {
+      stale.push({ concept, score, daysAgo: Math.round((now - lastTouch) / (24 * 60 * 60 * 1000)) });
+    }
+  }
+  stale.sort((a, b) => a.score - b.score);
+  return stale;
 }
