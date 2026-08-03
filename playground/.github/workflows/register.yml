@@ -29,6 +29,7 @@ concurrency: register
 jobs:
   register:
     runs-on: ubuntu-latest
+    environment: production
     permissions:
       contents: write
     steps:
