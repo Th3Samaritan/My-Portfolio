@@ -419,6 +419,7 @@ function boot() {
     const dataFiles = [
       '/playground/data/curriculum.js',
       '/playground/data/assessments.js',
+      '/playground/data/lessons-rust-extra.js',
       ...TRACKS.flatMap((t) => [
         `/playground/data/lessons-${t.id}.js`,
         t.kind === 'code' ? `/playground/data/track-${t.id}.js` : null,
