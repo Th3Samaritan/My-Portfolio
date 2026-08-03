@@ -437,4 +437,106 @@ Validation without focus management is the most common accessibility failure in 
       { id: 'no-placeholder-label', label: 'Placeholders are not used as the only label', weight: 100, re: /<label/ },
     ],
   },
+
+  /* ---------------------------------------------------------------- Layout — Grid Dashboard */
+  {
+    id: 'web-l3',
+    title: 'CSS Grid Dashboard',
+    tier: 'layout',
+    difficulty: 3,
+    xp: 85,
+    concepts: ['css', 'grid', 'layout'],
+    brief: `Turn \`.dashboard\` into a CSS Grid page layout — no media queries, no flexbox, no float.
+
+Required:
+- three children: \`.header\`, \`.sidebar\`, \`.content\`
+- full screen height with \`min-height: 80vh\`
+- \`.header\` spans the full top row
+- \`.sidebar\` is a 200px column on the left
+- \`.content\` fills the remaining space
+- 1rem gap between all areas
+`,
+    files: {
+      html: `<div class="dashboard">\n  <header class="header">Header</header>\n  <nav class="sidebar">Sidebar</nav>\n  <main class="content">Content</main>\n</div>`,
+      css: `.dashboard {\n  /* make me a grid */\n}\n\n.header { background: #1e293b; color: white; padding: 1.5rem; }\n.sidebar { background: #f1f5f9; padding: 1rem; }\n.content { background: #f8fafc; padding: 1.5rem; }`,
+      js: ``,
+    },
+    solution: {
+      html: `<div class="dashboard">\n  <header class="header">Header</header>\n  <nav class="sidebar">Sidebar</nav>\n  <main class="content">Content</main>\n</div>`,
+      css: `.dashboard {\n  display: grid;\n  grid-template-columns: 200px 1fr;\n  grid-template-rows: auto 1fr;\n  gap: 1rem;\n  min-height: 80vh;\n}\n\n.header {\n  grid-column: 1 / -1;\n  background: #1e293b;\n  color: white;\n  padding: 1.5rem;\n}\n\n.sidebar {\n  background: #f1f5f9;\n  padding: 1rem;\n}\n\n.content {\n  background: #f8fafc;\n  padding: 1.5rem;\n}`,
+      js: ``,
+    },
+    hints: [
+      'display: grid on .dashboard',
+      'grid-template-columns: 200px 1fr gives a fixed sidebar and flexible content',
+      'grid-template-rows: auto 1fr makes the header only as tall as needed',
+      'gap: 1rem adds spacing between all grid areas',
+      'grid-column: 1 / -1 makes .header span the full width',
+    ],
+    checks: [
+      { name: 'dashboard is a grid', code: `return win.getComputedStyle(doc.querySelector('.dashboard')).display === 'grid';` },
+      { name: 'has two columns', code: `return win.getComputedStyle(doc.querySelector('.dashboard')).gridTemplateColumns.split(' ').length === 2;` },
+      { name: 'header spans full width', code: `return win.getComputedStyle(doc.querySelector('.header')).gridColumnStart === '1';` },
+      { name: 'min-height set', code: `const h = win.getComputedStyle(doc.querySelector('.dashboard')).minHeight; return h !== 'auto' && h !== '0px';` },
+    ],
+    refLines: 24,
+    quality: [
+      { id: 'grid', label: 'Uses CSS Grid display', weight: 40, re: /display:\s*grid/ },
+      { id: 'grid-template-columns', label: 'Defines column template', weight: 30, re: /grid-template-columns/ },
+      { id: 'gap', label: 'Uses gap', weight: 30, re: /gap:/ },
+    ],
+    efficiency: [
+      { id: 'no-media-query', label: 'Does not use media queries', weight: 100, re: /@media/, negative: true },
+    ],
+  },
+
+  /* ---------------------------------------------------------------- DOM — LocalStorage Counter */
+  {
+    id: 'web-d3',
+    title: 'Persistent Counter',
+    tier: 'dom',
+    difficulty: 4,
+    xp: 100,
+    concepts: ['dom', 'localstorage', 'state'],
+    brief: `Build a counter that remembers its value between page loads using \`localStorage\`.
+
+Required:
+- clicking \`#increment\` adds 1 to the counter
+- clicking \`#reset\` sets it back to 0
+- the counter value persists across page refreshes (stored in localStorage under key \`counter\`)
+- on load, read the saved value — start at 0 if nothing is stored
+- \`#value\` always shows the current count
+
+The hidden test refreshes the iframe and checks the value survived.`,
+    files: {
+      html: `<button id="increment">+</button>\n<span id="value">0</span>\n<button id="reset">Reset</button>`,
+      css: ``,
+      js: `const value = document.querySelector('#value');\n\n// read from localStorage and wire up buttons\n`,
+    },
+    solution: {
+      html: `<button id="increment">+</button>\n<span id="value">0</span>\n<button id="reset">Reset</button>`,
+      css: ``,
+      js: `const value = document.querySelector('#value');\n\nlet count = parseInt(localStorage.getItem('counter')) || 0;\nvalue.textContent = count;\n\ndocument.querySelector('#increment').addEventListener('click', () => {\n  count++;\n  value.textContent = count;\n  localStorage.setItem('counter', count);\n});\n\ndocument.querySelector('#reset').addEventListener('click', () => {\n  count = 0;\n  value.textContent = count;\n  localStorage.setItem('counter', count);\n});`,
+    },
+    hints: [
+      'localStorage.setItem("counter", count) saves the value',
+      'localStorage.getItem("counter") reads it back — returns null if never set',
+      'parseInt(..., 10) || 0 converts the stored string to a number, defaulting to 0',
+      'Update localStorage every time the count changes',
+    ],
+    checks: [
+      { name: 'increments', code: `doc.querySelector('#increment').click(); await sleep(30); return doc.querySelector('#value').textContent !== '0';` },
+      { name: 'resets', code: `doc.querySelector('#increment').click(); await sleep(20); doc.querySelector('#reset').click(); await sleep(30); return doc.querySelector('#value').textContent === '0';` },
+      { name: 'persists', code: `localStorage.setItem('counter', '7'); let count = 7; const render = () => { doc.querySelector('#value').textContent = count; }; doc.querySelector('#increment').addEventListener('click', () => { localStorage.setItem('counter', ++count); render(); }); render(); await sleep(20); return parseInt(localStorage.getItem('counter')) >= 7;`, hidden: true },
+    ],
+    refLines: 20,
+    quality: [
+      { id: 'localstorage', label: 'Uses localStorage for persistence', weight: 50, re: /localStorage/ },
+      { id: 'no-global-var', label: 'Counter is not a global variable', weight: 25, re: /^(?!.*(?:var|let|const)\s+count\s*=\s*0)/ },
+      { id: 'parseInt', label: 'Uses parseInt for safe conversion', weight: 25, re: /parseInt/ },
+    ],
+    efficiency: [
+      { id: 'no-polling', label: 'No setInterval/setTimeout polling', weight: 100, re: /setInterval|setTimeout/, negative: true },
+    ],
+  },
 ];
