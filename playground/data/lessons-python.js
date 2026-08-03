@@ -1949,29 +1949,6 @@ If any field is missing or cannot be converted, return \`None\` instead of the t
         answer: 1,
         why: 'Python evaluates empty collections as False. `if items:` is idiomatic, shorter, and handles None (which is also falsy) without an extra check.',
       },
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `swap(a, b)` that returns a tuple with the two values swapped.\n\n`swap(1, \"a\")` → `(\"a\", 1)`\n\nPython makes this one line — (b, a) is a tuple.",
-            "starter": "def swap(a, b):\n    pass\n",
-            "solution": "def swap(a, b):\n    return (b, a)\n",
-            "hints": [
-                  "Return a tuple: (b, a).",
-                  "That is genuinely all — no temp variable needed.",
-                  "Works with any types."
-            ],
-            "cases": [
-                  {
-                        "name": "numbers",
-                        "call": "swap(1, 2)",
-                        "expect": "(2, 1)"
-                  },
-                  {
-                        "name": "mixed types",
-                        "call": "swap(\"x\", 5)",
-                        "expect": "(5, \"x\")"
-                  }
-            ]
-      },
 
     ],
   },
@@ -2053,29 +2030,6 @@ The tricky part: \`items\` has a default of \`None\`, and you must create a fres
         answer: 1,
         why: 'Default arguments are evaluated when the function is defined, not when it is called. A mutable default is the same object every call — so appending to it persists between calls.',
       },
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `swap(a, b)` that returns a tuple with the two values swapped.\n\n`swap(1, \"a\")` → `(\"a\", 1)`\n\nPython makes this one line — (b, a) is a tuple.",
-            "starter": "def swap(a, b):\n    pass\n",
-            "solution": "def swap(a, b):\n    return (b, a)\n",
-            "hints": [
-                  "Return a tuple: (b, a).",
-                  "That is genuinely all — no temp variable needed.",
-                  "Works with any types."
-            ],
-            "cases": [
-                  {
-                        "name": "numbers",
-                        "call": "swap(1, 2)",
-                        "expect": "(2, 1)"
-                  },
-                  {
-                        "name": "mixed types",
-                        "call": "swap(\"x\", 5)",
-                        "expect": "(5, \"x\")"
-                  }
-            ]
-      },
 
     ],
   },
@@ -2124,34 +2078,6 @@ Deeply nested \`if\` blocks — the "arrow anti-pattern" — are hard to follow.
         ],
       },
       { t: 'quiz', q: 'Why is `all(s >= 50 for s in scores)` better than `min(scores) >= 50`?', options: ['It is shorter', 'min() fails on empty lists; all() and any() are lazy and stop early', 'They are identical', 'all() sorts the data'], answer: 1, why: 'all() returns True for empty input (vacuously true) and stops checking as soon as it hits a failure, without scanning the whole list.' },
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `categorise(score)` returning `\"pass\"` if score >= 50, else `\"fail\"`. Use a **conditional expression** (ternary): `\"pass\" if condition else \"fail\"`.\n\nDo NOT use a full if/else block.",
-            "starter": "def categorise(score):\n    pass\n",
-            "solution": "def categorise(score):\n    return \"pass\" if score >= 50 else \"fail\"\n",
-            "hints": [
-                  "The syntax: value_if_true if condition else value_if_false.",
-                  "Return the expression directly.",
-                  "No colon, no indented block."
-            ],
-            "cases": [
-                  {
-                        "name": "pass",
-                        "call": "categorise(75)",
-                        "expect": "\"pass\""
-                  },
-                  {
-                        "name": "fail",
-                        "call": "categorise(30)",
-                        "expect": "\"fail\""
-                  },
-                  {
-                        "name": "boundary",
-                        "call": "categorise(50)",
-                        "expect": "\"pass\""
-                  }
-            ]
-      },
 
     ],
   },
@@ -2201,34 +2127,6 @@ Think of it as \`if/elif\` on steroids, capable of unpacking lists, drilling int
         ],
       },
       { t: 'quiz', q: 'How does match/case differ from a C-style switch?', options: ['It is just syntax sugar', 'It destructures values against patterns — unpacking lists, matching dict shapes, binding variables — not just comparing values', 'It runs in reverse', 'It only works with strings'], answer: 1, why: 'match is structural: a case like ["greet", name] unpacks a list and binds name. A switch only compares a scalar against constants.' },
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `categorise(score)` returning `\"pass\"` if score >= 50, else `\"fail\"`. Use a **conditional expression** (ternary): `\"pass\" if condition else \"fail\"`.\n\nDo NOT use a full if/else block.",
-            "starter": "def categorise(score):\n    pass\n",
-            "solution": "def categorise(score):\n    return \"pass\" if score >= 50 else \"fail\"\n",
-            "hints": [
-                  "The syntax: value_if_true if condition else value_if_false.",
-                  "Return the expression directly.",
-                  "No colon, no indented block."
-            ],
-            "cases": [
-                  {
-                        "name": "pass",
-                        "call": "categorise(75)",
-                        "expect": "\"pass\""
-                  },
-                  {
-                        "name": "fail",
-                        "call": "categorise(30)",
-                        "expect": "\"fail\""
-                  },
-                  {
-                        "name": "boundary",
-                        "call": "categorise(50)",
-                        "expect": "\"pass\""
-                  }
-            ]
-      },
 
     ],
   },
@@ -2275,29 +2173,6 @@ Slices have a third value: the **step**. \`seq[start:stop:step]\` takes every Nt
         ],
       },
       { t: 'quiz', q: 'Why does `key=lambda r: (-r["score"], r["name"])` work for sorting?', options: ['It does not — sorting requires a single value', 'Tuples are compared element by element, so negative score gives descending, then name breaks ties ascending', 'Python ignores the tuple', 'lambda always returns a string'], answer: 1, why: 'Python compares tuples lexicographically: first by -score (descending), then by name. This is the standard idiom for multi-key sorts.' },
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `invert_dict(d)` that swaps keys and values. Assume values are unique.\n\n`invert_dict({\"a\": 1, \"b\": 2})` → `{1: \"a\", 2: \"b\"}`\n\nUse a dictionary comprehension or a loop.",
-            "starter": "def invert_dict(d):\n    pass\n",
-            "solution": "def invert_dict(d):\n    return {value: key for key, value in d.items()}\n",
-            "hints": [
-                  "Iterate with d.items() to get (key, value) pairs.",
-                  "Build a dict comprehension: {value: key for key, value in d.items()}.",
-                  "Return the comprehension directly."
-            ],
-            "cases": [
-                  {
-                        "name": "two pairs",
-                        "call": "invert_dict({\"a\": 1, \"b\": 2})",
-                        "expect": "{1: \"a\", 2: \"b\"}"
-                  },
-                  {
-                        "name": "empty",
-                        "call": "invert_dict({})",
-                        "expect": "{}"
-                  }
-            ]
-      },
 
     ],
   },
@@ -2337,29 +2212,6 @@ Slices have a third value: the **step**. \`seq[start:stop:step]\` takes every Nt
         ],
       },
       { t: 'quiz', q: 'What does `defaultdict(list)` save you from writing?', options: ['Nothing — it is identical to dict', 'The `if key not in dict: dict[key] = []` guard before appending', 'It sorts the keys', 'It prevents duplicates'], answer: 1, why: 'defaultdict calls list() to create a default value automatically when a key is first accessed, removing the manual initialisation branch.' },
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `invert_dict(d)` that swaps keys and values. Assume values are unique.\n\n`invert_dict({\"a\": 1, \"b\": 2})` → `{1: \"a\", 2: \"b\"}`\n\nUse a dictionary comprehension or a loop.",
-            "starter": "def invert_dict(d):\n    pass\n",
-            "solution": "def invert_dict(d):\n    return {value: key for key, value in d.items()}\n",
-            "hints": [
-                  "Iterate with d.items() to get (key, value) pairs.",
-                  "Build a dict comprehension: {value: key for key, value in d.items()}.",
-                  "Return the comprehension directly."
-            ],
-            "cases": [
-                  {
-                        "name": "two pairs",
-                        "call": "invert_dict({\"a\": 1, \"b\": 2})",
-                        "expect": "{1: \"a\", 2: \"b\"}"
-                  },
-                  {
-                        "name": "empty",
-                        "call": "invert_dict({})",
-                        "expect": "{}"
-                  }
-            ]
-      },
 
     ],
   },

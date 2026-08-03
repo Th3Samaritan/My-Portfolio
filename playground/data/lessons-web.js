@@ -1542,65 +1542,6 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         },
       },
       { t: 'quiz', q: 'What problem does the Shadow DOM solve?', options: ['It makes pages load faster', 'It encapsulates styles and DOM structure — CSS inside a shadow tree cannot leak out, and external CSS cannot leak in. This is the key to truly reusable components', 'It replaces the regular DOM', 'It is only for animations'], answer: 1, why: 'Shadow DOM gives each component its own isolated DOM and style scope. You can use simple class names without worrying about collisions with the rest of the page.' },
-      {
-            "t": "tryweb",
-            "prompt": "Exercise 1: Make the button show/hide the box. When clicked, toggle the `hidden` class on `#box`. Use `classList.toggle(\"hidden\")`. The CSS for `.hidden` is already written — you only write the JavaScript.",
-            "files": {
-                  "html": "<button id=\"toggle\">Show/Hide</button>\n<div id=\"box\">Content</div>",
-                  "css": ".hidden { display: none; }",
-                  "js": "const toggle = document.querySelector(\"#toggle\");\nconst box = document.querySelector(\"#box\");\n\n// Add your click listener here\n"
-            },
-            "solution": {
-                  "html": "<button id=\"toggle\">Show/Hide</button>\n<div id=\"box\">Content</div>",
-                  "css": ".hidden { display: none; }",
-                  "js": "const toggle = document.querySelector(\"#toggle\");\nconst box = document.querySelector(\"#box\");\n\ntoggle.addEventListener(\"click\", () => {\n  box.classList.toggle(\"hidden\");\n});\n"
-            },
-            "hints": [
-                  "toggle.addEventListener(\"click\", () => { ... });",
-                  "Inside the arrow function: box.classList.toggle(\"hidden\");",
-                  "No if statement needed — toggle does it."
-            ],
-            "checks": [
-                  {
-                        "name": "box starts visible",
-                        "code": "return !doc.querySelector('#box').classList.contains('hidden');"
-                  },
-                  {
-                        "name": "click hides it",
-                        "code": "doc.querySelector('#toggle').click(); await sleep(30); return doc.querySelector('#box').classList.contains('hidden');"
-                  }
-            ]
-      },
-
-      {
-            "t": "tryweb",
-            "prompt": "Exercise 2: Make the button show/hide the box. When clicked, toggle the `hidden` class on `#box`. Use `classList.toggle(\"hidden\")`. The CSS for `.hidden` is already written — you only write the JavaScript.",
-            "files": {
-                  "html": "<button id=\"toggle\">Show/Hide</button>\n<div id=\"box\">Content</div>",
-                  "css": ".hidden { display: none; }",
-                  "js": "const toggle = document.querySelector(\"#toggle\");\nconst box = document.querySelector(\"#box\");\n\n// Add your click listener here\n"
-            },
-            "solution": {
-                  "html": "<button id=\"toggle\">Show/Hide</button>\n<div id=\"box\">Content</div>",
-                  "css": ".hidden { display: none; }",
-                  "js": "const toggle = document.querySelector(\"#toggle\");\nconst box = document.querySelector(\"#box\");\n\ntoggle.addEventListener(\"click\", () => {\n  box.classList.toggle(\"hidden\");\n});\n"
-            },
-            "hints": [
-                  "toggle.addEventListener(\"click\", () => { ... });",
-                  "Inside the arrow function: box.classList.toggle(\"hidden\");",
-                  "No if statement needed — toggle does it."
-            ],
-            "checks": [
-                  {
-                        "name": "box starts visible",
-                        "code": "return !doc.querySelector('#box').classList.contains('hidden');"
-                  },
-                  {
-                        "name": "click hides it",
-                        "code": "doc.querySelector('#toggle').click(); await sleep(30); return doc.querySelector('#box').classList.contains('hidden');"
-                  }
-            ]
-      },
 
     ],
   },
@@ -1676,47 +1617,6 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         },
       },
       { t: 'quiz', q: 'Why use `Promise.allSettled` instead of `Promise.all` for loading dashboard sections?', options: ['It is faster', 'Promise.all fails fast — if one request fails, all results are lost. allSettled waits for every promise and reports each outcome individually, so one failure does not block the others', 'all() is deprecated', 'They are identical'], answer: 1, why: 'allSettled returns status + value/error for each promise. It never rejects — it always waits for everything. Perfect for dashboards where partial data is better than none.' },
-      {
-            "t": "try",
-            "prompt": "Exercise 1: Write `fetchPostTitle(id)` that fetches from `https://jsonplaceholder.typicode.com/posts/{id}` and returns the `title` field. Use async/await.\n\n`await fetchPostTitle(1)` → `\"sunt aut facere...\"` (or whatever the API returns)",
-            "lang": "javascript",
-            "starter": "async function fetchPostTitle(id) {\n  \n}\n",
-            "solution": "async function fetchPostTitle(id) {\n  const res = await fetch(\"https://jsonplaceholder.typicode.com/posts/\" + id);\n  const data = await res.json();\n  return data.title;\n}\n",
-            "hints": [
-                  "await fetch(url) to get the response.",
-                  "await res.json() to parse the body.",
-                  "Return data.title."
-            ],
-            "cases": [
-                  {
-                        "name": "fetches title",
-                        "call": "__run_async(fetchPostTitle(1))",
-                        "expect": "\"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\""
-                  }
-            ],
-            "preamble": "async function __run_async(promise) {\n    return await promise;\n}\n"
-      },
-
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `fetchPostTitle(id)` that fetches from `https://jsonplaceholder.typicode.com/posts/{id}` and returns the `title` field. Use async/await.\n\n`await fetchPostTitle(1)` → `\"sunt aut facere...\"` (or whatever the API returns)",
-            "lang": "javascript",
-            "starter": "async function fetchPostTitle(id) {\n  \n}\n",
-            "solution": "async function fetchPostTitle(id) {\n  const res = await fetch(\"https://jsonplaceholder.typicode.com/posts/\" + id);\n  const data = await res.json();\n  return data.title;\n}\n",
-            "hints": [
-                  "await fetch(url) to get the response.",
-                  "await res.json() to parse the body.",
-                  "Return data.title."
-            ],
-            "cases": [
-                  {
-                        "name": "fetches title",
-                        "call": "__run_async(fetchPostTitle(1))",
-                        "expect": "\"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\""
-                  }
-            ],
-            "preamble": "async function __run_async(promise) {\n    return await promise;\n}\n"
-      },
 
     ],
   },
@@ -1743,47 +1643,6 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         },
       },
       { t: 'quiz', q: 'What is the main purpose of a service worker?', options: ['To speed up CSS', 'To act as a programmable network proxy — intercepting requests, caching responses, and enabling offline functionality', 'To replace JavaScript', 'To manage cookies'], answer: 1, why: 'Service workers sit between the page and the network. They can serve cached content when offline, enable background sync, and handle push notifications — all without a server.' },
-      {
-            "t": "try",
-            "prompt": "Exercise 1: Write `fetchPostTitle(id)` that fetches from `https://jsonplaceholder.typicode.com/posts/{id}` and returns the `title` field. Use async/await.\n\n`await fetchPostTitle(1)` → `\"sunt aut facere...\"` (or whatever the API returns)",
-            "lang": "javascript",
-            "starter": "async function fetchPostTitle(id) {\n  \n}\n",
-            "solution": "async function fetchPostTitle(id) {\n  const res = await fetch(\"https://jsonplaceholder.typicode.com/posts/\" + id);\n  const data = await res.json();\n  return data.title;\n}\n",
-            "hints": [
-                  "await fetch(url) to get the response.",
-                  "await res.json() to parse the body.",
-                  "Return data.title."
-            ],
-            "cases": [
-                  {
-                        "name": "fetches title",
-                        "call": "__run_async(fetchPostTitle(1))",
-                        "expect": "\"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\""
-                  }
-            ],
-            "preamble": "async function __run_async(promise) {\n    return await promise;\n}\n"
-      },
-
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `fetchPostTitle(id)` that fetches from `https://jsonplaceholder.typicode.com/posts/{id}` and returns the `title` field. Use async/await.\n\n`await fetchPostTitle(1)` → `\"sunt aut facere...\"` (or whatever the API returns)",
-            "lang": "javascript",
-            "starter": "async function fetchPostTitle(id) {\n  \n}\n",
-            "solution": "async function fetchPostTitle(id) {\n  const res = await fetch(\"https://jsonplaceholder.typicode.com/posts/\" + id);\n  const data = await res.json();\n  return data.title;\n}\n",
-            "hints": [
-                  "await fetch(url) to get the response.",
-                  "await res.json() to parse the body.",
-                  "Return data.title."
-            ],
-            "cases": [
-                  {
-                        "name": "fetches title",
-                        "call": "__run_async(fetchPostTitle(1))",
-                        "expect": "\"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\""
-                  }
-            ],
-            "preamble": "async function __run_async(promise) {\n    return await promise;\n}\n"
-      },
 
     ],
   },
@@ -1812,65 +1671,6 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         },
       },
       { t: 'quiz', q: 'When should you use an ARIA role instead of a native HTML element?', options: ['Always — ARIA is better', 'Only when no native HTML element conveys the right semantics. A `<button>` is always better than `<div role="button">` — use native elements first', 'ARIA replaces HTML', 'Never — ARIA is deprecated'], answer: 1, why: 'The first rule of ARIA: do not use it if native HTML works. Native elements have built-in keyboard handling, focus management and screen-reader announcements that you would have to rebuild from scratch with ARIA.' },
-      {
-            "t": "tryweb",
-            "prompt": "Exercise 1: Add an `alt` attribute to the image describing what it shows, and wrap the input in a `<label>` with a matching `for`/ `id` pair. The label text should be \"Email\".",
-            "files": {
-                  "html": "<img src=\"cat.jpg\">\n<input type=\"email\" id=\"email-input\">",
-                  "css": "",
-                  "js": ""
-            },
-            "solution": {
-                  "html": "<img src=\"cat.jpg\" alt=\"A ginger cat sleeping on a keyboard\">\n<label for=\"email-input\">Email</label>\n<input type=\"email\" id=\"email-input\">",
-                  "css": "",
-                  "js": ""
-            },
-            "hints": [
-                  "Add alt=\"description\" to the img tag.",
-                  "Add <label for=\"email-input\">Email</label> before the input.",
-                  "The for of the label must match the id of the input."
-            ],
-            "checks": [
-                  {
-                        "name": "img has alt",
-                        "code": "return doc.querySelector('img').hasAttribute('alt') && doc.querySelector('img').getAttribute('alt').length > 0;"
-                  },
-                  {
-                        "name": "has label for input",
-                        "code": "return !!doc.querySelector('label[for=\"email-input\"]');"
-                  }
-            ]
-      },
-
-      {
-            "t": "tryweb",
-            "prompt": "Exercise 2: Add an `alt` attribute to the image describing what it shows, and wrap the input in a `<label>` with a matching `for`/ `id` pair. The label text should be \"Email\".",
-            "files": {
-                  "html": "<img src=\"cat.jpg\">\n<input type=\"email\" id=\"email-input\">",
-                  "css": "",
-                  "js": ""
-            },
-            "solution": {
-                  "html": "<img src=\"cat.jpg\" alt=\"A ginger cat sleeping on a keyboard\">\n<label for=\"email-input\">Email</label>\n<input type=\"email\" id=\"email-input\">",
-                  "css": "",
-                  "js": ""
-            },
-            "hints": [
-                  "Add alt=\"description\" to the img tag.",
-                  "Add <label for=\"email-input\">Email</label> before the input.",
-                  "The for of the label must match the id of the input."
-            ],
-            "checks": [
-                  {
-                        "name": "img has alt",
-                        "code": "return doc.querySelector('img').hasAttribute('alt') && doc.querySelector('img').getAttribute('alt').length > 0;"
-                  },
-                  {
-                        "name": "has label for input",
-                        "code": "return !!doc.querySelector('label[for=\"email-input\"]');"
-                  }
-            ]
-      },
 
     ],
   },
@@ -1906,65 +1706,6 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         },
       },
       { t: 'quiz', q: 'Why is focus trapping important in modals?', options: ['It looks better', 'Without it, a keyboard user can Tab past the end of the modal and interact with the (hidden) background page. Focus trapping keeps them inside the dialog until they dismiss it', 'It is required by law', 'Modals are always modal'], answer: 1, why: 'A modal overlay visually hides the background, but unless focus is trapped, keyboard and screen-reader users can still interact with background elements they cannot see.' },
-      {
-            "t": "tryweb",
-            "prompt": "Exercise 1: Add an `alt` attribute to the image describing what it shows, and wrap the input in a `<label>` with a matching `for`/ `id` pair. The label text should be \"Email\".",
-            "files": {
-                  "html": "<img src=\"cat.jpg\">\n<input type=\"email\" id=\"email-input\">",
-                  "css": "",
-                  "js": ""
-            },
-            "solution": {
-                  "html": "<img src=\"cat.jpg\" alt=\"A ginger cat sleeping on a keyboard\">\n<label for=\"email-input\">Email</label>\n<input type=\"email\" id=\"email-input\">",
-                  "css": "",
-                  "js": ""
-            },
-            "hints": [
-                  "Add alt=\"description\" to the img tag.",
-                  "Add <label for=\"email-input\">Email</label> before the input.",
-                  "The for of the label must match the id of the input."
-            ],
-            "checks": [
-                  {
-                        "name": "img has alt",
-                        "code": "return doc.querySelector('img').hasAttribute('alt') && doc.querySelector('img').getAttribute('alt').length > 0;"
-                  },
-                  {
-                        "name": "has label for input",
-                        "code": "return !!doc.querySelector('label[for=\"email-input\"]');"
-                  }
-            ]
-      },
-
-      {
-            "t": "tryweb",
-            "prompt": "Exercise 2: Add an `alt` attribute to the image describing what it shows, and wrap the input in a `<label>` with a matching `for`/ `id` pair. The label text should be \"Email\".",
-            "files": {
-                  "html": "<img src=\"cat.jpg\">\n<input type=\"email\" id=\"email-input\">",
-                  "css": "",
-                  "js": ""
-            },
-            "solution": {
-                  "html": "<img src=\"cat.jpg\" alt=\"A ginger cat sleeping on a keyboard\">\n<label for=\"email-input\">Email</label>\n<input type=\"email\" id=\"email-input\">",
-                  "css": "",
-                  "js": ""
-            },
-            "hints": [
-                  "Add alt=\"description\" to the img tag.",
-                  "Add <label for=\"email-input\">Email</label> before the input.",
-                  "The for of the label must match the id of the input."
-            ],
-            "checks": [
-                  {
-                        "name": "img has alt",
-                        "code": "return doc.querySelector('img').hasAttribute('alt') && doc.querySelector('img').getAttribute('alt').length > 0;"
-                  },
-                  {
-                        "name": "has label for input",
-                        "code": "return !!doc.querySelector('label[for=\"email-input\"]');"
-                  }
-            ]
-      },
 
     ],
   },
