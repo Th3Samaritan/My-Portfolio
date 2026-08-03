@@ -3,7 +3,7 @@
 **Train your programming.** A free, open-source gym for learning to code — from
 "I have never written a line" to graded, timed assessments.
 
-Four courses (Python, Rust, Java, Web), **28 from-scratch lessons**, **47 graded
+Four courses (Python, Rust, Java, Web), **99 from-scratch lessons**, **56 graded
 challenges** and **9 timed assessments**. Everything runs in your browser.
 
 No account required. No server to deploy. No build step. Plain ES modules served
@@ -17,8 +17,8 @@ Live at `/playground/`.
 
 | Layer | What it is | How it is marked |
 |---|---|---|
-| **Learn** | 28 lessons with explanations, analogies, live runnable examples, worked case studies | 28 exercises + 27 quizzes, pass/fail, hints and answers always available |
-| **Challenges** | 47 graded problems across 6 tiers per language | A four-part rubric, scored 0–100 |
+| **Learn** | 99 lessons with explanations, analogies, live runnable examples, worked case studies | 108 exercises + 103 quizzes, pass/fail, hints and answers always available |
+| **Challenges** | 56 graded problems across 6 tiers per language | A four-part rubric, scored 0–100 |
 | **Assessments** | 9 timed, multi-problem exams | Rubric scorecard with a radar profile |
 | **Hall of Fame** | A leaderboard | Ranked by XP, then challenges cleared, then streak |
 
@@ -121,10 +121,10 @@ playground/
   css/app.css             design system (dark + light)
   data/
     curriculum.js         course index + lookups
-    lessons-python.js     11 lessons     track-python.js   17 challenges
-    lessons-rust.js        6 lessons     track-rust.js     12
-    lessons-java.js        5 lessons     track-java.js     10
-    lessons-web.js         6 lessons     track-web.js       8
+    lessons-python.js    41 lessons     track-python.js   17 challenges
+    lessons-rust.js       12 lessons     track-rust.js     12
+    lessons-java.js       24 lessons     track-java.js     10
+    lessons-web.js        22 lessons     track-web.js      17
     assessments.js        exams, rubric weights, grade bands
   js/
     app.js                hash router + shell

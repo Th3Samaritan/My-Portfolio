@@ -185,10 +185,6 @@ Note there is **no semicolon** on that last line. In Rust, the final expression 
 
 Rust types are strict but deliberate. Understanding core types and why everything is immutable by default is the foundation.` },
       
-      { t:'text', md:`**Previously:** You wrote your first Rust program and met the compiler. Rust proves memory safety at compile time — the trade that makes it fast and safe.
-
-Rust types are strict but deliberate. Understanding core types and why everything is immutable by default is the foundation.` },
-      
       {
         t: 'text',
         md: `\`let\` binds a name to a value. By default that binding is **immutable** — it cannot be changed.
@@ -369,8 +365,6 @@ Note there are no semicolons on the branch values, and no \`return\` keyword nee
 
       { t:'text', md:`You know the basic types. Next: functions, expressions, and match.` },
 
-      { t:'text', md:`You know the basic types. Next: functions, expressions, and match.` },
-
     ],
   },
 
@@ -384,10 +378,6 @@ Note there are no semicolons on the branch values, and no \`return\` keyword nee
     summary: 'Almost everything in Rust is an expression. Plus loops and the match statement.',
     objectives: ['Write functions with return values', 'Use if and match as expressions', 'Loop three different ways'],
     blocks: [
-      { t:'text', md:`**Previously:** You can declare values with let and let mut, distinguish String from &str, and understand explicit type conversion.
-
-In Rust, almost everything is an expression — including if and blocks. This changes how you write functions.` },
-      
       { t:'text', md:`**Previously:** You can declare values with let and let mut, distinguish String from &str, and understand explicit type conversion.
 
 In Rust, almost everything is an expression — including if and blocks. This changes how you write functions.` },
@@ -530,8 +520,6 @@ Try the match version — it shows off what patterns can do.`,
 
       { t:'text', md:`You can write functions and use match. Next: ownership — the system that eliminates memory bugs at compile time.` },
 
-      { t:'text', md:`You can write functions and use match. Next: ownership — the system that eliminates memory bugs at compile time.` },
-
     ],
   },
 
@@ -545,10 +533,6 @@ Try the match version — it shows off what patterns can do.`,
     summary: 'The single idea that makes Rust different. Three rules, and what they buy you.',
     objectives: ['State the three ownership rules', 'Predict when a value moves', 'Explain why this removes whole bug classes'],
     blocks: [
-      { t:'text', md:`**Previously:** You can write functions, use if and match as expressions, and loop three ways.
-
-This is the lesson that makes Rust Rust. Ownership replaces garbage collection and manual memory management.` },
-      
       { t:'text', md:`**Previously:** You can write functions, use if and match as expressions, and loop three ways.
 
 This is the lesson that makes Rust Rust. Ownership replaces garbage collection and manual memory management.` },
@@ -724,8 +708,6 @@ Try it, then note something: because the function owns \`first\`, you could also
 
       { t:'text', md:`You understand ownership and moves. Next: borrowing — using values without taking them.` },
 
-      { t:'text', md:`You understand ownership and moves. Next: borrowing — using values without taking them.` },
-
     ],
   },
 
@@ -739,10 +721,6 @@ Try it, then note something: because the function owns \`first\`, you could also
     summary: 'Using a value without taking it — and the one rule that eliminates data races.',
     objectives: ['Borrow immutably and mutably', 'State the borrowing rules', 'Fix the errors the borrow checker gives you'],
     blocks: [
-      { t:'text', md:`**Previously:** You know the three ownership rules and can predict when values move vs copy.
-
-Borrowing lets functions look at values without taking ownership. The borrowing rules enable fearless concurrency.` },
-      
       { t:'text', md:`**Previously:** You know the three ownership rules and can predict when values move vs copy.
 
 Borrowing lets functions look at values without taking ownership. The borrowing rules enable fearless concurrency.` },
@@ -867,8 +845,6 @@ A \`for\` loop with a \`mut\` accumulator also works if you would rather see it 
 
       { t:'text', md:`You can borrow immutably and mutably. Next: modelling data with structs and enums.` },
 
-      { t:'text', md:`You can borrow immutably and mutably. Next: modelling data with structs and enums.` },
-
     ],
   },
 
@@ -882,10 +858,6 @@ A \`for\` loop with a \`mut\` accumulator also works if you would rather see it 
     summary: 'Modelling your problem so that invalid states cannot be represented — and life without null.',
     objectives: ['Define structs with methods', 'Model choices with enums', 'Handle absence with Option instead of null'],
     blocks: [
-      { t:'text', md:`**Previously:** You can borrow with & and &mut, and the compiler enforces "many readers OR one writer."
-
-Designing types so invalid states cannot be written down is the highest-value habit in Rust.` },
-      
       { t:'text', md:`**Previously:** You can borrow with & and &mut, and the compiler enforces "many readers OR one writer."
 
 Designing types so invalid states cannot be written down is the highest-value habit in Rust.` },
@@ -1038,8 +1010,6 @@ Head to the **Challenges** for this track when you are ready. The Fundamentals a
                   }
             ]
       },
-
-      { t:'text', md:`You can model data. Next: Cargo — creating projects, managing dependencies, and running tests.` },
 
       { t:'text', md:`You can model data. Next: Cargo — creating projects, managing dependencies, and running tests.` },
 

@@ -275,10 +275,6 @@ Same pattern as \`greet\` — replace \`pass\` with a \`return\` line.`,
 
 Now we give values names so we can reuse them. Variables are the single most fundamental concept in programming.` },
       
-      { t:'text', md:`**Previously:** You wrote your first line of Python and met the print function. Errors are information, not failure.
-
-Now we give values names so we can reuse them. Variables are the single most fundamental concept in programming.` },
-      
       {
         t: 'text',
         md: `So far every value we made vanished the moment it was printed. To keep one, give it a **name**.`,
@@ -408,8 +404,6 @@ Multiply \`price\` by 1.2 — that is it.`,
 
       { t:'text', md:`Variable names are useless without operations. Next: arithmetic.` },
 
-      { t:'text', md:`Variable names are useless without operations. Next: arithmetic.` },
-
     ],
   },
 
@@ -427,10 +421,6 @@ Multiply \`price\` by 1.2 — that is it.`,
       'Use % to test divisibility',
     ],
     blocks: [
-      { t:'text', md:`**Previously:** You learned that values have types and that variables are labels you tie to values.
-
-Python is an excellent calculator. Arithmetic transforms numbers — and the modulo operator turns out to be far more useful than it sounds.` },
-      
       { t:'text', md:`**Previously:** You learned that values have types and that variables are labels you tie to values.
 
 Python is an excellent calculator. Arithmetic transforms numbers — and the modulo operator turns out to be far more useful than it sounds.` },
@@ -560,11 +550,7 @@ Use \`n % 2 == 0\` — that expression is already a Boolean, so return it direct
         ],
         answer: 1,
         why: "0.1 + 0.2 = 0.30000000000000004 in most languages. Storing money in whole pence (350 instead of 3.50) and dividing only for display avoids cumulative rounding errors.",
-      },
-
-      { t:'text', md:`Numbers alone rarely tell the whole story. Next: working with text.` },
-
-    ],
+      },    ],
   },
 
   /* ==================================================== 4 */
@@ -581,10 +567,6 @@ Use \`n % 2 == 0\` — that expression is already a Boolean, so return it direct
       'Pull out parts of a string by position',
     ],
     blocks: [
-      { t:'text', md:`**Previously:** You can do arithmetic, test divisibility, and work with integer and decimal division.
-
-Most programs spend more time manipulating text than numbers. f-strings, methods, and indexing are tools you will reach for every day.` },
-      
       { t:'text', md:`**Previously:** You can do arithmetic, test divisibility, and work with integer and decimal division.
 
 Most programs spend more time manipulating text than numbers. f-strings, methods, and indexing are tools you will reach for every day.` },
@@ -729,11 +711,7 @@ Use \`word[0]\` for the first and \`word[-1]\` for the last. Join them with \`+\
         ],
         answer: 1,
         why: 'Strip removes surrounding whitespace first, then lower makes it lowercase. You need both operations — strip alone keeps capitals, lower alone keeps spaces.',
-      },
-
-      { t:'text', md:`Every program so far has run straight through. Next: making decisions.` },
-
-    ],
+      },    ],
   },
 
   /* ==================================================== 5 */
@@ -750,10 +728,6 @@ Use \`word[0]\` for the first and \`word[-1]\` for the last. Join them with \`+\
       'Combine conditions with and / or / not',
     ],
     blocks: [
-      { t:'text', md:`**Previously:** You can build text with f-strings, clean it with methods, and pull out characters by position.
-
-Real programs choose paths. Conditionals turn a script into a program that reacts to its inputs.` },
-      
       { t:'text', md:`**Previously:** You can build text with f-strings, clean it with methods, and pull out characters by position.
 
 Real programs choose paths. Conditionals turn a script into a program that reacts to its inputs.` },
@@ -928,11 +902,7 @@ Watch the order of your branches.`,
           { name: 'F', call: 'grade(55)', expect: '"F"' },
           { name: 'boundary A/B', call: 'grade(90)', expect: '"A"' },
         ],
-      },
-
-      { t:'text', md:`Decisions are one half of control flow. Next: loops — doing things repeatedly.` },
-
-    ],
+      },    ],
   },
 
   /* ==================================================== 6 */
@@ -949,10 +919,6 @@ Watch the order of your branches.`,
       'Use a while loop and avoid infinite ones',
     ],
     blocks: [
-      { t:'text', md:`**Previously:** You can branch with if/elif/else and combine conditions. Your program can now choose a path.
-
-Computers are extraordinarily good at repetition without mistakes. Loops unlock this power.` },
-      
       { t:'text', md:`**Previously:** You can branch with if/elif/else and combine conditions. Your program can now choose a path.
 
 Computers are extraordinarily good at repetition without mistakes. Loops unlock this power.` },
@@ -1102,11 +1068,7 @@ Use a \`for\` loop with \`range\` and the accumulator pattern: start a total at 
         ],
         answer: 1,
         why: 'If total = 0 runs inside the loop, it wipes the accumulator on every pass. The accumulation pattern requires initialisation ABOVE the loop, not inside it. This is one of the most common beginner loop bugs.',
-      },
-
-      { t:'text', md:`Loops become far more useful with collections. Next: lists — holding many values together.` },
-
-    ],
+      },    ],
   },
 
   /* ==================================================== 7 */
@@ -1123,10 +1085,6 @@ Use a \`for\` loop with \`range\` and the accumulator pattern: start a total at 
       'Loop over a list with its positions',
     ],
     blocks: [
-      { t:'text', md:`**Previously:** You can repeat work with for and while loops, count with range, and accumulate results.
-
-Real data arrives in batches. Lists are the most common way to hold many values together. This is a dense lesson — do not feel you must absorb everything in one sitting. Take a break after the sorting section.` },
-      
       { t:'text', md:`**Previously:** You can repeat work with for and while loops, count with range, and accumulate results.
 
 Real data arrives in batches. Lists are the most common way to hold many values together. This is a dense lesson — do not feel you must absorb everything in one sitting. Take a break after the sorting section.` },
@@ -1298,8 +1256,6 @@ Check \`if not items:\` to handle the empty case, then return \`items[0]\`.`,
 
       { t:'text', md:`Lists find things by position. Next: dictionaries — finding things by name.` },
 
-      { t:'text', md:`Lists find things by position. Next: dictionaries — finding things by name.` },
-
     ],
   },
 
@@ -1317,10 +1273,6 @@ Check \`if not items:\` to handle the empty case, then return \`items[0]\`.`,
       'Count things with a dictionary',
     ],
     blocks: [
-      { t:'text', md:`**Previously:** You can create lists, add and remove items, sort them, and loop with positions.
-
-Dictionaries look things up by name instead of position. Most real-world data is more naturally organised this way.` },
-      
       { t:'text', md:`**Previously:** You can create lists, add and remove items, sort them, and loop with positions.
 
 Dictionaries look things up by name instead of position. Most real-world data is more naturally organised this way.` },
@@ -1462,11 +1414,7 @@ Use exactly the pattern from the case study above.`,
           { name: 'names', call: 'pluck([{"name":"Ada","score":88},{"name":"Grace","score":95}], "name")', expect: '["Ada", "Grace"]' },
           { name: 'scores', call: 'pluck([{"name":"Ada","score":88}], "score")', expect: '[88]' },
         ],
-      },
-
-      { t:'text', md:`You can store and retrieve data. Next: functions — packaging work so you never write the same logic twice.` },
-
-    ],
+      },    ],
   },
 
   /* ==================================================== 9 */
@@ -1483,10 +1431,6 @@ Use exactly the pattern from the case study above.`,
       'Give parameters sensible defaults',
     ],
     blocks: [
-      { t:'text', md:`**Previously:** You can store key/value pairs, loop over dictionaries, and count with the .get() pattern.
-
-You have been writing functions since lesson one. Now we examine them properly — parameters, return values, defaults, and print-vs-return.` },
-      
       { t:'text', md:`**Previously:** You can store key/value pairs, loop over dictionaries, and count with the .get() pattern.
 
 You have been writing functions since lesson one. Now we examine them properly — parameters, return values, defaults, and print-vs-return.` },
@@ -1648,8 +1592,6 @@ Give it a docstring too — this platform's grader rewards it.`,
 
       { t:'text', md:`Functions give you power. Next: handling errors gracefully instead of crashing.` },
 
-      { t:'text', md:`Functions give you power. Next: handling errors gracefully instead of crashing.` },
-
     ],
   },
 
@@ -1667,10 +1609,6 @@ Give it a docstring too — this platform's grader rewards it.`,
       'Decide when to catch and when to let it crash',
     ],
     blocks: [
-      { t:'text', md:`**Previously:** You can write functions with parameters, defaults, return values, and docstrings. You understand scope.
-
-No program runs perfectly. Files go missing, users type nonsense. Error handling separates fragile scripts from robust programs.` },
-      
       { t:'text', md:`**Previously:** You can write functions with parameters, defaults, return values, and docstrings. You understand scope.
 
 No program runs perfectly. Files go missing, users type nonsense. Error handling separates fragile scripts from robust programs.` },
@@ -1864,11 +1802,7 @@ Dividing a string will raise \`TypeError\`; dividing by zero raises \`ZeroDivisi
           { name: 'all valid', call: 'safe_max([1, 2, 3])', expect: '3.0' },
           { name: 'empty', call: 'safe_max([])', expect: 'None' },
         ],
-      },
-
-      { t:'text', md:`You have all the building blocks. Next: assembling them into a real program.` },
-
-    ],
+      },    ],
   },
 
   /* ==================================================== 11 */
@@ -1885,10 +1819,6 @@ Dividing a string will raise \`TypeError\`; dividing by zero raises \`ZeroDivisi
       'Build up a program in testable pieces',
     ],
     blocks: [
-      { t:'text', md:`**Previously:** You can catch exceptions, read tracebacks, and decide whether to handle errors or crash informatively.
-
-This lesson is different — it is not about new syntax. It is about how experienced developers actually build: one function at a time, tested incrementally, assembled at the end.` },
-      
       { t:'text', md:`**Previously:** You can catch exceptions, read tracebacks, and decide whether to handle errors or crash informatively.
 
 This lesson is different — it is not about new syntax. It is about how experienced developers actually build: one function at a time, tested incrementally, assembled at the end.` },
@@ -2076,8 +2006,6 @@ Loop over the expenses, check \`expense["category"] == category\`, and add the a
           { name: 'empty list', call: 'total_for_category([], "food")', expect: '0' },
         ],
       },
-
-      { t:'text', md:`You have built a real program from scratch. Next: turning code into reusable scripts.` },
 
       { t:'text', md:`You have built a real program from scratch. Next: turning code into reusable scripts.` },
 
