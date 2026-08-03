@@ -767,36 +767,36 @@ export function renderStart(host) {
 
     <section class="card">
       <div class="card-head">
-        <h2>Still unsure? Let your goals decide.</h2>
+        <h2>How they relate to each other</h2>
       </div>
-      <div class="grid cols-2" style="gap:14px;font-size:0.93rem">
-        <div>
-          <h4 style="margin:0 0 6px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">I want to learn to code from zero</h4>
-          <p style="margin:0 0 14px"><strong>Start with Python.</strong> It was designed to be readable. The course assumes nothing — lesson 1 is literally "what is a program?"</p>
-
-          <h4 style="margin:0 0 6px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">I want to build websites and apps people can see</h4>
-          <p style="margin:0 0 14px"><strong>Start with Web Dev.</strong> Every lesson produces a live page. You will have a working portfolio by the end of the HTML section.</p>
-
-          <h4 style="margin:0 0 6px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">I want a job in a large company</h4>
-          <p style="margin:0 0 14px"><strong>Start with Java.</strong> It runs banking, insurance, and enterprise systems worldwide. Knowing Java opens doors at companies with the most engineering roles.</p>
-        </div>
-        <div>
-          <h4 style="margin:0 0 6px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">I want to understand how computers really work</h4>
-          <p style="margin:0 0 14px"><strong>Start with Rust.</strong> You will learn about stack vs heap, ownership, and why memory bugs happen — because the compiler forces you to. Rust is the hardest path but the deepest education.</p>
-
-          <h4 style="margin:0 0 6px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">I want to do data science or AI</h4>
-          <p style="margin:0 0 14px"><strong>Start with Python.</strong> The entire data ecosystem — NumPy, pandas, PyTorch, Jupyter — is built on Python. Learn the language first, then the libraries are accessible.</p>
-
-          <h4 style="margin:0 0 6px;color:var(--text-dim);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em">I already code and want to add another language</h4>
-          <p style="margin:0"><strong>Pick any track.</strong> Skip the lessons you already know and jump straight to the graded challenges. The platform adapts — it never forces you through material you have mastered.</p>
-        </div>
+      <p style="margin:0 0 16px;font-size:0.93rem;color:var(--text-dim)">
+        No single language is "the right one." They overlap in surprising ways — and learning a second one is far easier than the first.
+      </p>
+      <div style="font-size:0.93rem;line-height:1.8">
+        <p style="margin:0 0 12px">
+          <strong style="color:var(--gold)">Python</strong> gives you the gentlest start. Its concepts transfer directly to <strong style="color:var(--blue)">Java</strong> (same OOP ideas, stricter rules) and <strong style="color:var(--green)">JavaScript</strong> (in the Web track — same dynamic feel, different syntax).
+        </p>
+        <p style="margin:0 0 12px">
+          <strong style="color:var(--green)">Web Dev</strong> is three languages that each reinforce the others. HTML gives structure, CSS teaches layout thinking, JavaScript connects to the programming logic you would use in any language. The visual feedback loop makes abstract concepts concrete.
+        </p>
+        <p style="margin:0 0 12px">
+          <strong style="color:var(--orange)">Rust</strong> teaches you things no other track does — how memory actually works, what ownership means, why the compiler is your safety net. These insights make you better at every other language, even if you never write Rust professionally.
+        </p>
+        <p style="margin:0">
+          <strong style="color:var(--red)">Java</strong> forces explicitness — every type declared, every exception acknowledged. This strictness can feel slow at first, but it builds habits that prevent entire categories of bugs in any language.
+        </p>
       </div>
     </section>
 
-    <p style="text-align:center;color:var(--text-dim);margin-top:20px;font-size:0.85rem">
-      All tracks assume zero prior knowledge. All tracks give XP. All tracks have practical, graded challenges.
-      <br>You are not choosing forever — you can learn all four, and many people do.
-    </p>
+    <section class="card" style="text-align:center">
+      <p style="margin:0;font-size:0.95rem;color:var(--text-dim)">
+        <strong>You are not choosing forever.</strong> Every concept you learn in one track transfers to the others.
+        Variables, loops, functions, and data structures work the same way everywhere — only the punctuation changes.
+      </p>
+      <p style="margin:10px 0 0;font-size:0.85rem;color:var(--text-faint)">
+        All tracks assume zero prior knowledge. All give XP toward the same profile. Many people work through two or three at once.
+      </p>
+    </section>
   `;
 
   render(host, html);
