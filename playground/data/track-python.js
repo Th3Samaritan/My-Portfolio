@@ -162,7 +162,6 @@ Return a single string:
     ],
   },
 
-  /* ------------------------------------------------------- Data Structures */
   {
     id: 'py-d1',
     title: 'Top-K Word Frequency',
@@ -240,49 +239,6 @@ Rules:
     ],
   },
 
-  {
-    id: 'py-d3',
-    title: 'LRU Cache',
-    tier: 'structures',
-    difficulty: 4,
-    xp: 110,
-    concepts: ['dicts', 'ordering', 'oop', 'caching'],
-    brief: `Build an \`LRUCache\` class with O(1) \`get\` and \`put\`.
-
-- \`LRUCache(capacity)\`
-- \`get(key)\` → value, or \`-1\` if absent. **A hit counts as a use.**
-- \`put(key, value)\` → insert/update; evict the least-recently-used entry when over capacity.
-
-\`collections.OrderedDict\` gives you the ordering primitive; \`move_to_end\` and \`popitem(last=False)\` are the two moves you need.`,
-    starter: `class LRUCache:\n    """Fixed-capacity cache that evicts the least recently used entry."""\n\n    def __init__(self, capacity):\n        pass\n\n    def get(self, key):\n        pass\n\n    def put(self, key, value):\n        pass\n`,
-    solution: `from collections import OrderedDict\n\n\nclass LRUCache:\n    """Fixed-capacity cache that evicts the least recently used entry."""\n\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self._items = OrderedDict()\n\n    def get(self, key):\n        if key not in self._items:\n            return -1\n        self._items.move_to_end(key)\n        return self._items[key]\n\n    def put(self, key, value):\n        if key in self._items:\n            self._items.move_to_end(key)\n        self._items[key] = value\n        if len(self._items) > self.capacity:\n            self._items.popitem(last=False)\n`,
-    hints: [
-      'OrderedDict keeps insertion order and lets you cheaply move a key to the end.',
-      'Treat "end" as most-recently-used; evict from the front with popitem(last=False).',
-      'A successful get() must also refresh recency — that is the case most people miss.',
-    ],
-    cases: [
-      { name: 'basic get/put', call: '(lambda c: (c.put(1, 1), c.put(2, 2), c.get(1))[-1])(LRUCache(2))', expect: '1' },
-      { name: 'evicts LRU', call: '(lambda c: (c.put(1,1), c.put(2,2), c.put(3,3), c.get(1))[-1])(LRUCache(2))', expect: '-1' },
-      { name: 'get refreshes recency', call: '(lambda c: (c.put(1,1), c.put(2,2), c.get(1), c.put(3,3), c.get(2))[-1])(LRUCache(2))', expect: '-1' },
-      { name: 'survivor after refresh', call: '(lambda c: (c.put(1,1), c.put(2,2), c.get(1), c.put(3,3), c.get(1))[-1])(LRUCache(2))', expect: '1', hidden: true },
-      { name: 'update does not grow', call: '(lambda c: (c.put(1,1), c.put(1,9), c.put(2,2), c.get(1))[-1])(LRUCache(2))', expect: '9', hidden: true },
-    ],
-    budgetMs: 150,
-    refLines: 17,
-    quality: [
-      { id: 'docstring', label: 'Class documented', weight: 25, re: /class\s+LRUCache[^\n]*\n\s+("""|''')/ },
-      { id: 'private',   label: 'Internal storage marked private (_name)', weight: 25, re: /self\._\w+/ },
-      { id: 'no-print',  label: 'No debug prints left behind', weight: 25, re: /\bprint\s*\(/, negative: true },
-      { id: 'capacity',  label: 'Capacity stored and enforced', weight: 25, re: /self\.\w*capacity/ },
-    ],
-    efficiency: [
-      { id: 'ordered', label: 'O(1) recency via OrderedDict / dict ordering', weight: 60, re: /OrderedDict|move_to_end|popitem/ },
-      { id: 'no-scan', label: 'No linear scan to find the LRU entry', weight: 40, re: /min\s*\([\s\S]{0,80}key\s*=/, negative: true },
-    ],
-  },
-
-  /* -------------------------------------------------------- Functions & FP */
   {
     id: 'py-fn1',
     title: 'Compose & Pipe',
@@ -403,7 +359,6 @@ Both must work on an infinite iterator when consumed lazily.`,
     ],
   },
 
-  /* ----------------------------------------------------------- Object Design */
   {
     id: 'py-o1',
     title: 'Vector2D with Dunders',
@@ -494,7 +449,6 @@ Immutability is part of the grade — a value type should not be mutated in plac
     ],
   },
 
-  /* -------------------------------------------------------------- Algorithms */
   {
     id: 'py-a1',
     title: 'Bounded Binary Search',
@@ -535,6 +489,89 @@ Both must be O(log n). A linear scan will pass the correctness tests and fail th
     efficiency: [
       { id: 'no-index', label: 'No list.index() / in / count() shortcut', weight: 60, re: /arr\.index\s*\(|arr\.count\s*\(|target\s+in\s+arr/, negative: true },
       { id: 'while-halving', label: 'Uses a halving while-loop, not a full scan', weight: 40, re: /while\s+lo\s*<=?\s*hi|while\s+\w+\s*<=?\s*\w+/ },
+    ],
+  },
+
+  {
+    id: 'py-a4',
+    title: 'Longest Unique Run',
+    tier: 'algorithms',
+    difficulty: 3,
+    xp: 100,
+    concepts: ['two-pointers', 'sliding-window', 'strings'],
+    brief: `\`longest_unique(s)\` → length of the longest substring with no repeated character.
+
+\`"abcabcbb"\` → \`3\` (\`"abc"\`). \`"bbbbb"\` → \`1\`. \`""\` → \`0\`.
+
+Sliding window with a last-seen map. O(n) — one pass, no nested scan.`,
+    starter: `def longest_unique(s):\n    """Length of the longest substring without repeating characters."""\n    pass\n`,
+    solution: `def longest_unique(s):\n    """Length of the longest substring without repeating characters."""\n    last_seen = {}\n    best = 0\n    start = 0\n    for index, char in enumerate(s):\n        if char in last_seen and last_seen[char] >= start:\n            start = last_seen[char] + 1\n        last_seen[char] = index\n        best = max(best, index - start + 1)\n    return best\n`,
+    hints: [
+      'Keep `start` as the left edge of the current window.',
+      'On a repeat inside the window, jump `start` past the previous occurrence — never step it one at a time.',
+      'The `last_seen[char] >= start` guard is what stops stale positions from shrinking the window.',
+    ],
+    cases: [
+      { name: 'abcabcbb', call: 'longest_unique("abcabcbb")', expect: '3' },
+      { name: 'all same', call: 'longest_unique("bbbbb")', expect: '1' },
+      { name: 'pwwkew', call: 'longest_unique("pwwkew")', expect: '3' },
+      { name: 'empty', call: 'longest_unique("")', expect: '0' },
+      { name: 'all unique', call: 'longest_unique("abcdef")', expect: '6', hidden: true },
+      { name: 'stale index guard', call: 'longest_unique("abba")', expect: '2', hidden: true },
+      { name: 'long input stays fast', call: 'longest_unique("abcdefghij" * 400)', expect: '10', hidden: true },
+    ],
+    budgetMs: 300,
+    refLines: 11,
+    quality: [
+      { id: 'docstring', label: 'Function documented', weight: 35, re: /def\s+longest_unique[^\n]*\n\s+("""|''')/ },
+      { id: 'enumerate', label: 'Uses enumerate rather than range(len(s))', weight: 35, re: /enumerate\s*\(/ },
+      { id: 'no-print', label: 'No debug prints', weight: 30, re: /\bprint\s*\(/, negative: true },
+    ],
+    efficiency: [
+      { id: 'no-nested', label: 'Single pass — no nested loop over the string', weight: 60, fn: (code) => countLoops(code) <= 1 },
+      { id: 'no-slicing', label: 'No repeated substring slicing', weight: 40, re: /s\s*\[\s*\w+\s*:\s*\w+\s*\]/, negative: true },
+    ],
+  },
+
+  {
+    id: 'py-d3',
+    title: 'LRU Cache',
+    tier: 'structures',
+    difficulty: 4,
+    xp: 110,
+    concepts: ['dicts', 'ordering', 'oop', 'caching'],
+    brief: `Build an \`LRUCache\` class with O(1) \`get\` and \`put\`.
+
+- \`LRUCache(capacity)\`
+- \`get(key)\` → value, or \`-1\` if absent. **A hit counts as a use.**
+- \`put(key, value)\` → insert/update; evict the least-recently-used entry when over capacity.
+
+\`collections.OrderedDict\` gives you the ordering primitive; \`move_to_end\` and \`popitem(last=False)\` are the two moves you need.`,
+    starter: `class LRUCache:\n    """Fixed-capacity cache that evicts the least recently used entry."""\n\n    def __init__(self, capacity):\n        pass\n\n    def get(self, key):\n        pass\n\n    def put(self, key, value):\n        pass\n`,
+    solution: `from collections import OrderedDict\n\n\nclass LRUCache:\n    """Fixed-capacity cache that evicts the least recently used entry."""\n\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self._items = OrderedDict()\n\n    def get(self, key):\n        if key not in self._items:\n            return -1\n        self._items.move_to_end(key)\n        return self._items[key]\n\n    def put(self, key, value):\n        if key in self._items:\n            self._items.move_to_end(key)\n        self._items[key] = value\n        if len(self._items) > self.capacity:\n            self._items.popitem(last=False)\n`,
+    hints: [
+      'OrderedDict keeps insertion order and lets you cheaply move a key to the end.',
+      'Treat "end" as most-recently-used; evict from the front with popitem(last=False).',
+      'A successful get() must also refresh recency — that is the case most people miss.',
+    ],
+    cases: [
+      { name: 'basic get/put', call: '(lambda c: (c.put(1, 1), c.put(2, 2), c.get(1))[-1])(LRUCache(2))', expect: '1' },
+      { name: 'evicts LRU', call: '(lambda c: (c.put(1,1), c.put(2,2), c.put(3,3), c.get(1))[-1])(LRUCache(2))', expect: '-1' },
+      { name: 'get refreshes recency', call: '(lambda c: (c.put(1,1), c.put(2,2), c.get(1), c.put(3,3), c.get(2))[-1])(LRUCache(2))', expect: '-1' },
+      { name: 'survivor after refresh', call: '(lambda c: (c.put(1,1), c.put(2,2), c.get(1), c.put(3,3), c.get(1))[-1])(LRUCache(2))', expect: '1', hidden: true },
+      { name: 'update does not grow', call: '(lambda c: (c.put(1,1), c.put(1,9), c.put(2,2), c.get(1))[-1])(LRUCache(2))', expect: '9', hidden: true },
+    ],
+    budgetMs: 150,
+    refLines: 17,
+    quality: [
+      { id: 'docstring', label: 'Class documented', weight: 25, re: /class\s+LRUCache[^\n]*\n\s+("""|''')/ },
+      { id: 'private',   label: 'Internal storage marked private (_name)', weight: 25, re: /self\._\w+/ },
+      { id: 'no-print',  label: 'No debug prints left behind', weight: 25, re: /\bprint\s*\(/, negative: true },
+      { id: 'capacity',  label: 'Capacity stored and enforced', weight: 25, re: /self\.\w*capacity/ },
+    ],
+    efficiency: [
+      { id: 'ordered', label: 'O(1) recency via OrderedDict / dict ordering', weight: 60, re: /OrderedDict|move_to_end|popitem/ },
+      { id: 'no-scan', label: 'No linear scan to find the LRU entry', weight: 40, re: /min\s*\([\s\S]{0,80}key\s*=/, negative: true },
     ],
   },
 
@@ -622,47 +659,49 @@ BFS with a \`deque\` and a parent map. DFS will produce wrong-length paths.`,
   },
 
   {
-    id: 'py-a4',
-    title: 'Longest Unique Run',
-    tier: 'algorithms',
-    difficulty: 3,
-    xp: 100,
-    concepts: ['two-pointers', 'sliding-window', 'strings'],
-    brief: `\`longest_unique(s)\` → length of the longest substring with no repeated character.
+    id: 'py-m2',
+    title: 'Retry Context Manager',
+    tier: 'mastery',
+    difficulty: 4,
+    xp: 125,
+    concepts: ['context-managers', 'exceptions', 'decorators'],
+    brief: `\`retry(times, exceptions=(Exception,))\` — a **decorator** that retries a failing call.
 
-\`"abcabcbb"\` → \`3\` (\`"abc"\`). \`"bbbbb"\` → \`1\`. \`""\` → \`0\`.
+- calls the function up to \`times\` total attempts
+- only retries the listed exception types; anything else propagates immediately
+- re-raises the last exception when all attempts fail
+- exposes \`.attempts\` on the wrapper: how many calls the last invocation took
 
-Sliding window with a last-seen map. O(n) — one pass, no nested scan.`,
-    starter: `def longest_unique(s):\n    """Length of the longest substring without repeating characters."""\n    pass\n`,
-    solution: `def longest_unique(s):\n    """Length of the longest substring without repeating characters."""\n    last_seen = {}\n    best = 0\n    start = 0\n    for index, char in enumerate(s):\n        if char in last_seen and last_seen[char] >= start:\n            start = last_seen[char] + 1\n        last_seen[char] = index\n        best = max(best, index - start + 1)\n    return best\n`,
+Also provide \`suppress_and_log(bucket)\` — a **context manager** that swallows any exception raised inside its block and appends \`type(exc).__name__\` to \`bucket\`.`,
+    starter: `from functools import wraps\nfrom contextlib import contextmanager\n\n\ndef retry(times, exceptions=(Exception,)):\n    """Decorator that retries a call on the given exception types."""\n    pass\n\n\n@contextmanager\ndef suppress_and_log(bucket):\n    """Swallow any exception and record its class name in bucket."""\n    pass\n`,
+    solution: `from functools import wraps\nfrom contextlib import contextmanager\n\n\ndef retry(times, exceptions=(Exception,)):\n    """Decorator that retries a call on the given exception types."""\n    def decorator(fn):\n        @wraps(fn)\n        def wrapper(*args, **kwargs):\n            last = None\n            for attempt in range(1, times + 1):\n                wrapper.attempts = attempt\n                try:\n                    return fn(*args, **kwargs)\n                except exceptions as exc:\n                    last = exc\n            raise last\n        wrapper.attempts = 0\n        return wrapper\n    return decorator\n\n\n@contextmanager\ndef suppress_and_log(bucket):\n    """Swallow any exception and record its class name in bucket."""\n    try:\n        yield bucket\n    except Exception as exc:\n        bucket.append(type(exc).__name__)\n`,
     hints: [
-      'Keep `start` as the left edge of the current window.',
-      'On a repeat inside the window, jump `start` past the previous occurrence — never step it one at a time.',
-      'The `last_seen[char] >= start` guard is what stops stale positions from shrinking the window.',
+      'retry takes arguments, so it is a decorator *factory*: three nested functions deep.',
+      'Catching `exceptions` (a tuple) means unlisted types propagate naturally — no re-raise logic needed.',
+      '@contextmanager: everything before `yield` is __enter__, the except block is __exit__ swallowing the error.',
     ],
     cases: [
-      { name: 'abcabcbb', call: 'longest_unique("abcabcbb")', expect: '3' },
-      { name: 'all same', call: 'longest_unique("bbbbb")', expect: '1' },
-      { name: 'pwwkew', call: 'longest_unique("pwwkew")', expect: '3' },
-      { name: 'empty', call: 'longest_unique("")', expect: '0' },
-      { name: 'all unique', call: 'longest_unique("abcdef")', expect: '6', hidden: true },
-      { name: 'stale index guard', call: 'longest_unique("abba")', expect: '2', hidden: true },
-      { name: 'long input stays fast', call: 'longest_unique("abcdefghij" * 400)', expect: '10', hidden: true },
+      { name: 'succeeds first try', call: '__retry_case(0, 3)', expect: '(True, 1)' },
+      { name: 'succeeds on third', call: '__retry_case(2, 3)', expect: '(True, 3)' },
+      { name: 'exhausts and raises', call: '__retry_case(5, 3)', expect: '(False, 3)' },
+      { name: 'context manager swallows', call: '__ctx_case()', expect: '["ValueError"]' },
+      { name: 'unlisted exception propagates', call: '__retry_unlisted()', expect: 'True', hidden: true },
+      { name: 'no exception logs nothing', call: '__ctx_clean()', expect: '[]', hidden: true },
     ],
-    budgetMs: 300,
-    refLines: 11,
+    budgetMs: 200,
+    refLines: 25,
     quality: [
-      { id: 'docstring', label: 'Function documented', weight: 35, re: /def\s+longest_unique[^\n]*\n\s+("""|''')/ },
-      { id: 'enumerate', label: 'Uses enumerate rather than range(len(s))', weight: 35, re: /enumerate\s*\(/ },
-      { id: 'no-print', label: 'No debug prints', weight: 30, re: /\bprint\s*\(/, negative: true },
+      { id: 'wraps', label: 'Preserves metadata with functools.wraps', weight: 30, re: /@wraps|functools\.wraps/ },
+      { id: 'ctxmanager', label: 'Uses @contextmanager or __enter__/__exit__', weight: 30, re: /@contextmanager|def\s+__enter__/ },
+      { id: 'tuple-catch', label: 'Catches the configured exception tuple', weight: 25, re: /except\s+exceptions/ },
+      { id: 'docstring', label: 'Both documented', weight: 15, re: /("""|''')[\s\S]*("""|''')[\s\S]*("""|''')/ },
     ],
     efficiency: [
-      { id: 'no-nested', label: 'Single pass — no nested loop over the string', weight: 60, fn: (code) => countLoops(code) <= 1 },
-      { id: 'no-slicing', label: 'No repeated substring slicing', weight: 40, re: /s\s*\[\s*\w+\s*:\s*\w+\s*\]/, negative: true },
+      { id: 'no-bare-except', label: 'No bare `except:` swallowing everything blindly', weight: 100, re: /except\s*:/, negative: true },
     ],
+    preamble: `def __retry_case(fail_times, allowed):\n    state = {"n": 0}\n\n    @retry(allowed, (RuntimeError,))\n    def flaky():\n        state["n"] += 1\n        if state["n"] <= fail_times:\n            raise RuntimeError("boom")\n        return "ok"\n\n    try:\n        flaky()\n        return (True, flaky.attempts)\n    except RuntimeError:\n        return (False, flaky.attempts)\n\n\ndef __retry_unlisted():\n    @retry(3, (KeyError,))\n    def bad():\n        raise TypeError("nope")\n    try:\n        bad()\n        return False\n    except TypeError:\n        return True\n\n\ndef __ctx_case():\n    log = []\n    with suppress_and_log(log):\n        raise ValueError("x")\n    return log\n\n\ndef __ctx_clean():\n    log = []\n    with suppress_and_log(log):\n        pass\n    return log\n`,
   },
 
-  /* ------------------------------------------------------------------ Mastery */
   {
     id: 'py-m1',
     title: 'Bounded Concurrency',
@@ -706,49 +745,5 @@ Use \`asyncio.Semaphore\` plus \`asyncio.gather\`. The hidden test instruments t
     ],
     // Extra fixtures injected into the harness before the user's code.
     preamble: `import asyncio\n\ndef __run_async(coro):\n    return asyncio.run(coro)\n\ndef __mk(value, delay):\n    async def _factory():\n        await asyncio.sleep(delay)\n        return value\n    return _factory\n\ndef __peak_concurrency(fn, count, limit):\n    state = {"live": 0, "peak": 0}\n    def make():\n        async def _f():\n            state["live"] += 1\n            state["peak"] = max(state["peak"], state["live"])\n            await asyncio.sleep(0.005)\n            state["live"] -= 1\n            return None\n        return _f\n    asyncio.run(fn([make() for _ in range(count)], limit))\n    return state["peak"]\n`,
-  },
-
-  {
-    id: 'py-m2',
-    title: 'Retry Context Manager',
-    tier: 'mastery',
-    difficulty: 4,
-    xp: 125,
-    concepts: ['context-managers', 'exceptions', 'decorators'],
-    brief: `\`retry(times, exceptions=(Exception,))\` — a **decorator** that retries a failing call.
-
-- calls the function up to \`times\` total attempts
-- only retries the listed exception types; anything else propagates immediately
-- re-raises the last exception when all attempts fail
-- exposes \`.attempts\` on the wrapper: how many calls the last invocation took
-
-Also provide \`suppress_and_log(bucket)\` — a **context manager** that swallows any exception raised inside its block and appends \`type(exc).__name__\` to \`bucket\`.`,
-    starter: `from functools import wraps\nfrom contextlib import contextmanager\n\n\ndef retry(times, exceptions=(Exception,)):\n    """Decorator that retries a call on the given exception types."""\n    pass\n\n\n@contextmanager\ndef suppress_and_log(bucket):\n    """Swallow any exception and record its class name in bucket."""\n    pass\n`,
-    solution: `from functools import wraps\nfrom contextlib import contextmanager\n\n\ndef retry(times, exceptions=(Exception,)):\n    """Decorator that retries a call on the given exception types."""\n    def decorator(fn):\n        @wraps(fn)\n        def wrapper(*args, **kwargs):\n            last = None\n            for attempt in range(1, times + 1):\n                wrapper.attempts = attempt\n                try:\n                    return fn(*args, **kwargs)\n                except exceptions as exc:\n                    last = exc\n            raise last\n        wrapper.attempts = 0\n        return wrapper\n    return decorator\n\n\n@contextmanager\ndef suppress_and_log(bucket):\n    """Swallow any exception and record its class name in bucket."""\n    try:\n        yield bucket\n    except Exception as exc:\n        bucket.append(type(exc).__name__)\n`,
-    hints: [
-      'retry takes arguments, so it is a decorator *factory*: three nested functions deep.',
-      'Catching `exceptions` (a tuple) means unlisted types propagate naturally — no re-raise logic needed.',
-      '@contextmanager: everything before `yield` is __enter__, the except block is __exit__ swallowing the error.',
-    ],
-    cases: [
-      { name: 'succeeds first try', call: '__retry_case(0, 3)', expect: '(True, 1)' },
-      { name: 'succeeds on third', call: '__retry_case(2, 3)', expect: '(True, 3)' },
-      { name: 'exhausts and raises', call: '__retry_case(5, 3)', expect: '(False, 3)' },
-      { name: 'context manager swallows', call: '__ctx_case()', expect: '["ValueError"]' },
-      { name: 'unlisted exception propagates', call: '__retry_unlisted()', expect: 'True', hidden: true },
-      { name: 'no exception logs nothing', call: '__ctx_clean()', expect: '[]', hidden: true },
-    ],
-    budgetMs: 200,
-    refLines: 25,
-    quality: [
-      { id: 'wraps', label: 'Preserves metadata with functools.wraps', weight: 30, re: /@wraps|functools\.wraps/ },
-      { id: 'ctxmanager', label: 'Uses @contextmanager or __enter__/__exit__', weight: 30, re: /@contextmanager|def\s+__enter__/ },
-      { id: 'tuple-catch', label: 'Catches the configured exception tuple', weight: 25, re: /except\s+exceptions/ },
-      { id: 'docstring', label: 'Both documented', weight: 15, re: /("""|''')[\s\S]*("""|''')[\s\S]*("""|''')/ },
-    ],
-    efficiency: [
-      { id: 'no-bare-except', label: 'No bare `except:` swallowing everything blindly', weight: 100, re: /except\s*:/, negative: true },
-    ],
-    preamble: `def __retry_case(fail_times, allowed):\n    state = {"n": 0}\n\n    @retry(allowed, (RuntimeError,))\n    def flaky():\n        state["n"] += 1\n        if state["n"] <= fail_times:\n            raise RuntimeError("boom")\n        return "ok"\n\n    try:\n        flaky()\n        return (True, flaky.attempts)\n    except RuntimeError:\n        return (False, flaky.attempts)\n\n\ndef __retry_unlisted():\n    @retry(3, (KeyError,))\n    def bad():\n        raise TypeError("nope")\n    try:\n        bad()\n        return False\n    except TypeError:\n        return True\n\n\ndef __ctx_case():\n    log = []\n    with suppress_and_log(log):\n        raise ValueError("x")\n    return log\n\n\ndef __ctx_clean():\n    log = []\n    with suppress_and_log(log):\n        pass\n    return log\n`,
   },
 ];

@@ -1,102 +1,116 @@
 import { readFileSync, writeFileSync } from 'fs';
 
-function swapAdjacent(content, idA, idB) {
-  // Use a simpler regex that works with CRLF
-  const re = new RegExp(
-    `(\\r?\\n  \\{[^}]*?id:\\s*'${idA}'[^}]*?(?:\\{[^}]*\\}[^}]*?)*?\\r?\\n  \\},)(\\r?\\n\\r?\\n)(  \\{[^}]*?id:\\s*'${idB}'[^}]*?(?:\\{[^}]*\\}[^}]*?)*?\\r?\\n  \\},)`,
-    's'
-  );
+function extractChallenges(content) {
+  const lines = content.split('\n');
+  const challenges = [];
+  let i = 0;
   
-  const match = content.match(re);
-  if (!match) {
-    console.log(`  No adjacent match for ${idA} -> ${idB} (trying looser pattern)`);
-    // Try finding blocks by just scanning for their id
-    return content;
-  }
-  
-  console.log(`  Swapping ${idA} with ${idB}`);
-  const [fullMatch, block1, separator, block2] = match;
-  return content.replace(fullMatch, block2 + separator + block1);
-}
-
-// Since regex is failing, let me try a different approach:
-// Read the blob, manually extract block ranges
-
-function findBlock(content, id) {
-  const idx = content.indexOf(`'${id}'`);
-  if (idx === -1) return null;
-  
-  // Find the opening brace of the challenge block
-  let start = content.lastIndexOf('{', idx);
-  // Walk backwards to find the start of the challenge definition
-  while (start > 0 && content[start - 1] !== '\n') start--;
-  
-  // Find closing: walk forward counting braces
-  let depth = 0;
-  let end = start;
-  for (let i = start; i < content.length; i++) {
-    if (content[i] === '{') depth++;
-    if (content[i] === '}') depth--;
-    if (depth === 0) {
-      end = i;
-      break;
+  while (i < lines.length) {
+    const line = lines[i];
+    if (line.trim() === '{' && line.length <= 5) {
+      let foundId = false;
+      for (let j = i + 1; j < Math.min(i + 5, lines.length); j++) {
+        if (lines[j].trim().startsWith("id:")) { foundId = true; break; }
+      }
+      if (foundId) {
+        let block = '';
+        let depth = 0;
+        const start = i;
+        for (; i < lines.length; i++) {
+          block += lines[i] + '\n';
+          for (const ch of lines[i]) {
+            if (ch === '{') depth++;
+            if (ch === '}') depth--;
+          }
+          if (depth === 0 && lines[i].trim() === '},') break;
+        }
+        const diffMatch = block.match(/difficulty:\s*(\d+)/);
+        challenges.push({
+          block: block.trimEnd(),
+          start,
+          end: i,
+          difficulty: diffMatch ? parseInt(diffMatch[1]) : 0,
+        });
+      }
     }
+    i++;
   }
-  
-  return { start, end: end + 1, text: content.slice(start, end + 1) };
+  return challenges;
 }
 
-function swapBlocks(content, idA, idB) {
-  const blockA = findBlock(content, idA);
-  const blockB = findBlock(content, idB);
-  
-  if (!blockA || !blockB) {
-    console.log(`  Could not find ${idA} or ${idB}`);
-    return content;
+function reorderFile(path) {
+  console.log(`Processing ${path}...`);
+  const content = readFileSync(path, 'utf-8');
+  const challenges = extractChallenges(content);
+
+  if (challenges.length === 0) {
+    console.log('  No challenges found.');
+    return;
   }
+
+  // Group by tier using start position order
+  // We detect tier by scanning backwards from each challenge for section comment
+  const tiers = [];
+  let currentTier = null;
   
-  console.log(`  Swapping ${idA} (${blockA.start}-${blockA.end}) with ${idB} (${blockB.start}-${blockB.end})`);
+  for (const c of challenges) {
+    // Find section comment before this challenge
+    const before = content.slice(0, c.start);
+    const sections = before.split('\n').filter(l => l.includes('/*') && l.includes('*/'));
+    const lastSection = sections[sections.length - 1] || '';
+    // Extract tier name from comment like /* --- Foundations */
+    const tierName = lastSection.replace(/\/\* -+\s*/,'').replace(/\s*-+ \*\//,'').trim().toLowerCase().replace(/\s+/g, '-');
+    
+    if (tierName !== currentTier) {
+      currentTier = tierName;
+      tiers.push({ name: currentTier, challenges: [] });
+    }
+    tiers[tiers.length - 1].challenges.push(c);
+  }
+
+  // Check ordering
+  let violations = 0;
+  for (const tier of tiers) {
+    for (let j = 1; j < tier.challenges.length; j++) {
+      if (tier.challenges[j].difficulty < tier.challenges[j-1].difficulty) {
+        console.log(`  FIX: "${tier.name}": diff ${tier.challenges[j].difficulty} after diff ${tier.challenges[j-1].difficulty}`);
+        violations++;
+      }
+    }
+    // Stable sort by difficulty
+    tier.challenges.sort((a, b) => a.difficulty - b.difficulty);
+  }
+
+  if (violations === 0) {
+    console.log('  Already ordered correctly.');
+    return;
+  }
+
+  // Flatten ordered challenges
+  const ordered = tiers.flatMap(t => t.challenges);
+
+  // Replace the entire middle section: from first challenge to after last challenge
+  const firstStart = challenges[0].start;
+  const lastEnd = challenges[challenges.length - 1].end;
+
+  // Rebuild: we need the exact original lines from firstStart to lastEnd
+  // replaced by the reordered blocks
+  const lines = content.split('\n');
+  const beforeLines = lines.slice(0, firstStart);
   
-  // Extract parts
-  const beforeA = content.slice(0, blockA.start);
-  const between = content.slice(blockA.end, blockB.start);
-  const afterB = content.slice(blockB.end);
+  // The reordered blocks, each with blank line after
+  const reorderedLines = ordered.map(c => c.block).join('\n\n') + '\n';
   
-  return beforeA + blockB.text + between + blockA.text + afterB;
+  // The lines after the last challenge
+  const afterLines = lines.slice(lastEnd + 1).join('\n');
+  
+  const result = beforeLines.join('\n') + '\n' + reorderedLines + afterLines;
+  
+  writeFileSync(path, result);
+  console.log(`  Fixed ${violations} ordering violation(s).`);
 }
 
-// Python mastery: py-m2 (diff 4) should be before py-m1 (diff 5)
-let content = readFileSync('data/track-python.js', 'utf-8');
-content = swapBlocks(content, 'py-m1', 'py-m2');
-writeFileSync('data/track-python.js', content);
-
-// Java oop: jv-o2 (diff 2) should be before jv-o1 (diff 3)
-content = readFileSync('data/track-java.js', 'utf-8');
-content = swapBlocks(content, 'jv-o1', 'jv-o2');
-writeFileSync('data/track-java.js', content);
-
-// Rust errors: rs-e2 (diff 2) should be before rs-e1 (diff 4)
-content = readFileSync('data/track-rust.js', 'utf-8');
-content = swapBlocks(content, 'rs-e1', 'rs-e2');
-writeFileSync('data/track-rust.js', content);
-
-// Python algorithms: py-a4 (diff 3) should be before py-a2 (diff 4) but after py-a1
-// This is a non-adjacent move
-content = readFileSync('data/track-python.js', 'utf-8');
-// Extract py-a4, delete it, insert before py-a2
-const blockA4 = findBlock(content, 'py-a4');
-const blockA2 = findBlock(content, 'py-a2');
-if (blockA4 && blockA2) {
-  console.log(`  Moving py-a4 to before py-a2`);
-  // Remove py-a4
-  content = content.slice(0, blockA4.start) + content.slice(blockA4.end);
-  // Recompute py-a2 position after removal
-  // a2 is now at an earlier position since a4 was removed before it
-  const newA2 = findBlock(content, 'py-a2');
-  if (newA2) {
-    content = content.slice(0, newA2.start) + blockA4.text + '\n' + content.slice(newA2.start);
-  }
-}
-writeFileSync('data/track-python.js', content);
-
+reorderFile('data/track-python.js');
+reorderFile('data/track-java.js');
+reorderFile('data/track-rust.js');
 console.log('Done.');

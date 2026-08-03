@@ -106,7 +106,6 @@ Watch the dimension bookkeeping — the output's row count is the input's column
     ],
   },
 
-  /* --------------------------------------------------------- Collections */
   {
     id: 'jv-c1',
     title: 'Frequency Map & Top-K',
@@ -143,6 +142,53 @@ Return the \`k\` most frequent words, **count descending then alphabetically asc
     ],
     efficiency: [
       { id: 'no-nested-count', label: 'No O(n²) counting via indexOf/frequency in a loop', weight: 100, re: /for[\s\S]{0,200}Collections\.frequency|for[\s\S]{0,200}\.indexOf\s*\(/, negative: true },
+    ],
+  },
+
+  {
+    id: 'jv-o2',
+    title: 'Interfaces & Polymorphism',
+    tier: 'oop',
+    difficulty: 2,
+    xp: 75,
+    concepts: ['interfaces', 'polymorphism', 'default-methods'],
+    brief: `\`\`\`java
+interface Shape {
+    double area();
+    String name();
+    default String describe() { ... }   // "circle: 12.57"
+}
+\`\`\`
+
+Implement \`Circle\` and \`Square\`, write the \`describe\` **default method** (area to 2 decimals), and:
+
+\`static double totalArea(List<Shape> shapes)\`
+
+The default method must live in the interface, not be duplicated in both classes.`,
+    starter: `interface Shape {\n    double area();\n    String name();\n}\n\nstatic class Circle implements Shape {\n    private final double radius;\n    Circle(double radius) { this.radius = radius; }\n}\n\nstatic class Square implements Shape {\n    private final double side;\n    Square(double side) { this.side = side; }\n}\n\nstatic double totalArea(List<Shape> shapes) {\n    return 0;\n}\n`,
+    solution: `interface Shape {\n    double area();\n    String name();\n\n    default String describe() {\n        return String.format("%s: %.2f", name(), area());\n    }\n}\n\nstatic class Circle implements Shape {\n    private final double radius;\n    Circle(double radius) { this.radius = radius; }\n    public double area() { return Math.PI * radius * radius; }\n    public String name() { return "circle"; }\n}\n\nstatic class Square implements Shape {\n    private final double side;\n    Square(double side) { this.side = side; }\n    public double area() { return side * side; }\n    public String name() { return "square"; }\n}\n\nstatic double totalArea(List<Shape> shapes) {\n    double total = 0;\n    for (Shape s : shapes) {\n        total += s.area();\n    }\n    return total;\n}\n`,
+    hints: [
+      'A `default` method in an interface has a body and is inherited by every implementer.',
+      'Interface methods are implicitly public — your implementations must be `public` too.',
+      '`String.format("%.2f", x)` gives the two-decimal rendering.',
+    ],
+    cases: [
+      { name: 'square area', call: 'new Square(3).area()', expect: '9.0' },
+      { name: 'circle describe', call: 'new Circle(2).describe()', expect: '"circle: 12.57"' },
+      { name: 'square describe', call: 'new Square(2.5).describe()', expect: '"square: 6.25"' },
+      { name: 'total over mixed list', call: 'totalArea(Arrays.asList(new Square(2), new Square(3)))', expect: '13.0' },
+      { name: 'empty list', call: 'totalArea(new ArrayList<Shape>())', expect: '0.0', hidden: true },
+      { name: 'polymorphic dispatch', call: '((Shape) new Circle(1)).name()', expect: '"circle"', hidden: true },
+    ],
+    budgetMs: 80,
+    refLines: 26,
+    quality: [
+      { id: 'default-method', label: 'describe() is an interface default method', weight: 50, re: /interface\s+Shape[\s\S]{0,300}default\s+String\s+describe/ },
+      { id: 'final-fields', label: 'Implementation state is final', weight: 25, re: /private\s+final/ },
+      { id: 'no-dup', label: 'describe not duplicated in the classes', weight: 25, re: /class\s+Circle[\s\S]{0,400}String\s+describe\s*\(/, negative: true },
+    ],
+    efficiency: [
+      { id: 'math-pi', label: 'Uses Math.PI, not a hard-coded 3.14', weight: 100, re: /Math\.PI/ },
     ],
   },
 
@@ -196,7 +242,6 @@ Build it as a chained \`Comparator\` — not a hand-rolled \`compare\` with nest
     preamble: `static boolean __preservesOrder() {\n    List<Employee> input = new ArrayList<>(Arrays.asList(\n        new Employee("zed", "eng", 10),\n        new Employee("ann", "art", 20)\n    ));\n    sortedNames(input);\n    return input.get(0).name.equals("zed");\n}\n`,
   },
 
-  /* -------------------------------------------------------- Object Design */
   {
     id: 'jv-o1',
     title: 'Immutable Value Object',
@@ -244,54 +289,6 @@ Getting \`equals\` right without \`hashCode\` is the classic bug — the hidden 
     ],
   },
 
-  {
-    id: 'jv-o2',
-    title: 'Interfaces & Polymorphism',
-    tier: 'oop',
-    difficulty: 2,
-    xp: 75,
-    concepts: ['interfaces', 'polymorphism', 'default-methods'],
-    brief: `\`\`\`java
-interface Shape {
-    double area();
-    String name();
-    default String describe() { ... }   // "circle: 12.57"
-}
-\`\`\`
-
-Implement \`Circle\` and \`Square\`, write the \`describe\` **default method** (area to 2 decimals), and:
-
-\`static double totalArea(List<Shape> shapes)\`
-
-The default method must live in the interface, not be duplicated in both classes.`,
-    starter: `interface Shape {\n    double area();\n    String name();\n}\n\nstatic class Circle implements Shape {\n    private final double radius;\n    Circle(double radius) { this.radius = radius; }\n}\n\nstatic class Square implements Shape {\n    private final double side;\n    Square(double side) { this.side = side; }\n}\n\nstatic double totalArea(List<Shape> shapes) {\n    return 0;\n}\n`,
-    solution: `interface Shape {\n    double area();\n    String name();\n\n    default String describe() {\n        return String.format("%s: %.2f", name(), area());\n    }\n}\n\nstatic class Circle implements Shape {\n    private final double radius;\n    Circle(double radius) { this.radius = radius; }\n    public double area() { return Math.PI * radius * radius; }\n    public String name() { return "circle"; }\n}\n\nstatic class Square implements Shape {\n    private final double side;\n    Square(double side) { this.side = side; }\n    public double area() { return side * side; }\n    public String name() { return "square"; }\n}\n\nstatic double totalArea(List<Shape> shapes) {\n    double total = 0;\n    for (Shape s : shapes) {\n        total += s.area();\n    }\n    return total;\n}\n`,
-    hints: [
-      'A `default` method in an interface has a body and is inherited by every implementer.',
-      'Interface methods are implicitly public — your implementations must be `public` too.',
-      '`String.format("%.2f", x)` gives the two-decimal rendering.',
-    ],
-    cases: [
-      { name: 'square area', call: 'new Square(3).area()', expect: '9.0' },
-      { name: 'circle describe', call: 'new Circle(2).describe()', expect: '"circle: 12.57"' },
-      { name: 'square describe', call: 'new Square(2.5).describe()', expect: '"square: 6.25"' },
-      { name: 'total over mixed list', call: 'totalArea(Arrays.asList(new Square(2), new Square(3)))', expect: '13.0' },
-      { name: 'empty list', call: 'totalArea(new ArrayList<Shape>())', expect: '0.0', hidden: true },
-      { name: 'polymorphic dispatch', call: '((Shape) new Circle(1)).name()', expect: '"circle"', hidden: true },
-    ],
-    budgetMs: 80,
-    refLines: 26,
-    quality: [
-      { id: 'default-method', label: 'describe() is an interface default method', weight: 50, re: /interface\s+Shape[\s\S]{0,300}default\s+String\s+describe/ },
-      { id: 'final-fields', label: 'Implementation state is final', weight: 25, re: /private\s+final/ },
-      { id: 'no-dup', label: 'describe not duplicated in the classes', weight: 25, re: /class\s+Circle[\s\S]{0,400}String\s+describe\s*\(/, negative: true },
-    ],
-    efficiency: [
-      { id: 'math-pi', label: 'Uses Math.PI, not a hard-coded 3.14', weight: 100, re: /Math\.PI/ },
-    ],
-  },
-
-  /* ---------------------------------------------------- Generics & Interfaces */
   {
     id: 'jv-g1',
     title: 'Bounded Generics',
@@ -381,7 +378,6 @@ Passing input throws nothing. The exception message should be \`"invalid " + fie
     preamble: `interface __ThrowingSupplier { String get() throws Exception; }\n\nstatic String __fieldOf(__ThrowingSupplier s) {\n    try {\n        return s.get();\n    } catch (ValidationException e) {\n        return e.getField();\n    } catch (Exception e) {\n        return "unexpected:" + e.getClass().getSimpleName();\n    }\n}\n`,
   },
 
-  /* ------------------------------------------------------ Streams & Functional */
   {
     id: 'jv-s1',
     title: 'Stream Pipelines',
@@ -425,7 +421,6 @@ Each should be a single \`stream()...collect()\` chain. Loops with accumulators 
     ],
   },
 
-  /* ---------------------------------------------------------------- Concurrency */
   {
     id: 'jv-x1',
     title: 'Executors & Futures',
