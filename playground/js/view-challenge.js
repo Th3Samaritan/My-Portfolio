@@ -337,6 +337,32 @@ export async function mountWorkspace(host, { challenge, track, examMode = false,
     const hintButton = briefPane.querySelector('#hint-btn');
     const hintZone = briefPane.querySelector('#hint-zone');
     const solutionButton = briefPane.querySelector('#solution-btn');
+    const record = store.attemptFor(challenge.id);
+    const attempts = record ? record.attempts : 0;
+    const cleared = record ? record.cleared : false;
+
+    // Max hint level allowed based on attempts (0-indexed hints)
+    const maxHintLevel = cleared ? Infinity : Math.min(attempts, (challenge.hints || []).length);
+    // Lock button label
+    const updateHintButton = () => {
+      if (hintsShown >= (challenge.hints || []).length) {
+        hintButton.textContent = 'No more hints';
+        hintButton.disabled = true;
+      } else if (maxHintLevel <= hintsShown) {
+        hintButton.textContent = `Reveal a hint (after ${hintsShown + 1} attempt${hintsShown > 0 ? 's' : ''})`;
+        hintButton.disabled = true;
+      } else {
+        hintButton.textContent = 'Reveal a hint';
+        hintButton.disabled = false;
+      }
+    };
+    updateHintButton();
+
+    // Lock solution behind 3 attempts or cleared
+    if (!cleared && attempts < 3) {
+      solutionButton.textContent = 'Reference solution (after 3 attempts)';
+      solutionButton.disabled = true;
+    }
 
     hintButton.addEventListener('click', () => {
       const hints = challenge.hints || [];
@@ -344,12 +370,16 @@ export async function mountWorkspace(host, { challenge, track, examMode = false,
         toast('No more hints for this one.', 'info');
         return;
       }
+      if (maxHintLevel <= hintsShown) {
+        toast(`Earn another hint by attempting the challenge. (${hintsShown + 1} attempt${hintsShown > 0 ? 's' : ''} needed)`, 'info');
+        return;
+      }
       const node = document.createElement('div');
       node.className = 'hint-box';
       node.textContent = hints[hintsShown];
       hintZone.appendChild(node);
       hintsShown += 1;
-      if (hintsShown >= hints.length) hintButton.disabled = true;
+      updateHintButton();
     });
 
     solutionButton.addEventListener('click', () => {

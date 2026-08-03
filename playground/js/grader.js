@@ -15,6 +15,7 @@
    ============================================================ */
 
 import { RUBRIC_WEIGHTS, gradeFor } from '../data/assessments.js';
+import { clearStreakMultiplier } from './store.js';
 
 const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
 
@@ -292,7 +293,8 @@ export function grade(challenge, code, run) {
 export function xpFor(challenge, scorecard, alreadyAwarded = 0) {
   const base = Math.round((challenge.xp || 0) * (scorecard.total / 100));
   const bonus = scorecard.total >= 95 ? Math.round((challenge.xp || 0) * 0.15) : 0;
-  const earned = base + bonus;
+  const streakMult = clearStreakMultiplier();
+  const earned = Math.round((base + bonus) * streakMult);
   return Math.max(0, earned - alreadyAwarded);
 }
 

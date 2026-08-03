@@ -96,6 +96,24 @@ export function renderDashboard(host) {
   const profile = store.profile();
 
   const html = `
+    ${state.xp === 0 ? `
+    <div class="card" style="margin-bottom:20px;border-color:var(--gold);background:linear-gradient(135deg, var(--bg-panel) 0%, rgba(224,170,80,0.06) 100%)">
+      <div style="display:flex;gap:24px;align-items:flex-start">
+        <div style="flex:1">
+          <div class="eyebrow">How it works</div>
+          <div style="display:flex;gap:16px;margin-top:8px;font-size:0.88rem;color:var(--text-dim)">
+            <div style="flex:1"><strong style="color:var(--text)">1. Learn</strong><br>Read lessons with interactive examples and exercises. Zero experience needed — lesson 1 is "what is a program."</div>
+            <div style="flex:1"><strong style="color:var(--text)">2. Practice</strong><br>Solve graded challenges with a 4-part rubric. Get hints when you are stuck. Improve your score and earn XP.</div>
+            <div style="flex:1"><strong style="color:var(--text)">3. Prove</strong><br>Take timed assessments that bundle challenges together. See how you stack up on the Hall of Fame.</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:14px;display:flex;gap:10px">
+        <a class="btn primary sm" href="#/start">Find your path &rarr;</a>
+        <a class="btn ghost sm" href="#/learn">Browse lessons</a>
+      </div>
+    </div>
+    ` : ''}
     <div class="hero">
       <div class="eyebrow">The GYM</div>
       <h1>${
@@ -785,6 +803,36 @@ export function renderStart(host) {
         <p style="margin:0">
           <strong style="color:var(--red)">Java</strong> forces explicitness — every type declared, every exception acknowledged. This strictness can feel slow at first, but it builds habits that prevent entire categories of bugs in any language.
         </p>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>Curated paths</h2>
+        <span class="hint">If you want a sequence rather than a single track</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;font-size:0.93rem">
+        <div style="display:flex;gap:14px;align-items:flex-start;padding:12px 16px;background:var(--bg-panel-2);border-radius:var(--radius-sm)">
+          <span style="font-size:1.2rem;min-width:28px">1</span>
+          <div>
+            <strong>Full-stack foundations</strong>
+            <p style="margin:4px 0 0;color:var(--text-dim)">Python lessons → Python challenges → Web Dev lessons (HTML/CSS/JS) → Web Dev challenges. Start with programming logic, then bring it to the browser.</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;padding:12px 16px;background:var(--bg-panel-2);border-radius:var(--radius-sm)">
+          <span style="font-size:1.2rem;min-width:28px">2</span>
+          <div>
+            <strong>Web developer</strong>
+            <p style="margin:4px 0 0;color:var(--text-dim)">Web Dev lessons → Web Dev challenges. The most direct path to building things people can see and interact with. Every lesson produces a live page.</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;padding:12px 16px;background:var(--bg-panel-2);border-radius:var(--radius-sm)">
+          <span style="font-size:1.2rem;min-width:28px">3</span>
+          <div>
+            <strong>Systems thinker</strong>
+            <p style="margin:4px 0 0;color:var(--text-dim)">Python foundations → Rust ownership and borrowing → Rust challenges. Learn the easy language first, then understand what the computer is actually doing under the hood.</p>
+          </div>
+        </div>
       </div>
     </section>
 

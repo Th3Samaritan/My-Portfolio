@@ -19,6 +19,7 @@ const EMPTY = {
   mastery: {},      // concept -> 0..100 exponential moving average
   activity: {},     // 'YYYY-MM-DD' -> attempts that day
   streak: { current: 0, longest: 0, lastDay: null },
+  clearStreak: { current: 0, longest: 0, lastClearedAt: null },
   assessments: [],  // finished exam runs
   quoteState: { lastShown: 0 },  // throttle for coach quotes (ms timestamp)
   // runnerUrl: optional self-hosted Piston endpoint; blank uses Compiler Explorer.
@@ -174,6 +175,36 @@ export function liveStreak() {
   return gap <= 1 ? s.current : 0;
 }
 
+/**
+ * Clear streak: consecutive challenges cleared.
+ * Resets if more than 24 hours pass between clears.
+ */
+function bumpClearStreak() {
+  load();
+  const now = Date.now();
+  const cs = state.clearStreak;
+  if (cs.lastClearedAt && (now - cs.lastClearedAt) > 24 * 60 * 60 * 1000) {
+    cs.current = 0;
+  }
+  cs.current += 1;
+  cs.lastClearedAt = now;
+  cs.longest = Math.max(cs.longest, cs.current);
+  save();
+}
+
+/**
+ * XP multiplier based on clear streak.
+ * 0 clears = 1.0x, 1 = 1.05x, 2 = 1.1x, 3 = 1.15x, 5+ = 1.25x
+ */
+export function clearStreakMultiplier() {
+  const cs = load().clearStreak;
+  if (cs.current >= 5) return 1.25;
+  if (cs.current >= 3) return 1.15;
+  if (cs.current >= 2) return 1.10;
+  if (cs.current >= 1) return 1.05;
+  return 1.0;
+}
+
 /* ------------------------------------------------------------------ mastery */
 
 const MASTERY_ALPHA = 0.45;
@@ -232,6 +263,7 @@ export function recordAttempt(challenge, scorecard, xpEarned) {
 
   updateMastery(challenge.concepts, scorecard.total);
   touchActivity();
+  if (firstClear) bumpClearStreak();
   save();
 
   return { xpAwarded: xpEarned, isBest, firstClear };
