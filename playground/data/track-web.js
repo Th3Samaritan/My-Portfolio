@@ -548,12 +548,12 @@ The hidden test refreshes the iframe and checks the value survived.`,
     difficulty: 2,
     xp: 55,
     concepts: ['css', 'transitions', 'animations'],
-    brief: `Make `.card` smoothly transition its background and shadow on hover.
+    brief: `Make .card smoothly transition its background and shadow on hover.
 
 Required:
-- `.card` starts with a light background and a subtle shadow
+- .card starts with a light background and a subtle shadow
 - on hover: darker background, larger shadow, slight lift (transform)
-- the transition must be smooth — use \`transition\` on the base state
+- the transition must be smooth — use transition on the base state
 - no JavaScript allowed`,
     files: {
       html: `<div class="card">\n  <h3>Card</h3>\n  <p>Hover over me.</p>\n</div>`,
