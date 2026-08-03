@@ -1019,6 +1019,26 @@ Head to the **Challenges** for this track when you are ready. The Fundamentals a
         ],
       },
       { t: 'quiz', q: 'What does `cargo new my_project` create?', options: ['Just a Cargo.toml file', 'A directory with Cargo.toml, src/main.rs, and a git repository initialised', 'A single .rs file', 'A binary executable'], answer: 1, why: 'cargo new scaffolds a complete project: Cargo.toml manifest, src/ directory with main.rs, and initialises a git repo.' },
+      {
+        t: 'try',
+        prompt: `Write \`char_count(text: &str) -> usize\` that returns the number of characters (not bytes) in the text.
+
+\`char_count("hello")\` → \`5\`
+
+Use \`.chars().count()\` — this counts Unicode characters correctly, not raw bytes.`,
+        lang: 'rust',
+        starter: `fn char_count(text: &str) -> usize {\n    todo!()\n}\n`,
+        solution: `fn char_count(text: &str) -> usize {\n    text.chars().count()\n}\n`,
+        hints: [
+          'text.chars() yields an iterator of char values.',
+          '.count() gives the number of items.',
+          'No semicolon — make it the return value.',
+        ],
+        cases: [
+          { name: 'simple', call: 'char_count("hello")', expect: '5' },
+          { name: 'empty', call: 'char_count("")', expect: '0' },
+        ],
+      },
 
     ],
   },
@@ -1044,6 +1064,27 @@ Head to the **Challenges** for this track when you are ready. The Fundamentals a
         code: `/// Text statistics.\npub struct Stats {\n    pub chars: usize,\n    pub words: usize,\n    pub sentences: usize,\n}\n\n/// Analyse a piece of text, returning None if the text is empty.\n///\n/// # Examples\n///\n/// \`\`\`\n/// let stats = stats_for("Hello world. How are you?").unwrap();\n/// assert_eq!(stats.words, 5);\n/// \`\`\`\npub fn stats_for(text: &str) -> Option<Stats> {\n    if text.trim().is_empty() {\n        return None;\n    }\n    Some(Stats {\n        chars: text.chars().count(),\n        words: text.split_whitespace().count(),\n        sentences: text.split(&['.', '!', '?'][..])\n            .filter(|s| !s.trim().is_empty())\n            .count(),\n    })\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn empty_returns_none() {\n        assert_eq!(stats_for(""), None);\n    }\n\n    #[test]\n    fn basic_stats() {\n        let s = stats_for("Hi there. Bye!").unwrap();\n        assert_eq!(s.chars, 15);\n        assert_eq!(s.words, 3);\n        assert_eq!(s.sentences, 2);\n    }\n}`,
       },
       { t: 'quiz', q: 'What happens to code examples inside `///` doc comments?', options: ['They are ignored', 'They are compiled and run by `cargo test` — serving as both documentation and tests', 'They become comments', 'They are only formatted'], answer: 1, why: 'Doc-tests are a Rust superpower: the code in your documentation IS your test suite. cargo test compiles and runs them, guaranteeing your examples never go stale.' },
+      {
+        t: 'try',
+        prompt: `Write \`is_blank(text: &str) -> bool\` that returns \`true\` if the text is empty or contains only whitespace.
+
+\`is_blank("")\` → \`true\`\n\`is_blank("   ")\` → \`true\`\n\`is_blank("hello")\` → \`false\`
+
+Use \`.trim().is_empty()\`. Include a \`///\` doc comment with an example — this platform rewards documentation.`,
+        lang: 'rust',
+        starter: `fn is_blank(text: &str) -> bool {\n    todo!()\n}\n`,
+        solution: `/// Returns true if text is empty or only whitespace.\n///\n/// \`\`\`\n/// assert!(is_blank("   "));\n/// assert!(!is_blank("hi"));\n/// \`\`\`\nfn is_blank(text: &str) -> bool {\n    text.trim().is_empty()\n}\n`,
+        hints: [
+          '.trim() strips leading and trailing whitespace.',
+          '.is_empty() returns true for zero-length strings.',
+          'Chain them and return the result.',
+        ],
+        cases: [
+          { name: 'empty', call: 'is_blank("")', expect: 'true' },
+          { name: 'spaces', call: 'is_blank("   ")', expect: 'true' },
+          { name: 'has text', call: 'is_blank("hello")', expect: 'false' },
+        ],
+      },
 
     ],
   },
@@ -1081,6 +1122,26 @@ Head to the **Challenges** for this track when you are ready. The Fundamentals a
         ],
       },
       { t: 'quiz', q: 'What does `fold` do that `sum` cannot?', options: ['Nothing — they are identical', 'fold lets you accumulate any type from any seed value — sum only adds numbers. fold is the general-purpose reduction', 'fold is faster', 'sum is deprecated'], answer: 1, why: 'sum() is a convenience for adding numbers. fold(seed, |acc, x| ...) works on any accumulator type and any operation — building strings, hash maps, custom structs.' },
+      {
+        t: 'try',
+        prompt: `Write \`double_positives(xs: &[i32]) -> Vec<i32>\` that returns a new Vec containing only the positive numbers, each doubled.
+
+\`double_positives(&[1, -2, 3])\` → \`[2, 6]\`
+
+Use \`.iter().filter(|&&x| x > 0).map(|&x| x * 2).collect()\`.`,
+        lang: 'rust',
+        starter: `fn double_positives(xs: &[i32]) -> Vec<i32> {\n    todo!()\n}\n`,
+        solution: `fn double_positives(xs: &[i32]) -> Vec<i32> {\n    xs.iter().filter(|&&x| x > 0).map(|&x| x * 2).collect()\n}\n`,
+        hints: [
+          'Chain .iter(), .filter(), .map(), .collect().',
+          'filter(|&&x| x > 0) needs the double reference pattern for i32.',
+          'collect() infers the return type from the function signature.',
+        ],
+        cases: [
+          { name: 'mixed', call: 'double_positives(&[1, -2, 3])', expect: 'vec![2, 6]' },
+          { name: 'all negative', call: 'double_positives(&[-5, -1])', expect: 'vec![]' },
+        ],
+      },
 
     ],
   },
@@ -1108,6 +1169,27 @@ Head to the **Challenges** for this track when you are ready. The Fundamentals a
         code: `use std::collections::HashMap;\n\nfn parse_config(lines: &[&str]) -> Result<HashMap<String, String>, String> {\n    lines.iter()\n        .map(|line| {\n            let (key, value) = line\n                .split_once('=')\n                .ok_or_else(|| format!("missing '=' in: {line}"))?;\n            Ok((key.trim().to_string(), value.trim().to_string()))\n        })\n        .collect()\n}\n\nfn main() {\n    let input = vec!["host=localhost", "port=8080", "debug=true"];\n    match parse_config(&input) {\n        Ok(config) => {\n            for (k, v) in &config {\n                println!("{k} = {v}");\n            }\n        }\n        Err(e) => println!("Parse error: {e}"),\n    }\n}`,
       },
       { t: 'quiz', q: 'Why does `.collect()` work with `Result<Vec<HashMap<...>>>` in the example?', options: ['It does not — collect() only builds Vecs', 'Iterator of Results can collect into a Result of a collection — short-circuiting on the first Err. collect() auto-implements this for any FromIterator impl', 'collect() ignores errors', 'You must use a for loop'], answer: 1, why: 'collect() has a generic FromIterator implementation for Result<C, E> where C: FromIterator. It gathers Ok values or short-circuits on the first Err.' },
+      {
+        t: 'try',
+        prompt: `Write \`parse_or_zero(s: &str) -> i32\` that parses a string to an integer, returning \`0\` if parsing fails.
+
+\`parse_or_zero("42")\` → \`42\`\n\`parse_or_zero("banana")\` → \`0\`
+
+Use \`.parse::<i32>()\` and \`.unwrap_or(0)\` on the Result.`,
+        lang: 'rust',
+        starter: `fn parse_or_zero(s: &str) -> i32 {\n    todo!()\n}\n`,
+        solution: `fn parse_or_zero(s: &str) -> i32 {\n    s.parse::<i32>().unwrap_or(0)\n}\n`,
+        hints: [
+          's.parse::<i32>() returns a Result<i32, ParseIntError>.',
+          '.unwrap_or(0) gives 0 if parsing failed.',
+          'Return the result — no semicolon.',
+        ],
+        cases: [
+          { name: 'valid', call: 'parse_or_zero("42")', expect: '42' },
+          { name: 'invalid', call: 'parse_or_zero("banana")', expect: '0' },
+          { name: 'negative', call: 'parse_or_zero("-5")', expect: '-5' },
+        ],
+      },
 
     ],
   },
@@ -1135,6 +1217,26 @@ Head to the **Challenges** for this track when you are ready. The Fundamentals a
         code: `#[derive(Debug)]\nstruct SearchResult<'a> {\n    line: &'a str,\n    line_number: usize,\n    snippet: String,\n}\n\nfn search<'a>(text: &'a str, query: &str) -> Vec<SearchResult<'a>> {\n    text.lines()\n        .enumerate()\n        .filter(|(_, line)| line.contains(query))\n        .map(|(i, line)| {\n            let start = line.find(query).unwrap_or(0);\n            let snippet = line[start..].to_string();\n            SearchResult { line, line_number: i + 1, snippet }\n        })\n        .collect()\n}\n\nfn main() {\n    let text = \"Rust is fast\\nMemory safe\\nNo garbage collector\\n\";\n    let results = search(text, \"safe\");\n    for r in &results {\n        println!("line {}: {}", r.line_number, r.snippet);\n    }\n}`,
       },
       { t: 'quiz', q: 'Why does `fn first_word(s: &str) -> &str` compile without lifetime annotations?', options: ['It does not — lifetimes are always required', 'The compiler applies elision rule 2: exactly one input lifetime, assigned to the output', '&str has no lifetime', 'The Rust team added special handling'], answer: 1, why: 'With exactly one reference input, the compiler assigns its lifetime to every reference output. This covers the vast majority of functions.' },
+      {
+        t: 'try',
+        prompt: `Write \`shorter<'a>(x: &'a str, y: &'a str) -> &'a str\` that returns the shorter of two string slices.
+
+\`shorter("hello", "hi")\` → \`"hi"\`
+
+Both references share the same lifetime \`'a\`, and the return borrows for the same duration.`,
+        lang: 'rust',
+        starter: `fn shorter<'a>(x: &'a str, y: &'a str) -> &'a str {\n    todo!()\n}\n`,
+        solution: `fn shorter<'a>(x: &'a str, y: &'a str) -> &'a str {\n    if x.len() < y.len() { x } else { y }\n}\n`,
+        hints: [
+          'Compare lengths with x.len() and y.len().',
+          'Return whichever is shorter — ties go to y.',
+          'The lifetime annotation is given — focus on the body.',
+        ],
+        cases: [
+          { name: 'first is shorter', call: 'shorter("hi", "hello")', expect: 'String::from("hi")' },
+          { name: 'second is shorter', call: 'shorter("hello", "hi")', expect: 'String::from("hi")' },
+        ],
+      },
 
     ],
   },
@@ -1160,6 +1262,28 @@ Head to the **Challenges** for this track when you are ready. The Fundamentals a
         code: `use std::rc::Rc;\nuse std::cell::RefCell;\n\n#[derive(Clone)]\nstruct EventBus {\n    events: Rc<RefCell<Vec<String>>>,\n}\n\nimpl EventBus {\n    fn new() -> Self {\n        EventBus { events: Rc::new(RefCell::new(Vec::new())) }\n    }\n\n    fn emit(&self, event: &str) {\n        self.events.borrow_mut().push(event.to_string());\n        println!(\"event: {event}\");\n    }\n\n    fn history(&self) -> Vec<String> {\n        self.events.borrow().clone()\n    }\n\n    fn listener_count(&self) -> usize {\n        Rc::strong_count(&self.events)\n    }\n}\n\nfn main() {\n    let bus = EventBus::new();\n    let listener1 = bus.clone();\n    let listener2 = bus.clone();\n\n    println!(\"listeners: {}\", bus.listener_count());\n\n    bus.emit(\"user_logged_in\");\n    listener1.emit(\"file_saved\");\n\n    println!(\"history: {:?}\", listener2.history());\n}`,
       },
       { t: 'quiz', q: 'When should you use `RefCell` instead of a regular `&mut`?', options: ['Never — RefCell is deprecated', 'When the compiler cannot prove the borrow rules statically but you can guarantee them at runtime — e.g. when sharing data through Rc or when mutation needs to happen through a & reference', 'RefCell is always preferred', 'Only in tests'], answer: 1, why: 'RefCell trades compile-time guarantees for runtime checks. Use it when the ownership structure (multiple owners, self-referential types) cannot be expressed to the borrow checker.' },
+      {
+        t: 'try',
+        prompt: `Write \`count_refs(rc: &Rc<String>) -> usize\` that returns how many strong references point to the Rc's value.
+
+Use \`Rc::strong_count()\` — this is how Rust tracks shared ownership at runtime.`,
+        lang: 'rust',
+        starter: `use std::rc::Rc;\n\nfn count_refs(rc: &Rc<String>) -> usize {\n    todo!()\n}\n`,
+        solution: `use std::rc::Rc;\n\nfn count_refs(rc: &Rc<String>) -> usize {\n    Rc::strong_count(rc)\n}\n`,
+        hints: [
+          'Rc::strong_count takes a reference to the Rc.',
+          'It returns the number of active strong references.',
+          'Return the count — no semicolon.',
+        ],
+        cases: [
+          { name: 'single owner', call: 'count_refs(&Rc::new(String::from("data")))', expect: '1' },
+          {
+            name: 'two owners',
+            call: '{ let a = Rc::new(String::from("shared")); let b = Rc::clone(&a); count_refs(&a) }',
+            expect: '2',
+          },
+        ],
+      },
 
     ],
   },

@@ -1123,6 +1123,17 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         ],
       },
       { t: 'quiz', q: 'Why should error messages describe what is needed rather than just saying "invalid"?', options: ['They look nicer', '"Must be at least 8 characters" tells the user how to fix it. "Invalid" leaves them guessing', 'Screen readers require it', 'It saves bandwidth'], answer: 1, why: 'Actionable error messages reduce frustration. "Password needs a number" tells the user what to do; "invalid input" does not.' },
+      {
+        t: 'tryweb',
+        prompt: 'Add a `minlength="6"` attribute and a `required` attribute to the username input so the browser validates before submitting.',
+        files: { html: `<form id="f">\n  <label for="user">Username</label>\n  <input id="user" type="text">\n  <button type="submit">Go</button>\n</form>`, css: '', js: `document.querySelector("#f").addEventListener("submit", e => { e.preventDefault(); });` },
+        solution: { html: `<form id="f">\n  <label for="user">Username</label>\n  <input id="user" type="text" required minlength="6">\n  <button type="submit">Go</button>\n</form>`, css: '', js: `document.querySelector("#f").addEventListener("submit", e => { e.preventDefault(); });` },
+        hints: ['Add required to the input.', 'Add minlength="6" — the browser will block short entries.', 'Use the HTML attributes; no JavaScript needed.'],
+        checks: [
+          { name: 'input is required', code: `return doc.querySelector('#user').hasAttribute('required');` },
+          { name: 'input has minlength', code: `return doc.querySelector('#user').getAttribute('minlength') === '6';` },
+        ],
+      },
 
     ],
   },
@@ -1158,6 +1169,16 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         },
       },
       { t: 'quiz', q: 'How do CSS custom properties differ from SASS/LESS variables?', options: ['They are identical', 'CSS custom properties are live in the browser — they respect the cascade, can be changed at runtime with JS, and update all dependents instantly. Preprocessor variables are static after compilation', 'SASS variables are live, CSS ones are static', 'CSS properties only work in dark mode'], answer: 1, why: 'CSS custom properties are part of the live DOM/CSSOM. Changing one via JS or a media query instantly updates every element using it. Preprocessor variables vanish after compilation.' },
+      {
+        t: 'tryweb',
+        prompt: 'Define a custom property `--accent` on `:root` set to `#3b82f6`, then use it as the colour of `.card h2`.',
+        files: { html: `<div class="card">\n  <h2>Card Title</h2>\n  <p>Content</p>\n</div>`, css: `:root {\n  /* define --accent here */\n}\n\n.card h2 {\n  /* use var(--accent) here */\n}`, js: `` },
+        solution: { html: `<div class="card">\n  <h2>Card Title</h2>\n  <p>Content</p>\n</div>`, css: `:root {\n  --accent: #3b82f6;\n}\n\n.card h2 {\n  color: var(--accent);\n}`, js: `` },
+        hints: ['Define --accent: #3b82f6; under :root.', 'Use var(--accent) as the value for color.', 'Custom properties always start with --.'],
+        checks: [
+          { name: 'accent is defined', code: `return win.getComputedStyle(doc.documentElement).getPropertyValue('--accent').trim() === '#3b82f6';` },
+        ],
+      },
 
     ],
   },
@@ -1193,6 +1214,16 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         },
       },
       { t: 'quiz', q: 'Why check `prefers-reduced-motion` before adding animations?', options: ['It is faster', 'Some users have vestibular disorders where motion causes dizziness or nausea. Respecting this preference is an accessibility requirement', 'Browsers block animations otherwise', 'It saves CPU'], answer: 1, why: 'WCAG 2.3.3 requires respecting the user\'s motion preference. Animations should be non-essential — the content must still be accessible without them.' },
+      {
+        t: 'tryweb',
+        prompt: 'Add a `transition` to `.btn` so the background colour changes smoothly over 200ms on hover. The hover colour is already set — you only add the transition.',
+        files: { html: `<button class="btn">Hover me</button>`, css: `.btn {\n  padding: 0.75rem 1.5rem;\n  border: none;\n  background: #3b82f6;\n  color: #fff;\n  border-radius: 8px;\n  cursor: pointer;\n  font: inherit;\n  /* add transition here */\n}\n\n.btn:hover {\n  background: #1d4ed8;\n}`, js: `` },
+        solution: { html: `<button class="btn">Hover me</button>`, css: `.btn {\n  padding: 0.75rem 1.5rem;\n  border: none;\n  background: #3b82f6;\n  color: #fff;\n  border-radius: 8px;\n  cursor: pointer;\n  font: inherit;\n  transition: background 200ms ease;\n}\n\n.btn:hover {\n  background: #1d4ed8;\n}`, js: `` },
+        hints: ['transition: background 200ms ease;', 'The property to animate is background.', '200ms is a sensible micro-interaction duration.'],
+        checks: [
+          { name: 'has transition', code: `return win.getComputedStyle(doc.querySelector('.btn')).transitionProperty !== 'all';` },
+        ],
+      },
 
     ],
   },
@@ -1239,6 +1270,16 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         ],
       },
       { t: 'quiz', q: 'What is the difference between `auto-fill` and `auto-fit` in grid?', options: ['They are identical', 'auto-fill creates as many tracks as fit, leaving empty ones. auto-fit collapses empty tracks so existing items stretch to fill the space', 'auto-fill is deprecated', 'auto-fit only works in Firefox'], answer: 1, why: 'auto-fill keeps empty column tracks, preserving the grid structure. auto-fit collapses them, letting items expand. Use auto-fill for galleries where you want consistent column widths.' },
+      {
+        t: 'tryweb',
+        prompt: 'Make `.cards` a grid with 2 equal columns and a gap of 1rem.',
+        files: { html: `<div class="cards">\n  <div class="card">A</div>\n  <div class="card">B</div>\n  <div class="card">C</div>\n  <div class="card">D</div>\n</div>`, css: `.card { background: #e0f2fe; padding: 2rem; border-radius: 8px; }\n\n.cards {\n  /* your grid here */\n}`, js: `` },
+        solution: { html: `<div class="cards">\n  <div class="card">A</div>\n  <div class="card">B</div>\n  <div class="card">C</div>\n  <div class="card">D</div>\n</div>`, css: `.card { background: #e0f2fe; padding: 2rem; border-radius: 8px; }\n\n.cards {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 1rem;\n}`, js: `` },
+        hints: ['display: grid; activates grid layout.', 'grid-template-columns: 1fr 1fr; creates two equal columns.', 'gap: 1rem; adds spacing between items.'],
+        checks: [
+          { name: 'is a grid', code: `return win.getComputedStyle(doc.querySelector('.cards')).display === 'grid';` },
+        ],
+      },
 
     ],
   },
@@ -1274,6 +1315,16 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         },
       },
       { t: 'quiz', q: 'Why use `min-width` (mobile-first) media queries instead of `max-width` (desktop-first)?', options: ['It is shorter', 'Mobile-first means the base styles are the simplest version — small screen. You add complexity with min-width breakpoints for larger screens. Desktop-first means you write complex styles and then override them for mobile, which is backwards', 'min-width is faster', 'max-width is deprecated'], answer: 1, why: 'Mobile-first aligns with progressive enhancement: start simple, add as the screen grows. Desktop-first leads to fighting against your own styles on small screens.' },
+      {
+        t: 'tryweb',
+        prompt: 'Add a media query that changes `.banner` to have a `font-size` of `2rem` when the viewport is at least 600px wide. Base size is 1.25rem.',
+        files: { html: `<div class="banner">Welcome</div>`, css: `.banner {\n  font-size: 1.25rem;\n  text-align: center;\n  padding: 1rem;\n  background: #f1f5f9;\n  border-radius: 8px;\n}\n\n/* Add a min-width media query here */\n`, js: `` },
+        solution: { html: `<div class="banner">Welcome</div>`, css: `.banner {\n  font-size: 1.25rem;\n  text-align: center;\n  padding: 1rem;\n  background: #f1f5f9;\n  border-radius: 8px;\n}\n\n@media (min-width: 600px) {\n  .banner { font-size: 2rem; }\n}`, js: `` },
+        hints: ['Use @media (min-width: 600px).', 'Inside the media query, target .banner again.', 'Set font-size: 2rem; inside the query.'],
+        checks: [
+          { name: 'has media query', code: `return [...doc.styleSheets].some(s => [...s.cssRules || []].some(r => r instanceof CSSMediaRule));` },
+        ],
+      },
 
     ],
   },
@@ -1542,6 +1593,22 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         },
       },
       { t: 'quiz', q: 'What problem does the Shadow DOM solve?', options: ['It makes pages load faster', 'It encapsulates styles and DOM structure — CSS inside a shadow tree cannot leak out, and external CSS cannot leak in. This is the key to truly reusable components', 'It replaces the regular DOM', 'It is only for animations'], answer: 1, why: 'Shadow DOM gives each component its own isolated DOM and style scope. You can use simple class names without worrying about collisions with the rest of the page.' },
+      {
+        t: 'try',
+        prompt: `Write a function \`defineGreeting()\` that registers a custom element \`<hello-world>\` which displays "Hello, World!" in its shadow DOM.
+
+Use \`customElements.define()\` and \`attachShadow({mode: "open"})\`. Set the shadow's \`innerHTML\` to \`<p>Hello, World!</p>\`.`,
+        lang: 'javascript',
+        starter: `function defineGreeting() {\n  \n}\n`,
+        solution: `function defineGreeting() {\n  class HelloWorld extends HTMLElement {\n    constructor() {\n      super();\n      const shadow = this.attachShadow({ mode: "open" });\n      shadow.innerHTML = "<p>Hello, World!</p>";\n    }\n  }\n  customElements.define("hello-world", HelloWorld);\n}\n`,
+        hints: [
+          'Create a class that extends HTMLElement.',
+          'In the constructor, call super() and attach a shadow root.',
+          'Set shadow.innerHTML, then register with customElements.define.',
+        ],
+        cases: [{ name: 'registers', call: '__test_define(defineGreeting)', expect: 'true' }],
+        preamble: `function __test_define(fn) {\n    fn();\n    return customElements.get("hello-world") !== undefined;\n}\n`,
+      },
 
     ],
   },
@@ -1617,6 +1684,21 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         },
       },
       { t: 'quiz', q: 'Why use `Promise.allSettled` instead of `Promise.all` for loading dashboard sections?', options: ['It is faster', 'Promise.all fails fast — if one request fails, all results are lost. allSettled waits for every promise and reports each outcome individually, so one failure does not block the others', 'all() is deprecated', 'They are identical'], answer: 1, why: 'allSettled returns status + value/error for each promise. It never rejects — it always waits for everything. Perfect for dashboards where partial data is better than none.' },
+      {
+        t: 'try',
+        prompt: `Write \`async function fetchPost(id)\` that fetches from \`https://jsonplaceholder.typicode.com/posts/{id}\` and returns the parsed JSON. Use async/await.
+
+\`(await fetchPost(1)).title\` → the post title`,
+        lang: 'javascript',
+        starter: `async function fetchPost(id) {\n  \n}\n`,
+        solution: `async function fetchPost(id) {\n  const res = await fetch("https://jsonplaceholder.typicode.com/posts/" + id);\n  return res.json();\n}\n`,
+        hints: [
+          'await fetch(url) to make the request.',
+          'Return res.json() — it returns a Promise.',
+          'The caller can await the result.',
+        ],
+        cases: [{ name: 'fetches', call: 'fetchPost(1).then(p => p.id)', expect: '1' }],
+      },
 
     ],
   },
@@ -1671,6 +1753,16 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         },
       },
       { t: 'quiz', q: 'When should you use an ARIA role instead of a native HTML element?', options: ['Always — ARIA is better', 'Only when no native HTML element conveys the right semantics. A `<button>` is always better than `<div role="button">` — use native elements first', 'ARIA replaces HTML', 'Never — ARIA is deprecated'], answer: 1, why: 'The first rule of ARIA: do not use it if native HTML works. Native elements have built-in keyboard handling, focus management and screen-reader announcements that you would have to rebuild from scratch with ARIA.' },
+      {
+        t: 'tryweb',
+        prompt: 'Add an `aria-label="Search"` to the button so screen readers announce its purpose. The button has no visible text — only an icon character.',
+        files: { html: `<form>\n  <input type="search" placeholder="Search...">\n  <button type="submit">\u{1F50D}</button>\n</form>`, css: '', js: `` },
+        solution: { html: `<form>\n  <input type="search" placeholder="Search...">\n  <button type="submit" aria-label="Search">\u{1F50D}</button>\n</form>`, css: '', js: `` },
+        hints: ['Add aria-label="Search" to the button element.', 'aria-label provides a text alternative for the icon.', 'Screen readers will announce "Search button" instead of the symbol.'],
+        checks: [
+          { name: 'button has aria-label', code: `return doc.querySelector('button').getAttribute('aria-label') === 'Search';` },
+        ],
+      },
 
     ],
   },
@@ -1706,6 +1798,16 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         },
       },
       { t: 'quiz', q: 'Why is focus trapping important in modals?', options: ['It looks better', 'Without it, a keyboard user can Tab past the end of the modal and interact with the (hidden) background page. Focus trapping keeps them inside the dialog until they dismiss it', 'It is required by law', 'Modals are always modal'], answer: 1, why: 'A modal overlay visually hides the background, but unless focus is trapped, keyboard and screen-reader users can still interact with background elements they cannot see.' },
+      {
+        t: 'tryweb',
+        prompt: 'Add a `tabindex="0"` to the `<div class="card">` so it is reachable via keyboard navigation. Without it, a `<div>` is not focusable by default.',
+        files: { html: `<div class="card" role="button">Clickable card</div>`, css: `.card { padding: 1rem; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; }`, js: `` },
+        solution: { html: `<div class="card" role="button" tabindex="0">Clickable card</div>`, css: `.card { padding: 1rem; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; }`, js: `` },
+        hints: ['Add tabindex="0" to the div.', 'tabindex="0" adds the element to the natural tab order.', 'Combined with role="button", it behaves like a button for keyboard users.'],
+        checks: [
+          { name: 'card has tabindex', code: `return doc.querySelector('.card').getAttribute('tabindex') === '0';` },
+        ],
+      },
 
     ],
   },

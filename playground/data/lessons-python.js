@@ -220,6 +220,19 @@ Replace the word \`pass\` with your \`return\` line.`,
         answer: 1,
         why: 'Quotes mark text as a literal string. Without them Python looks for a name — a variable or function called Hello — finds nothing, and raises a NameError.',
       },
+      {
+        t: 'try',
+        prompt: `Now write \`goodbye()\` that returns \`Goodbye!\`
+
+Same pattern as \`greet\` — replace \`pass\` with a \`return\` line.`,
+        starter: `def goodbye():\n    pass\n`,
+        solution: `def goodbye():\n    return "Goodbye!"\n`,
+        hints: [
+          'The line inside the function must start with `return`, then the text in quotes.',
+          'Exactly: `return "Goodbye!"` — no comma, just the word and the exclamation mark.',
+        ],
+        cases: [{ name: 'goodbye() returns the farewell', call: 'goodbye()', expect: '"Goodbye!"' }],
+      },
 
     ],
   },
@@ -346,6 +359,24 @@ f"{item} costs {price}"
         answer: 1,
         why: 'The right-hand side is worked out first using the current value (5 * 2 = 10), and only then is the name pointed at the new value.',
       },
+      {
+        t: 'try',
+        prompt: `Write \`add_tax(price)\` that adds 20% tax and returns the new total.
+
+\`add_tax(100)\` → \`120.0\`
+
+Multiply \`price\` by 1.2 — that is it.`,
+        starter: `def add_tax(price):\n    pass\n`,
+        solution: `def add_tax(price):\n    return price * 1.2\n`,
+        hints: [
+          'Multiply the price by 1.2 to add 20%%.',
+          'return price * 1.2 — one line.',
+        ],
+        cases: [
+          { name: '£100', call: 'add_tax(100)', expect: '120.0' },
+          { name: '£0', call: 'add_tax(0)', expect: '0.0' },
+        ],
+      },
 
     ],
   },
@@ -455,6 +486,26 @@ Then build the text with an f-string.`,
         options: ['n / 2 == 0', 'n % 2 == 0', 'n // 2 == 0', 'n ** 2 == 0'],
         answer: 1,
         why: 'Even numbers divide by 2 with no remainder, and % gives the remainder. n / 2 == 0 is only true when n is 0.',
+      },
+      {
+        t: 'try',
+        prompt: `Write \`is_even(n)\` that returns \`True\` when \`n\` is an even number, \`False\` otherwise.
+
+\`is_even(10)\` → \`True\`\n\`is_even(7)\` → \`False\`
+
+Use \`n % 2 == 0\` — that expression is already a Boolean, so return it directly.`,
+        starter: `def is_even(n):\n    pass\n`,
+        solution: `def is_even(n):\n    return n % 2 == 0\n`,
+        hints: [
+          'n % 2 gives the remainder when dividing by 2.',
+          'If the remainder is 0, the number is even.',
+          'Return the comparison directly: return n % 2 == 0',
+        ],
+        cases: [
+          { name: 'even', call: 'is_even(10)', expect: 'True' },
+          { name: 'odd', call: 'is_even(7)', expect: 'False' },
+          { name: 'zero is even', call: 'is_even(0)', expect: 'True' },
+        ],
       },
 
     ],
@@ -581,6 +632,25 @@ Try writing it yourself before reading that too closely.`,
         options: ['"hell"', '"ell"', '"ello"', '"hel"'],
         answer: 1,
         why: 'It starts at position 1 (the second character, "e") and stops just before position 4 — so characters 1, 2 and 3: "ell".',
+      },
+      {
+        t: 'try',
+        prompt: `Write \`first_and_last(word)\` that returns the first and last characters joined together.
+
+\`first_and_last("Python")\` → \`"Pn"\`
+
+Use \`word[0]\` for the first and \`word[-1]\` for the last. Join them with \`+\`.`,
+        starter: `def first_and_last(word):\n    pass\n`,
+        solution: `def first_and_last(word):\n    return word[0] + word[-1]\n`,
+        hints: [
+          'word[0] is the first character, word[-1] is the last.',
+          'Concatenate them with +.',
+          'Work on any length except empty — we will handle that later.',
+        ],
+        cases: [
+          { name: 'Python', call: 'first_and_last("Python")', expect: '"Pn"' },
+          { name: 'a single letter repeats', call: 'first_and_last("X")', expect: '"XX"' },
+        ],
       },
 
     ],
@@ -873,6 +943,26 @@ The shape: start a counter at zero, loop over each character, and add one when i
         answer: 2,
         why: 'It runs from 2 up to but not including 8 — that is 2, 3, 4, 5, 6, 7: six numbers. A quick trick: end minus start.',
       },
+      {
+        t: 'try',
+        prompt: `Write \`sum_to(n)\` that returns the sum of every number from 1 up to and including \`n\`.
+
+\`sum_to(5)\` → \`15\` (because 1 + 2 + 3 + 4 + 5)
+
+Use a \`for\` loop with \`range\` and the accumulator pattern: start a total at 0, add each number, return the total.`,
+        starter: `def sum_to(n):\n    pass\n`,
+        solution: `def sum_to(n):\n    total = 0\n    for i in range(1, n + 1):\n        total = total + i\n    return total\n`,
+        hints: [
+          'Start total = 0 before the loop.',
+          'Use range(1, n + 1) — remember the end is excluded.',
+          'total = total + i inside the loop.',
+        ],
+        cases: [
+          { name: 'sum to 5', call: 'sum_to(5)', expect: '15' },
+          { name: 'sum to 1', call: 'sum_to(1)', expect: '1' },
+          { name: 'sum to 0', call: 'sum_to(0)', expect: '0' },
+        ],
+      },
 
     ],
   },
@@ -1022,6 +1112,27 @@ Keep the original order.`,
                         "expect": "[]"
                   }
             ]
+      },
+
+      {
+        t: 'try',
+        prompt: `Write \`safe_first(items)\` that returns the first item in a list, or \`None\` if the list is empty.
+
+\`safe_first(["a", "b", "c"])\` → \`"a"\`\n\`safe_first([])\` → \`None\`
+
+Check \`if not items:\` to handle the empty case, then return \`items[0]\`.`,
+        starter: `def safe_first(items):\n    pass\n`,
+        solution: `def safe_first(items):\n    if not items:\n        return None\n    return items[0]\n`,
+        hints: [
+          'Empty lists are falsy: if not items: deals with the empty case.',
+          'Return items[0] after the guard — zero-indexed, first position.',
+          'There is no built-in for this — and writing it teaches you guard clauses.',
+        ],
+        cases: [
+          { name: 'has items', call: 'safe_first(["a", "b", "c"])', expect: '"a"' },
+          { name: 'empty list', call: 'safe_first([])', expect: 'None' },
+          { name: 'single item', call: 'safe_first([42])', expect: '42' },
+        ],
       },
 
     ],
@@ -1694,6 +1805,41 @@ Everything ahead is either a **new tool** (classes, files, modules, async) or a 
 
 The **Challenges** for this track are next. They are graded on a four-part rubric rather than pass/fail, and they will push you on efficiency and style as well as correctness. Start with the Foundations tier — you are ready for it.`,
       },
+      {
+        t: 'try',
+        prompt: `Add one more helper to the tracker: \`total_for_category(expenses, category)\` that returns the total spend for just one category.
+
+\`\`\`python
+expenses = [
+    {"what": "Coffee", "amount": 3.50, "category": "food"},
+    {"what": "Taxi",   "amount": 12.0, "category": "transport"},
+    {"what": "Lunch",  "amount": 8.75, "category": "food"},
+]
+total_for_category(expenses, "food")   # 12.25
+\`\`\`
+
+Loop over the expenses, check \`expense["category"] == category\`, and add the amount.`,
+        starter: `def total_for_category(expenses, category):\n    pass\n`,
+        solution: `def total_for_category(expenses, category):\n    total = 0\n    for expense in expenses:\n        if expense["category"] == category:\n            total = total + expense["amount"]\n    return round(total, 2)\n`,
+        hints: [
+          'Accumulator pattern: total = 0 before the loop.',
+          'Compare expense["category"] to the category parameter.',
+          'Round the final answer to 2 decimal places — money.',
+        ],
+        cases: [
+          {
+            name: 'food spend',
+            call: 'total_for_category([{"what": "Coffee", "amount": 3.50, "category": "food"}, {"what": "Taxi", "amount": 12.0, "category": "transport"}, {"what": "Lunch", "amount": 8.75, "category": "food"}], "food")',
+            expect: '12.25',
+          },
+          {
+            name: 'category not present',
+            call: 'total_for_category([{"what": "Coffee", "amount": 3.50, "category": "food"}], "transport")',
+            expect: '0',
+          },
+          { name: 'empty list', call: 'total_for_category([], "food")', expect: '0' },
+        ],
+      },
 
     ],
   },
@@ -1775,6 +1921,27 @@ Wrap the logic in the standard guard pattern — but for the exercise, just writ
         answer: 1,
         why: 'When a file is imported, __name__ is the module name, not "__main__". The guard prevents import-time side effects.',
       },
+      {
+        t: 'try',
+        prompt: `Write \`sum_args(args)\` that takes a list of strings (like \`sys.argv[1:]\`) and returns the sum of any that are valid integers. Skip non-numeric ones silently.
+
+\`sum_args(["10", "hello", "5"])\` → \`15\`
+
+Loop over the list, try \`int(arg)\` inside a \`try/except ValueError\`, and add to a total.`,
+        starter: `def sum_args(args):\n    pass\n`,
+        solution: `def sum_args(args):\n    total = 0\n    for arg in args:\n        try:\n            total = total + int(arg)\n        except ValueError:\n            pass\n    return total\n`,
+        hints: [
+          'Total starts at 0, loop over args.',
+          'Try int(arg) inside try/except ValueError.',
+          'On success add to total; on ValueError do nothing (pass).',
+        ],
+        cases: [
+          { name: 'mixed input', call: 'sum_args(["10", "hello", "5"])', expect: '15' },
+          { name: 'all numeric', call: 'sum_args(["1", "2", "3"])', expect: '6' },
+          { name: 'none numeric', call: 'sum_args(["a", "b"])', expect: '0' },
+          { name: 'empty list', call: 'sum_args([])', expect: '0' },
+        ],
+      },
 
     ],
   },
@@ -1850,6 +2017,27 @@ The code reads the API key from an environment variable (never hard-coded — th
         ],
         answer: 1,
         why: 'The virtual environment contains compiled binaries tied to your OS and Python version. The requirements file is a portable, human-readable list that anyone can install from.',
+      },
+      {
+        t: 'try',
+        prompt: `Write \`read_config(key, default=None)\` that reads a value from a dictionary of settings, returning \`default\` if the key is missing. Case-insensitive: \`"HOST"\` and \`"host"\` should match.
+
+\`read_config({"host": "localhost", "port": "8080"}, "HOST")\` → \`"localhost"\`\n\`read_config({"host": "localhost"}, "DEBUG", "off")\` → \`"off"\`
+
+The pattern is \`dict.get(key, default)\` but with a case-insensitive twist — lowercase the lookup.`,
+        starter: `def read_config(settings, key, default=None):\n    pass\n`,
+        solution: `def read_config(settings, key, default=None):\n    return settings.get(key.lower(), default)\n`,
+        hints: [
+          'Lowercase the key before looking it up: key.lower()',
+          'Use .get() with the default value.',
+          'One line — return the result of .get directly.',
+        ],
+        cases: [
+          { name: 'exact match', call: 'read_config({"host": "localhost", "port": "8080"}, "host")', expect: '"localhost"' },
+          { name: 'case-insensitive', call: 'read_config({"host": "localhost"}, "HOST")', expect: '"localhost"' },
+          { name: 'missing returns default', call: 'read_config({"host": "localhost"}, "debug", "off")', expect: '"off"' },
+          { name: 'missing returns None by default', call: 'read_config({}, "key")', expect: 'None' },
+        ],
       },
 
     ],
@@ -1949,6 +2137,27 @@ If any field is missing or cannot be converted, return \`None\` instead of the t
         answer: 1,
         why: 'Python evaluates empty collections as False. `if items:` is idiomatic, shorter, and handles None (which is also falsy) without an extra check.',
       },
+      {
+        t: 'try',
+        prompt: `Write \`safe_float(text, fallback=0.0)\` that converts \`text\` to a float, returning \`fallback\` if conversion fails.
+
+\`safe_float("12.5")\` → \`12.5\`\n\`safe_float("banana")\` → \`0.0\`\n\`safe_float("banana", -1.0)\` → \`-1.0\`
+
+Use \`try/except ValueError\` — wrap \`float(text)\` and return the fallback on failure.`,
+        starter: `def safe_float(text, fallback=0.0):\n    pass\n`,
+        solution: `def safe_float(text, fallback=0.0):\n    try:\n        return float(text)\n    except ValueError:\n        return fallback\n`,
+        hints: [
+          'try: return float(text) gets the happy path.',
+          'except ValueError: return fallback handles bad input.',
+          'Make sure fallback has a default of 0.0 in the signature.',
+        ],
+        cases: [
+          { name: 'valid float', call: 'safe_float("12.5")', expect: '12.5' },
+          { name: 'bad text uses default', call: 'safe_float("banana")', expect: '0.0' },
+          { name: 'custom fallback', call: 'safe_float("banana", -1.0)', expect: '-1.0' },
+          { name: 'integer string works', call: 'safe_float("42")', expect: '42.0' },
+        ],
+      },
 
     ],
   },
@@ -2030,6 +2239,33 @@ The tricky part: \`items\` has a default of \`None\`, and you must create a fres
         answer: 1,
         why: 'Default arguments are evaluated when the function is defined, not when it is called. A mutable default is the same object every call — so appending to it persists between calls.',
       },
+      {
+        t: 'try',
+        prompt: `Write \`copy_and_extend(original, extra)\` that returns a **new** list combining \`original\` and \`extra\`, without mutating either input.
+
+\`\`\`python
+a = [1, 2]
+b = [3]
+result = copy_and_extend(a, b)
+# a is still [1, 2] — untouched
+# result is [1, 2, 3]
+\`\`\`
+
+Make a copy of \`original\` first (use \`list(original)\` or slice \`original[:]\`), then extend it with \`extra\`. The key: do NOT mutate the caller's list.`,
+        starter: `def copy_and_extend(original, extra):\n    pass\n`,
+        solution: `def copy_and_extend(original, extra):\n    result = list(original)\n    result.extend(extra)\n    return result\n`,
+        hints: [
+          'list(original) or original[:] creates a shallow copy.',
+          'Call .extend(extra) on the copy, not the original.',
+          'Return the new list.',
+        ],
+        cases: [
+          { name: 'combines without mutation', call: '__test_copy()', expect: 'True' },
+          { name: 'empty original', call: 'copy_and_extend([], [4, 5])', expect: '[4, 5]' },
+          { name: 'empty extra', call: 'copy_and_extend([1, 2], [])', expect: '[1, 2]' },
+        ],
+        preamble: `def __test_copy():\n    a = [1, 2]\n    b = [3]\n    result = copy_and_extend(a, b)\n    return a == [1, 2] and result == [1, 2, 3]\n`,
+      },
 
     ],
   },
@@ -2078,6 +2314,27 @@ Deeply nested \`if\` blocks — the "arrow anti-pattern" — are hard to follow.
         ],
       },
       { t: 'quiz', q: 'Why is `all(s >= 50 for s in scores)` better than `min(scores) >= 50`?', options: ['It is shorter', 'min() fails on empty lists; all() and any() are lazy and stop early', 'They are identical', 'all() sorts the data'], answer: 1, why: 'all() returns True for empty input (vacuously true) and stops checking as soon as it hits a failure, without scanning the whole list.' },
+      {
+        t: 'try',
+        prompt: `Write \`has_vowel(word)\` that returns \`True\` if the word contains at least one vowel (\`a e i o u\`, any case).
+
+\`has_vowel("hello")\` → \`True\`\n\`has_vowel("rhythm")\` → \`False\`
+
+Use \`any()\` with a generator: \`any(letter.lower() in "aeiou" for letter in word)\`.`,
+        starter: `def has_vowel(word):\n    pass\n`,
+        solution: `def has_vowel(word):\n    return any(letter.lower() in "aeiou" for letter in word)\n`,
+        hints: [
+          'Loop over each letter in word inside a generator.',
+          'letter.lower() in "aeiou" checks whether that letter is a vowel.',
+          'any() returns True as soon as a single vowel is found.',
+        ],
+        cases: [
+          { name: 'has vowels', call: 'has_vowel("hello")', expect: 'True' },
+          { name: 'no vowels', call: 'has_vowel("rhythm")', expect: 'False' },
+          { name: 'capitals', call: 'has_vowel("HELLO")', expect: 'True' },
+          { name: 'empty string', call: 'has_vowel("")', expect: 'False' },
+        ],
+      },
 
     ],
   },
@@ -2127,6 +2384,31 @@ Think of it as \`if/elif\` on steroids, capable of unpacking lists, drilling int
         ],
       },
       { t: 'quiz', q: 'How does match/case differ from a C-style switch?', options: ['It is just syntax sugar', 'It destructures values against patterns — unpacking lists, matching dict shapes, binding variables — not just comparing values', 'It runs in reverse', 'It only works with strings'], answer: 1, why: 'match is structural: a case like ["greet", name] unpacks a list and binds name. A switch only compares a scalar against constants.' },
+      {
+        t: 'try',
+        prompt: `Write \`handle_action(action)\` using match/case. \`action\` is a list where the first element is the verb:
+
+- \`["say", msg]\` → return the message as-is
+- \`["repeat", msg, times]\` → return the message repeated \`times\` times separated by spaces
+- anything else → return \`"unknown"\`
+
+\`\`\`python
+handle_action(["say", "hello"])        # "hello"
+handle_action(["repeat", "ha", "3"])   # "ha ha ha"
+\`\`\``,
+        starter: `def handle_action(action):\n    pass\n`,
+        solution: `def handle_action(action):\n    match action:\n        case ["say", msg]:\n            return msg\n        case ["repeat", msg, times]:\n            return f"{msg} " * int(times)\n        case _:\n            return "unknown"\n`,
+        hints: [
+          'Match action against list patterns like ["say", msg].',
+          'For repeat: build the result with string multiplication and a space.',
+          'Use int(times) to convert the string argument to a number.',
+        ],
+        cases: [
+          { name: 'say', call: 'handle_action(["say", "hello"])', expect: '"hello"' },
+          { name: 'repeat', call: 'handle_action(["repeat", "ha", "3"])', expect: '"ha ha ha "' },
+          { name: 'unknown', call: 'handle_action(["jump"])', expect: '"unknown"' },
+        ],
+      },
 
     ],
   },
@@ -2173,6 +2455,27 @@ Slices have a third value: the **step**. \`seq[start:stop:step]\` takes every Nt
         ],
       },
       { t: 'quiz', q: 'Why does `key=lambda r: (-r["score"], r["name"])` work for sorting?', options: ['It does not — sorting requires a single value', 'Tuples are compared element by element, so negative score gives descending, then name breaks ties ascending', 'Python ignores the tuple', 'lambda always returns a string'], answer: 1, why: 'Python compares tuples lexicographically: first by -score (descending), then by name. This is the standard idiom for multi-key sorts.' },
+      {
+        t: 'try',
+        prompt: `Write \`is_palindrome(text)\` that returns \`True\` if the text reads the same forwards and backwards, ignoring case and spaces.
+
+\`is_palindrome("Race car")\` → \`True\`
+
+Remove spaces with \`.replace(" ", "")\`, lowercase with \`.lower()\`, then compare with \`[::-1]\`.`,
+        starter: `def is_palindrome(text):\n    pass\n`,
+        solution: `def is_palindrome(text):\n    cleaned = text.replace(" ", "").lower()\n    return cleaned == cleaned[::-1]\n`,
+        hints: [
+          'Clean the text first: strip spaces and lowercase.',
+          'reversed = cleaned[::-1] gives the string backwards.',
+          'Compare cleaned == reversed and return the result.',
+        ],
+        cases: [
+          { name: 'palindrome', call: 'is_palindrome("Race car")', expect: 'True' },
+          { name: 'not palindrome', call: 'is_palindrome("hello")', expect: 'False' },
+          { name: 'single word', call: 'is_palindrome("radar")', expect: 'True' },
+          { name: 'empty string', call: 'is_palindrome("")', expect: 'True' },
+        ],
+      },
 
     ],
   },
@@ -2212,6 +2515,25 @@ Slices have a third value: the **step**. \`seq[start:stop:step]\` takes every Nt
         ],
       },
       { t: 'quiz', q: 'What does `defaultdict(list)` save you from writing?', options: ['Nothing — it is identical to dict', 'The `if key not in dict: dict[key] = []` guard before appending', 'It sorts the keys', 'It prevents duplicates'], answer: 1, why: 'defaultdict calls list() to create a default value automatically when a key is first accessed, removing the manual initialisation branch.' },
+      {
+        t: 'try',
+        prompt: `Write \`group_by_length(words)\` that returns a dict grouping words by their length, using \`defaultdict(list)\`.
+
+\`group_by_length(["a", "it", "cat", "hi", "dog"])\` → \`{1: ["a"], 2: ["it", "hi"], 3: ["cat", "dog"]}\`
+
+Import \`defaultdict\` from \`collections\`. Create \`groups = defaultdict(list)\`, loop and append to \`groups[len(word)]\`, then return \`dict(groups)\`.`,
+        starter: `from collections import defaultdict\n\ndef group_by_length(words):\n    pass\n`,
+        solution: `from collections import defaultdict\n\ndef group_by_length(words):\n    groups = defaultdict(list)\n    for word in words:\n        groups[len(word)].append(word)\n    return dict(groups)\n`,
+        hints: [
+          'Create groups = defaultdict(list) at the top.',
+          'groups[len(word)].append(word) — defaultdict auto-creates the list.',
+          'Return dict(groups) to convert back to a plain dict.',
+        ],
+        cases: [
+          { name: 'groups by length', call: 'group_by_length(["a", "it", "cat", "hi", "dog"])', expect: '{1: ["a"], 2: ["it", "hi"], 3: ["cat", "dog"]}' },
+          { name: 'empty returns empty', call: 'group_by_length([])', expect: '{}' },
+        ],
+      },
 
     ],
   },
