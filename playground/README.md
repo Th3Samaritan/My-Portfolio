@@ -11,6 +11,10 @@ straight from GitHub Pages.
 
 Live at `/playground/`.
 
+> **Contributors:** The GYM has its own standalone repo at
+> [Th3Samaritan/the-gym](https://github.com/Th3Samaritan/the-gym) — clone that
+> instead of the whole portfolio to contribute.
+
 ---
 
 ## What is in it
