@@ -458,12 +458,16 @@ export async function mountWorkspace(host, { challenge, track, examMode = false,
         const outcome = store.recordAttempt(challenge, scorecard, earned);
         scorecard.xpAwarded = earned;
 
+        const meta = { streak: store.liveStreak(), clearStreak: store.clearStreakCount(), attempts: outcome ? record.attempts + 1 : 1 };
+
         if (outcome.firstClear) {
           toast('Cleared! ' + challenge.title + ' — every case passing.', 'good');
-          showCoach('breakthrough');
+          showCoach('breakthrough', meta);
         } else if (earned > 0) {
           toast('+' + earned + ' XP', 'good');
-          showCoach(scorecard.total >= 80 ? 'breakthrough' : 'struggle');
+          showCoach(scorecard.total >= 80 ? 'breakthrough' : 'struggle', meta);
+        } else {
+          showCoach('struggle', meta);
         }
       }
 

@@ -1167,3 +1167,125 @@ code, pre, kbd { font-family: var(--font-mono); }
   font-family: system-ui, -apple-system, sans-serif;
   font-size: 8px;
 }
+
+/* ============================================================
+   MOBILE & SMALL-SCREEN FIXES
+   ============================================================ */
+
+/* --- iOS Safari dvh fallback --- */
+@supports (height: 100dvh) {
+  .sidebar { height: 100dvh; }
+  .workspace { height: calc(100dvh - var(--topbar-h)); }
+  .exam-shell .workspace { height: calc(100dvh - var(--topbar-h) - 53px); }
+}
+
+/* --- Sidebar backdrop overlay on mobile --- */
+@media (max-width: 900px) {
+  .sidebar::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(4, 6, 10, 0.65);
+    z-index: -1;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 240ms ease;
+  }
+  .sidebar.open::before {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .workspace {
+    grid-template-rows: minmax(180px, 32vh) minmax(280px, 52vh) auto;
+  }
+  .pane.brief-pane .pane-body { max-height: none; }
+  .run-bar { flex-wrap: wrap; gap: 8px; }
+  .run-status { flex: auto; }
+
+  .topbar {
+    gap: 8px;
+    padding: 0 12px;
+    flex-wrap: wrap;
+    height: auto;
+    min-height: var(--topbar-h);
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+  .topbar-spacer { display: none; }
+}
+
+/* --- Landscape workspace on phones --- */
+@media (max-width: 900px) and (orientation: landscape) {
+  .workspace {
+    grid-template-columns: minmax(200px, 30%) 1fr;
+    grid-template-rows: 1fr;
+    height: calc(100dvh - var(--topbar-h));
+  }
+  .pane.results-pane {
+    grid-column: auto;
+    border-top: none;
+    border-left: 1px solid var(--border);
+  }
+}
+
+/* --- Very small phones (<480px) --- */
+@media (max-width: 480px) {
+  .view { padding: 16px 12px 48px; }
+  .page-head h1 { font-size: 1.35rem; }
+  .page-head p { font-size: 0.84rem; }
+
+  .topbar { gap: 6px; padding: 0 10px; overflow-x: auto; }
+  .topbar-title { font-size: 0.84rem; white-space: nowrap; }
+  .stat-chip { font-size: 0.68rem; padding: 3px 8px; gap: 4px; }
+
+  .hero { padding: 18px 14px; border-radius: var(--radius); }
+  .hero h1 { font-size: 1.25rem; }
+  .hero p { font-size: 0.82rem; }
+  .hero-stats { gap: 16px; }
+  .hero-stat .n { font-size: 1.3rem; }
+
+  .modal { padding: 16px; max-height: 90vh; }
+  .modal h2 { font-size: 1.05rem; }
+  .modal-actions { flex-direction: column; }
+  .modal-actions .btn { width: 100%; }
+
+  .coach-panel { width: auto; left: 12px; right: 12px; bottom: 10px; max-width: none; }
+  .toast-stack { right: 8px; bottom: 10px; left: 8px; }
+  .toast { max-width: none; }
+
+  .icon-btn { width: 40px; height: 40px; }
+  .exam-nav-item { width: 36px; height: 36px; font-size: 0.78rem; }
+  .track-card-head { flex-wrap: wrap; }
+
+  .brush-brief-pane .brush-brief-body { max-height: none; }
+}
+
+/* --- Exercise editor responsive height --- */
+@media (max-width: 760px) {
+  .exercise-editor { height: clamp(180px, 40vh, 240px); }
+  .exercise .lesson-preview { height: clamp(160px, 32vh, 220px); }
+  .lesson-wrap .lesson-prose { font-size: 0.92rem; }
+}
+
+/* --- Roadmap SVG scaling --- */
+@media (max-width: 900px) {
+  .roadmap-wrap svg { min-width: 600px; }
+}
+@media (max-width: 640px) {
+  .roadmap-wrap svg { min-width: 440px; }
+}
+
+/* --- Board table scroll wrapper --- */
+.board-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 -12px;
+  padding: 0 12px;
+}
+
+/* --- Hover-only for touch devices --- */
+@media (hover: hover) {
+  .track-card:hover { transform: translateY(-3px); border-color: var(--border-strong); box-shadow: var(--shadow-md); }
+  .exam-card:hover { transform: translateY(-2px); border-color: var(--border-strong); }
+}

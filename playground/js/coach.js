@@ -193,8 +193,12 @@ function shouldShow(context) {
 let _panel = null;
 let _timer = null;
 
-function buildPanel(char, quote, contextEntry) {
+function buildPanel(char, quote, contextEntry, meta = {}) {
   if (_panel) _panel.remove();
+
+  const opening = typeof contextEntry.opening === 'function'
+    ? contextEntry.opening(meta)
+    : contextEntry.opening;
 
   const wrapper = document.createElement('div');
   wrapper.className = 'coach-panel coach-enter';
@@ -208,7 +212,7 @@ function buildPanel(char, quote, contextEntry) {
       </div>
       <div>
         <div class="coach-name">${escapeHtml(char.name)}</div>
-        <div class="coach-tone">${escapeHtml(contextEntry.opening)}</div>
+        <div class="coach-tone">${escapeHtml(opening)}</div>
       </div>
     </div>
     <div class="coach-body">
@@ -244,19 +248,26 @@ function hideCoach() {
 
 /* ================================================================= EXPORTS == */
 
-export function showCoach(context) {
-  if (!shouldShow(context)) return;
+export function showCoach(context, meta = {}) {
+  // Pick smarter context based on metadata
+  let ctx = context;
+  if (meta.clearStreak >= 5) ctx = 'consistency';
+  else if (meta.clearStreak >= 3) ctx = 'milestone';
+  else if (meta.streak >= 30) ctx = 'streak_30';
+  else if (meta.streak >= 7) ctx = 'streak_7';
+  
+  if (!shouldShow(ctx)) return;
   store.markQuoteShown();
 
-  const entry = CONTEXT[context];
+  const entry = CONTEXT[ctx];
   if (!entry) return;
 
   const char = CHARS[entry.char];
-  const pool = QUOTES[context];
+  const pool = QUOTES[ctx];
   if (!pool) return;
 
   const quote = pool[Math.floor(Math.random() * pool.length)];
-  buildPanel(char, quote, entry);
+  buildPanel(char, quote, entry, meta);
 }
 
 export { hideCoach };

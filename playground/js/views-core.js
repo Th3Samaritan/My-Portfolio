@@ -627,9 +627,47 @@ export function renderProfile(host) {
       </div>
       <input type="file" id="import-file" accept="application/json" hidden />
     </div>
+
+    <div class="card" style="margin-top:22px">
+      <div class="card-head"><h3>Share</h3></div>
+      <p style="font-size:0.86rem;color:var(--text-dim);margin-bottom:16px">
+        Generate a summary card you can screenshot or copy into a portfolio.
+      </p>
+      <button class="btn" id="share-progress">Generate summary</button>
+      <div id="share-output" style="margin-top:14px"></div>
+    </div>
   `;
 
   render(host, html);
+
+  // Share handler
+  host.querySelector('#share-progress').addEventListener('click', () => {
+    const state = store.getState();
+    const level = store.levelInfo(state.xp);
+    const ts = TRACKS.map(t => ({ name: t.name, ...store.trackStats(t) }));
+    const cleared = ts.reduce((s, t) => s + t.cleared, 0);
+    const total = ts.reduce((s, t) => s + t.total, 0);
+    const lessons = ts.reduce((s, t) => s + store.lessonStats({ id: t.name.toLowerCase().replace(' ', '') }).done, 0);
+    const streak = store.liveStreak();
+
+    const html = `
+      <div class="card" style="background:linear-gradient(135deg, var(--bg-panel) 0%, rgba(224,170,80,0.08) 100%);border-color:var(--gold);padding:20px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap">
+          <div>
+            <div style="font-family:var(--font-head);font-size:1.1rem;font-weight:700;color:var(--gold)">The GYM — Progress Card</div>
+            <div style="font-size:0.82rem;color:var(--text-dim);margin-top:2px">${state.xp.toLocaleString()} XP · Level ${level.level} · ${streak}-day streak</div>
+            <div style="font-size:0.75rem;color:var(--text-faint);margin-top:1px">${cleared}/${total} challenges cleared · ${lessons} lessons done</div>
+          </div>
+          <div style="text-align:right;font-size:0.74rem;color:var(--text-faint)">
+            ${ts.map(t => `<div>${t.name}: ${t.cleared}/${t.total} cleared</div>`).join('')}
+          </div>
+        </div>
+        <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-size:0.7rem;color:var(--text-faint);text-align:center">
+          the-gym.prism.dev · screenshot or copy this card
+        </div>
+      </div>`;
+    host.querySelector('#share-output').innerHTML = html;
+  });
 
   host.querySelector('#save-runner').addEventListener('click', () => {
     const value = host.querySelector('#runner-url').value.trim();

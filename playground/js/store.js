@@ -205,6 +205,10 @@ export function clearStreakMultiplier() {
   return 1.0;
 }
 
+export function clearStreakCount() {
+  return load().clearStreak.current;
+}
+
 /* ------------------------------------------------------------------ mastery */
 
 const MASTERY_ALPHA = 0.45;
