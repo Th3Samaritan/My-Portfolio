@@ -519,6 +519,18 @@ Use \`n % 2 == 0\` — that expression is already a Boolean, so return it direct
       },
 
       { t:'text', md:`Numbers alone rarely tell the whole story. Next: working with text.` },
+      {
+        t: 'quiz',
+        q: 'Why did the lesson recommend storing money as whole pence rather than a float like 3.50?',
+        options: [
+          'Floats cannot store decimal values at all',
+          'Decimals like 0.1 have no exact binary representation, so float arithmetic drifts over many operations',
+          'int is always faster than float',
+          'Python does not support decimals',
+        ],
+        answer: 1,
+        why: "0.1 + 0.2 = 0.30000000000000004 in most languages. Storing money in whole pence (350 instead of 3.50) and dividing only for display avoids cumulative rounding errors.",
+      },
 
     ],
   },
@@ -670,6 +682,18 @@ Use \`word[0]\` for the first and \`word[-1]\` for the last. Join them with \`+\
       },
 
       { t:'text', md:`Every program so far has run straight through. Next: making decisions.` },
+      {
+        t: 'quiz',
+        q: 'You have `name = "  Ada "`. Which expression returns `"ada"`?',
+        options: [
+          'name.lower()',
+          'name.strip().lower()',
+          'name.lower().strip()',
+          'name[2:5].lower()',
+        ],
+        answer: 1,
+        why: 'Strip removes surrounding whitespace first, then lower makes it lowercase. You need both operations — strip alone keeps capitals, lower alone keeps spaces.',
+      },
 
     ],
   },
@@ -1005,6 +1029,18 @@ Use a \`for\` loop with \`range\` and the accumulator pattern: start a total at 
       },
 
       { t:'text', md:`Loops become far more useful with collections. Next: lists — holding many values together.` },
+      {
+        t: 'quiz',
+        q: 'What happens if you put `total = 0` inside the for loop instead of before it?',
+        options: [
+          'The total still accumulates correctly',
+          'The total resets to 0 on every iteration, so you always end up with just the last value',
+          'Python raises an IndentationError',
+          'Nothing changes — the position does not matter',
+        ],
+        answer: 1,
+        why: 'If total = 0 runs inside the loop, it wipes the accumulator on every pass. The accumulation pattern requires initialisation ABOVE the loop, not inside it. This is one of the most common beginner loop bugs.',
+      },
 
     ],
   },
