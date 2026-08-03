@@ -233,6 +233,26 @@ Same pattern as \`greet\` — replace \`pass\` with a \`return\` line.`,
         ],
         cases: [{ name: 'goodbye() returns the farewell', call: 'goodbye()', expect: '"Goodbye!"' }],
       },
+      {
+        t: 'try',
+        prompt: `One more for practice. Write \`shout()\` that returns \`HELLO!\` — same pattern, different result.`,
+        starter: `def shout():\n    pass\n`,
+        solution: `def shout():\n    return "HELLO!"\n`,
+        hints: ['Same structure as greet and goodbye.', 'return "HELLO!" — all caps, exclamation mark.'],
+        cases: [{ name: 'shouts', call: 'shout()', expect: '"HELLO!"' }],
+      },
+      {
+        t: 'quiz',
+        q: 'If a function ends with `return "Hello"`, when does the text appear on screen?',
+        options: [
+          'Immediately — return and print are the same thing',
+          'Only if the caller prints the result — return hands the value back, it does not display it',
+          'Never — return discards the value',
+          'After the function finishes running',
+        ],
+        answer: 1,
+        why: 'return gives the value back to the code that called the function. To see it, the caller must print it or use it in an expression. This is one of the most important distinctions in Python.',
+      },
 
     ],
   },
@@ -251,6 +271,10 @@ Same pattern as \`greet\` — replace \`pass\` with a \`return\` line.`,
       'Tell apart text, whole numbers, decimals and true/false',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You wrote your first line of Python and met the print function. Errors are information, not failure.
+
+Now we give values names so we can reuse them. Variables are the single most fundamental concept in programming.` },
+      
       { t:'text', md:`**Previously:** You wrote your first line of Python and met the print function. Errors are information, not failure.
 
 Now we give values names so we can reuse them. Variables are the single most fundamental concept in programming.` },
@@ -384,6 +408,8 @@ Multiply \`price\` by 1.2 — that is it.`,
 
       { t:'text', md:`Variable names are useless without operations. Next: arithmetic.` },
 
+      { t:'text', md:`Variable names are useless without operations. Next: arithmetic.` },
+
     ],
   },
 
@@ -401,6 +427,10 @@ Multiply \`price\` by 1.2 — that is it.`,
       'Use % to test divisibility',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You learned that values have types and that variables are labels you tie to values.
+
+Python is an excellent calculator. Arithmetic transforms numbers — and the modulo operator turns out to be far more useful than it sounds.` },
+      
       { t:'text', md:`**Previously:** You learned that values have types and that variables are labels you tie to values.
 
 Python is an excellent calculator. Arithmetic transforms numbers — and the modulo operator turns out to be far more useful than it sounds.` },
@@ -532,6 +562,8 @@ Use \`n % 2 == 0\` — that expression is already a Boolean, so return it direct
         why: "0.1 + 0.2 = 0.30000000000000004 in most languages. Storing money in whole pence (350 instead of 3.50) and dividing only for display avoids cumulative rounding errors.",
       },
 
+      { t:'text', md:`Numbers alone rarely tell the whole story. Next: working with text.` },
+
     ],
   },
 
@@ -549,6 +581,10 @@ Use \`n % 2 == 0\` — that expression is already a Boolean, so return it direct
       'Pull out parts of a string by position',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You can do arithmetic, test divisibility, and work with integer and decimal division.
+
+Most programs spend more time manipulating text than numbers. f-strings, methods, and indexing are tools you will reach for every day.` },
+      
       { t:'text', md:`**Previously:** You can do arithmetic, test divisibility, and work with integer and decimal division.
 
 Most programs spend more time manipulating text than numbers. f-strings, methods, and indexing are tools you will reach for every day.` },
@@ -695,6 +731,8 @@ Use \`word[0]\` for the first and \`word[-1]\` for the last. Join them with \`+\
         why: 'Strip removes surrounding whitespace first, then lower makes it lowercase. You need both operations — strip alone keeps capitals, lower alone keeps spaces.',
       },
 
+      { t:'text', md:`Every program so far has run straight through. Next: making decisions.` },
+
     ],
   },
 
@@ -712,6 +750,10 @@ Use \`word[0]\` for the first and \`word[-1]\` for the last. Join them with \`+\
       'Combine conditions with and / or / not',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You can build text with f-strings, clean it with methods, and pull out characters by position.
+
+Real programs choose paths. Conditionals turn a script into a program that reacts to its inputs.` },
+      
       { t:'text', md:`**Previously:** You can build text with f-strings, clean it with methods, and pull out characters by position.
 
 Real programs choose paths. Conditionals turn a script into a program that reacts to its inputs.` },
@@ -873,6 +915,22 @@ Watch the order of your branches.`,
           { name: 'boundary', call: 'is_teenager(13)', expect: 'True' },
         ],
       },
+      {
+        t: 'try',
+        prompt: 'Write `grade(score)` returning `"A"` for 90+, `"B"` for 80-89, `"C"` for 70-79, `"F"` for anything below 70. Order matters — check the highest threshold first.',
+        starter: `def grade(score):\n    pass\n`,
+        solution: `def grade(score):\n    if score >= 90:\n        return "A"\n    elif score >= 80:\n        return "B"\n    elif score >= 70:\n        return "C"\n    else:\n        return "F"\n`,
+        hints: ['Check >= 90 first, then >= 80, then >= 70.', 'Return from each branch — no variable needed.', 'The order prevents a 95 from getting a B.'],
+        cases: [
+          { name: 'A', call: 'grade(95)', expect: '"A"' },
+          { name: 'B', call: 'grade(83)', expect: '"B"' },
+          { name: 'C', call: 'grade(71)', expect: '"C"' },
+          { name: 'F', call: 'grade(55)', expect: '"F"' },
+          { name: 'boundary A/B', call: 'grade(90)', expect: '"A"' },
+        ],
+      },
+
+      { t:'text', md:`Decisions are one half of control flow. Next: loops — doing things repeatedly.` },
 
     ],
   },
@@ -891,6 +949,10 @@ Watch the order of your branches.`,
       'Use a while loop and avoid infinite ones',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You can branch with if/elif/else and combine conditions. Your program can now choose a path.
+
+Computers are extraordinarily good at repetition without mistakes. Loops unlock this power.` },
+      
       { t:'text', md:`**Previously:** You can branch with if/elif/else and combine conditions. Your program can now choose a path.
 
 Computers are extraordinarily good at repetition without mistakes. Loops unlock this power.` },
@@ -1042,6 +1104,8 @@ Use a \`for\` loop with \`range\` and the accumulator pattern: start a total at 
         why: 'If total = 0 runs inside the loop, it wipes the accumulator on every pass. The accumulation pattern requires initialisation ABOVE the loop, not inside it. This is one of the most common beginner loop bugs.',
       },
 
+      { t:'text', md:`Loops become far more useful with collections. Next: lists — holding many values together.` },
+
     ],
   },
 
@@ -1059,6 +1123,10 @@ Use a \`for\` loop with \`range\` and the accumulator pattern: start a total at 
       'Loop over a list with its positions',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You can repeat work with for and while loops, count with range, and accumulate results.
+
+Real data arrives in batches. Lists are the most common way to hold many values together. This is a dense lesson — do not feel you must absorb everything in one sitting. Take a break after the sorting section.` },
+      
       { t:'text', md:`**Previously:** You can repeat work with for and while loops, count with range, and accumulate results.
 
 Real data arrives in batches. Lists are the most common way to hold many values together. This is a dense lesson — do not feel you must absorb everything in one sitting. Take a break after the sorting section.` },
@@ -1112,6 +1180,17 @@ Sometimes you need the position as well as the value. \`enumerate\` gives you bo
         t: 'code',
         run: true,
         code: `names = ["Ada", "Grace", "Alan"]\n\nfor name in names:\n    print(name)\n\nprint("---")\n\nfor position, name in enumerate(names):\n    print(f"{position + 1}. {name}")`,
+      },
+      {
+        t: 'note',
+        tone: 'why',
+        title: 'Why learn two ways to do the same thing?',
+        md: `A for loop that builds a list is 4–5 lines. A list comprehension does the same job in one. But the difference is not just line count:
+
+- **Comprehensions express intent.** \`[n*2 for n in nums]\` says "here is what I want" — the reader sees the end result immediately, without tracing an accumulator.
+- **Loops are better for complex logic.** When the body has multiple steps, conditions with side effects, or nested transformations, a loop is clearer.
+
+The rule of thumb: if you can describe the transformation in a single expression, use a comprehension. Otherwise, use a loop. Both are first-class — neither is a shortcut.`,
       },
       {
         t: 'note',
@@ -1219,6 +1298,8 @@ Check \`if not items:\` to handle the empty case, then return \`items[0]\`.`,
 
       { t:'text', md:`Lists find things by position. Next: dictionaries — finding things by name.` },
 
+      { t:'text', md:`Lists find things by position. Next: dictionaries — finding things by name.` },
+
     ],
   },
 
@@ -1236,6 +1317,10 @@ Check \`if not items:\` to handle the empty case, then return \`items[0]\`.`,
       'Count things with a dictionary',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You can create lists, add and remove items, sort them, and loop with positions.
+
+Dictionaries look things up by name instead of position. Most real-world data is more naturally organised this way.` },
+      
       { t:'text', md:`**Previously:** You can create lists, add and remove items, sort them, and loop with positions.
 
 Dictionaries look things up by name instead of position. Most real-world data is more naturally organised this way.` },
@@ -1379,6 +1464,8 @@ Use exactly the pattern from the case study above.`,
         ],
       },
 
+      { t:'text', md:`You can store and retrieve data. Next: functions — packaging work so you never write the same logic twice.` },
+
     ],
   },
 
@@ -1396,6 +1483,10 @@ Use exactly the pattern from the case study above.`,
       'Give parameters sensible defaults',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You can store key/value pairs, loop over dictionaries, and count with the .get() pattern.
+
+You have been writing functions since lesson one. Now we examine them properly — parameters, return values, defaults, and print-vs-return.` },
+      
       { t:'text', md:`**Previously:** You can store key/value pairs, loop over dictionaries, and count with the .get() pattern.
 
 You have been writing functions since lesson one. Now we examine them properly — parameters, return values, defaults, and print-vs-return.` },
@@ -1557,6 +1648,8 @@ Give it a docstring too — this platform's grader rewards it.`,
 
       { t:'text', md:`Functions give you power. Next: handling errors gracefully instead of crashing.` },
 
+      { t:'text', md:`Functions give you power. Next: handling errors gracefully instead of crashing.` },
+
     ],
   },
 
@@ -1574,6 +1667,10 @@ Give it a docstring too — this platform's grader rewards it.`,
       'Decide when to catch and when to let it crash',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You can write functions with parameters, defaults, return values, and docstrings. You understand scope.
+
+No program runs perfectly. Files go missing, users type nonsense. Error handling separates fragile scripts from robust programs.` },
+      
       { t:'text', md:`**Previously:** You can write functions with parameters, defaults, return values, and docstrings. You understand scope.
 
 No program runs perfectly. Files go missing, users type nonsense. Error handling separates fragile scripts from robust programs.` },
@@ -1769,6 +1866,8 @@ Dividing a string will raise \`TypeError\`; dividing by zero raises \`ZeroDivisi
         ],
       },
 
+      { t:'text', md:`You have all the building blocks. Next: assembling them into a real program.` },
+
     ],
   },
 
@@ -1786,6 +1885,10 @@ Dividing a string will raise \`TypeError\`; dividing by zero raises \`ZeroDivisi
       'Build up a program in testable pieces',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You can catch exceptions, read tracebacks, and decide whether to handle errors or crash informatively.
+
+This lesson is different — it is not about new syntax. It is about how experienced developers actually build: one function at a time, tested incrementally, assembled at the end.` },
+      
       { t:'text', md:`**Previously:** You can catch exceptions, read tracebacks, and decide whether to handle errors or crash informatively.
 
 This lesson is different — it is not about new syntax. It is about how experienced developers actually build: one function at a time, tested incrementally, assembled at the end.` },
@@ -1973,6 +2076,8 @@ Loop over the expenses, check \`expense["category"] == category\`, and add the a
           { name: 'empty list', call: 'total_for_category([], "food")', expect: '0' },
         ],
       },
+
+      { t:'text', md:`You have built a real program from scratch. Next: turning code into reusable scripts.` },
 
       { t:'text', md:`You have built a real program from scratch. Next: turning code into reusable scripts.` },
 
@@ -2192,6 +2297,10 @@ The pattern is \`dict.get(key, default)\` but with a case-insensitive twist — 
       'Use truthiness to write shorter, clearer conditions',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You learned about the Python ecosystem — venv, pip, and project structure.
+
+Every value in Python can be tested as true or false. This truthiness concept simplifies conditions throughout the language.` },
+      
       {
         t: 'text',
         md: `Every value in Python has an opinion about whether it is "something" or "nothing". This is called **truthiness**, and it is one of the most-used features in real Python code.`,
@@ -2293,6 +2402,8 @@ Use \`try/except ValueError\` — wrap \`float(text)\` and return the fallback o
           { name: 'integer string works', call: 'safe_float("42")', expect: '42.0' },
         ],
       },
+
+      { t:'text', md:`Truthiness simplifies code. Next: identity, equality, and the subtle difference between is and ==.` },
 
     ],
   },
@@ -2415,6 +2526,10 @@ Make a copy of \`original\` first (use \`list(original)\` or slice \`original[:]
     summary: 'Using truthiness to simplify conditions, the any() and all() built-ins, and structuring complex decision trees.',
     objectives: ['Use any() and all() for multi-condition checks', 'Simplify nested ifs with early returns', 'Apply truthiness in real patterns'],
     blocks: [
+      { t:'text', md:`**Previously:** You understand is vs ==, mutable defaults, and why identity matters for mutable objects.
+
+Real programs have complex conditions. any() and all() collapse many checks into one readable line — and guard clauses eliminate deeply nested if blocks.` },
+      
       {
         t: 'text',
         md: `The longer a condition grows, the harder it is to read. Python has two built-ins that collapse many checks into one.
@@ -2470,6 +2585,8 @@ Use \`any()\` with a generator: \`any(letter.lower() in "aeiou" for letter in wo
           { name: 'empty string', call: 'has_vowel("")', expect: 'False' },
         ],
       },
+
+      { t:'text', md:`You can simplify complex logic. Next: structural pattern matching — a powerful alternative to if/elif chains.` },
 
     ],
   },
@@ -2566,6 +2683,10 @@ handle_action(["repeat", "ha", "3"])   # "ha ha ha"
     summary: 'Custom sort keys, slicing beyond the basics, and working with lists of dictionaries — the real-world shape.',
     objectives: ['Sort with key functions and reverse', 'Slice with step', 'Process nested list-of-dict structures'],
     blocks: [
+      { t:'text', md:`**Previously:** You can destructure values with match/case and write patterns that the compiler checks for exhaustiveness.
+
+Real data needs sorting — by name, by score, by date. Python makes custom sort orders trivial with key functions and lambda.` },
+      
       {
         t: 'text',
         md: `\`sorted()\` and \`.sort()\` accept a \`key\` function — a callable that extracts the value to compare by. The function is called once per item, and the results are cached (the Schwartzian transform, done for you).`,
@@ -2619,6 +2740,8 @@ Remove spaces with \`.replace(" ", "")\`, lowercase with \`.lower()\`, then comp
           { name: 'empty string', call: 'is_palindrome("")', expect: 'True' },
         ],
       },
+
+      { t:'text', md:`You can sort by any criterion. Next: the collections module — specialised containers that replace manual boilerplate.` },
 
     ],
   },
