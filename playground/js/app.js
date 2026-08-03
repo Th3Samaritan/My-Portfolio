@@ -7,6 +7,7 @@ import { BRAND } from '../config.js';
 import * as store from './store.js';
 import { escapeHtml, toast, modal } from './ui.js';
 import { renderDashboard, renderTrack, renderRubric, renderScratch, renderProfile, renderStart } from './views-core.js';
+import { syncEditorTheme } from './editor.js';
 import { renderChallenge, disposeChallenge } from './view-challenge.js';
 import { renderAssessmentList, renderExam, renderReport, disposeAssessment } from './view-assessment.js';
 import { renderLearnHome, renderCourse, renderLesson, disposeLearn } from './view-learn.js';
@@ -194,6 +195,31 @@ function openSearch() {
   });
 }
 
+function showShortcuts() {
+  const shortcuts = [
+    ['Ctrl+K', 'Search lessons & challenges'],
+    ['/', 'Search (same as Ctrl+K)'],
+    ['g d', 'Go to Dashboard'],
+    ['g l', 'Go to Learn'],
+    ['g a', 'Go to Assessments'],
+    ['g h', 'Go to Hall of Fame'],
+    ['g s', 'Go to Scratch pad'],
+    ['g r', 'Go to Rubric'],
+    ['g p', 'Go to Profile'],
+    ['?', 'Show this reference'],
+  ];
+  modal(`
+    <h2>Keyboard shortcuts</h2>
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:8px 20px;font-size:0.88rem;margin-top:12px">
+      ${shortcuts.map(([key, desc]) => `
+        <kbd style="background:var(--bg-panel-2);border:1px solid var(--border);padding:4px 10px;border-radius:4px;font-family:var(--font-mono);font-size:0.8rem;text-align:right;white-space:nowrap">${key}</kbd>
+        <span style="color:var(--text-dim);align-self:center">${desc}</span>
+      `).join('')}
+    </div>
+    <p style="margin-top:16px;font-size:0.78rem;color:var(--text-faint)">Shortcuts don't work when an editor or input is focused.</p>
+  `, {});
+}
+
 /* ------------------------------------------------------------------ theming */
 
 function applyTheme(theme) {
@@ -203,6 +229,7 @@ function applyTheme(theme) {
   } catch {
     /* private mode — theme just won't persist */
   }
+  syncEditorTheme(theme);
 }
 
 function initTheme() {
@@ -365,6 +392,11 @@ function boot() {
     if (event.key === 'g') {
       pendingGo = true;
       setTimeout(() => { pendingGo = false; }, 1200);
+      return;
+    }
+    if (event.key === '?') {
+      event.preventDefault();
+      showShortcuts();
       return;
     }
     if (!pendingGo) return;

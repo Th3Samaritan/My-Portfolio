@@ -135,6 +135,17 @@ function createTextareaEditor(container, options) {
 
 /* ------------------------------------------------------------- main factory */
 
+const _editors = [];
+
+export function syncEditorTheme(theme) {
+  const t = theme === 'light' ? 'prism-light' : 'prism-dark';
+  for (const wrap of _editors) {
+    if (wrap.editor) {
+      try { wrap.monaco.editor.setTheme(t); } catch { /* ignore */ }
+    }
+  }
+}
+
 export async function createEditor(container, options = {}) {
   const {
     language = 'python',
@@ -183,7 +194,7 @@ export async function createEditor(container, options = {}) {
     editor.onDidChangeModelContent(() => onChange(editor.getValue()));
   }
 
-  return {
+  const wrap = {
     kind: 'monaco',
     monaco,
     editor,
@@ -193,8 +204,14 @@ export async function createEditor(container, options = {}) {
     layout: () => editor.layout(),
     focus: () => editor.focus(),
     addAction: (action) => editor.addAction(action),
-    dispose: () => editor.dispose(),
+    dispose: () => {
+      editor.dispose();
+      const idx = _editors.indexOf(wrap);
+      if (idx >= 0) _editors.splice(idx, 1);
+    },
   };
+  _editors.push(wrap);
+  return wrap;
 }
 
 /** Monaco language id for a track. */
