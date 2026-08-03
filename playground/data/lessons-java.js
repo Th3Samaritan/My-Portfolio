@@ -817,25 +817,6 @@ If a compiler error stops you, remember what it is doing: refusing to let a whol
       },
       { t: 'try', prompt: 'Write a static method `square(int n)` in the `Main` class that returns `n * n`.', lang: 'java', starter: `static int square(int n) {\n    return 0;\n}\n`, solution: `static int square(int n) {\n    return n * n;\n}\n`, hints: ['Multiply n by itself.', 'Return the result directly.', 'Mind the semicolon.'], cases: [{ name: 'square of 5', call: 'square(5)', expect: '25' }, { name: 'square of 0', call: 'square(0)', expect: '0' }] },
       { t: 'quiz', q: 'What is Java bytecode?', options: ['Machine code for Intel CPUs', 'Platform-independent instructions for the JVM — compiled once, run anywhere', 'The same as source code', 'A compression format'], answer: 1, why: 'javac compiles .java to .class files containing JVM instructions. The JVM on each platform interprets or JIT-compiles them to native code.' },
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `static String shout(String text)` returning text uppercased with three exclamation marks.\n\n`shout(\"hello\")` → `\"HELLO!!!\"`",
-            "lang": "java",
-            "starter": "static String shout(String text) {\n    return null;\n}\n",
-            "solution": "static String shout(String text) {\n    return text.toUpperCase() + \"!!!\";\n}\n",
-            "hints": [
-                  "Call text.toUpperCase().",
-                  "Concatenate with \"!!!\" using +.",
-                  "Return the result."
-            ],
-            "cases": [
-                  {
-                        "name": "shouts",
-                        "call": "shout(\"hello\")",
-                        "expect": "\"HELLO!!!\""
-                  }
-            ]
-      },
 
     ],
   },
@@ -881,26 +862,6 @@ If a compiler error stops you, remember what it is doing: refusing to let a whol
             ]
       },
 
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `static String shout(String text)` returning text uppercased with three exclamation marks.\n\n`shout(\"hello\")` → `\"HELLO!!!\"`",
-            "lang": "java",
-            "starter": "static String shout(String text) {\n    return null;\n}\n",
-            "solution": "static String shout(String text) {\n    return text.toUpperCase() + \"!!!\";\n}\n",
-            "hints": [
-                  "Call text.toUpperCase().",
-                  "Concatenate with \"!!!\" using +.",
-                  "Return the result."
-            ],
-            "cases": [
-                  {
-                        "name": "shouts",
-                        "call": "shout(\"hello\")",
-                        "expect": "\"HELLO!!!\""
-                  }
-            ]
-      },
-
     ],
   },
 
@@ -925,55 +886,6 @@ If a compiler error stops you, remember what it is doing: refusing to let a whol
         code: `import java.util.*;\n\nenum OrderState {\n    PENDING, CONFIRMED, SHIPPED, DELIVERED, CANCELLED;\n\n    List<OrderState> nextStates() {\n        return switch (this) {\n            case PENDING -> List.of(CONFIRMED, CANCELLED);\n            case CONFIRMED -> List.of(SHIPPED, CANCELLED);\n            case SHIPPED -> List.of(DELIVERED);\n            case DELIVERED, CANCELLED -> List.of();\n        };\n    }\n\n    boolean canTransitionTo(OrderState target) {\n        return nextStates().contains(target);\n    }\n}\n\nclass Main {\n    public static void main(String[] args) {\n        for (OrderState state : OrderState.values()) {\n            System.out.println(state + " -> " + state.nextStates());\n        }\n        System.out.println();\n        System.out.println("PENDING -> SHIPPED? " +\n            OrderState.PENDING.canTransitionTo(OrderState.SHIPPED));\n        System.out.println("CONFIRMED -> SHIPPED? " +\n            OrderState.CONFIRMED.canTransitionTo(OrderState.SHIPPED));\n    }\n}`,
       },
       { t: 'quiz', q: 'What happens if you add a new enum constant but forget to update a switch expression?', options: ['Runtime error', 'The compiler refuses to compile — switch expressions over enums must be exhaustive', 'It silently uses the default', 'Nothing — enums are not checked'], answer: 1, why: 'Switch expressions are checked for exhaustiveness at compile time. A new enum value without a corresponding case is a compile error — the earliest safety net possible.' },
-      {
-            "t": "try",
-            "prompt": "Exercise 1: Write `static boolean canVote(int age)` returning true if age >= 18. Return the comparison directly.",
-            "lang": "java",
-            "starter": "static boolean canVote(int age) {\n    return false;\n}\n",
-            "solution": "static boolean canVote(int age) {\n    return age >= 18;\n}\n",
-            "hints": [
-                  "The comparison age >= 18 is already a boolean.",
-                  "Return it directly — no if needed.",
-                  "One line."
-            ],
-            "cases": [
-                  {
-                        "name": "adult",
-                        "call": "canVote(20)",
-                        "expect": "true"
-                  },
-                  {
-                        "name": "minor",
-                        "call": "canVote(16)",
-                        "expect": "false"
-                  }
-            ]
-      },
-
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `static boolean canVote(int age)` returning true if age >= 18. Return the comparison directly.",
-            "lang": "java",
-            "starter": "static boolean canVote(int age) {\n    return false;\n}\n",
-            "solution": "static boolean canVote(int age) {\n    return age >= 18;\n}\n",
-            "hints": [
-                  "The comparison age >= 18 is already a boolean.",
-                  "Return it directly — no if needed.",
-                  "One line."
-            ],
-            "cases": [
-                  {
-                        "name": "adult",
-                        "call": "canVote(20)",
-                        "expect": "true"
-                  },
-                  {
-                        "name": "minor",
-                        "call": "canVote(16)",
-                        "expect": "false"
-                  }
-            ]
-      },
 
     ],
   },
@@ -999,55 +911,6 @@ If a compiler error stops you, remember what it is doing: refusing to let a whol
         code: `import java.util.*;\n\nsealed interface JsonValue permits\n    JsonString, JsonNumber, JsonBool, JsonNull {}\n\nrecord JsonString(String value) implements JsonValue {}\nrecord JsonNumber(double value) implements JsonValue {}\nrecord JsonBool(boolean value) implements JsonValue {}\nfinal class JsonNull implements JsonValue {\n    static final JsonNull INSTANCE = new JsonNull();\n    private JsonNull() {}\n}\n\nclass Main {\n    static String stringify(JsonValue v) {\n        return switch (v) {\n            case JsonString s -> "\\"" + s.value() + "\\"";\n            case JsonNumber n -> String.valueOf(n.value());\n            case JsonBool b -> String.valueOf(b.value());\n            case JsonNull ignored -> "null";\n        };\n    }\n\n    public static void main(String[] args) {\n        JsonValue[] values = {\n            new JsonString("hello"),\n            new JsonNumber(42.5),\n            new JsonBool(true),\n            JsonNull.INSTANCE,\n        };\n        for (JsonValue v : values) {\n            System.out.println(stringify(v));\n        }\n    }\n}`,
       },
       { t: 'quiz', q: 'How do sealed classes help with correctness?', options: ['They make code faster', 'The compiler knows all permitted subtypes, so switch expressions can verify exhaustiveness — adding a new subtype forces you to handle it everywhere', 'They reduce memory usage', 'They are just a naming convention'], answer: 1, why: 'Sealed types list all permitted subtypes. The compiler uses this list to check switch exhaustiveness — adding a new variant breaks compilation at every switch, making "forgot to handle the new case" impossible.' },
-      {
-            "t": "try",
-            "prompt": "Exercise 1: Write `static boolean canVote(int age)` returning true if age >= 18. Return the comparison directly.",
-            "lang": "java",
-            "starter": "static boolean canVote(int age) {\n    return false;\n}\n",
-            "solution": "static boolean canVote(int age) {\n    return age >= 18;\n}\n",
-            "hints": [
-                  "The comparison age >= 18 is already a boolean.",
-                  "Return it directly — no if needed.",
-                  "One line."
-            ],
-            "cases": [
-                  {
-                        "name": "adult",
-                        "call": "canVote(20)",
-                        "expect": "true"
-                  },
-                  {
-                        "name": "minor",
-                        "call": "canVote(16)",
-                        "expect": "false"
-                  }
-            ]
-      },
-
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `static boolean canVote(int age)` returning true if age >= 18. Return the comparison directly.",
-            "lang": "java",
-            "starter": "static boolean canVote(int age) {\n    return false;\n}\n",
-            "solution": "static boolean canVote(int age) {\n    return age >= 18;\n}\n",
-            "hints": [
-                  "The comparison age >= 18 is already a boolean.",
-                  "Return it directly — no if needed.",
-                  "One line."
-            ],
-            "cases": [
-                  {
-                        "name": "adult",
-                        "call": "canVote(20)",
-                        "expect": "true"
-                  },
-                  {
-                        "name": "minor",
-                        "call": "canVote(16)",
-                        "expect": "false"
-                  }
-            ]
-      },
 
     ],
   },
@@ -1074,30 +937,6 @@ If a compiler error stops you, remember what it is doing: refusing to let a whol
       },
       { t: 'try', prompt: 'Create a `record Point(int x, int y)` and a static method `distance` that computes Euclidean distance between two Points. Records auto-generate constructor, equals, hashCode and toString.', lang: 'java', starter: `record Point(int x, int y) {}\n\nstatic double distance(Point a, Point b) {\n    return 0;\n}\n`, solution: `record Point(int x, int y) {}\n\nstatic double distance(Point a, Point b) {\n    int dx = a.x() - b.x();\n    int dy = a.y() - b.y();\n    return Math.sqrt(dx * dx + dy * dy);\n}\n`, hints: ['Use a.x() and b.x() to access record components.', 'Formula: sqrt(dx*dx + dy*dy).', 'Return the double directly.'], cases: [{ name: 'distance', call: 'Math.round(distance(new Point(0, 0), new Point(3, 4)))', expect: '5' }] },
       { t: 'quiz', q: 'What happens if you override equals but NOT hashCode?', options: ['Nothing — they are independent', 'HashMap, HashSet and friends will break: two equal objects may land in different buckets and the collection will behave as if they are not present', 'Compile error', 'hashCode is called automatically'], answer: 1, why: 'Hash-based collections use hashCode to find the bucket, then equals to confirm. If two equal objects have different hashes, they end up in different buckets and the collection thinks they are different.' },
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Create a `static class Rectangle` with private fields `width` and `height` (both double). Add a constructor, a method `area()` returning width * height, and a method `perimeter()` returning 2 * (width + height).",
-            "lang": "java",
-            "starter": "static class Rectangle {\n    private double width;\n    private double height;\n\n    Rectangle(double w, double h) { width = w; height = h; }\n\n    double area() { return 0; }\n    double perimeter() { return 0; }\n}\n",
-            "solution": "static class Rectangle {\n    private double width;\n    private double height;\n\n    Rectangle(double w, double h) { width = w; height = h; }\n\n    double area() { return width * height; }\n    double perimeter() { return 2 * (width + height); }\n}\n",
-            "hints": [
-                  "area: return width * height;",
-                  "perimeter: return 2 * (width + height);",
-                  "Use a capital R — Rectangle, not rectangle."
-            ],
-            "cases": [
-                  {
-                        "name": "area",
-                        "call": "new Rectangle(3, 4).area()",
-                        "expect": "12.0"
-                  },
-                  {
-                        "name": "perimeter",
-                        "call": "new Rectangle(3, 4).perimeter()",
-                        "expect": "14.0"
-                  }
-            ]
-      },
 
     ],
   },
@@ -1123,55 +962,6 @@ If a compiler error stops you, remember what it is doing: refusing to let a whol
         code: `final class DatabaseConfig {\n    private final String host;\n    private final int port;\n    private final String database;\n    private final int maxConnections;\n\n    private DatabaseConfig(Builder b) {\n        this.host = b.host;\n        this.port = b.port;\n        this.database = b.database;\n        this.maxConnections = b.maxConnections;\n    }\n\n    static class Builder {\n        private String host = "localhost";\n        private int port = 5432;\n        private String database;\n        private int maxConnections = 10;\n\n        Builder host(String h) { host = h; return this; }\n        Builder port(int p) { port = p; return this; }\n        Builder database(String db) { database = db; return this; }\n        Builder maxConnections(int m) { maxConnections = m; return this; }\n\n        DatabaseConfig build() {\n            if (database == null || database.isBlank()) {\n                throw new IllegalStateException("database is required");\n            }\n            if (maxConnections < 1) {\n                throw new IllegalStateException("maxConnections must be >= 1");\n            }\n            return new DatabaseConfig(this);\n        }\n    }\n\n    @Override\n    public String toString() {\n        return String.format("jdbc:postgresql://%s:%d/%s (max=%d)",\n            host, port, database, maxConnections);\n    }\n}\n\nclass Main {\n    public static void main(String[] args) {\n        var config = new DatabaseConfig.Builder()\n            .database("mydb")\n            .maxConnections(20)\n            .build();\n        System.out.println(config);\n    }\n}`,
       },
       { t: 'quiz', q: 'Why return `List.copyOf(items)` instead of `items` directly in a constructor?', options: ['It is faster', 'If the caller still holds a reference to the list they passed to the builder, they could mutate it — breaking immutability. copyOf creates a snapshot', 'The compiler requires it', 'Lists must always be copied'], answer: 1, why: 'Even though the field is final, the list CONTENTS can change if the caller retained a reference. Defensive copying guarantees the immutable object truly never changes.' },
-      {
-            "t": "try",
-            "prompt": "Exercise 1: Create a `static class Rectangle` with private fields `width` and `height` (both double). Add a constructor, a method `area()` returning width * height, and a method `perimeter()` returning 2 * (width + height).",
-            "lang": "java",
-            "starter": "static class Rectangle {\n    private double width;\n    private double height;\n\n    Rectangle(double w, double h) { width = w; height = h; }\n\n    double area() { return 0; }\n    double perimeter() { return 0; }\n}\n",
-            "solution": "static class Rectangle {\n    private double width;\n    private double height;\n\n    Rectangle(double w, double h) { width = w; height = h; }\n\n    double area() { return width * height; }\n    double perimeter() { return 2 * (width + height); }\n}\n",
-            "hints": [
-                  "area: return width * height;",
-                  "perimeter: return 2 * (width + height);",
-                  "Use a capital R — Rectangle, not rectangle."
-            ],
-            "cases": [
-                  {
-                        "name": "area",
-                        "call": "new Rectangle(3, 4).area()",
-                        "expect": "12.0"
-                  },
-                  {
-                        "name": "perimeter",
-                        "call": "new Rectangle(3, 4).perimeter()",
-                        "expect": "14.0"
-                  }
-            ]
-      },
-
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Create a `static class Rectangle` with private fields `width` and `height` (both double). Add a constructor, a method `area()` returning width * height, and a method `perimeter()` returning 2 * (width + height).",
-            "lang": "java",
-            "starter": "static class Rectangle {\n    private double width;\n    private double height;\n\n    Rectangle(double w, double h) { width = w; height = h; }\n\n    double area() { return 0; }\n    double perimeter() { return 0; }\n}\n",
-            "solution": "static class Rectangle {\n    private double width;\n    private double height;\n\n    Rectangle(double w, double h) { width = w; height = h; }\n\n    double area() { return width * height; }\n    double perimeter() { return 2 * (width + height); }\n}\n",
-            "hints": [
-                  "area: return width * height;",
-                  "perimeter: return 2 * (width + height);",
-                  "Use a capital R — Rectangle, not rectangle."
-            ],
-            "cases": [
-                  {
-                        "name": "area",
-                        "call": "new Rectangle(3, 4).area()",
-                        "expect": "12.0"
-                  },
-                  {
-                        "name": "perimeter",
-                        "call": "new Rectangle(3, 4).perimeter()",
-                        "expect": "14.0"
-                  }
-            ]
-      },
 
     ],
   },
@@ -1198,30 +988,6 @@ If a compiler error stops you, remember what it is doing: refusing to let a whol
       },
       { t: 'try', prompt: 'Write a static method `byLength(List<String> words)` that returns a new list sorted by string length, then alphabetically for ties. Use `Comparator.comparing(String::length).thenComparing(Comparator.naturalOrder())`.', lang: 'java', starter: `static List<String> byLength(List<String> words) {\n    return null;\n}\n`, solution: `static List<String> byLength(List<String> words) {\n    List<String> sorted = new ArrayList<>(words);\n    sorted.sort(Comparator.comparing(String::length).thenComparing(Comparator.naturalOrder()));\n    return sorted;\n}\n`, hints: ['Copy the list first: new ArrayList<>(words).', 'Use Comparator.comparing(String::length).', 'Chain .thenComparing(Comparator.naturalOrder()) for tie-breaking.'], cases: [{ name: 'sorts by length', call: 'byLength(Arrays.asList("aaa", "b", "cc"))', expect: '[b, cc, aaa]' }] },
       { t: 'quiz', q: 'What is the difference between `Comparable` and `Comparator`?', options: ['They are identical', 'Comparable defines a class\'s natural order (compareTo). Comparator is an external, possibly ad-hoc ordering — you can have many Comparators for one type', 'Comparator is deprecated', 'Comparable is for sorting, Comparator is for maps'], answer: 1, why: 'Comparable is implemented ONCE per class (like String\'s alphabetical order). Comparator is a separate object — you can sort by name, by date, by score, all using different Comparators on the same type.' },
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `static int sumEven(List<Integer> numbers)` returning the sum of even numbers using a for-each loop.\n\n`sumEven(Arrays.asList(1, 2, 3, 4))` → `6`",
-            "lang": "java",
-            "starter": "static int sumEven(List<Integer> numbers) {\n    return 0;\n}\n",
-            "solution": "static int sumEven(List<Integer> numbers) {\n    int total = 0;\n    for (int n : numbers) {\n        if (n % 2 == 0) total += n;\n    }\n    return total;\n}\n",
-            "hints": [
-                  "Start with int total = 0;",
-                  "Use enhanced for: for (int n : numbers).",
-                  "Check n % 2 == 0 and add to total."
-            ],
-            "cases": [
-                  {
-                        "name": "sum evens",
-                        "call": "sumEven(Arrays.asList(1, 2, 3, 4))",
-                        "expect": "6"
-                  },
-                  {
-                        "name": "no evens",
-                        "call": "sumEven(Arrays.asList(1, 3))",
-                        "expect": "0"
-                  }
-            ]
-      },
 
     ],
   },
@@ -1247,55 +1013,6 @@ If a compiler error stops you, remember what it is doing: refusing to let a whol
         code: `import java.util.*;\n\nclass Main {\n    record Article(String title, Set<String> tags) {\n        double similarity(Article other) {\n            Set<String> common = new HashSet<>(tags);\n            common.retainAll(other.tags);\n            Set<String> all = new HashSet<>(tags);\n            all.addAll(other.tags);\n            return all.isEmpty() ? 0 : (double) common.size() / all.size();\n        }\n    }\n\n    public static void main(String[] args) {\n        Article a1 = new Article("Rust Guide", Set.of("rust", "systems", "memory"));\n        Article a2 = new Article("Java GC", Set.of("java", "memory", "jvm"));\n        Article a3 = new Article("Cooking Tips", Set.of("food", "kitchen"));\n\n        System.out.printf("Similarity: %.2f%n", a1.similarity(a2));\n        System.out.printf("Similarity: %.2f%n", a1.similarity(a3));\n        System.out.printf("Similarity: %.2f%n", a2.similarity(a3));\n    }\n}`,
       },
       { t: 'quiz', q: 'When would you choose `TreeSet` over `HashSet`?', options: ['TreeSet is always faster', 'When you need elements in sorted order — TreeSet maintains natural or Comparator order. HashSet is unordered but offers O(1) operations', 'HashSet is deprecated', 'There is no difference'], answer: 1, why: 'TreeSet is implemented as a red-black tree — O(log n) operations but always sorted. HashSet is a hash table — O(1) operations but unordered. Pick based on whether you need ordering.' },
-      {
-            "t": "try",
-            "prompt": "Exercise 1: Write `static int sumEven(List<Integer> numbers)` returning the sum of even numbers using a for-each loop.\n\n`sumEven(Arrays.asList(1, 2, 3, 4))` → `6`",
-            "lang": "java",
-            "starter": "static int sumEven(List<Integer> numbers) {\n    return 0;\n}\n",
-            "solution": "static int sumEven(List<Integer> numbers) {\n    int total = 0;\n    for (int n : numbers) {\n        if (n % 2 == 0) total += n;\n    }\n    return total;\n}\n",
-            "hints": [
-                  "Start with int total = 0;",
-                  "Use enhanced for: for (int n : numbers).",
-                  "Check n % 2 == 0 and add to total."
-            ],
-            "cases": [
-                  {
-                        "name": "sum evens",
-                        "call": "sumEven(Arrays.asList(1, 2, 3, 4))",
-                        "expect": "6"
-                  },
-                  {
-                        "name": "no evens",
-                        "call": "sumEven(Arrays.asList(1, 3))",
-                        "expect": "0"
-                  }
-            ]
-      },
-
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `static int sumEven(List<Integer> numbers)` returning the sum of even numbers using a for-each loop.\n\n`sumEven(Arrays.asList(1, 2, 3, 4))` → `6`",
-            "lang": "java",
-            "starter": "static int sumEven(List<Integer> numbers) {\n    return 0;\n}\n",
-            "solution": "static int sumEven(List<Integer> numbers) {\n    int total = 0;\n    for (int n : numbers) {\n        if (n % 2 == 0) total += n;\n    }\n    return total;\n}\n",
-            "hints": [
-                  "Start with int total = 0;",
-                  "Use enhanced for: for (int n : numbers).",
-                  "Check n % 2 == 0 and add to total."
-            ],
-            "cases": [
-                  {
-                        "name": "sum evens",
-                        "call": "sumEven(Arrays.asList(1, 2, 3, 4))",
-                        "expect": "6"
-                  },
-                  {
-                        "name": "no evens",
-                        "call": "sumEven(Arrays.asList(1, 3))",
-                        "expect": "0"
-                  }
-            ]
-      },
 
     ],
   },

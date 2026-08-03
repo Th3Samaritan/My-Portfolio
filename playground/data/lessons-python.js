@@ -220,29 +220,6 @@ Replace the word \`pass\` with your \`return\` line.`,
         answer: 1,
         why: 'Quotes mark text as a literal string. Without them Python looks for a name — a variable or function called Hello — finds nothing, and raises a NameError.',
       },
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `repeat(text, n)` returning `text` repeated `n` times with a space between each repetition.\n\n`repeat(\"hi\", 3)` → `\"hi hi hi\"`\n\nUse multiplication on the string with a space and then `.strip()` the trailing space. Or use `.join()`.",
-            "starter": "def repeat(text, n):\n    pass\n",
-            "solution": "def repeat(text, n):\n    return ((text + \" \") * n).strip()\n",
-            "hints": [
-                  "(text + \" \") * n creates n copies with trailing spaces.",
-                  ".strip() removes the final trailing space.",
-                  "Alternatively: \" \".join([text] * n)."
-            ],
-            "cases": [
-                  {
-                        "name": "repeat 3",
-                        "call": "repeat(\"hi\", 3)",
-                        "expect": "\"hi hi hi\""
-                  },
-                  {
-                        "name": "repeat 0",
-                        "call": "repeat(\"x\", 0)",
-                        "expect": "\"\""
-                  }
-            ]
-      },
 
     ],
   },
@@ -369,29 +346,6 @@ f"{item} costs {price}"
         answer: 1,
         why: 'The right-hand side is worked out first using the current value (5 * 2 = 10), and only then is the name pointed at the new value.',
       },
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `swap(a, b)` that returns a tuple with the two values swapped.\n\n`swap(1, \"a\")` → `(\"a\", 1)`\n\nPython makes this one line — (b, a) is a tuple.",
-            "starter": "def swap(a, b):\n    pass\n",
-            "solution": "def swap(a, b):\n    return (b, a)\n",
-            "hints": [
-                  "Return a tuple: (b, a).",
-                  "That is genuinely all — no temp variable needed.",
-                  "Works with any types."
-            ],
-            "cases": [
-                  {
-                        "name": "numbers",
-                        "call": "swap(1, 2)",
-                        "expect": "(2, 1)"
-                  },
-                  {
-                        "name": "mixed types",
-                        "call": "swap(\"x\", 5)",
-                        "expect": "(5, \"x\")"
-                  }
-            ]
-      },
 
     ],
   },
@@ -501,54 +455,6 @@ Then build the text with an f-string.`,
         options: ['n / 2 == 0', 'n % 2 == 0', 'n // 2 == 0', 'n ** 2 == 0'],
         answer: 1,
         why: 'Even numbers divide by 2 with no remainder, and % gives the remainder. n / 2 == 0 is only true when n is 0.',
-      },
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `swap(a, b)` that returns a tuple with the two values swapped.\n\n`swap(1, \"a\")` → `(\"a\", 1)`\n\nPython makes this one line — (b, a) is a tuple.",
-            "starter": "def swap(a, b):\n    pass\n",
-            "solution": "def swap(a, b):\n    return (b, a)\n",
-            "hints": [
-                  "Return a tuple: (b, a).",
-                  "That is genuinely all — no temp variable needed.",
-                  "Works with any types."
-            ],
-            "cases": [
-                  {
-                        "name": "numbers",
-                        "call": "swap(1, 2)",
-                        "expect": "(2, 1)"
-                  },
-                  {
-                        "name": "mixed types",
-                        "call": "swap(\"x\", 5)",
-                        "expect": "(5, \"x\")"
-                  }
-            ]
-      },
-
-      {
-            "t": "complete",
-            "prompt": "Complete the `hypotenuse(a, b)` function. The formula for the hypotenuse of a right-angled triangle is `sqrt(a² + b²)`. Use `math.sqrt` and fill in the blank.\n\nThe starter has the import and the return statement — only the expression is missing.",
-            "starter": "import math\n\ndef hypotenuse(a, b):\n    \"\"\"Return the length of the hypotenuse.\"\"\"\n    return ____\n",
-            "solution": "import math\n\ndef hypotenuse(a, b):\n    \"\"\"Return the length of the hypotenuse.\"\"\"\n    return math.sqrt(a ** 2 + b ** 2)\n",
-            "gap_description": "Replace `____` with the correct expression: `math.sqrt(a ** 2 + b ** 2)`.",
-            "hints": [
-                  "math.sqrt(x) computes the square root.",
-                  "a ** 2 is a squared. b ** 2 is b squared.",
-                  "Sum them inside math.sqrt()."
-            ],
-            "cases": [
-                  {
-                        "name": "3-4-5 triangle",
-                        "call": "hypotenuse(3, 4)",
-                        "expect": "5.0"
-                  },
-                  {
-                        "name": "zero sides",
-                        "call": "hypotenuse(0, 0)",
-                        "expect": "0.0"
-                  }
-            ]
       },
 
     ],
@@ -675,29 +581,6 @@ Try writing it yourself before reading that too closely.`,
         options: ['"hell"', '"ell"', '"ello"', '"hel"'],
         answer: 1,
         why: 'It starts at position 1 (the second character, "e") and stops just before position 4 — so characters 1, 2 and 3: "ell".',
-      },
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `swap(a, b)` that returns a tuple with the two values swapped.\n\n`swap(1, \"a\")` → `(\"a\", 1)`\n\nPython makes this one line — (b, a) is a tuple.",
-            "starter": "def swap(a, b):\n    pass\n",
-            "solution": "def swap(a, b):\n    return (b, a)\n",
-            "hints": [
-                  "Return a tuple: (b, a).",
-                  "That is genuinely all — no temp variable needed.",
-                  "Works with any types."
-            ],
-            "cases": [
-                  {
-                        "name": "numbers",
-                        "call": "swap(1, 2)",
-                        "expect": "(2, 1)"
-                  },
-                  {
-                        "name": "mixed types",
-                        "call": "swap(\"x\", 5)",
-                        "expect": "(5, \"x\")"
-                  }
-            ]
       },
 
     ],
@@ -990,34 +873,6 @@ The shape: start a counter at zero, loop over each character, and add one when i
         answer: 2,
         why: 'It runs from 2 up to but not including 8 — that is 2, 3, 4, 5, 6, 7: six numbers. A quick trick: end minus start.',
       },
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `categorise(score)` returning `\"pass\"` if score >= 50, else `\"fail\"`. Use a **conditional expression** (ternary): `\"pass\" if condition else \"fail\"`.\n\nDo NOT use a full if/else block.",
-            "starter": "def categorise(score):\n    pass\n",
-            "solution": "def categorise(score):\n    return \"pass\" if score >= 50 else \"fail\"\n",
-            "hints": [
-                  "The syntax: value_if_true if condition else value_if_false.",
-                  "Return the expression directly.",
-                  "No colon, no indented block."
-            ],
-            "cases": [
-                  {
-                        "name": "pass",
-                        "call": "categorise(75)",
-                        "expect": "\"pass\""
-                  },
-                  {
-                        "name": "fail",
-                        "call": "categorise(30)",
-                        "expect": "\"fail\""
-                  },
-                  {
-                        "name": "boundary",
-                        "call": "categorise(50)",
-                        "expect": "\"pass\""
-                  }
-            ]
-      },
 
     ],
   },
@@ -1138,29 +993,6 @@ Keep the original order.`,
         options: ['[3, 1, 2]', '[2, 3, 1]', 'None', '[3, 1]'],
         answer: 2,
         why: 'append changes the list in place and returns nothing (None). Assigning its result throws the list away and leaves the name pointing at None.',
-      },
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `invert_dict(d)` that swaps keys and values. Assume values are unique.\n\n`invert_dict({\"a\": 1, \"b\": 2})` → `{1: \"a\", 2: \"b\"}`\n\nUse a dictionary comprehension or a loop.",
-            "starter": "def invert_dict(d):\n    pass\n",
-            "solution": "def invert_dict(d):\n    return {value: key for key, value in d.items()}\n",
-            "hints": [
-                  "Iterate with d.items() to get (key, value) pairs.",
-                  "Build a dict comprehension: {value: key for key, value in d.items()}.",
-                  "Return the comprehension directly."
-            ],
-            "cases": [
-                  {
-                        "name": "two pairs",
-                        "call": "invert_dict({\"a\": 1, \"b\": 2})",
-                        "expect": "{1: \"a\", 2: \"b\"}"
-                  },
-                  {
-                        "name": "empty",
-                        "call": "invert_dict({})",
-                        "expect": "{}"
-                  }
-            ]
       },
 
       {
@@ -1862,29 +1694,6 @@ Everything ahead is either a **new tool** (classes, files, modules, async) or a 
 
 The **Challenges** for this track are next. They are graded on a four-part rubric rather than pass/fail, and they will push you on efficiency and style as well as correctness. Start with the Foundations tier — you are ready for it.`,
       },
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `apply_twice(fn, value)` that calls `fn` on `value` twice and returns the result.\n\n`apply_twice(lambda x: x * 2, 5)` → 5 * 2 * 2 = `20`\n\nThis is a higher-order function — it takes a function as an argument.",
-            "starter": "def apply_twice(fn, value):\n    pass\n",
-            "solution": "def apply_twice(fn, value):\n    return fn(fn(value))\n",
-            "hints": [
-                  "Call fn(value) first, then fn on the result.",
-                  "One line: return fn(fn(value)).",
-                  "fn can be any callable — the function does not care."
-            ],
-            "cases": [
-                  {
-                        "name": "double twice",
-                        "call": "apply_twice(lambda x: x * 2, 5)",
-                        "expect": "20"
-                  },
-                  {
-                        "name": "add one twice",
-                        "call": "apply_twice(lambda x: x + 1, 0)",
-                        "expect": "2"
-                  }
-            ]
-      },
 
     ],
   },
@@ -1966,29 +1775,6 @@ Wrap the logic in the standard guard pattern — but for the exercise, just writ
         answer: 1,
         why: 'When a file is imported, __name__ is the module name, not "__main__". The guard prevents import-time side effects.',
       },
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `repeat(text, n)` returning `text` repeated `n` times with a space between each repetition.\n\n`repeat(\"hi\", 3)` → `\"hi hi hi\"`\n\nUse multiplication on the string with a space and then `.strip()` the trailing space. Or use `.join()`.",
-            "starter": "def repeat(text, n):\n    pass\n",
-            "solution": "def repeat(text, n):\n    return ((text + \" \") * n).strip()\n",
-            "hints": [
-                  "(text + \" \") * n creates n copies with trailing spaces.",
-                  ".strip() removes the final trailing space.",
-                  "Alternatively: \" \".join([text] * n)."
-            ],
-            "cases": [
-                  {
-                        "name": "repeat 3",
-                        "call": "repeat(\"hi\", 3)",
-                        "expect": "\"hi hi hi\""
-                  },
-                  {
-                        "name": "repeat 0",
-                        "call": "repeat(\"x\", 0)",
-                        "expect": "\"\""
-                  }
-            ]
-      },
 
     ],
   },
@@ -2064,53 +1850,6 @@ The code reads the API key from an environment variable (never hard-coded — th
         ],
         answer: 1,
         why: 'The virtual environment contains compiled binaries tied to your OS and Python version. The requirements file is a portable, human-readable list that anyone can install from.',
-      },
-      {
-            "t": "try",
-            "prompt": "Exercise 1: Write `shout(text)` that returns the text in uppercase followed by three exclamation marks.\n\n`shout(\"hello\")` → `\"HELLO!!!\"`\n\nUse `.upper()` and string concatenation or an f-string.",
-            "starter": "def shout(text):\n    pass\n",
-            "solution": "def shout(text):\n    return text.upper() + \"!!!\"\n",
-            "hints": [
-                  "Call text.upper() to capitalise.",
-                  "Add \"!!!\" with + or an f-string.",
-                  "Return the result directly."
-            ],
-            "cases": [
-                  {
-                        "name": "hello",
-                        "call": "shout(\"hello\")",
-                        "expect": "\"HELLO!!!\""
-                  },
-                  {
-                        "name": "already uppercase",
-                        "call": "shout(\"WOW\")",
-                        "expect": "\"WOW!!!\""
-                  }
-            ]
-      },
-
-      {
-            "t": "try",
-            "prompt": "Exercise 2: Write `repeat(text, n)` returning `text` repeated `n` times with a space between each repetition.\n\n`repeat(\"hi\", 3)` → `\"hi hi hi\"`\n\nUse multiplication on the string with a space and then `.strip()` the trailing space. Or use `.join()`.",
-            "starter": "def repeat(text, n):\n    pass\n",
-            "solution": "def repeat(text, n):\n    return ((text + \" \") * n).strip()\n",
-            "hints": [
-                  "(text + \" \") * n creates n copies with trailing spaces.",
-                  ".strip() removes the final trailing space.",
-                  "Alternatively: \" \".join([text] * n)."
-            ],
-            "cases": [
-                  {
-                        "name": "repeat 3",
-                        "call": "repeat(\"hi\", 3)",
-                        "expect": "\"hi hi hi\""
-                  },
-                  {
-                        "name": "repeat 0",
-                        "call": "repeat(\"x\", 0)",
-                        "expect": "\"\""
-                  }
-            ]
       },
 
     ],

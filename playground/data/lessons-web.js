@@ -1123,39 +1123,6 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         ],
       },
       { t: 'quiz', q: 'Why should error messages describe what is needed rather than just saying "invalid"?', options: ['They look nicer', '"Must be at least 8 characters" tells the user how to fix it. "Invalid" leaves them guessing', 'Screen readers require it', 'It saves bandwidth'], answer: 1, why: 'Actionable error messages reduce frustration. "Password needs a number" tells the user what to do; "invalid input" does not.' },
-      {
-            "t": "tryweb",
-            "prompt": "Exercise 2: Build a page with an `<h2>` heading, a `<p>` paragraph, and an ordered list (`<ol>`) with three items. Content is up to you.",
-            "files": {
-                  "html": "<!-- Build your page here -->\n",
-                  "css": "body { font-family: system-ui, sans-serif; padding: 1.5rem; }",
-                  "js": ""
-            },
-            "solution": {
-                  "html": "<h2>My Favourites</h2>\n<p>Here are my top three programming languages:</p>\n<ol>\n  <li>Python</li>\n  <li>Rust</li>\n  <li>Java</li>\n</ol>",
-                  "css": "body { font-family: system-ui, sans-serif; padding: 1.5rem; }",
-                  "js": ""
-            },
-            "hints": [
-                  "Start with an <h2> heading.",
-                  "Add a <p> paragraph after it.",
-                  "Use <ol> with three <li> elements inside."
-            ],
-            "checks": [
-                  {
-                        "name": "has heading",
-                        "code": "return !!doc.querySelector('h2');"
-                  },
-                  {
-                        "name": "has paragraph",
-                        "code": "return !!doc.querySelector('p');"
-                  },
-                  {
-                        "name": "has ordered list with 3 items",
-                        "code": "const ol = doc.querySelector('ol'); return !!ol && ol.querySelectorAll('li').length === 3;"
-                  }
-            ]
-      },
 
     ],
   },
@@ -1191,73 +1158,6 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         },
       },
       { t: 'quiz', q: 'How do CSS custom properties differ from SASS/LESS variables?', options: ['They are identical', 'CSS custom properties are live in the browser — they respect the cascade, can be changed at runtime with JS, and update all dependents instantly. Preprocessor variables are static after compilation', 'SASS variables are live, CSS ones are static', 'CSS properties only work in dark mode'], answer: 1, why: 'CSS custom properties are part of the live DOM/CSSOM. Changing one via JS or a media query instantly updates every element using it. Preprocessor variables vanish after compilation.' },
-      {
-            "t": "tryweb",
-            "prompt": "Exercise 1: Style the `.box` element with: padding of at least 1rem, a border (at least 1px solid), and a background colour that is not white.",
-            "files": {
-                  "html": "<div class=\"box\">Styled box</div>",
-                  "css": ".box {\n  /* your styles here */\n}",
-                  "js": ""
-            },
-            "solution": {
-                  "html": "<div class=\"box\">Styled box</div>",
-                  "css": ".box {\n  padding: 1.25rem;\n  border: 2px solid #3b82f6;\n  background: #eff6ff;\n  border-radius: 8px;\n}",
-                  "js": ""
-            },
-            "hints": [
-                  "Add padding: 1.25rem; inside .box {}.",
-                  "Add border: 2px solid #3b82f6;",
-                  "Add background: #eff6ff;"
-            ],
-            "checks": [
-                  {
-                        "name": "has padding",
-                        "code": "return parseFloat(win.getComputedStyle(doc.querySelector('.box')).paddingTop) >= 16;"
-                  },
-                  {
-                        "name": "has border",
-                        "code": "const s = win.getComputedStyle(doc.querySelector('.box')); return s.borderWidth !== '0px';"
-                  },
-                  {
-                        "name": "has background",
-                        "code": "const bg = win.getComputedStyle(doc.querySelector('.box')).backgroundColor; return bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent';"
-                  }
-            ]
-      },
-
-      {
-            "t": "tryweb",
-            "prompt": "Exercise 2: Style the `.box` element with: padding of at least 1rem, a border (at least 1px solid), and a background colour that is not white.",
-            "files": {
-                  "html": "<div class=\"box\">Styled box</div>",
-                  "css": ".box {\n  /* your styles here */\n}",
-                  "js": ""
-            },
-            "solution": {
-                  "html": "<div class=\"box\">Styled box</div>",
-                  "css": ".box {\n  padding: 1.25rem;\n  border: 2px solid #3b82f6;\n  background: #eff6ff;\n  border-radius: 8px;\n}",
-                  "js": ""
-            },
-            "hints": [
-                  "Add padding: 1.25rem; inside .box {}.",
-                  "Add border: 2px solid #3b82f6;",
-                  "Add background: #eff6ff;"
-            ],
-            "checks": [
-                  {
-                        "name": "has padding",
-                        "code": "return parseFloat(win.getComputedStyle(doc.querySelector('.box')).paddingTop) >= 16;"
-                  },
-                  {
-                        "name": "has border",
-                        "code": "const s = win.getComputedStyle(doc.querySelector('.box')); return s.borderWidth !== '0px';"
-                  },
-                  {
-                        "name": "has background",
-                        "code": "const bg = win.getComputedStyle(doc.querySelector('.box')).backgroundColor; return bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent';"
-                  }
-            ]
-      },
 
     ],
   },
@@ -1293,73 +1193,6 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         },
       },
       { t: 'quiz', q: 'Why check `prefers-reduced-motion` before adding animations?', options: ['It is faster', 'Some users have vestibular disorders where motion causes dizziness or nausea. Respecting this preference is an accessibility requirement', 'Browsers block animations otherwise', 'It saves CPU'], answer: 1, why: 'WCAG 2.3.3 requires respecting the user\'s motion preference. Animations should be non-essential — the content must still be accessible without them.' },
-      {
-            "t": "tryweb",
-            "prompt": "Exercise 1: Style the `.box` element with: padding of at least 1rem, a border (at least 1px solid), and a background colour that is not white.",
-            "files": {
-                  "html": "<div class=\"box\">Styled box</div>",
-                  "css": ".box {\n  /* your styles here */\n}",
-                  "js": ""
-            },
-            "solution": {
-                  "html": "<div class=\"box\">Styled box</div>",
-                  "css": ".box {\n  padding: 1.25rem;\n  border: 2px solid #3b82f6;\n  background: #eff6ff;\n  border-radius: 8px;\n}",
-                  "js": ""
-            },
-            "hints": [
-                  "Add padding: 1.25rem; inside .box {}.",
-                  "Add border: 2px solid #3b82f6;",
-                  "Add background: #eff6ff;"
-            ],
-            "checks": [
-                  {
-                        "name": "has padding",
-                        "code": "return parseFloat(win.getComputedStyle(doc.querySelector('.box')).paddingTop) >= 16;"
-                  },
-                  {
-                        "name": "has border",
-                        "code": "const s = win.getComputedStyle(doc.querySelector('.box')); return s.borderWidth !== '0px';"
-                  },
-                  {
-                        "name": "has background",
-                        "code": "const bg = win.getComputedStyle(doc.querySelector('.box')).backgroundColor; return bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent';"
-                  }
-            ]
-      },
-
-      {
-            "t": "tryweb",
-            "prompt": "Exercise 2: Style the `.box` element with: padding of at least 1rem, a border (at least 1px solid), and a background colour that is not white.",
-            "files": {
-                  "html": "<div class=\"box\">Styled box</div>",
-                  "css": ".box {\n  /* your styles here */\n}",
-                  "js": ""
-            },
-            "solution": {
-                  "html": "<div class=\"box\">Styled box</div>",
-                  "css": ".box {\n  padding: 1.25rem;\n  border: 2px solid #3b82f6;\n  background: #eff6ff;\n  border-radius: 8px;\n}",
-                  "js": ""
-            },
-            "hints": [
-                  "Add padding: 1.25rem; inside .box {}.",
-                  "Add border: 2px solid #3b82f6;",
-                  "Add background: #eff6ff;"
-            ],
-            "checks": [
-                  {
-                        "name": "has padding",
-                        "code": "return parseFloat(win.getComputedStyle(doc.querySelector('.box')).paddingTop) >= 16;"
-                  },
-                  {
-                        "name": "has border",
-                        "code": "const s = win.getComputedStyle(doc.querySelector('.box')); return s.borderWidth !== '0px';"
-                  },
-                  {
-                        "name": "has background",
-                        "code": "const bg = win.getComputedStyle(doc.querySelector('.box')).backgroundColor; return bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent';"
-                  }
-            ]
-      },
 
     ],
   },
@@ -1406,35 +1239,6 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         ],
       },
       { t: 'quiz', q: 'What is the difference between `auto-fill` and `auto-fit` in grid?', options: ['They are identical', 'auto-fill creates as many tracks as fit, leaving empty ones. auto-fit collapses empty tracks so existing items stretch to fill the space', 'auto-fill is deprecated', 'auto-fit only works in Firefox'], answer: 1, why: 'auto-fill keeps empty column tracks, preserving the grid structure. auto-fit collapses them, letting items expand. Use auto-fill for galleries where you want consistent column widths.' },
-      {
-            "t": "tryweb",
-            "prompt": "Exercise 2: Make `.row` a flex container with its three items spaced evenly across the row. Use `display: flex`, `justify-content: space-evenly`, and `gap: 1rem`.",
-            "files": {
-                  "html": "<div class=\"row\">\n  <span>A</span>\n  <span>B</span>\n  <span>C</span>\n</div>",
-                  "css": ".row {\n  /* your flex styles here */\n}",
-                  "js": ""
-            },
-            "solution": {
-                  "html": "<div class=\"row\">\n  <span>A</span>\n  <span>B</span>\n  <span>C</span>\n</div>",
-                  "css": ".row {\n  display: flex;\n  justify-content: space-evenly;\n  gap: 1rem;\n}",
-                  "js": ""
-            },
-            "hints": [
-                  "display: flex; turns on flexbox.",
-                  "justify-content: space-evenly; distributes items evenly.",
-                  "gap: 1rem; adds space between them."
-            ],
-            "checks": [
-                  {
-                        "name": "is flex",
-                        "code": "return win.getComputedStyle(doc.querySelector('.row')).display === 'flex';"
-                  },
-                  {
-                        "name": "items spaced",
-                        "code": "return win.getComputedStyle(doc.querySelector('.row')).justifyContent === 'space-evenly';"
-                  }
-            ]
-      },
 
     ],
   },
@@ -1470,65 +1274,6 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
         },
       },
       { t: 'quiz', q: 'Why use `min-width` (mobile-first) media queries instead of `max-width` (desktop-first)?', options: ['It is shorter', 'Mobile-first means the base styles are the simplest version — small screen. You add complexity with min-width breakpoints for larger screens. Desktop-first means you write complex styles and then override them for mobile, which is backwards', 'min-width is faster', 'max-width is deprecated'], answer: 1, why: 'Mobile-first aligns with progressive enhancement: start simple, add as the screen grows. Desktop-first leads to fighting against your own styles on small screens.' },
-      {
-            "t": "tryweb",
-            "prompt": "Exercise 1: Make `.row` a flex container with its three items spaced evenly across the row. Use `display: flex`, `justify-content: space-evenly`, and `gap: 1rem`.",
-            "files": {
-                  "html": "<div class=\"row\">\n  <span>A</span>\n  <span>B</span>\n  <span>C</span>\n</div>",
-                  "css": ".row {\n  /* your flex styles here */\n}",
-                  "js": ""
-            },
-            "solution": {
-                  "html": "<div class=\"row\">\n  <span>A</span>\n  <span>B</span>\n  <span>C</span>\n</div>",
-                  "css": ".row {\n  display: flex;\n  justify-content: space-evenly;\n  gap: 1rem;\n}",
-                  "js": ""
-            },
-            "hints": [
-                  "display: flex; turns on flexbox.",
-                  "justify-content: space-evenly; distributes items evenly.",
-                  "gap: 1rem; adds space between them."
-            ],
-            "checks": [
-                  {
-                        "name": "is flex",
-                        "code": "return win.getComputedStyle(doc.querySelector('.row')).display === 'flex';"
-                  },
-                  {
-                        "name": "items spaced",
-                        "code": "return win.getComputedStyle(doc.querySelector('.row')).justifyContent === 'space-evenly';"
-                  }
-            ]
-      },
-
-      {
-            "t": "tryweb",
-            "prompt": "Exercise 2: Make `.row` a flex container with its three items spaced evenly across the row. Use `display: flex`, `justify-content: space-evenly`, and `gap: 1rem`.",
-            "files": {
-                  "html": "<div class=\"row\">\n  <span>A</span>\n  <span>B</span>\n  <span>C</span>\n</div>",
-                  "css": ".row {\n  /* your flex styles here */\n}",
-                  "js": ""
-            },
-            "solution": {
-                  "html": "<div class=\"row\">\n  <span>A</span>\n  <span>B</span>\n  <span>C</span>\n</div>",
-                  "css": ".row {\n  display: flex;\n  justify-content: space-evenly;\n  gap: 1rem;\n}",
-                  "js": ""
-            },
-            "hints": [
-                  "display: flex; turns on flexbox.",
-                  "justify-content: space-evenly; distributes items evenly.",
-                  "gap: 1rem; adds space between them."
-            ],
-            "checks": [
-                  {
-                        "name": "is flex",
-                        "code": "return win.getComputedStyle(doc.querySelector('.row')).display === 'flex';"
-                  },
-                  {
-                        "name": "items spaced",
-                        "code": "return win.getComputedStyle(doc.querySelector('.row')).justifyContent === 'space-evenly';"
-                  }
-            ]
-      },
 
     ],
   },
