@@ -1,4 +1,4 @@
-const CACHE_NAME = 'abdulsamad-portfolio-v21';
+const CACHE_NAME = 'abdulsamad-portfolio-v22';
 const GITHUB_REPO_PATH = '/My-Portfolio';
 
 const URLS_TO_CACHE = [
@@ -89,6 +89,27 @@ self.addEventListener('activate', event => {
 // Fetch event (Network first for navigation, Cache first for assets)
 self.addEventListener('fetch', event => {
     const url = new URL(event.request.url);
+
+    // Only GETs are cacheable. The playground POSTs source code to remote
+    // compilers; cache.put() throws on non-GET requests.
+    if (event.request.method !== 'GET') return;
+
+    // The playground is an app, not a document: always prefer the network so
+    // code and curriculum updates land immediately, falling back to cache offline.
+    if (url.pathname.includes('/playground/')) {
+        event.respondWith(
+            fetch(event.request)
+                .then(response => {
+                    if (response && response.status === 200 && response.type === 'basic') {
+                        const clone = response.clone();
+                        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+                    }
+                    return response;
+                })
+                .catch(() => caches.match(event.request))
+        );
+        return;
+    }
 
     // Cache blog posts & notebook pages dynamically on first access
     if (url.pathname.includes('/blog-posts/') || url.pathname.includes('/notebook-pages/')) {

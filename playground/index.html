@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The GYM — learn to code from zero</title>
+  <meta name="description" content="A free, open-source gym for programmers. Learn Python, Rust, Java and web development from absolute beginner to advanced, with runnable lessons, graded exercises, a four-part scoring rubric and a Hall of Fame." />
+  <meta name="theme-color" content="#0a0d12" />
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+
+  <meta property="og:title" content="The GYM — learn to code from zero" />
+  <meta property="og:description" content="28 from-scratch lessons, 47 graded challenges and timed assessments. Everything runs in your browser. Free and open source." />
+  <meta property="og:type" content="website" />
+
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" aria-label="Primary navigation"></aside>
+
+    <div class="main">
+      <header class="topbar"></header>
+      <main id="view" class="view">
+        <div class="empty-state">
+          <h3>Opening The GYM…</h3>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <noscript>
+    <p style="padding:2rem;font-family:system-ui,sans-serif">
+      The GYM needs JavaScript — it runs and grades your code in the browser.
+    </p>
+  </noscript>
+
+  <script type="module" src="js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/playground/sw.js');
+    }
+  </script>
+</body>
+</html>

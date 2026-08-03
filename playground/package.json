@@ -1,0 +1,11 @@
+{
+  "name": "prism-playground",
+  "private": true,
+  "type": "module",
+  "description": "Marks the playground's .js files as ES modules so the scripts in tools/ can import them under Node. The site itself needs no build step and no dependencies.",
+  "scripts": {
+    "audit": "node tools/audit.mjs",
+    "sweep:rust": "node tools/sweep.mjs rust",
+    "sweep:java": "node tools/sweep.mjs java"
+  }
+}

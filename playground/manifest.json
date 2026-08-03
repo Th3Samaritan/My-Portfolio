@@ -1,0 +1,19 @@
+{
+  "name": "The GYM — learn to code from zero",
+  "short_name": "The GYM",
+  "description": "A free, open-source gym for programmers. Learn Python, Rust, Java and web development with runnable lessons, graded exercises and a Hall of Fame.",
+  "start_url": "/playground/",
+  "scope": "/playground/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a0d12",
+  "theme_color": "#0a0d12",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

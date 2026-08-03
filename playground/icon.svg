@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="80" fill="#0a0d12"/>
+  <g transform="translate(256,256)">
+    <!-- bar -->
+    <rect x="-140" y="-14" width="280" height="28" rx="14" fill="#3b82f6"/>
+    <!-- left weights -->
+    <rect x="-190" y="-48" width="32" height="96" rx="10" fill="#f97316"/>
+    <rect x="-160" y="-48" width="12" height="96" rx="6" fill="#ea580c"/>
+    <!-- right weights -->
+    <rect x="158" y="-48" width="32" height="96" rx="10" fill="#f97316"/>
+    <rect x="148" y="-48" width="12" height="96" rx="6" fill="#ea580c"/>
+    <!-- text -->
+    <text x="0" y="130" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="900" font-size="52" fill="#f1f5f9" letter-spacing="0.1em">GYM</text>
+  </g>
+</svg>
