@@ -13,7 +13,7 @@ import { getChallenge, getTrackOf, getTrack, DIFFICULTY } from '../data/curricul
 import * as store from './store.js';
 import { escapeHtml, scoreRing, dimensionBar, radar, toast, modal, formatDuration, relativeTime, render } from './ui.js';
 import { mountWorkspace } from './view-challenge.js';
-import { aggregate } from './grader.js';
+import { aggregate, xpFor } from './grader.js';
 
 /* ------------------------------------------------------------------- list */
 
@@ -284,11 +284,8 @@ function finishExam(host, timedOut) {
     const answer = answers[problems.indexOf(problem)];
     if (!answer.scorecard) continue;
     const existing = store.attemptFor(problem.challenge.id);
-    const earned = Math.max(
-      0,
-      Math.round((problem.challenge.xp || 0) * (answer.scorecard.total / 100)) - (existing ? existing.awardedXp : 0)
-    );
-    store.recordAttempt(problem.challenge, answer.scorecard, earned);
+    const earned = xpFor(problem.challenge, answer.scorecard, existing ? existing.awardedXp : 0);
+    if (earned > 0) store.recordAttempt(problem.challenge, answer.scorecard, earned);
   }
 
   clearExam();
