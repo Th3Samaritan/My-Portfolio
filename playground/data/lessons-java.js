@@ -185,6 +185,10 @@ Build the text with \`+\`.`,
     summary: 'Declaring values, primitives vs objects, and the equality trap that catches everyone.',
     objectives: ['Declare variables with explicit types', 'Distinguish primitives from objects', 'Compare strings correctly'],
     blocks: [
+      { t:'text', md:`**Previously:** You wrote your first Java program and understand the compiler. You know what every word in public static void main means.
+
+Java is statically typed — every variable declares its type. This catches entire categories of bugs before your code runs.` },
+      
       {
         t: 'text',
         md: `Every variable in Java declares its type first:
@@ -309,6 +313,8 @@ Chain them: trim both, then compare.`,
             ]
       },
 
+      { t:'text', md:`You can declare typed variables. Next: decisions, loops, and methods.` },
+
     ],
   },
 
@@ -322,6 +328,10 @@ Chain them: trim both, then compare.`,
     summary: 'if, switch, the three loops, and packaging work into reusable methods.',
     objectives: ['Branch with if and switch', 'Loop over ranges and arrays', 'Write methods with parameters and return types'],
     blocks: [
+      { t:'text', md:`**Previously:** You can declare typed variables and understand primitives vs objects. You know why == lies on Strings.
+
+Control flow makes programs choose paths and repeat work. Java syntax differs from Python but the ideas are identical.` },
+      
       {
         t: 'code',
         run: true,
@@ -490,6 +500,8 @@ Loop over the characters, count the matches, return the count.`,
             ]
       },
 
+      { t:'text', md:`You can branch and loop. Next: classes and objects — the idea Java is built around.` },
+
     ],
   },
 
@@ -503,6 +515,10 @@ Loop over the characters, count the matches, return the count.`,
     summary: 'Bundling data with the behaviour that operates on it — the idea Java is built around.',
     objectives: ['Define a class with fields and methods', 'Use a constructor', 'Explain why fields are private'],
     blocks: [
+      { t:'text', md:`**Previously:** You can use if/else, for loops, while loops, and write methods with parameters and return types.
+
+Java is object-oriented at its core. Classes bundle data with behaviour — this is the mental model Java code is organised around.` },
+      
       {
         t: 'text',
         md: `So far everything has been \`static\` — functions with no home. Java's real model is **objects**: data and the behaviour that belongs to it, bundled together.
@@ -645,6 +661,8 @@ static class Counter {
             ]
       },
 
+      { t:'text', md:`You can design classes. Next: ArrayList and HashMap — the collections that cover most real work.` },
+
     ],
   },
 
@@ -658,6 +676,10 @@ static class Counter {
     summary: 'ArrayList and HashMap — the two collections that cover most real work.',
     objectives: ['Store many values in a List', 'Look values up by key with a Map', 'Loop over both safely'],
     blocks: [
+      { t:'text', md:`**Previously:** You can define classes with fields, constructors, and methods. You understand encapsulation and why fields are private.
+
+Arrays in Java are fixed-size — awkward for real work. ArrayList and HashMap are the dynamic containers you will use constantly.` },
+      
       {
         t: 'text',
         md: `Arrays in Java are fixed size — awkward when you do not know how many items you will have. \`ArrayList\` grows as needed.
@@ -791,6 +813,8 @@ If a compiler error stops you, remember what it is doing: refusing to let a whol
                   }
             ]
       },
+
+      { t:'text', md:`You have a working foundation. Next: what happens under the hood — the JVM, bytecode, and how Java actually runs.` },
 
     ],
   },

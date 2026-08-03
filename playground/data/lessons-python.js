@@ -251,6 +251,10 @@ Same pattern as \`greet\` — replace \`pass\` with a \`return\` line.`,
       'Tell apart text, whole numbers, decimals and true/false',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You wrote your first line of Python and met the print function. Errors are information, not failure.
+
+Now we give values names so we can reuse them. Variables are the single most fundamental concept in programming.` },
+      
       {
         t: 'text',
         md: `So far every value we made vanished the moment it was printed. To keep one, give it a **name**.`,
@@ -378,6 +382,8 @@ Multiply \`price\` by 1.2 — that is it.`,
         ],
       },
 
+      { t:'text', md:`Variable names are useless without operations. Next: arithmetic.` },
+
     ],
   },
 
@@ -395,6 +401,10 @@ Multiply \`price\` by 1.2 — that is it.`,
       'Use % to test divisibility',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You learned that values have types and that variables are labels you tie to values.
+
+Python is an excellent calculator. Arithmetic transforms numbers — and the modulo operator turns out to be far more useful than it sounds.` },
+      
       {
         t: 'text',
         md: `Python is a perfectly good calculator.`,
@@ -508,6 +518,8 @@ Use \`n % 2 == 0\` — that expression is already a Boolean, so return it direct
         ],
       },
 
+      { t:'text', md:`Numbers alone rarely tell the whole story. Next: working with text.` },
+
     ],
   },
 
@@ -525,6 +537,10 @@ Use \`n % 2 == 0\` — that expression is already a Boolean, so return it direct
       'Pull out parts of a string by position',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You can do arithmetic, test divisibility, and work with integer and decimal division.
+
+Most programs spend more time manipulating text than numbers. f-strings, methods, and indexing are tools you will reach for every day.` },
+      
       {
         t: 'text',
         md: `You met f-strings briefly. They deserve a proper look, because you will write thousands of them.
@@ -653,6 +669,8 @@ Use \`word[0]\` for the first and \`word[-1]\` for the last. Join them with \`+\
         ],
       },
 
+      { t:'text', md:`Every program so far has run straight through. Next: making decisions.` },
+
     ],
   },
 
@@ -670,6 +688,10 @@ Use \`word[0]\` for the first and \`word[-1]\` for the last. Join them with \`+\
       'Combine conditions with and / or / not',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You can build text with f-strings, clean it with methods, and pull out characters by position.
+
+Real programs choose paths. Conditionals turn a script into a program that reacts to its inputs.` },
+      
       {
         t: 'text',
         md: `Everything so far has run straight through, top to bottom. Real programs need to **choose**.`,
@@ -814,6 +836,8 @@ Watch the order of your branches.`,
             ]
       },
 
+      { t:'text', md:`Decisions are one half of control flow. Next: loops — doing things repeatedly.` },
+
     ],
   },
 
@@ -831,6 +855,10 @@ Watch the order of your branches.`,
       'Use a while loop and avoid infinite ones',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You can branch with if/elif/else and combine conditions. Your program can now choose a path.
+
+Computers are extraordinarily good at repetition without mistakes. Loops unlock this power.` },
+      
       {
         t: 'text',
         md: `Computers are extraordinarily good at doing the same thing many times without getting bored. A **loop** is how you ask.
@@ -964,6 +992,8 @@ Use a \`for\` loop with \`range\` and the accumulator pattern: start a total at 
         ],
       },
 
+      { t:'text', md:`Loops become far more useful with collections. Next: lists — holding many values together.` },
+
     ],
   },
 
@@ -981,6 +1011,10 @@ Use a \`for\` loop with \`range\` and the accumulator pattern: start a total at 
       'Loop over a list with its positions',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You can repeat work with for and while loops, count with range, and accumulate results.
+
+Real data arrives in batches. Lists are the most common way to hold many values together. This is a dense lesson — do not feel you must absorb everything in one sitting. Take a break after the sorting section.` },
+      
       {
         t: 'text',
         md: `A **list** holds many values in order, in one name. Square brackets, comma separated.`,
@@ -1135,6 +1169,8 @@ Check \`if not items:\` to handle the empty case, then return \`items[0]\`.`,
         ],
       },
 
+      { t:'text', md:`Lists find things by position. Next: dictionaries — finding things by name.` },
+
     ],
   },
 
@@ -1152,6 +1188,10 @@ Check \`if not items:\` to handle the empty case, then return \`items[0]\`.`,
       'Count things with a dictionary',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You can create lists, add and remove items, sort them, and loop with positions.
+
+Dictionaries look things up by name instead of position. Most real-world data is more naturally organised this way.` },
+      
       {
         t: 'text',
         md: `A list finds things by **position**. A **dictionary** finds them by **name**.
@@ -1278,6 +1318,8 @@ Use exactly the pattern from the case study above.`,
             ]
       },
 
+      { t:'text', md:`You can store and retrieve data. Next: functions — packaging work so you never write the same logic twice.` },
+
     ],
   },
 
@@ -1295,6 +1337,10 @@ Use exactly the pattern from the case study above.`,
       'Give parameters sensible defaults',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You can store key/value pairs, loop over dictionaries, and count with the .get() pattern.
+
+You have been writing functions since lesson one. Now we examine them properly — parameters, return values, defaults, and print-vs-return.` },
+      
       {
         t: 'text',
         md: `You have been writing functions since lesson one. Time to understand them properly.
@@ -1450,6 +1496,8 @@ Give it a docstring too — this platform's grader rewards it.`,
             ]
       },
 
+      { t:'text', md:`Functions give you power. Next: handling errors gracefully instead of crashing.` },
+
     ],
   },
 
@@ -1467,6 +1515,10 @@ Give it a docstring too — this platform's grader rewards it.`,
       'Decide when to catch and when to let it crash',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You can write functions with parameters, defaults, return values, and docstrings. You understand scope.
+
+No program runs perfectly. Files go missing, users type nonsense. Error handling separates fragile scripts from robust programs.` },
+      
       {
         t: 'text',
         md: `Things go wrong. Files are missing, users type letters where numbers belong, lists come back empty. Handling that gracefully is what separates a script from a program.
@@ -1640,6 +1692,8 @@ Dividing a string will raise \`TypeError\`; dividing by zero raises \`ZeroDivisi
             ]
       },
 
+      { t:'text', md:`You have all the building blocks. Next: assembling them into a real program.` },
+
     ],
   },
 
@@ -1657,6 +1711,10 @@ Dividing a string will raise \`TypeError\`; dividing by zero raises \`ZeroDivisi
       'Build up a program in testable pieces',
     ],
     blocks: [
+      { t:'text', md:`**Previously:** You can catch exceptions, read tracebacks, and decide whether to handle errors or crash informatively.
+
+This lesson is different — it is not about new syntax. It is about how experienced developers actually build: one function at a time, tested incrementally, assembled at the end.` },
+      
       {
         t: 'text',
         md: `Time to build something. Small, but complete and genuinely useful — the kind of thing you would actually write.
@@ -1840,6 +1898,8 @@ Loop over the expenses, check \`expense["category"] == category\`, and add the a
           { name: 'empty list', call: 'total_for_category([], "food")', expect: '0' },
         ],
       },
+
+      { t:'text', md:`You have built a real program from scratch. Next: turning code into reusable scripts.` },
 
     ],
   },

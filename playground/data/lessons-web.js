@@ -212,6 +212,10 @@ Content is up to you.`,
     summary: 'Landmarks, forms, and why a wall of divs is a problem.',
     objectives: ['Use semantic landmark elements', 'Build a labelled form', 'Explain what a div is actually for'],
     blocks: [
+      { t:'text', md:`**Previously:** You learned that HTML is a description of meaning — not appearance. You can write elements, nest them, and build a basic page.
+
+A page of div elements works visually but is invisible to screen readers. Semantic HTML tells machines what each region is.` },
+      
       {
         t: 'text',
         md: `You can build any page out of \`<div>\` elements. Many people do. It works — and it is a bad idea.
@@ -352,6 +356,8 @@ Required:
             ]
       },
 
+      { t:'text', md:`HTML gives structure. Next: CSS — making it look deliberate.` },
+
     ],
   },
 
@@ -365,6 +371,10 @@ Required:
     summary: 'Selectors, the box model, and the handful of properties that do most of the work.',
     objectives: ['Target elements with selectors', 'Control spacing with the box model', 'Set colour and type confidently'],
     blocks: [
+      { t:'text', md:`**Previously:** You can structure a page with landmarks and build accessible forms with labelled inputs.
+
+CSS answers one question: how should this look? Selectors and the box model cover 90% of styling.` },
+      
       {
         t: 'text',
         md: `CSS answers one question: **how should this look?**
@@ -538,6 +548,8 @@ And make the \`.card h2\` colour something other than black.`,
             ]
       },
 
+      { t:'text', md:`You can style elements. Next: Flexbox — arranging things without fighting the browser.` },
+
     ],
   },
 
@@ -551,6 +563,10 @@ And make the \`.card h2\` colour something other than black.`,
     summary: 'Arranging things in a row or column without fighting the browser.',
     objectives: ['Lay out elements in a row or column', 'Align and distribute along both axes', 'Space items with gap'],
     blocks: [
+      { t:'text', md:`**Previously:** You can target elements with selectors, control spacing with the box model, and set colours and type.
+
+Flexbox replaced floats and clearfix hacks with properties that actually make sense.` },
+      
       {
         t: 'text',
         md: `Laying things out used to be genuinely painful — floats, clearfix hacks, absolute positioning. **Flexbox** replaced all of it.
@@ -698,6 +714,8 @@ Use \`gap\` for space between items — not margins on the children. It only app
             ]
       },
 
+      { t:'text', md:`Flexbox handles one-dimensional layouts. Next: Grid — rows AND columns at the same time.` },
+
     ],
   },
 
@@ -711,6 +729,10 @@ Use \`gap\` for space between items — not margins on the children. It only app
     summary: 'Variables, functions and types in the language that runs in every browser.',
     objectives: ['Declare variables with let and const', 'Write functions', 'Avoid the == trap'],
     blocks: [
+      { t:'text', md:`**Previously:** You can lay out elements with Flexbox, control spacing with gap, and centre things with three lines of CSS.
+
+HTML is structure, CSS is appearance. JavaScript is behaviour. If you have done the Python track, the ideas are the same.` },
+      
       {
         t: 'text',
         md: `HTML is structure. CSS is appearance. **JavaScript is behaviour** — it makes a page *do* things.
@@ -885,6 +907,8 @@ Or use a plain \`for...of\` loop — either is fine.`,
             ]
       },
 
+      { t:'text', md:`You can write functions and work with arrays. Next: making the page react — finding elements, listening for events, updating the DOM.` },
+
     ],
   },
 
@@ -898,6 +922,10 @@ Or use a plain \`for...of\` loop — either is fine.`,
     summary: 'Finding elements, listening for events, and changing the page — then building a working counter and to-do list.',
     objectives: ['Select elements from the page', 'Respond to clicks and typing', 'Update the page safely from data'],
     blocks: [
+      { t:'text', md:`**Previously:** You can declare variables, write functions, avoid the loose-equality trap, and use array methods.
+
+The DOM is a live tree of objects. JavaScript reads and changes it — and the page updates instantly. This is where static pages become applications.` },
+      
       {
         t: 'text',
         md: `The browser turns your HTML into a live tree of objects called the **DOM** (Document Object Model). JavaScript can read and change that tree, and the page updates instantly.
@@ -1077,6 +1105,8 @@ When \`#toggle\` is clicked, the \`#box\` element should gain the class \`active
                   }
             ]
       },
+
+      { t:'text', md:`You can make the page interactive. Next: fetching data from servers — the bridge to the outside world.` },
 
     ],
   },
