@@ -14,8 +14,8 @@ const SALT_PREFIX = 'the-gym:';
 
 /* ---------------------------------------------------------------
    Admin RSA public key (SPKI, base64).
-   The matching private key lives in GitHub Secret ADMIN_PRIVATE_KEY
-   and is used ONLY by the register.yml workflow and admin tools.
+   The matching private key is kept offline (used only for emergency
+   account recovery via the admin-recover tool).
    --------------------------------------------------------------- */
 let ADMIN_PUBLIC_KEY_B64 = '';
 const ADMIN_KEY_CONFIGURED = () => !!ADMIN_PUBLIC_KEY_B64;

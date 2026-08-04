@@ -1,8 +1,8 @@
 {
   "functions": {
-    "api/register.js": {
+    "api/auth/*.js": {
       "memory": 128,
-      "maxDuration": 10
+      "maxDuration": 15
     }
   }
 }

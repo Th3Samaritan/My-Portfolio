@@ -423,7 +423,6 @@ function boot() {
       '/playground/data/curriculum.js',
       '/playground/data/assessments.js',
       '/playground/data/lessons-rust-extra.js',
-      '/playground/data/users.json',
       ...TRACKS.flatMap((t) => [
         `/playground/data/lessons-${t.id}.js`,
         t.kind === 'code' ? `/playground/data/track-${t.id}.js` : null,

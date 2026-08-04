@@ -2,10 +2,10 @@
    identity.js — login, register, recovery.
 
    Supports two modes:
-     1. Cloud auth (register/login via GitHub Action + encrypted users.json)
+     1. Cloud auth (register/login via Vercel API routes + Vercel Postgres)
      2. Local-only (username + display name, no password, original mode)
 
-   The cloud token (GitHub PAT) can be set in Profile → Settings.
+   All user data is encrypted client-side; the server never sees plaintext.
    ============================================================ */
 
 import { TRACKS } from '../data/curriculum.js';
@@ -14,7 +14,7 @@ import { escapeHtml, modal, toast } from './ui.js';
 import { isUsernameTaken, publish, isCloudEnabled } from './leaderboard.js';
 import {
   registerUser, loginUser, logout, isLoggedIn, currentUser,
-  setAuthToken, recoverWithPhrase,
+  recoverWithPhrase,
 } from './auth.js';
 import { configureAdminKey } from './crypto.js';
 
@@ -32,9 +32,8 @@ export function validateUsername(value) {
 
 /* ---------------------------------------------------------- cloud config */
 
-export function configureCloud(adminKeyB64, patToken) {
+export function configureCloud(adminKeyB64) {
   if (adminKeyB64) configureAdminKey(adminKeyB64);
-  if (patToken) setAuthToken(patToken);
 }
 
 /* ----------------------------------------------------------- form builders */

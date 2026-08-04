@@ -63,8 +63,8 @@ export const BRAND = {
 
 /** Cloud auth — admin public key for account recovery encryption.
  * 
- *  The registration PAT lives in Vercel environment variables (REGISTER_PAT),
- *  not here. This makes it server-side only — never exposed to the browser.
+ *  User accounts are stored in Vercel Postgres via the API routes in api/auth/.
+ *  All data is encrypted client-side; no secrets are exposed to the browser or repo.
  */
 export const CLOUD_AUTH = {
   adminPublicKey: 'MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAnJ7TmI7P6m/fSzJlXQ4pyyotzBCKeKw5VatZL//zSwXpttB9qMpi06Z2C2WH9vs4KVPz1wCwX0ic4EOlyWP0VF4Kj7r5zEBx0IiFEtf0F7MKPJNC1gXsCwvndnF6T2YqReLdUz1us1WOYuNaPpO4kWgkvdhduYH+K2TaZk68qJcE18g8Jabu6Obxq1ZLDYgvGD73ok8VK6zDwa4iIAfAILoeHhaR4gMH97LbqUpS/5cvOOdvmixqyhCnbvOHQT2jjOOUwb8GafdXJEAHNlx7GKDX08qubOjzM+nxTC3qm1A85dmZryEM8Sv176IXOMYC0tHo4OESmX7TfN8a4kSKu5m+7Cc/ctlL6186Gygea0On6ugXz42PtTlRlQ+WQVR0K9Y8KFi3YusfV3gLbjqXChvFCq8ameeTIop+P7QjuAsqd+5IRSogwS4CL7yj3dPdalz9AbMsDwlwRJpucFX1ZCExC6eWya2TFhIzaiDQluhBe9SFBzu81FiPYJJenJ5rgCFWzsD7PXG2GVAvicmM09ITee2LcvjY8imlmqNhMGh7dLPeYONcrYwqP/bnEhCGy1hpyMV3ba/SjcI1J40DSUxAFugAlfWY5+Bl2tJyBG/RYKGOCBS9mszs24BpUdKo2KwMcfVyk8DDifR0CqpUFHOBAFTtyAoqsP0qGatG9XcCAwEAAQ==',
