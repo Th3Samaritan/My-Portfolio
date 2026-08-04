@@ -351,7 +351,7 @@ async function route() {
 function boot() {
   initTheme();
 
-  configureCloud(CLOUD_AUTH.adminPublicKey, CLOUD_AUTH.registerToken);
+  configureCloud(CLOUD_AUTH.adminPublicKey);
 
   document.querySelector('.sidebar').innerHTML = sidebarHtml();
   document.querySelector('.topbar').innerHTML = topbarHtml();

@@ -16,7 +16,7 @@ import { toast, modal } from './ui.js';
 const GITHUB_OWNER = 'Th3Samaritan';
 const GITHUB_REPO = 'the-gym';
 const USERS_RAW_URL = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/data/users.json`;
-const DISPATCH_URL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/register.yml/dispatches`;
+const REGISTER_URL = '/api/register'; // Vercel serverless proxy — PAT lives in Vercel env, never in the repo
 
 let authToken = null; // GitHub PAT for dispatch — set via config or profile dialog
 
@@ -119,37 +119,27 @@ export async function registerUser({ username, password, email, name }) {
     adminRecovery: adminRecovery || '',
   };
 
-  // 5. Submit to GitHub Action
-  if (!authToken) throw new Error('Registration token not configured. Add it in Profile → Settings.');
-
-  const response = await fetch(DISPATCH_URL, {
+  // 5. Submit to Vercel proxy → GitHub Action
+  const response = await fetch(REGISTER_URL, {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${authToken}`,
-      'Content-Type': 'application/json',
-      Accept: 'application/vnd.github+json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      ref: 'main',
-      inputs: {
-        username: userRecord.username,
-        joined_at: userRecord.joinedAt,
-        iv: userRecord.iv,
-        encrypted: userRecord.encrypted,
-        password_hash: userRecord.passwordHash,
-        admin_recovery: userRecord.adminRecovery,
-      },
+      username: userRecord.username,
+      joined_at: userRecord.joinedAt,
+      iv: userRecord.iv,
+      encrypted: userRecord.encrypted,
+      password_hash: userRecord.passwordHash,
+      admin_recovery: userRecord.adminRecovery,
     }),
   });
 
-  if (response.status === 404) {
+  const result = await response.json();
+
+  if (response.status === 502) {
     throw new Error('Registration workflow not found. Make sure register.yml is on the main branch.');
   }
-  if (response.status === 401 || response.status === 403) {
-    throw new Error('Permission denied. Check that the PAT has workflow scope.');
-  }
   if (!response.ok) {
-    throw new Error('Registration dispatch failed (HTTP ' + response.status + ')');
+    throw new Error(result.error || 'Registration failed (HTTP ' + response.status + ')');
   }
 
   // 6. Generate recovery phrase (one-time)
@@ -279,24 +269,15 @@ export async function syncProfile(password) {
   const { iv, encrypted } = await encryptProfile(userKey, profileData, password);
   const adminRecovery = await adminEncryptUserKey(userKey);
 
-  if (!authToken) return;
-
-  await fetch(DISPATCH_URL, {
+  await fetch(REGISTER_URL, {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${authToken}`,
-      'Content-Type': 'application/json',
-      Accept: 'application/vnd.github+json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      ref: 'main',
-      inputs: {
-        username,
-        iv,
-        encrypted,
-        password_hash: await passwordHash(password),
-        admin_recovery: adminRecovery || '',
-      },
+      username,
+      iv,
+      encrypted,
+      password_hash: await passwordHash(password),
+      admin_recovery: adminRecovery || '',
     }),
   });
 
@@ -327,25 +308,16 @@ export async function recoverWithPhrase(recoveryPhrase, newPassword, username) {
   const { iv, encrypted } = await encryptProfile(newKey, profileData, newPassword);
   const adminRecovery = await adminEncryptUserKey(newKey);
 
-  // Push updated record
-  if (!authToken) throw new Error('Registration token not configured.');
-
-  await fetch(DISPATCH_URL, {
+  // Push updated record via Vercel proxy
+  await fetch(REGISTER_URL, {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${authToken}`,
-      'Content-Type': 'application/json',
-      Accept: 'application/vnd.github+json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      ref: 'main',
-      inputs: {
-        username,
-        iv,
-        encrypted,
-        password_hash: await passwordHash(newPassword),
-        admin_recovery: adminRecovery || '',
-      },
+      username,
+      iv,
+      encrypted,
+      password_hash: await passwordHash(newPassword),
+      admin_recovery: adminRecovery || '',
     }),
   });
 
