@@ -377,11 +377,9 @@ export function refreshProfileChip() {
   if (isLoggedIn()) {
     const user = currentUser();
     chip.querySelector('.value').textContent = user.username;
-    chip.querySelector('.label').textContent = 'Level ' + store.levelInfo(store.getState().xp).level;
   } else {
     const info = store.levelInfo(store.getState().xp);
     chip.querySelector('.value').textContent = info.title;
-    chip.querySelector('.label').textContent = 'Level ' + info.level;
   }
 }
 
