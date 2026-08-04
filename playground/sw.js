@@ -1,12 +1,4 @@
-/* ============================================================
-   sw.js — The GYM service worker
-
-   Cache-first strategy: serve from cache when available, falling
-   back to network. On install, cache the app shell so the GYM
-   works offline from the first visit.
-   ============================================================ */
-
-const CACHE = 'the-gym-v3';
+const CACHE = 'the-gym-v4';
 const SHELL = [
   '/playground/',
   '/playground/index.html',
@@ -16,6 +8,8 @@ const SHELL = [
   '/playground/css/app.css',
   '/playground/js/app.js',
   '/playground/js/store.js',
+  '/playground/js/auth.js',
+  '/playground/js/crypto.js',
   '/playground/js/runner.js',
   '/playground/js/grader.js',
   '/playground/js/editor.js',
@@ -41,68 +35,3 @@ const SHELL = [
   '/playground/data/track-java.js',
   '/playground/data/track-web.js',
 ];
-
-/* ---- install: pre-cache the app shell ---- */
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(SHELL))
-  );
-  self.skipWaiting();
-});
-
-/* ---- activate: clean old caches ---- */
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
-    )
-  );
-  self.clients.claim();
-});
-
-/* ---- message: allow the app to request pre-caching of new files ---- */
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'precache' && Array.isArray(event.data.urls)) {
-    event.waitUntil(
-      caches.open(CACHE).then((cache) =>
-        Promise.allSettled(
-          event.data.urls.map((url) =>
-            cache.match(url).then((cached) => {
-              if (cached) return;
-              return fetch(url, { credentials: 'same-origin' }).then((response) => {
-                if (response.ok) cache.put(url, response);
-              });
-            }).catch(() => {})
-          )
-        )
-      )
-    );
-  }
-});
-
-/* ---- fetch: cache-first, then network ---- */
-self.addEventListener('fetch', (event) => {
-  // Only handle GET requests to our own origin
-  if (event.request.method !== 'GET') return;
-
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-
-      return fetch(event.request).then((response) => {
-        if (response.ok) {
-          const clone = response.clone();
-          caches.open(CACHE).then((cache) => cache.put(event.request, clone));
-        }
-        return response;
-      }).catch(() => {
-        // Offline: for navigation requests, return the cached shell
-        if (event.request.mode === 'navigate') {
-          return caches.match('/playground/');
-        }
-        // For other requests, just fail — cached resources already handled above
-        return new Response('Offline — this resource is not cached.', { status: 503 });
-      });
-    })
-  );
-});
