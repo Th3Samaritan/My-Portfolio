@@ -198,7 +198,7 @@ export async function syncProfile(password) {
 export async function recoverWithPhrase(recoveryPhrase, newPassword, username) {
   username = username.toLowerCase().trim();
   const oldKey = mnemonicToKey(recoveryPhrase);
-  if (!oldKey) throw new Error('Invalid recovery phrase. Must be exactly 12 words.');
+  if (!oldKey) throw new Error('Invalid recovery phrase. Must be exactly 24 words.');
 
   const record = await apiPost(LOGIN_URL, { username });
 

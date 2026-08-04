@@ -354,22 +354,19 @@ const BIP39_WORDLIST = [
 ];
 
 /**
- * Convert a 32-byte key to 12 BIP39 words (first 16 bytes → 128 bits of entropy).
- * Uses the first 16 bytes as entropy (128 bits = 12 words × 11 bits).
- * The remaining 16 bytes are used as a checksum (first byte as checksum).
+ * Convert a 32-byte key to 24 BIP39 words.
+ * Encodes all 32 bytes (256 bits) → 24 words × 11 bits.
+ * Uses the first byte as a simplified checksum.
  */
 export function keyToMnemonic(userKey) {
-  const entropy = userKey.slice(0, 16);
-  const checksum = userKey[16] & 0xFF;
-  
   let bits = '';
-  for (let i = 0; i < entropy.length; i++) {
-    bits += entropy[i].toString(2).padStart(8, '0');
+  for (let i = 0; i < 32; i++) {
+    bits += userKey[i].toString(2).padStart(8, '0');
   }
-  bits += checksum.toString(2).padStart(8, '0').slice(0, 4);
-  
+  bits += userKey[0].toString(2).padStart(8, '0');
+
   const words = [];
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < 24; i++) {
     const idx = parseInt(bits.slice(i * 11, (i + 1) * 11), 2);
     words.push(BIP39_WORDLIST[idx]);
   }
@@ -377,29 +374,23 @@ export function keyToMnemonic(userKey) {
 }
 
 /**
- * Convert 12 BIP39 words back to a 32-byte key.
- * This is NOT a full BIP39 implementation — it simply reverses keyToMnemonic.
+ * Convert 24 BIP39 words back to a 32-byte key.
  * Only works with mnemonics produced by keyToMnemonic.
  */
 export function mnemonicToKey(words) {
   const wordList = words.toLowerCase().trim().split(/\s+/);
-  if (wordList.length !== 12) return null;
-  
+  if (wordList.length !== 24) return null;
+
   let bits = '';
   for (const word of wordList) {
     const idx = BIP39_WORDLIST.indexOf(word);
     if (idx === -1) return null;
     bits += idx.toString(2).padStart(11, '0');
   }
-  
-  const entropyBits = bits.slice(0, 128);
-  const entropy = new Uint8Array(16);
-  for (let i = 0; i < 16; i++) {
-    entropy[i] = parseInt(entropyBits.slice(i * 8, (i + 1) * 8), 2);
-  }
-  
+
   const key = new Uint8Array(32);
-  key.set(entropy, 0);
-  key.fill(0, 16);
+  for (let i = 0; i < 32; i++) {
+    key[i] = parseInt(bits.slice(i * 8, (i + 1) * 8), 2);
+  }
   return key;
 }
