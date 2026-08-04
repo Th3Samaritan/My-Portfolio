@@ -215,6 +215,7 @@ export function openProfileDialog({ allowSkip = false } = {}) {
           try {
             await loginUser(username, password);
             close();
+            refreshProfileChip();
             publish().catch(() => {});
             resolve(existing);
           } catch (err) {
@@ -301,6 +302,7 @@ function openRegisterDialog({ allowSkip = false } = {}) {
             close();
 
             await showRecoveryPhraseModal(result.recoveryPhrase);
+            refreshProfileChip();
             publish().catch(() => {});
             resolve(existing);
           } catch (err) {
@@ -347,6 +349,7 @@ function openRecoveryDialog() {
           try {
             await recoverWithPhrase(phrase, newPassword, username);
             close();
+            refreshProfileChip();
             toast('Account recovered! You are now logged in.', 'good');
             resolve(store.profile());
           } catch (err) {
@@ -374,6 +377,11 @@ export function refreshProfileChip() {
   if (isLoggedIn()) {
     const user = currentUser();
     chip.querySelector('.value').textContent = user.username;
+    chip.querySelector('.label').textContent = 'Level ' + store.levelInfo(store.getState().xp).level;
+  } else {
+    const info = store.levelInfo(store.getState().xp);
+    chip.querySelector('.value').textContent = info.title;
+    chip.querySelector('.label').textContent = 'Level ' + info.level;
   }
 }
 
@@ -389,6 +397,7 @@ export function openAuthDialog() {
         node.querySelector('#auth-logout').addEventListener('click', () => {
           logout();
           close();
+          refreshProfileChip();
           toast('Logged out.', 'info');
         });
       },

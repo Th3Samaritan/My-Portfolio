@@ -415,7 +415,7 @@ function boot() {
   route();
 
   // First visit: offer a profile. Skippable, and never asked twice per session.
-  ensureProfile().then(() => refreshShellStats());
+  ensureProfile().then(() => { refreshShellStats(); refreshProfileChip(); });
 
   // Notify the SW about all data files so they're cached before the user visits them.
   if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
