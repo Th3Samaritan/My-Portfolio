@@ -125,7 +125,7 @@ export async function registerUser({ username, password, email, name }) {
   const response = await fetch(DISPATCH_URL, {
     method: 'POST',
     headers: {
-      'Authorization': `token ${authToken}`,
+      'Authorization': `Bearer ${authToken}`,
       'Content-Type': 'application/json',
       Accept: 'application/vnd.github+json',
     },
@@ -284,7 +284,7 @@ export async function syncProfile(password) {
   await fetch(DISPATCH_URL, {
     method: 'POST',
     headers: {
-      'Authorization': `token ${authToken}`,
+      'Authorization': `Bearer ${authToken}`,
       'Content-Type': 'application/json',
       Accept: 'application/vnd.github+json',
     },
@@ -333,7 +333,7 @@ export async function recoverWithPhrase(recoveryPhrase, newPassword, username) {
   await fetch(DISPATCH_URL, {
     method: 'POST',
     headers: {
-      'Authorization': `token ${authToken}`,
+      'Authorization': `Bearer ${authToken}`,
       'Content-Type': 'application/json',
       Accept: 'application/vnd.github+json',
     },
