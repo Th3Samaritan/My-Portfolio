@@ -186,6 +186,11 @@ function bumpClearStreak() {
   load();
   const now = Date.now();
   const cs = state.clearStreak;
+  if (!cs || typeof cs !== 'object') {
+    state.clearStreak = { current: 1, longest: 1, lastClearedAt: now };
+    save();
+    return;
+  }
   if (cs.lastClearedAt && (now - cs.lastClearedAt) > 24 * 60 * 60 * 1000) {
     cs.current = 0;
   }
