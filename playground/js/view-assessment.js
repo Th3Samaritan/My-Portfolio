@@ -134,6 +134,7 @@ export async function renderExam(host, assessmentId) {
   const workspaceHost = host.querySelector('#exam-workspace');
 
   function paintNav() {
+    if (!examState) return;
     navNode.querySelectorAll('.exam-nav-item').forEach((button, i) => {
       button.classList.toggle('active', i === examState.index);
       button.classList.toggle('answered', Boolean(examState.answers[i].scorecard));
@@ -141,12 +142,14 @@ export async function renderExam(host, assessmentId) {
   }
 
   function paintTimer() {
+    if (!examState) return;
     timerNode.textContent = formatDuration(examState.remaining);
     timerNode.classList.toggle('warning', examState.remaining <= 300 && examState.remaining > 60);
     timerNode.classList.toggle('danger', examState.remaining <= 60);
   }
 
   async function openProblem(index) {
+    if (!examState) return;
     if (examState.workspace) {
       examState.answers[examState.index].code = examState.workspace.getCode();
       examState.workspace.dispose();
